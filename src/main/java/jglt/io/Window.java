@@ -22,7 +22,7 @@ public class Window {
         initialized = true;
 
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);  // make the window non-resizeable
-        window = glfwCreateWindow(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT, "Dungeon Crawler", 0, 0);
+        window = glfwCreateWindow(Consts.SCREEN_WIDTH, Consts.SCREEN_HEIGHT, "JGLT", 0, 0);
         glfwShowWindow(window);
 
         glfwMakeContextCurrent(window);
