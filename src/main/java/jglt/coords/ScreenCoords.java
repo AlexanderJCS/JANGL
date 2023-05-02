@@ -1,6 +1,6 @@
 package jglt.coords;
 
-import jglt.Consts;
+import jglt.io.Window;
 
 /**
  * ScreenCoords is the coordinate system that LWJGL uses to render to the screen. All other
@@ -12,16 +12,16 @@ public class ScreenCoords extends Coords {
     }
 
     public static float distXtoPixelCoords(float dist) {
-        return dist * Consts.SCREEN_WIDTH / 2;
+        return dist * Window.getScreenWidth() / 2;
     }
 
     public static float distYtoPixelCoords(float dist) {
-        return dist * Consts.SCREEN_HEIGHT / 2;
+        return dist * Window.getScreenHeight() / 2;
     }
 
     public PixelCoords toPixelCoords() {
-        float pixCoordsX = (Consts.SCREEN_WIDTH) * (this.x + 1) / 2;
-        float pixCoordsY = (Consts.SCREEN_HEIGHT) * (this.y + 1) / 2;
+        float pixCoordsX = (Window.getScreenWidth()) * (this.x + 1) / 2;
+        float pixCoordsY = (Window.getScreenHeight()) * (this.y + 1) / 2;
 
         return new PixelCoords(pixCoordsX, pixCoordsY);
     }

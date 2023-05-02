@@ -15,12 +15,10 @@ public class Test {
     public Test() {
         Mouse.init();
         Keyboard.init();
-        Window.init();
+        Window.init(1600, 900);
     }
 
     public void run() {
-
-
         // Create a rect and a circle using a try with resources statement.
         // If a shape is not closed, (either manually or with the try with resources) a memory leak will occur.
         try (

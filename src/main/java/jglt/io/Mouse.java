@@ -1,6 +1,5 @@
 package jglt.io;
 
-import jglt.Consts;
 import jglt.coords.PixelCoords;
 import jglt.coords.ScreenCoords;
 import jglt.graphics.BufferManager;
@@ -44,7 +43,7 @@ public class Mouse {
         double x = BufferManager.mouseBuffer1.get(0);
         double y = BufferManager.mouseBuffer2.get(0);
 
-        return new PixelCoords((float) x, (float) (Consts.SCREEN_HEIGHT - y)).toScreenCoords();
+        return new PixelCoords((float) x, (float) (Window.getScreenHeight() - y)).toScreenCoords();
     }
 
     /**

@@ -1,7 +1,7 @@
 package jglt.coords;
 
-import jglt.Consts;
 
+import jglt.io.Window;
 
 /**
  * Pixel coordinates with the origin (0, 0) at the top left.
@@ -18,7 +18,7 @@ public class PixelCoords extends Coords {
      * @return ScreenCoords distance (float)
      */
     public static float distXToScreenDist(float dist) {
-        return dist / Consts.SCREEN_WIDTH * 2;
+        return dist / Window.getScreenWidth() * 2;
     }
 
     /**
@@ -28,7 +28,7 @@ public class PixelCoords extends Coords {
      * @return ScreenCoords distance (float)
      */
     public static float distYToScreenDist(float dist) {
-        return dist / Consts.SCREEN_HEIGHT * 2;
+        return dist / Window.getScreenHeight() * 2;
     }
 
     /**
@@ -37,8 +37,8 @@ public class PixelCoords extends Coords {
      * @return The ScreenCoords equivalent.
      */
     public ScreenCoords toScreenCoords() {
-        float screenX = this.x / Consts.SCREEN_WIDTH * 2 - 1;
-        float screenY = this.y / Consts.SCREEN_HEIGHT * 2 - 1;
+        float screenX = this.x / Window.getScreenWidth() * 2 - 1;
+        float screenY = this.y / Window.getScreenHeight() * 2 - 1;
 
         return new ScreenCoords(screenX, screenY);
     }
