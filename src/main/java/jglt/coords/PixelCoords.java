@@ -42,4 +42,12 @@ public class PixelCoords extends Coords {
 
         return new ScreenCoords(screenX, screenY);
     }
+
+    /**
+     * @param other The other point to find the distance between
+     * @return The distance, in pixels, between this and other
+     */
+    public double dist(PixelCoords other) {
+        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
+    }
 }

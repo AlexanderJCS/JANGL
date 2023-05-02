@@ -92,7 +92,7 @@ public class Rect implements AutoCloseable {
         this.model.changeVertices(this.getVertices());
     }
 
-    private float[] getVertices() {
+    public float[] getVertices() {
         return new float[]{
                 x1, y1,  // Top left
                 x2, y1,  // Top right
@@ -158,6 +158,14 @@ public class Rect implements AutoCloseable {
                 this.pointInsideRect(new ScreenCoords(other.x1, other.y2)) ||  // Bottom left corner
                 this.pointInsideRect(new ScreenCoords(other.x2, other.y1)) ||  // Top right corner
                 this.pointInsideRect(new ScreenCoords(other.x2, other.y2));    // Bottom right corner
+    }
+
+    public boolean collidesWith(Rect other) {
+        return this.otherRectInside(other) || other.otherRectInside(this);
+    }
+
+    public boolean collidesWith(Circle other) {
+        return other.collidesWith(this);
     }
 
     @Override
