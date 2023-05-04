@@ -1,3 +1,5 @@
+package shapedemo;
+
 import jglt.JGLT;
 import jglt.coords.ScreenCoords;
 import jglt.io.Window;

@@ -15,7 +15,7 @@ import static org.lwjgl.opengl.GL21.*;
  * Taken from this tutorial:
  * <a href="https://www.youtube.com/watch?v=crOzRjzqI-o&list=PLILiqflMilIxta2xKk2EftiRHD4nQGW0u&index=4&ab_channel=WarmfulDevelopment">...</a>
  */
-public class Texture {
+public class Texture implements AutoCloseable {
     private int id;
 
     /**
@@ -49,7 +49,7 @@ public class Texture {
 
             BufferManager.byteBuffer.flip();
             id = glGenTextures();
-            glBindTexture(GL_TEXTURE_2D, id);
+            glBindTexture(GL_TEXTURE_2D, this.id);
 
             glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -66,6 +66,11 @@ public class Texture {
      * on the TexturedModel.
      */
     public void bind() {
-        glBindTexture(GL_TEXTURE_2D, id);
+        glBindTexture(GL_TEXTURE_2D, this.id);
+    }
+
+    @Override
+    public void close() {
+        glDeleteTextures(this.id);
     }
 }
