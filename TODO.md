@@ -1,0 +1,6 @@
+- Readme
+- Documentation (Javadoc and quickstart)
+- Window.setTitle()
+- Window.setIcon()
+- Shaders
+- Add more features (mainly collision) to PlayerDemo
