@@ -6,9 +6,7 @@ import jglt.time.Clock;
 import jglt.JGLT;
 
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
-import static org.lwjgl.opengl.GL11.glClear;
 
 public class PlayerDemo {
     private final Player player;
@@ -35,7 +33,7 @@ public class PlayerDemo {
             this.draw();
 
             // Tick the clock so the FPS is equal to 60
-            Clock.busyTick(10000000);
+            Clock.busyTick(60);
 
             // Set the window title equal to 1 / the time the last frame took
             // which would give FPS
