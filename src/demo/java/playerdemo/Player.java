@@ -14,12 +14,12 @@ public class Player implements AutoCloseable {
     private float speedY;
     private Image image;
 
-    public Player(float speed) {
+    public Player(ScreenCoords coords, float speed) {
         this.speedX = PixelCoords.distXToScreenDist(speed);
         this.speedY = PixelCoords.distYToScreenDist(speed);
 
         this.image = new Image(
-                new Rect(new ScreenCoords(0, 0), PixelCoords.distXToScreenDist(50), PixelCoords.distYToScreenDist(50)),
+                new Rect(coords, PixelCoords.distXToScreenDist(50), PixelCoords.distYToScreenDist(50)),
                 new Texture("src/demo/demoResources/playerDemo/player.png")
         );
     }

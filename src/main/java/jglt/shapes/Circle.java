@@ -7,10 +7,9 @@ import jglt.graphics.Model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Circle implements AutoCloseable {
+public class Circle implements Shape, AutoCloseable {
     private ScreenCoords center;
     private int sides;
-    private float radiusPixels;
     private float radiusX;
     private float radiusY;
     private Model model;
@@ -27,7 +26,6 @@ public class Circle implements AutoCloseable {
         this.center = center;
 
         this.sides = sides;
-        this.radiusPixels = radius;
         this.radiusX = radius;
         this.radiusY = PixelCoords.distYToScreenDist(ScreenCoords.distXtoPixelCoords(radius));
         this.model = this.toModel();
@@ -52,6 +50,14 @@ public class Circle implements AutoCloseable {
         this.model = this.toModel();
     }
 
+    @Override
+    public void shift(float x, float y) {
+        this.center.x += x;
+        this.center.y += y;
+
+        this.model = this.toModel();
+    }
+
     public ScreenCoords getCenter() {
         return this.center;
     }
@@ -60,8 +66,12 @@ public class Circle implements AutoCloseable {
         return this.sides;
     }
 
-    public float getRadiusPixels() {
-        return this.radiusPixels;
+    public float getRadiusX() {
+        return this.radiusX;
+    }
+
+    public float getRadiusY() {
+        return this.radiusY;
     }
 
     private Model toModel() {
@@ -101,6 +111,7 @@ public class Circle implements AutoCloseable {
         return new Model(verticesArr);
     }
 
+    @Override
     public void draw() {
         this.model.render();
     }
@@ -116,6 +127,7 @@ public class Circle implements AutoCloseable {
      * @param other The rectangle to test collision with.
      * @return If one of the rectangle's vertices collides with the circle
      */
+    @Override
     public boolean collidesWith(Rect other) {
         // https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
 
@@ -130,8 +142,8 @@ public class Circle implements AutoCloseable {
         circleDistance.x = Math.abs(circle.x - rect.x);
         circleDistance.y = Math.abs(circle.y - rect.y);
 
-        if (circleDistance.x > (rectWidth/2 + this.radiusPixels)) { return false; }
-        if (circleDistance.y > (rectHeight/2 + this.radiusPixels)) { return false; }
+        if (circleDistance.x > (rectWidth/2 + this.radiusX)) { return false; }
+        if (circleDistance.y > (rectHeight/2 + this.radiusX)) { return false; }
 
         if (circleDistance.x <= (rectWidth/2)) { return true; }
         if (circleDistance.y <= (rectHeight/2)) { return true; }
@@ -139,7 +151,7 @@ public class Circle implements AutoCloseable {
         double cornerDistanceSq = Math.pow(circleDistance.x - rectWidth/2, 2) +
                 Math.pow(circleDistance.y - rectHeight/2, 2);
 
-        return (cornerDistanceSq <= Math.pow(this.radiusPixels, 2));
+        return (cornerDistanceSq <= Math.pow(this.getRadiusX(), 2));
     }
 
     /**
@@ -147,8 +159,9 @@ public class Circle implements AutoCloseable {
      * @param other The other circle.
      * @return Whether they collide.
      */
+    @Override
     public boolean collidesWith(Circle other) {
-        float combinedRadius = this.getRadiusPixels() + other.getRadiusPixels();
+        float combinedRadius = this.getRadiusX() + other.getRadiusX();
         double dist = this.getCenter().toPixelCoords().dist(other.getCenter().toPixelCoords());
 
         return dist <= combinedRadius;

@@ -14,7 +14,7 @@ public class Image implements AutoCloseable {
 
     public void draw() {
         this.texture.bind();
-        this.rect.drawModel();
+        this.rect.draw();
     }
 
     /**

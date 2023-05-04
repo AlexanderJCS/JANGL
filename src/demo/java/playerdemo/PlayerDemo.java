@@ -1,5 +1,6 @@
 package playerdemo;
 
+import jglt.coords.ScreenCoords;
 import jglt.io.Window;
 import jglt.time.Clock;
 import jglt.JGLT;
@@ -13,7 +14,7 @@ public class PlayerDemo {
     private final Player player;
 
     public PlayerDemo() {
-        this.player = new Player(400);
+        this.player = new Player(new ScreenCoords(0, 0), 400);
     }
 
     private void draw() {

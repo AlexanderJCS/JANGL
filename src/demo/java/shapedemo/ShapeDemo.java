@@ -33,7 +33,7 @@ public class ShapeDemo {
                 glClear(GL_COLOR_BUFFER_BIT);
 
                 // Draw the rectangle to the screen
-                rect.drawModel();
+                rect.draw();
                 circle.draw();
 
                 for (Event event : Events.getEvents()) {

@@ -6,7 +6,7 @@ import jglt.graphics.texture.TexturedModel;
 /**
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
  */
-public class Rect implements AutoCloseable {
+public class Rect implements Shape, AutoCloseable {
     private final TexturedModel model;
     public float x1, y1, x2, y2;
     public float width, height;
@@ -40,6 +40,7 @@ public class Rect implements AutoCloseable {
      *
      * @return The center coordinates of the rect, type ScreenCoords
      */
+    @Override
     public ScreenCoords getCenter() {
         return new ScreenCoords(
                 (this.x1 + this.x2) / 2,
@@ -83,6 +84,7 @@ public class Rect implements AutoCloseable {
      * @param x X amount to shift
      * @param y Y amount to shift
      */
+    @Override
     public void shift(float x, float y) {
         this.x1 += x;
         this.x2 += x;
@@ -92,7 +94,7 @@ public class Rect implements AutoCloseable {
         this.model.changeVertices(this.getVertices());
     }
 
-    public float[] getVertices() {
+    private float[] getVertices() {
         return new float[]{
                 x1, y1,  // Top left
                 x2, y1,  // Top right
@@ -104,7 +106,8 @@ public class Rect implements AutoCloseable {
         };
     }
 
-    public void drawModel() {
+    @Override
+    public void draw() {
         this.model.render();
     }
 
@@ -160,10 +163,12 @@ public class Rect implements AutoCloseable {
                 this.pointInsideRect(new ScreenCoords(other.x2, other.y2));    // Bottom right corner
     }
 
+    @Override
     public boolean collidesWith(Rect other) {
         return this.otherRectInside(other) || other.otherRectInside(this);
     }
 
+    @Override
     public boolean collidesWith(Circle other) {
         return other.collidesWith(this);
     }
