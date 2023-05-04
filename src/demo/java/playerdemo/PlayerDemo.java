@@ -5,7 +5,6 @@ import jglt.io.Window;
 import jglt.time.Clock;
 import jglt.JGLT;
 
-import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 public class PlayerDemo {
@@ -26,7 +25,7 @@ public class PlayerDemo {
 
     public void run() {
         // While the "X" button on the top right of the window is not pressed
-        while (!glfwWindowShouldClose(Window.getWindow())) {
+        while (Window.shouldRun()) {
             JGLT.update();
 
             this.update();

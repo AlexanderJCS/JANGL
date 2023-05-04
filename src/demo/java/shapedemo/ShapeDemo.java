@@ -11,7 +11,6 @@ import jglt.time.Clock;
 
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
 
 public class ShapeDemo {
     public ShapeDemo() {
@@ -26,7 +25,7 @@ public class ShapeDemo {
                 Circle circle = new Circle(new ScreenCoords(0, 0.5f), 0.25f, 100)
         ) {
             // While the "X" button on the top right of the window is not pressed
-            while (!glfwWindowShouldClose(Window.getWindow())) {
+            while (Window.shouldRun()) {
                 JGLT.update();
 
                 // Make the screen black for the next frame

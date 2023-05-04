@@ -58,6 +58,10 @@ public class Window {
         glClear(GL_COLOR_BUFFER_BIT);  // Clear the screen for the next frame
     }
 
+    public static boolean shouldRun() {
+        return !glfwWindowShouldClose(getWindow());
+    }
+
     public static void setTitle(String newTitle) {
         glfwSetWindowTitle(getWindow(), newTitle);
     }
