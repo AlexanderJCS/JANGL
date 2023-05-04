@@ -18,11 +18,11 @@ public class Clock {
      *
      * @param fps The fps the program should run at.
      */
-    public static void busyTick(int fps) {
+    public static void busyTick(double fps) {
         // For future reference:
         // https://stackoverflow.com/questions/11498585/how-to-suspend-a-java-thread-for-a-small-period-of-time-like-100-nanoseconds
 
-        double interval = 1.0 / fps;
+        double interval = 1 / fps;
 
         // Wait until the current time passed interval
         while (glfwGetTime() - lastTick < interval) {
