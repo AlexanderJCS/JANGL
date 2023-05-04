@@ -30,7 +30,7 @@ public class ShapeDemo {
                 JGLT.update();
 
                 // Make the screen black for the next frame
-                glClear(GL_COLOR_BUFFER_BIT);
+                Window.clear();
 
                 // Draw the rectangle to the screen
                 rect.draw();

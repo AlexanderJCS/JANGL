@@ -18,6 +18,7 @@ public class PlayerDemo {
     }
 
     private void draw() {
+        Window.clear();
         this.player.draw();
     }
 
@@ -30,14 +31,15 @@ public class PlayerDemo {
         while (!glfwWindowShouldClose(Window.getWindow())) {
             JGLT.update();
 
-            // Make the screen black for the next frame
-            glClear(GL_COLOR_BUFFER_BIT);
-
             this.update();
             this.draw();
 
             // Tick the clock so the FPS is equal to 60
-            Clock.busyTick(60);
+            Clock.busyTick(10000000);
+
+            // Set the window title equal to 1 / the time the last frame took
+            // which would give FPS
+            Window.setTitle("FPS: " + Math.round(1 / Clock.getTimeDelta()));
         }
 
         // Terminate GLFW when the process is done

@@ -53,4 +53,12 @@ public class Window {
     public static long getWindow() {
         return window;
     }
+
+    public static void clear() {
+        glClear(GL_COLOR_BUFFER_BIT);  // Clear the screen for the next frame
+    }
+
+    public static void setTitle(String newTitle) {
+        glfwSetWindowTitle(getWindow(), newTitle);
+    }
 }
