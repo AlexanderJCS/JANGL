@@ -75,6 +75,30 @@ public class Circle implements Shape, AutoCloseable {
     }
 
     private Model toModel() {
+        float[] vertices = this.getVertices();
+
+        List<Integer> indices = new ArrayList<>();
+        for (int i = 1; i < vertices.length / 2; i++) {
+            indices.add(i);
+            indices.add(0);
+            indices.add(i + 1 == vertices.length ? 1 : i + 1);  // if i + 1 == vertices.size() go back to index 1
+        }
+
+        int[] indicesArr = new int[indices.size()];
+        for (int i = 0; i < indicesArr.length; i++) {
+            indicesArr[i] = indices.get(i);
+        }
+
+        return new Model(vertices, indicesArr);
+    }
+
+    @Override
+    public void draw() {
+        this.model.render();
+    }
+
+    @Override
+    public float[] getVertices() {
         List<Float> vertices = new ArrayList<>();
         double angle = 0;  // radians
 
@@ -96,29 +120,12 @@ public class Circle implements Shape, AutoCloseable {
             angle += 2 * Math.PI / this.sides;
         }
 
-        List<Integer> indices = new ArrayList<>();
-        for (int i = 1; i < vertices.size() / 2; i++) {
-            indices.add(i);
-            indices.add(0);
-            indices.add(i + 1 == vertices.size() ? 1 : i + 1);  // if i + 1 == vertices.size() go back to index 1
-        }
-
         float[] verticesArr = new float[vertices.size()];
         for (int i = 0; i < verticesArr.length; i++) {
             verticesArr[i] = vertices.get(i);
         }
 
-        int[] indicesArr = new int[indices.size()];
-        for (int i = 0; i < indicesArr.length; i++) {
-            indicesArr[i] = indices.get(i);
-        }
-
-        return new Model(verticesArr, indicesArr);
-    }
-
-    @Override
-    public void draw() {
-        this.model.render();
+        return verticesArr;
     }
 
     @Override

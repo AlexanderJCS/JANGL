@@ -94,7 +94,8 @@ public class Rect implements Shape, AutoCloseable {
         this.model.changeVertices(this.getVertices());
     }
 
-    private float[] getVertices() {
+    @Override
+    public float[] getVertices() {
         return new float[] {
                 x1, y1,  // Top left
                 x2, y1,  // Top right
