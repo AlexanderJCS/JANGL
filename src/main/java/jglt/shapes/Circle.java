@@ -5,6 +5,7 @@ import jglt.coords.ScreenCoords;
 import jglt.graphics.Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Circle implements Shape, AutoCloseable {
@@ -81,13 +82,15 @@ public class Circle implements Shape, AutoCloseable {
         for (int i = 1; i < vertices.length / 2; i++) {
             indices.add(i);
             indices.add(0);
-            indices.add(i + 1 == vertices.length ? 1 : i + 1);  // if i + 1 == vertices.size() go back to index 1
+            indices.add(i + 1 == vertices.length / 2 ? 1 : i + 1);  // if i + 1 == vertices.size() go back to index 1
         }
 
         int[] indicesArr = new int[indices.size()];
         for (int i = 0; i < indicesArr.length; i++) {
             indicesArr[i] = indices.get(i);
         }
+
+        System.out.println(Arrays.toString(indicesArr));
 
         return new Model(vertices, indicesArr);
     }
