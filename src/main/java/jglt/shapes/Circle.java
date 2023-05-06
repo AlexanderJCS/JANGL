@@ -78,6 +78,11 @@ public class Circle implements Shape, AutoCloseable {
         List<Float> vertices = new ArrayList<>();
         double angle = 0;  // radians
 
+        // Add the origin
+        vertices.add(this.getCenter().x);
+        vertices.add(this.getCenter().y);
+
+        // Add the edges
         while (angle < 2 * Math.PI) {
             float x = (float) (this.radiusX * Math.sin(angle));
             float y = (float) (this.radiusY * Math.cos(angle));
@@ -85,30 +90,30 @@ public class Circle implements Shape, AutoCloseable {
             float offsetX = x + this.center.x;
             float offsetY = y + this.center.y;
 
-            // Duplicate the vertex if it's not the first triangle. This will be the start of the next triangle
-            for (int i = 0; i < (vertices.size() > 2 ? 2 : 1); i++) {
-                vertices.add(offsetX);
-                vertices.add(offsetY);
-            }
-
-            vertices.add(this.center.x);
-            vertices.add(this.center.y);
+            vertices.add(offsetX);
+            vertices.add(offsetY);
 
             angle += 2 * Math.PI / this.sides;
         }
 
-        // Complete the last triangle
-        vertices.add(vertices.get(0));
-        vertices.add(vertices.get(1));
+        List<Integer> indices = new ArrayList<>();
+        for (int i = 1; i < vertices.size() / 2; i++) {
+            indices.add(i);
+            indices.add(0);
+            indices.add(i + 1 == vertices.size() ? 1 : i + 1);  // if i + 1 == vertices.size() go back to index 1
+        }
 
-        // Convert List<Float> to float[]
         float[] verticesArr = new float[vertices.size()];
-
         for (int i = 0; i < verticesArr.length; i++) {
             verticesArr[i] = vertices.get(i);
         }
 
-        return new Model(verticesArr);
+        int[] indicesArr = new int[indices.size()];
+        for (int i = 0; i < indicesArr.length; i++) {
+            indicesArr[i] = indices.get(i);
+        }
+
+        return new Model(verticesArr, indicesArr);
     }
 
     @Override

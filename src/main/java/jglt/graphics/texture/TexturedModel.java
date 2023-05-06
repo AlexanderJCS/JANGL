@@ -19,13 +19,15 @@ public class TexturedModel extends Model {
      * @param vertices  The vertices.
      * @param texCoords Which corner of the texture should be mapped to what corner of the model.
      */
-    public TexturedModel(float[] vertices, float[] texCoords) {
-        super(vertices);
+    public TexturedModel(float[] vertices, int[] indices, float[] texCoords) {
+        super(vertices, indices);
 
         tId = glGenBuffers();
-        BufferManager.setFloatBuffer(BufferManager.texCoordsBuffer, texCoords);
         glBindBuffer(GL_ARRAY_BUFFER, tId);
-        glBufferData(GL_ARRAY_BUFFER, texCoords, GL_STATIC_DRAW);
+        BufferManager.setFloatBuffer(BufferManager.texCoordsBuffer, texCoords);
+        glBufferData(GL_ARRAY_BUFFER, BufferManager.texCoordsBuffer, GL_STATIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
@@ -34,19 +36,21 @@ public class TexturedModel extends Model {
      */
     @Override
     public void render() {
+        super.render();
+
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-        // Bind the vertices buffer
         glBindBuffer(GL_ARRAY_BUFFER, vId);
         glVertexPointer(DIMENSIONS, GL_FLOAT, 0, 0);
 
-        // Bind the texture buffer
         glBindBuffer(GL_ARRAY_BUFFER, tId);
         glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
-        // Draw the vertices with the texture
-        glDrawArrays(GL_TRIANGLES, 0, drawCount);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iId);
+        glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);

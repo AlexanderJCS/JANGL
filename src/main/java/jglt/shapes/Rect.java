@@ -95,14 +95,18 @@ public class Rect implements Shape, AutoCloseable {
     }
 
     private float[] getVertices() {
-        return new float[]{
+        return new float[] {
                 x1, y1,  // Top left
                 x2, y1,  // Top right
                 x2, y2,  // Bottom right
-
-                x2, y2,  // Bottom right
                 x1, y2,  // Bottom left
-                x1, y1,  // Top left
+        };
+    }
+
+    public int[] getIndices() {
+        return new int[] {
+                0, 1, 2,
+                2, 3, 0
         };
     }
 
@@ -117,19 +121,14 @@ public class Rect implements Shape, AutoCloseable {
      * @return A textured model.
      */
     private TexturedModel toTexturedModel() {
-        float[] vertices = getVertices();
-
-        float[] texCoords = new float[]{
+        float[] texCoords = new float[] {
                 0, 1,
                 1, 1,
                 1, 0,
-
-                1, 0,
                 0, 0,
-                0, 1
         };
 
-        return new TexturedModel(vertices, texCoords);
+        return new TexturedModel(this.getVertices(), this.getIndices(), texCoords);
     }
 
     /**
