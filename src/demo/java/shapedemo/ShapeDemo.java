@@ -35,8 +35,8 @@ public class ShapeDemo {
                 circle.draw();
 
                 // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
-                rect.rotateAcrossOrigin(0.1 * Clock.getTimeDelta());
-                circle.rotateAcrossOrigin(0.1 * Clock.getTimeDelta());
+                rect.rotateAxis(0.1 * Clock.getTimeDelta());
+                circle.rotateAxis(0.1 * Clock.getTimeDelta());
 
                 for (Event event : Events.getEvents()) {
                     System.out.println(event);

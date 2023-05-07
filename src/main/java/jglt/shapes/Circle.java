@@ -22,7 +22,7 @@ public class Circle extends Shape implements AutoCloseable {
      * @param sides The number of sides of the shape.
      */
     public Circle(ScreenCoords center, float radius, int sides) {
-        this.angle = 0;
+        this.axisAngle = 0;
         this.center = center;
 
         this.sides = sides;
@@ -120,7 +120,7 @@ public class Circle extends Shape implements AutoCloseable {
             verticesArr[i] = vertices.get(i);
         }
 
-        return Shape.rotateAcrossOrigin(verticesArr, this.angle);
+        return Shape.rotateAxis(verticesArr, this.axisAngle);
     }
 
     @Override

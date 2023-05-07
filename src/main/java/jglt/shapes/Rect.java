@@ -16,7 +16,7 @@ public class Rect extends Shape implements AutoCloseable {
      * @param height Height
      */
     public Rect(ScreenCoords coords, float width, float height) {
-        this.angle = 0;
+        this.axisAngle = 0;
 
         this.x1 = coords.x;
         this.y1 = coords.y;
@@ -97,14 +97,14 @@ public class Rect extends Shape implements AutoCloseable {
 
     @Override
     public float[] getVertices() {
-        return Shape.rotateAcrossOrigin(
+        return Shape.rotateAxis(
                 new float[] {
                     x1, y1,  // Top left
                     x2, y1,  // Top right
                     x2, y2,  // Bottom right
                     x1, y2,  // Bottom left
                 },
-                this.angle
+                this.axisAngle
         );
     }
 

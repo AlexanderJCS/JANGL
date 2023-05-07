@@ -7,12 +7,21 @@ import jglt.graphics.Model;
 public abstract class Shape {
     protected Model model;
     /** The angle of the shape from the x-axis in radians */
-    protected double angle;
+    protected double axisAngle;
 
     public abstract void draw();
     public abstract void shift(float x, float y);
     public abstract float[] getVertices();
     public abstract ScreenCoords getCenter();
+
+    public double getAxisAngle() {
+        return this.axisAngle;
+    }
+
+    public void setAxisAngle(double angleRadians) {
+        double delta = angleRadians - this.axisAngle;
+        this.rotateAxis(delta);
+    }
 
     public abstract boolean collidesWith(Rect rect);
     public abstract boolean collidesWith(Circle circle);
@@ -24,7 +33,7 @@ public abstract class Shape {
      * @param angleRadians The angle, in radians, to rotate
      * @return the vertices object that was passed in
      */
-    protected static float[] rotateAcrossOrigin(float[] vertices, double angleRadians) {
+    protected static float[] rotateAxis(float[] vertices, double angleRadians) {
         angleRadians *= -1;  // make the shape rotate clockwise when angleRadians > 0
 
         for (int i = 0; i < vertices.length; i += 2) {
@@ -46,10 +55,10 @@ public abstract class Shape {
         return vertices;
     }
 
-    public void rotateAcrossOrigin(double angleRadians) {
+    public void rotateAxis(double angleRadians) {
         float[] vertices = this.getVertices();
-        Shape.rotateAcrossOrigin(vertices, angleRadians);
-        this.angle += angleRadians;
+        Shape.rotateAxis(vertices, angleRadians);
+        this.axisAngle += angleRadians;
 
         this.model.changeVertices(vertices);
     }
