@@ -11,28 +11,21 @@ public class Model implements AutoCloseable {
     protected static final int DIMENSIONS = 2;
     protected int drawCount;
     protected int vId;
-    protected int iId;
 
     /**
      * Create a new model with the given vertices.
      *
      * @param vertices The triangle vertices.
      */
-    public Model(float[] vertices, int[] indices) {
-        this.drawCount = indices.length;
+    public Model(float[] vertices) {
+        this.drawCount = vertices.length / DIMENSIONS;
 
         BufferManager.setFloatBuffer(BufferManager.vboBuffer, vertices);
-        BufferManager.setIntBuffer(BufferManager.indicesBuffer, indices);
 
         this.vId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, this.vId);
         glBufferData(GL_ARRAY_BUFFER, BufferManager.vboBuffer, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        this.iId = glGenBuffers();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferManager.indicesBuffer, GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
     /**
@@ -46,10 +39,6 @@ public class Model implements AutoCloseable {
 
         glDrawArrays(GL_TRIANGLES, 0, this.drawCount);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iId);
-        glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         glDisableClientState(GL_VERTEX_ARRAY);
     }

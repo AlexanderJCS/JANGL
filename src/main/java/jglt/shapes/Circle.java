@@ -3,9 +3,7 @@ package jglt.shapes;
 import jglt.coords.PixelCoords;
 import jglt.coords.ScreenCoords;
 import jglt.graphics.Model;
-
-import java.util.ArrayList;
-import java.util.List;
+import jglt.graphics.TriangleFanModel;
 
 public class Circle extends Shape implements AutoCloseable {
     private ScreenCoords center;
@@ -70,21 +68,7 @@ public class Circle extends Shape implements AutoCloseable {
     }
 
     private Model toModel() {
-        float[] vertices = this.getVertices();
-
-        List<Integer> indices = new ArrayList<>();
-        for (int i = 1; i < vertices.length / 2; i++) {
-            indices.add(i);
-            indices.add(0);
-            indices.add(i + 1 == vertices.length / 2 ? 1 : i + 1);  // if i + 1 == vertices.size() go back to index 1
-        }
-
-        int[] indicesArr = new int[indices.size()];
-        for (int i = 0; i < indicesArr.length; i++) {
-            indicesArr[i] = indices.get(i);
-        }
-
-        return new Model(vertices, indicesArr);
+        return new TriangleFanModel(this.getVertices());
     }
 
     @Override
@@ -94,33 +78,17 @@ public class Circle extends Shape implements AutoCloseable {
 
     @Override
     public float[] getVertices() {
-        List<Float> vertices = new ArrayList<>();
-        double angle = 0;  // radians
+        float[] vertices = new float[2 * (this.sides + 2)];
 
-        // Add the origin
-        vertices.add(this.getCenter().x);
-        vertices.add(this.getCenter().y);
+        vertices[0] = this.center.x;
+        vertices[1] = this.center.y;
 
-        // Add the edges
-        while (angle < 2 * Math.PI) {
-            float x = (float) (this.radiusX * Math.sin(angle));
-            float y = (float) (this.radiusY * Math.cos(angle));
-
-            float offsetX = x + this.center.x;
-            float offsetY = y + this.center.y;
-
-            vertices.add(offsetX);
-            vertices.add(offsetY);
-
-            angle += 2 * Math.PI / this.sides;
+        for (int i = 1; i < vertices.length / 2; i++) {
+            vertices[i * 2] = (float) (this.center.x + (this.radiusX * Math.cos(i * 2 * Math.PI / this.sides)));
+            vertices[i * 2 + 1] = (float) (this.center.y + (this.radiusY * Math.sin(i * 2 * Math.PI / this.sides)));
         }
 
-        float[] verticesArr = new float[vertices.size()];
-        for (int i = 0; i < verticesArr.length; i++) {
-            verticesArr[i] = vertices.get(i);
-        }
-
-        return Shape.rotateAxis(verticesArr, this.axisAngle);
+        return Shape.rotateAxis(vertices, this.axisAngle);
     }
 
     @Override

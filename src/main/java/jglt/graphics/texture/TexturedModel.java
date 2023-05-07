@@ -1,7 +1,7 @@
 package jglt.graphics.texture;
 
 import jglt.graphics.BufferManager;
-import jglt.graphics.Model;
+import jglt.graphics.IndicesModel;
 
 import static org.lwjgl.opengl.GL21.*;
 
@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL21.*;
  * Modified from this tutorial:
  * <a href="https://www.youtube.com/watch?v=-6P_CkT-FlQ&list=PLILiqflMilIxta2xKk2EftiRHD4nQGW0u&index=5&ab_channel=WarmfulDevelopment">...</a>
  */
-public class TexturedModel extends Model {
+public class TexturedModel extends IndicesModel {
     private final int tId;
 
     /**
