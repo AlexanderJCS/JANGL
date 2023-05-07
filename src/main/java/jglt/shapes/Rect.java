@@ -6,8 +6,7 @@ import jglt.graphics.texture.TexturedModel;
 /**
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
  */
-public class Rect implements Shape, AutoCloseable {
-    private final TexturedModel model;
+public class Rect extends Shape implements AutoCloseable {
     public float x1, y1, x2, y2;
     public float width, height;
 
@@ -17,6 +16,8 @@ public class Rect implements Shape, AutoCloseable {
      * @param height Height
      */
     public Rect(ScreenCoords coords, float width, float height) {
+        this.angle = 0;
+
         this.x1 = coords.x;
         this.y1 = coords.y;
         this.x2 = coords.x + width;
@@ -96,12 +97,15 @@ public class Rect implements Shape, AutoCloseable {
 
     @Override
     public float[] getVertices() {
-        return new float[] {
-                x1, y1,  // Top left
-                x2, y1,  // Top right
-                x2, y2,  // Bottom right
-                x1, y2,  // Bottom left
-        };
+        return Shape.rotateAcrossOrigin(
+                new float[] {
+                    x1, y1,  // Top left
+                    x2, y1,  // Top right
+                    x2, y2,  // Bottom right
+                    x1, y2,  // Bottom left
+                },
+                this.angle
+        );
     }
 
     public int[] getIndices() {

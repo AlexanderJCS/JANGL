@@ -5,15 +5,13 @@ import jglt.coords.ScreenCoords;
 import jglt.graphics.Model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Circle implements Shape, AutoCloseable {
+public class Circle extends Shape implements AutoCloseable {
     private ScreenCoords center;
-    private int sides;
+    private final int sides;
     private float radiusX;
     private float radiusY;
-    private Model model;
 
     /**
      * Since one ScreenCoord on the x-axis is not the same as one ScreenCoord on the y-axis if the aspect ratio
@@ -24,6 +22,7 @@ public class Circle implements Shape, AutoCloseable {
      * @param sides The number of sides of the shape.
      */
     public Circle(ScreenCoords center, float radius, int sides) {
+        this.angle = 0;
         this.center = center;
 
         this.sides = sides;
@@ -34,7 +33,7 @@ public class Circle implements Shape, AutoCloseable {
 
     public void setCenter(ScreenCoords newCenter) {
         this.center = newCenter;
-        this.model = this.toModel();
+        this.model.changeVertices(this.getVertices());
     }
 
     /**
@@ -43,12 +42,7 @@ public class Circle implements Shape, AutoCloseable {
     public void setRadius(float newRadius) {
         this.radiusX = newRadius;
         this.radiusY = PixelCoords.distYToScreenDist(ScreenCoords.distXtoPixelCoords(newRadius));
-        this.model = this.toModel();
-    }
-
-    public void setSides(int newSides) {
-        this.sides = newSides;
-        this.model = this.toModel();
+        this.model.changeVertices(this.getVertices());
     }
 
     @Override
@@ -56,7 +50,7 @@ public class Circle implements Shape, AutoCloseable {
         this.center.x += x;
         this.center.y += y;
 
-        this.model = this.toModel();
+        this.model.changeVertices(this.getVertices());
     }
 
     public ScreenCoords getCenter() {
@@ -89,8 +83,6 @@ public class Circle implements Shape, AutoCloseable {
         for (int i = 0; i < indicesArr.length; i++) {
             indicesArr[i] = indices.get(i);
         }
-
-        System.out.println(Arrays.toString(indicesArr));
 
         return new Model(vertices, indicesArr);
     }
@@ -128,7 +120,7 @@ public class Circle implements Shape, AutoCloseable {
             verticesArr[i] = vertices.get(i);
         }
 
-        return verticesArr;
+        return Shape.rotateAcrossOrigin(verticesArr, this.angle);
     }
 
     @Override
