@@ -3,7 +3,7 @@ package jglt.coords;
 import jglt.io.Window;
 
 /**
- * ScreenCoords is the coordinate system that LWJGL uses to render to the screen. All other
+ * ScreenCoords is the coordinate system that OpenGL uses to render to the screen. All other
  * coordinate units (PixelCoords, GridCoords) are abstractions of this.
  */
 public class ScreenCoords extends Coords {

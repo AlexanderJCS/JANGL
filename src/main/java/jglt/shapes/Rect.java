@@ -1,7 +1,7 @@
 package jglt.shapes;
 
 import jglt.coords.ScreenCoords;
-import jglt.graphics.texture.TexturedModel;
+import jglt.graphics.models.TexturedModel;
 
 /**
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
@@ -113,13 +113,20 @@ public class Rect extends Shape implements AutoCloseable {
         return this.getVertices();
     }
 
-    public int[] getIndices() {
+    /**
+     * @return The vertex indices that are passed to OpenGL.
+     */
+    private int[] getIndices() {
         return new int[] {
                 0, 1, 2,
                 2, 3, 0
         };
     }
 
+    /**
+     * Draws the rectangle to the screen. If you want to display a texture, bind the texture before
+     * calling this method.
+     */
     @Override
     public void draw() {
         this.model.render();
@@ -150,18 +157,6 @@ public class Rect extends Shape implements AutoCloseable {
     public boolean pointInsideRect(ScreenCoords coords) {
         return (coords.y > this.y1 && coords.y < this.y2) &&
                 (coords.x > this.x1 && coords.x < this.x2);
-    }
-
-    @Override
-    public String toString() {
-        return "Rect{" +
-                "x1=" + x1 +
-                ", y1=" + y1 +
-                ", x2=" + x2 +
-                ", y2=" + y2 +
-                ", width=" + width +
-                ", height=" + height +
-                '}';
     }
 
     /**

@@ -1,8 +1,14 @@
-package jglt.graphics;
+package jglt.graphics.models;
+
+import jglt.graphics.BufferManager;
 
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 
+/**
+ * Allows you to pass the vertex and index information of a shape into OpenGL. Passing indices reduces video memory,
+ * so it is recommended compared to the base Model class.
+ */
 public class IndicesModel extends Model {
     protected int iId;
 

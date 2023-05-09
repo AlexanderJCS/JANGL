@@ -1,6 +1,4 @@
-package jglt.graphics.texture;
-
-import jglt.graphics.BufferManager;
+package jglt.graphics;
 
 import javax.imageio.ImageIO;
 import java.io.File;

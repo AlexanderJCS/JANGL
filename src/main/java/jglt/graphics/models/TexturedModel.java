@@ -1,7 +1,6 @@
-package jglt.graphics.texture;
+package jglt.graphics.models;
 
 import jglt.graphics.BufferManager;
-import jglt.graphics.IndicesModel;
 
 import static org.lwjgl.opengl.GL21.*;
 

@@ -1,4 +1,4 @@
-package jglt;
+package jglt.util;
 
 public class ArrayUtils {
     public static float getMax(float[] arr) {

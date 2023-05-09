@@ -12,6 +12,7 @@ public class Clock {
     private static double secondToLastTick = 0;
     private static double lastTick = 0;
     private static double[] fpsSamples = new double[100];
+    /** The next index to modify in fpsSamples. */
     private static int fpsSampleIndex = 0;
 
     /**
@@ -48,17 +49,18 @@ public class Clock {
     }
 
     /**
-     *
-     * @param n The number of samples
+     * @param n The number of samples to set the smoothed FPS to.
+     *          Warning: This will need to restart FPS sample collection, so the smoothed FPS won't be valid for
+     *          n frames.
      */
-    public static void setFpsSamples(int n) {
+    public static void setNumFpsSamples(int n) {
         fpsSamples = new double[n];
     }
 
     /**
      * @return The number of smoothed FPS samples
      */
-    public static int getFpsSamples() {
+    public static int getNumFpsSamples() {
         return fpsSamples.length;
     }
 

@@ -1,10 +1,10 @@
 package jglt.shapes;
 
-import jglt.ArrayUtils;
+import jglt.util.ArrayUtils;
 import jglt.coords.PixelCoords;
-import jglt.coords.Range;
+import jglt.util.Range;
 import jglt.coords.ScreenCoords;
-import jglt.graphics.Model;
+import jglt.graphics.models.Model;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,6 +28,11 @@ public abstract class Shape {
         this.rotateAxis(delta);
     }
 
+    /**
+     * @return All vertices on the exterior of the shape. Returns the vertices in such an order where
+     *         if you were to connect index 0 to index 1, 1 to 2, the last index to index 0, etc., it would
+     *         form a line of the outside.
+     */
     public abstract float[] getExteriorVertices();
 
 
@@ -59,7 +64,7 @@ public abstract class Shape {
     }
 
     /**
-     * Modifies the vertices passed to rotate across the origin
+     * Modifies the vertices passed to rotate across the origin (the center of the screen). This is used for collision.
      *
      * @param vertices The vertex data to rotate.
      * @param angleRadians The angle, in radians, to rotate
@@ -87,6 +92,9 @@ public abstract class Shape {
         return vertices;
     }
 
+    /**
+     * @return An array of all the X vertices. Used for collision.
+     */
     public float[] getXVertices() {
         float[] vertices = this.getVertices();
         float[] xVertices = new float[vertices.length / 2];
@@ -98,6 +106,9 @@ public abstract class Shape {
         return xVertices;
     }
 
+    /**
+     * @return An array of all the y vertices. Used for collision.
+     */
     public float[] getYVertices() {
         float[] vertices = this.getVertices();
         float[] yVertices = new float[vertices.length / 2];
@@ -109,6 +120,12 @@ public abstract class Shape {
         return yVertices;
     }
 
+    /**
+     * Uses the Separating Axis Theorem (SAT) collision detection method.
+     *
+     * @param other The other shape to check collision with
+     * @return True if the objects collide, false otherwise
+     */
     public boolean collidesWith(Shape other) {
         double[] angles = this.getOutsideEdgeAngles();
         double[] otherAngles = other.getOutsideEdgeAngles();
@@ -134,7 +151,7 @@ public abstract class Shape {
             Range otherXRange = new Range(ArrayUtils.getMin(otherXVerts), ArrayUtils.getMax(otherXVerts));
             Range otherYRange = new Range(ArrayUtils.getMin(otherYVerts), ArrayUtils.getMax(otherYVerts));
 
-            if (!thisXRange.collidesWith(otherXRange) || !thisYRange.collidesWith(otherYRange)) {
+            if (!thisXRange.intersects(otherXRange) || !thisYRange.intersects(otherYRange)) {
                 this.rotateAxis(-angle);
                 other.rotateAxis(-angle);
 
@@ -148,6 +165,10 @@ public abstract class Shape {
         return true;
     }
 
+    /**
+     * Rotate the axis by a certain amount across the origin (center of the screen).
+     * @param angleRadians The angle to rotate the axis in radians.
+     */
     public void rotateAxis(double angleRadians) {
         float[] vertices = this.getVertices();
         Shape.rotateAxis(vertices, angleRadians);

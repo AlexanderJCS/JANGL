@@ -2,14 +2,16 @@ package jglt.shapes;
 
 import jglt.coords.PixelCoords;
 import jglt.coords.ScreenCoords;
-import jglt.graphics.Model;
-import jglt.graphics.TriangleFanModel;
+import jglt.graphics.models.Model;
+import jglt.graphics.models.TriangleFanModel;
 
 import java.util.Arrays;
 
 public class Circle extends Shape implements AutoCloseable {
     private ScreenCoords center;
     private final int sides;
+
+    // X and Y radius need to be different since the screen may not be square
     private float radiusX;
     private float radiusY;
 

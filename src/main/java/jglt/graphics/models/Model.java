@@ -1,11 +1,15 @@
-package jglt.graphics;
+package jglt.graphics.models;
+
+import jglt.graphics.BufferManager;
 
 import static org.lwjgl.opengl.GL21.*;
 
 /**
  * Modified from:
  * <a href="https://www.youtube.com/watch?v=-6P_CkT-FlQ&list=PLILiqflMilIxta2xKk2EftiRHD4nQGW0u&index=5&ab_channel=WarmfulDevelopment">...</a>
- * Model class, which allows a shape to be drawn to the screen using VBOs.
+ * Model class, which allows a shape to be drawn to the screen.
+ * <p>
+ * Also see inheritors of this class: TriangleFanModel, IndicesModel, and TexturedModel, which inherits IndicesModel.
  */
 public class Model implements AutoCloseable {
     protected static final int DIMENSIONS = 2;

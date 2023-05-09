@@ -3,16 +3,16 @@ package playerdemo;
 import jglt.coords.PixelCoords;
 import jglt.coords.ScreenCoords;
 import jglt.graphics.Image;
-import jglt.graphics.texture.Texture;
+import jglt.graphics.Texture;
 import jglt.io.Keyboard;
 import jglt.shapes.Rect;
 import jglt.time.Clock;
 import org.lwjgl.glfw.GLFW;
 
 public class Player implements AutoCloseable {
-    private float speedX;
-    private float speedY;
-    private Image image;
+    private final float speedX;
+    private final float speedY;
+    private final Image image;
 
     public Player(ScreenCoords coords, float speed) {
         this.speedX = PixelCoords.distXToScreenDist(speed);

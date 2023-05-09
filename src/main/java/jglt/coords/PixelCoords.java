@@ -4,7 +4,7 @@ package jglt.coords;
 import jglt.io.Window;
 
 /**
- * Pixel coordinates with the origin (0, 0) at the top left.
+ * Pixel coordinates with the origin (0, 0) at the bottom left.
  */
 public class PixelCoords extends Coords {
     public PixelCoords(float x, float y) {
@@ -41,13 +41,5 @@ public class PixelCoords extends Coords {
         float screenY = this.y / Window.getScreenHeight() * 2 - 1;
 
         return new ScreenCoords(screenX, screenY);
-    }
-
-    /**
-     * @param other The other point to find the distance between
-     * @return The distance, in pixels, between this and other
-     */
-    public double dist(PixelCoords other) {
-        return Math.sqrt(Math.pow(this.x - other.x, 2) + Math.pow(this.y - other.y, 2));
     }
 }

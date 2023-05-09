@@ -1,5 +1,8 @@
 package jglt.coords;
 
+/**
+ * The base coordinates class. See its inheritors: PixelCoords and ScreenCoords
+ */
 public abstract class Coords {
     public float x;
     public float y;
