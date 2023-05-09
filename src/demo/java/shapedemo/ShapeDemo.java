@@ -21,7 +21,7 @@ public class ShapeDemo {
         // If a shape is not closed, (either manually or with the try with resources) a memory leak will occur.
         try (
                 Rect rect = new Rect(new ScreenCoords(-0.25f, -0.25f), 0.5f, 0.5f);
-                Circle circle = new Circle(new ScreenCoords(0, 0.5f), 0.1f, 100)
+                Circle circle = new Circle(new ScreenCoords(0, 0.5f), 0.1f, 4)
         ) {
             // While the "X" button on the top right of the window is not pressed
             while (Window.shouldRun()) {
@@ -36,7 +36,6 @@ public class ShapeDemo {
 
                 // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
                 rect.rotateAxis(0.1 * Clock.getTimeDelta());
-                circle.rotateAxis(0.1 * Clock.getTimeDelta());
 
                 for (Event event : Events.getEvents()) {
                     System.out.println(event);

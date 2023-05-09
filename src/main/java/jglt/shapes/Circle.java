@@ -5,6 +5,8 @@ import jglt.coords.ScreenCoords;
 import jglt.graphics.Model;
 import jglt.graphics.TriangleFanModel;
 
+import java.util.Arrays;
+
 public class Circle extends Shape implements AutoCloseable {
     private ScreenCoords center;
     private final int sides;
@@ -92,53 +94,13 @@ public class Circle extends Shape implements AutoCloseable {
     }
 
     @Override
+    public float[] getExteriorVertices() {
+        float[] vertices = this.getVertices();
+        return Arrays.copyOfRange(vertices, 2, vertices.length - 2);
+    }
+
+    @Override
     public void close() {
         this.model.close();
-    }
-
-    /**
-     * Returns true if one of the rectangle's vertices collides with the circle. This needs to be fixed
-     * in the future.
-     * @param other The rectangle to test collision with.
-     * @return If one of the rectangle's vertices collides with the circle
-     */
-    @Override
-    public boolean collidesWith(Rect other) {
-        // https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
-
-        PixelCoords circle = this.getCenter().toPixelCoords();
-        PixelCoords rect = other.getCenter().toPixelCoords();
-
-        float rectWidth = ScreenCoords.distXtoPixelCoords(other.width);
-        float rectHeight = ScreenCoords.distYtoPixelCoords(other.height);
-
-        PixelCoords circleDistance = new PixelCoords(0, 0);
-
-        circleDistance.x = Math.abs(circle.x - rect.x);
-        circleDistance.y = Math.abs(circle.y - rect.y);
-
-        if (circleDistance.x > (rectWidth/2 + this.radiusX)) { return false; }
-        if (circleDistance.y > (rectHeight/2 + this.radiusX)) { return false; }
-
-        if (circleDistance.x <= (rectWidth/2)) { return true; }
-        if (circleDistance.y <= (rectHeight/2)) { return true; }
-
-        double cornerDistanceSq = Math.pow(circleDistance.x - rectWidth/2, 2) +
-                Math.pow(circleDistance.y - rectHeight/2, 2);
-
-        return (cornerDistanceSq <= Math.pow(this.getRadiusX(), 2));
-    }
-
-    /**
-     * Checks if a circle collides with another circle.
-     * @param other The other circle.
-     * @return Whether they collide.
-     */
-    @Override
-    public boolean collidesWith(Circle other) {
-        float combinedRadius = this.getRadiusX() + other.getRadiusX();
-        double dist = this.getCenter().toPixelCoords().dist(other.getCenter().toPixelCoords());
-
-        return dist <= combinedRadius;
     }
 }

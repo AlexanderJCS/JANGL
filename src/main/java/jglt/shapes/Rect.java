@@ -108,6 +108,11 @@ public class Rect extends Shape implements AutoCloseable {
         );
     }
 
+    @Override
+    public float[] getExteriorVertices() {
+        return this.getVertices();
+    }
+
     public int[] getIndices() {
         return new int[] {
                 0, 1, 2,
@@ -145,36 +150,6 @@ public class Rect extends Shape implements AutoCloseable {
     public boolean pointInsideRect(ScreenCoords coords) {
         return (coords.y > this.y1 && coords.y < this.y2) &&
                 (coords.x > this.x1 && coords.x < this.x2);
-    }
-
-    /**
-     * Check if the other rect's vertices are inside this rect. NOTE that just because the other rect's vertices are
-     * inside this rect, that doesn't mean that this rect's vertices are inside the other rect. This means that this
-     * method should always be called as:
-     * <p>
-     * largerRect.collidesWith(smallerRect)
-     * <p>
-     * If largerRect and smallerRect were reversed, collision would only occur when smallerRect touches largerRect's
-     * vertices.
-     *
-     * @param other The other rect
-     * @return If other is inside this rect
-     */
-    public boolean otherRectInside(Rect other) {
-        return this.pointInsideRect(new ScreenCoords(other.x1, other.y1)) ||   // Top left corner
-                this.pointInsideRect(new ScreenCoords(other.x1, other.y2)) ||  // Bottom left corner
-                this.pointInsideRect(new ScreenCoords(other.x2, other.y1)) ||  // Top right corner
-                this.pointInsideRect(new ScreenCoords(other.x2, other.y2));    // Bottom right corner
-    }
-
-    @Override
-    public boolean collidesWith(Rect other) {
-        return this.otherRectInside(other) || other.otherRectInside(this);
-    }
-
-    @Override
-    public boolean collidesWith(Circle other) {
-        return other.collidesWith(this);
     }
 
     @Override

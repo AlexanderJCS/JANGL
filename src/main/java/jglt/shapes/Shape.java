@@ -1,8 +1,13 @@
 package jglt.shapes;
 
+import jglt.ArrayUtils;
 import jglt.coords.PixelCoords;
+import jglt.coords.Range;
 import jglt.coords.ScreenCoords;
 import jglt.graphics.Model;
+
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class Shape {
     protected Model model;
@@ -23,8 +28,35 @@ public abstract class Shape {
         this.rotateAxis(delta);
     }
 
-    public abstract boolean collidesWith(Rect rect);
-    public abstract boolean collidesWith(Circle circle);
+    public abstract float[] getExteriorVertices();
+
+
+    /**
+     * Calculates the angle (theta) between the x plane and every outside line.
+     * Used for the Separating Axis Theorem (SAT) collision detection algorithm.
+     * @return an array of all the thetas between the x plane and every outside line in radians
+     */
+    public double[] getOutsideEdgeAngles() {
+        float[] exteriorVertices = this.getExteriorVertices();
+        double[] normalAngles = new double[exteriorVertices.length / 2];
+
+        for (int i = 0; i < normalAngles.length; i++) {
+            float deltaX, deltaY;
+
+            // Avoid an out-of-bounds error
+            if (i * 2 + 3 >= exteriorVertices.length) {
+                deltaX = exteriorVertices[i * 2] - exteriorVertices[0];
+                deltaY = exteriorVertices[i * 2 + 1] - exteriorVertices[1];
+            } else {
+                deltaX = exteriorVertices[i * 2] - exteriorVertices[i * 2 + 2];
+                deltaY = exteriorVertices[i * 2 + 1] - exteriorVertices[i * 2 + 3];
+            }
+
+            normalAngles[i] = Math.atan2(ScreenCoords.distYtoPixelCoords(deltaY), ScreenCoords.distXtoPixelCoords(deltaX));
+        }
+
+        return normalAngles;
+    }
 
     /**
      * Modifies the vertices passed to rotate across the origin
@@ -53,6 +85,67 @@ public abstract class Shape {
         }
 
         return vertices;
+    }
+
+    public float[] getXVertices() {
+        float[] vertices = this.getVertices();
+        float[] xVertices = new float[vertices.length / 2];
+
+        for (int i = 0; i < xVertices.length; i++) {
+            xVertices[i] = vertices[i * 2];
+        }
+
+        return xVertices;
+    }
+
+    public float[] getYVertices() {
+        float[] vertices = this.getVertices();
+        float[] yVertices = new float[vertices.length / 2];
+
+        for (int i = 0; i < yVertices.length; i++) {
+            yVertices[i] = vertices[i * 2 + 1];
+        }
+
+        return yVertices;
+    }
+
+    public boolean collidesWith(Shape other) {
+        double[] angles = this.getOutsideEdgeAngles();
+        double[] otherAngles = other.getOutsideEdgeAngles();
+
+        // https://stackoverflow.com/questions/754294/convert-an-array-of-primitive-longs-into-a-list-of-longs
+        // modified according to IntelliJ's recommendation
+        List<Double> anglesList = new java.util.ArrayList<>(Arrays.stream(angles).boxed().toList());
+        anglesList.addAll(Arrays.stream(otherAngles).boxed().toList());
+
+        for (double angle : anglesList) {
+            this.rotateAxis(angle);
+            other.rotateAxis(angle);
+
+            float[] thisXVerts = this.getXVertices();
+            float[] thisYVerts = this.getYVertices();
+
+            float[] otherXVerts = other.getXVertices();
+            float[] otherYVerts = other.getYVertices();
+
+            Range thisXRange = new Range(ArrayUtils.getMin(thisXVerts), ArrayUtils.getMax(thisXVerts));
+            Range thisYRange = new Range(ArrayUtils.getMin(thisYVerts), ArrayUtils.getMax(thisYVerts));
+
+            Range otherXRange = new Range(ArrayUtils.getMin(otherXVerts), ArrayUtils.getMax(otherXVerts));
+            Range otherYRange = new Range(ArrayUtils.getMin(otherYVerts), ArrayUtils.getMax(otherYVerts));
+
+            if (!thisXRange.collidesWith(otherXRange) || !thisYRange.collidesWith(otherYRange)) {
+                this.rotateAxis(-angle);
+                other.rotateAxis(-angle);
+
+                return false;
+            }
+
+            this.rotateAxis(-angle);
+            other.rotateAxis(-angle);
+        }
+
+        return true;
     }
 
     public void rotateAxis(double angleRadians) {
