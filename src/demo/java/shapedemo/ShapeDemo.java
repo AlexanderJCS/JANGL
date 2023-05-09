@@ -43,6 +43,7 @@ public class ShapeDemo {
 
                 // Tick the clock so the FPS is equal to 60
                 Clock.busyTick(60);
+                Window.setTitle("JGLT | FPS: " + Clock.getSmoothedFps());
             }
         }
 

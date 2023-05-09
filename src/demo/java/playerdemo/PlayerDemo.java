@@ -33,10 +33,6 @@ public class PlayerDemo {
 
             // Tick the clock so the FPS is equal to 60
             Clock.busyTick(60);
-
-            // Set the window title equal to 1 / the time the last frame took
-            // which would give FPS
-            Window.setTitle("FPS: " + Math.round(1 / Clock.getTimeDelta()));
         }
 
         // Terminate GLFW when the process is done
