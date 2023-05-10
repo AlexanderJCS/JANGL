@@ -4,11 +4,10 @@ import jglt.JGLT;
 import jglt.coords.ScreenCoords;
 import jglt.graphics.Image;
 import jglt.graphics.Texture;
+import jglt.io.Event;
 import jglt.io.Window;
-import jglt.io.keyboard.KeyEvent;
 import jglt.io.keyboard.Keyboard;
 import jglt.io.mouse.Mouse;
-import jglt.io.mouse.MouseEvent;
 import jglt.shapes.Circle;
 import jglt.shapes.Rect;
 import jglt.time.Clock;
@@ -52,11 +51,11 @@ public class ShapeDemo {
                 // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
                 rect.rotateAxis(0.1 * Clock.getTimeDelta());
 
-                for (KeyEvent event : Keyboard.getEvents()) {
+                for (Event event : Keyboard.getEvents()) {
                     System.out.println(event);
                 }
 
-                for (MouseEvent event : Mouse.getEvents()) {
+                for (Event event : Mouse.getEvents()) {
                     System.out.println(event);
                 }
 
