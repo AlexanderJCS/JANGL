@@ -48,12 +48,13 @@ public class Texture implements AutoCloseable {
 
             BufferManager.BYTE_BUFFER.flip();
             id = glGenTextures();
-            glBindTexture(GL_TEXTURE_2D, this.id);
+            this.bind();
 
             glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, BufferManager.BYTE_BUFFER);
+            Texture.unbind();
 
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -66,6 +67,13 @@ public class Texture implements AutoCloseable {
      */
     public void bind() {
         glBindTexture(GL_TEXTURE_2D, this.id);
+    }
+
+    /**
+     * Unbinds any existing bound texture
+     */
+    public static void unbind() {
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     @Override
