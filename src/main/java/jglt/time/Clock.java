@@ -52,11 +52,15 @@ public final class Clock {
     }
 
     /**
-     * @param n The number of samples to set the smoothed FPS to.
+     * @param n The number of samples to set the smoothed FPS to. Must be >= 1.
      *          Warning: This will need to restart FPS sample collection, so the smoothed FPS won't be valid for
      *          n frames.
      */
-    public static void setNumFpsSamples(int n) {
+    public static void setNumFpsSamples(int n) throws IllegalArgumentException {
+        if (n <= 0) {
+            throw new IllegalArgumentException("Smoothed FPS sample size must be 1 or greater, not " + n + ".");
+        }
+
         fpsSamples = new double[n];
     }
 

@@ -2,4 +2,3 @@
 - Documentation (Javadoc and quickstart)
 - Window.setIcon()
 - Shaders
-- Add more features (mainly collision) to PlayerDemo
