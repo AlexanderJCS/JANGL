@@ -49,7 +49,7 @@ public class ShapeDemo {
                 JGLT.update();
 
                 // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
-                rect.rotateAxis(0.1 * Clock.getTimeDelta());
+                rect.rotateAxis(0.2 * Clock.getTimeDelta());
 
                 for (Event event : Keyboard.getEvents()) {
                     System.out.println(event);
