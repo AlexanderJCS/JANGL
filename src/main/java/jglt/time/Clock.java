@@ -5,7 +5,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 /**
  * A utility class to handle different time-related tasks.
  */
-public class Clock {
+public final class Clock {
     /**
      * Second to last tick is used for getTimeDelta()
      */
