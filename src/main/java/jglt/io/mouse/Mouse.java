@@ -1,36 +1,34 @@
-package jglt.io;
+package jglt.io.mouse;
 
 import jglt.coords.PixelCoords;
 import jglt.coords.ScreenCoords;
 import jglt.graphics.BufferManager;
+import jglt.io.Window;
+import jglt.io.keyboard.KeyEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Mouse {
-    private static boolean mouseDownLastFrame;
     private static boolean initialized = false;
+    private static final List<MouseEvent> events = new ArrayList<>();
 
-    private Mouse() {}
+    private Mouse() {
+    }
 
     public static void init() {
         if (getInit()) {
             return;
         }
 
+        glfwSetMouseButtonCallback(Window.getWindow(), new MouseEventCallback());
         initialized = true;
-        Mouse.mouseDownLastFrame = false;
     }
 
     public static boolean getInit() {
         return initialized;
-    }
-
-    /**
-     * This method should be called <i>only</i> as the last update method in the game loop.
-     * Otherwise, Mouse.mouseDownThisFrame() will not function correctly.
-     */
-    public static void update() {
-        mouseDownLastFrame = mouseDown(GLFW_MOUSE_BUTTON_LEFT);
     }
 
     /**
@@ -57,14 +55,20 @@ public class Mouse {
     }
 
     /**
-     * Requires the update Mouse.update() method to be called in order to function correctly. Note that
-     * Mouse.update() needs to be called as the last update method in the game loop, otherwise this
-     * method will always return false.
-     *
-     * @return True if the left mouse button has been pressed this frame.
-     * False if it has been held down for more than one frame.
+     * @return A list of key events since last getEvents() call
      */
-    public static boolean mouseDownThisFrame() {
-        return (!mouseDownLastFrame && mouseDown(GLFW_MOUSE_BUTTON_LEFT));
+    public static List<MouseEvent> getEvents() {
+        List<MouseEvent> eventsDeepcopy = new ArrayList<>(events);
+        events.clear();
+
+        return eventsDeepcopy;
+    }
+
+    /**
+     * A package-protected method to add an event to the Events class
+     * @param event The MouseEvent to add
+     */
+    static void addEvent(MouseEvent event) {
+        events.add(event);
     }
 }

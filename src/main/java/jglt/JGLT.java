@@ -1,9 +1,8 @@
 package jglt;
 
-import jglt.io.Keyboard;
-import jglt.io.Mouse;
+import jglt.io.keyboard.Keyboard;
+import jglt.io.mouse.Mouse;
 import jglt.io.Window;
-import jglt.io.events.Events;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
@@ -18,10 +17,9 @@ public class JGLT {
             return;
         }
 
+        Window.init(screenWidth, screenHeight);
         Mouse.init();
         Keyboard.init();
-        Window.init(screenWidth, screenHeight);
-        Events.init();
 
         initialized = true;
     }

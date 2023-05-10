@@ -1,4 +1,4 @@
-package jglt.io.events;
+package jglt.io.keyboard;
 
 /**
  * @param key The key that was pressed.
@@ -6,4 +6,4 @@ package jglt.io.events;
  * @param action The action performed.
  * @param mods Modifiers. Whether shift, alt, ctrl, caps lock, num lock, was pressed
  */
-public record Event(char key, int scancode, int action, int mods) {}
+public record KeyEvent(char key, int scancode, int action, int mods) {}
