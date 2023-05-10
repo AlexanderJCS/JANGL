@@ -20,4 +20,14 @@ public class KeyEvent extends Event {
         this.key = key;
         this.scancode = scancode;
     }
+
+    @Override
+    public String toString() {
+        return "KeyEvent{" +
+                "key=" + key +
+                ", scancode=" + scancode +
+                ", action=" + action +
+                ", mods=" + mods +
+                '}';
+    }
 }

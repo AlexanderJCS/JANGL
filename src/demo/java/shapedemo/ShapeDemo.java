@@ -49,8 +49,10 @@ public class ShapeDemo {
                 JGLT.update();
 
                 // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
-                rect.rotateAxis(0.2 * Clock.getTimeDelta());
+                rect.rotateAxis(0.25 * Clock.getTimeDelta());
+                circle.rotateAxis(0.05 * Clock.getTimeDelta());
 
+                // Print all keyboard and mouse events to the console
                 for (Event event : Keyboard.getEvents()) {
                     System.out.println(event);
                 }
@@ -61,7 +63,7 @@ public class ShapeDemo {
 
                 // Tick the clock so the FPS is equal to 60
                 Clock.busyTick(60);
-                Window.setTitle("JGLT | FPS: " + Math.round(Clock.getSmoothedFps() * 10) / 10);
+                Window.setTitle("JGLT | FPS: " + Math.round(Clock.getSmoothedFps() * 10) / 10.0);
             }
         }
 

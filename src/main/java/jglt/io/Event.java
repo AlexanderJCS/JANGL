@@ -14,4 +14,12 @@ public class Event {
         this.action = action;
         this.mods = mods;
     }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "action=" + action +
+                ", mods=" + mods +
+                '}';
+    }
 }

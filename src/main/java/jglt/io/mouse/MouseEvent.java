@@ -16,4 +16,13 @@ public class MouseEvent extends Event {
 
         this.button = button;
     }
+
+    @Override
+    public String toString() {
+        return "MouseEvent{" +
+                "button=" + button +
+                ", action=" + action +
+                ", mods=" + mods +
+                '}';
+    }
 }
