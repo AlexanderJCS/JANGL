@@ -12,6 +12,8 @@ public class Window {
     private static long window;
     private static boolean initialized = false;
 
+    private Window() {}
+
     public static void init(int screenWidth, int screenHeight) {
         if (getInit()) {
             return;

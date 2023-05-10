@@ -6,14 +6,4 @@ package jglt.io.events;
  * @param action The action performed.
  * @param mods Modifiers. Whether shift, alt, ctrl, caps lock, num lock, was pressed
  */
-public record Event(char key, int scancode, int action, int mods) {
-    @Override
-    public String toString() {
-        return "Event{" +
-                "key=" + key +
-                ", scancode=" + scancode +
-                ", action=" + action +
-                ", mods=" + mods +
-                '}';
-    }
-}
+public record Event(char key, int scancode, int action, int mods) {}

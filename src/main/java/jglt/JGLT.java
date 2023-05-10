@@ -11,6 +11,8 @@ import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 public class JGLT {
     private static boolean initialized = false;
 
+    private JGLT() {}
+
     public static void init(int screenWidth, int screenHeight) {
         if (initialized) {
             return;

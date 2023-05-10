@@ -6,7 +6,7 @@ import jglt.io.Window;
 /**
  * Pixel coordinates with the origin (0, 0) at the bottom left.
  */
-public class PixelCoords extends Coords {
+public final class PixelCoords extends Coords {
     public PixelCoords(float x, float y) {
         super(x, y);
     }

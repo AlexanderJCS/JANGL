@@ -3,7 +3,7 @@ package jglt.coords;
 /**
  * The base coordinates class. See its inheritors: PixelCoords and ScreenCoords
  */
-public abstract class Coords {
+public sealed abstract class Coords permits PixelCoords, ScreenCoords {
     public float x;
     public float y;
 

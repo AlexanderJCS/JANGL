@@ -15,11 +15,11 @@ public class IndicesModel extends Model {
     public IndicesModel(float[] vertices, int[] indices) {
         super(vertices);
 
-        BufferManager.setIntBuffer(BufferManager.indicesBuffer, indices);
+        BufferManager.setIntBuffer(BufferManager.INDICES_BUFFER, indices);
         this.drawCount = indices.length;
         this.iId = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferManager.indicesBuffer, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferManager.INDICES_BUFFER, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 

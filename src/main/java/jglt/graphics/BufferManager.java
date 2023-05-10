@@ -20,14 +20,14 @@ public class BufferManager {
     /** Max int buffer capacity */
     private static final int MAX_IB_CAPACITY = 1024;
 
-    public static FloatBuffer vboBuffer = BufferUtils.createFloatBuffer(MAX_FB_CAPACITY);
-    public static FloatBuffer texCoordsBuffer = BufferUtils.createFloatBuffer(MAX_FB_CAPACITY);
-    public static IntBuffer indicesBuffer = BufferUtils.createIntBuffer(MAX_IB_CAPACITY);
+    public static final FloatBuffer VBO_BUFFER = BufferUtils.createFloatBuffer(MAX_FB_CAPACITY);
+    public static final FloatBuffer TEX_COORDS_BUFFER = BufferUtils.createFloatBuffer(MAX_FB_CAPACITY);
+    public static final IntBuffer INDICES_BUFFER = BufferUtils.createIntBuffer(MAX_IB_CAPACITY);
 
-    public static DoubleBuffer mouseBuffer1 = BufferUtils.createDoubleBuffer(1);
-    public static DoubleBuffer mouseBuffer2 = BufferUtils.createDoubleBuffer(1);
+    public static final DoubleBuffer MOUSE_BUFFER_1 = BufferUtils.createDoubleBuffer(1);
+    public static final DoubleBuffer MOUSE_BUFFER_2 = BufferUtils.createDoubleBuffer(1);
     // This buffer needs to be larger since it's containing image data
-    public static ByteBuffer byteBuffer = BufferUtils.createByteBuffer(MAX_BB_CAPACITY);
+    public static final ByteBuffer BYTE_BUFFER = BufferUtils.createByteBuffer(MAX_BB_CAPACITY);
     public static BufferedImage bufferedImage;
 
     public static void setFloatBuffer(FloatBuffer fb, float[] newData) throws IllegalArgumentException {

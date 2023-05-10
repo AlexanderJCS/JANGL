@@ -1,13 +1,6 @@
 package jglt.util;
 
-public class Range {
-    public final float min;
-    public final float max;
-
-    public Range(float min, float max) {
-        this.min = min;
-        this.max = max;
-    }
+public record Range(float min, float max) {
 
     /**
      * @param other The other range to check
@@ -25,13 +18,5 @@ public class Range {
      */
     public boolean intersects(Range other) {
         return this.contains(other) || other.contains(this);
-    }
-
-    @Override
-    public String toString() {
-        return "Range{" +
-                "min=" + min +
-                ", max=" + max +
-                '}';
     }
 }

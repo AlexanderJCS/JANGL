@@ -15,6 +15,9 @@ public class Clock {
     /** The next index to modify in fpsSamples. */
     private static int fpsSampleIndex = 0;
 
+    private Clock() {}
+
+
     /**
      * Busy waits for the necessary time for the given fps. Busy waiting means that the thread constantly checks
      * if the time is up, which uses more CPU power but can be very precise way of waiting.

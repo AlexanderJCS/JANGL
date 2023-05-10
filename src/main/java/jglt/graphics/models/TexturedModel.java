@@ -23,8 +23,8 @@ public class TexturedModel extends IndicesModel {
 
         tId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, tId);
-        BufferManager.setFloatBuffer(BufferManager.texCoordsBuffer, texCoords);
-        glBufferData(GL_ARRAY_BUFFER, BufferManager.texCoordsBuffer, GL_STATIC_DRAW);
+        BufferManager.setFloatBuffer(BufferManager.TEX_COORDS_BUFFER, texCoords);
+        glBufferData(GL_ARRAY_BUFFER, BufferManager.TEX_COORDS_BUFFER, GL_STATIC_DRAW);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);

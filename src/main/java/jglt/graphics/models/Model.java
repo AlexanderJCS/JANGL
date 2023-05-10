@@ -24,11 +24,11 @@ public class Model implements AutoCloseable {
     public Model(float[] vertices) {
         this.drawCount = vertices.length / DIMENSIONS;
 
-        BufferManager.setFloatBuffer(BufferManager.vboBuffer, vertices);
+        BufferManager.setFloatBuffer(BufferManager.VBO_BUFFER, vertices);
 
         this.vId = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, this.vId);
-        glBufferData(GL_ARRAY_BUFFER, BufferManager.vboBuffer, GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, BufferManager.VBO_BUFFER, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
@@ -54,8 +54,8 @@ public class Model implements AutoCloseable {
      */
     public void changeVertices(float[] vertices) {
         glBindBuffer(GL_ARRAY_BUFFER, this.vId);
-        BufferManager.setFloatBuffer(BufferManager.vboBuffer, vertices);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, BufferManager.vboBuffer);
+        BufferManager.setFloatBuffer(BufferManager.VBO_BUFFER, vertices);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, BufferManager.VBO_BUFFER);
         glBindBuffer(GL_ARRAY_BUFFER, this.vId);
     }
 

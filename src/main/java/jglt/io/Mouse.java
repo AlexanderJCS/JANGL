@@ -10,6 +10,8 @@ public class Mouse {
     private static boolean mouseDownLastFrame;
     private static boolean initialized = false;
 
+    private Mouse() {}
+
     public static void init() {
         if (getInit()) {
             return;
@@ -39,9 +41,9 @@ public class Mouse {
      */
     public static ScreenCoords getMousePos() {
         // https://stackoverflow.com/questions/33592499/lwjgl-3-get-cursor-position
-        glfwGetCursorPos(Window.getWindow(), BufferManager.mouseBuffer1, BufferManager.mouseBuffer2);
-        double x = BufferManager.mouseBuffer1.get(0);
-        double y = BufferManager.mouseBuffer2.get(0);
+        glfwGetCursorPos(Window.getWindow(), BufferManager.MOUSE_BUFFER_1, BufferManager.MOUSE_BUFFER_2);
+        double x = BufferManager.MOUSE_BUFFER_1.get(0);
+        double y = BufferManager.MOUSE_BUFFER_2.get(0);
 
         return new PixelCoords((float) x, (float) (Window.getScreenHeight() - y)).toScreenCoords();
     }

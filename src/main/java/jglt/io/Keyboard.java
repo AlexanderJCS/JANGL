@@ -8,6 +8,8 @@ import static org.lwjgl.glfw.GLFW.glfwGetKey;
 public class Keyboard {
     private static boolean initialized = false;
 
+    private Keyboard() {}
+
     public static void init() {
         if (getInit()) {
             return;
