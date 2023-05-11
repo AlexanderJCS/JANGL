@@ -10,7 +10,7 @@ import jglt.shapes.Rect;
 import jglt.time.Clock;
 
 public class RunnerDemo {
-    private final Player dino;
+    private final Player player;
     private final Image ground;
     private final CactusSpawner cactusSpawner;
     private final Rect background;
@@ -27,7 +27,7 @@ public class RunnerDemo {
                 new Texture("src/demo/demoResources/dinosaurDemo/sand.png")
         );
 
-        this.dino = new Player(0.2f, 0.05f, this.ground.getRect().y1);
+        this.player = new Player(0.2f, 0.05f, this.ground.getRect().y1);
         this.cactusSpawner = new CactusSpawner(2, this.ground.getRect().y1);
     }
 
@@ -36,7 +36,7 @@ public class RunnerDemo {
 
         this.background.draw(this.backgroundColor);
 
-        this.dino.draw();
+        this.player.draw();
         this.ground.draw();
 
         this.cactusSpawner.draw();
@@ -45,8 +45,8 @@ public class RunnerDemo {
     public void update() {
         JANGL.update();
 
-        this.dino.update();
-        this.cactusSpawner.update(this.dino);
+        this.player.update();
+        this.cactusSpawner.update(this.player);
     }
 
     public void run() {
