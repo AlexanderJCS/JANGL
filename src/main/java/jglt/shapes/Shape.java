@@ -1,5 +1,6 @@
 package jglt.shapes;
 
+import jglt.shaders.ColorShader;
 import jglt.util.ArrayUtils;
 import jglt.coords.PixelCoords;
 import jglt.util.Range;
@@ -15,6 +16,13 @@ public abstract class Shape {
     protected double axisAngle;
 
     public abstract void draw();
+
+    public void draw(ColorShader colorShader) {
+        colorShader.bind();
+        this.draw();
+        colorShader.unbind();
+    }
+
     public abstract void shift(float x, float y);
     public abstract float[] getVertices();
     public abstract ScreenCoords getCenter();

@@ -3,7 +3,9 @@ package shaderdemo;
 import jglt.JANGL;
 import jglt.coords.ScreenCoords;
 import jglt.io.Window;
+import jglt.shaders.ColorShader;
 import jglt.shaders.Shader;
+import jglt.shapes.Circle;
 import jglt.shapes.Rect;
 import jglt.time.Clock;
 
@@ -19,12 +21,16 @@ public class ShaderDemo {
                 // Create the shader by passing in the filepaths of the vertex and fragment shader
                 // This needs to be inside a try-with-resources statement to prevent memory leaks
                 Shader shader = new Shader(
-                        "src/demo/java/shaderdemo/colorVertexShader.glsl",
-                        "src/demo/java/shaderdemo/colorFragmentShader.glsl"
+                        "src/demo/java/shaderdemo/colorShader.vert",
+                        "src/demo/java/shaderdemo/colorShader.frag"
                 );
 
+                // You can also use color shaders to do this automatically
+                ColorShader colorShader = new ColorShader(1, 0.8f, 0, 1);
+
                 // Create a rectangle. To see more on shapes, and how to make a program, see ShapeDemo.
-                Rect rect = new Rect(new ScreenCoords(-0.25f, -0.25f), 0.5f, 0.5f)
+                Rect rect = new Rect(new ScreenCoords(-0.25f, 0f), 0.5f, 0.5f);
+                Circle circle = new Circle(new ScreenCoords(0f, -0.5f), 0.25f, 50)
             ) {
 
             while (Window.shouldRun()) {
@@ -44,6 +50,9 @@ public class ShaderDemo {
 
                 // When done with the shader, make sure to unbind it
                 shader.unbind();
+
+                // You can also use color shaders to do this automatically
+                circle.draw(colorShader);
 
                 Clock.busyTick(60);
             }
