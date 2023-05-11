@@ -14,11 +14,11 @@ import java.nio.IntBuffer;
  */
 public class BufferManager {
     /** Max float buffer capacity */
-    private static final int MAX_FB_CAPACITY = 1024;
+    private static final int MAX_FB_CAPACITY = 4096;
     /** Max byte buffer capacity */
-    private static final int MAX_BB_CAPACITY = 32768;
+    private static final int MAX_BB_CAPACITY = 262144;
     /** Max int buffer capacity */
-    private static final int MAX_IB_CAPACITY = 1024;
+    private static final int MAX_IB_CAPACITY = 4096;
 
     public static final FloatBuffer VBO_BUFFER = BufferUtils.createFloatBuffer(MAX_FB_CAPACITY);
     public static final FloatBuffer TEX_COORDS_BUFFER = BufferUtils.createFloatBuffer(MAX_FB_CAPACITY);
