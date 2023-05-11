@@ -21,10 +21,10 @@ public class ShapeDemo {
         // Create a rect and a circle using a try with resources statement.
         // If a shape is not closed, (either manually or with the try with resources) a memory leak will occur.
         try (
-                Rect rect = new Rect(new ScreenCoords(-0.25f, -0.25f), 0.5f, 0.5f);
+                Rect rect = new Rect(new ScreenCoords(-0.25f, 0.25f), 0.5f, 0.5f);
                 Circle circle = new Circle(new ScreenCoords(0, 0.5f), 0.1f, 70);
-                Image redBackground = new Image(new Rect(new ScreenCoords(-1, -1), 2, 2), new Texture("src/demo/demoResources/shapeDemo/red.png"));
-                Image greenBackground = new Image(new Rect(new ScreenCoords(-1, -1), 2, 2), new Texture("src/demo/demoResources/shapeDemo/green.png"))
+                Image redBackground = new Image(new Rect(new ScreenCoords(-1, 1), 2, 2), new Texture("src/demo/demoResources/shapeDemo/red.png"));
+                Image greenBackground = new Image(new Rect(new ScreenCoords(-1, 1), 2, 2), new Texture("src/demo/demoResources/shapeDemo/green.png"))
         ) {
             // While the "X" button on the top right of the window is not pressed
             while (Window.shouldRun()) {

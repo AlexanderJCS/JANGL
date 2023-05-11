@@ -21,7 +21,7 @@ public class Rect extends Shape implements AutoCloseable {
         this.x1 = coords.x;
         this.y1 = coords.y;
         this.x2 = coords.x + width;
-        this.y2 = coords.y + height;
+        this.y2 = coords.y - height;
 
         this.width = width;
         this.height = height;
@@ -139,24 +139,13 @@ public class Rect extends Shape implements AutoCloseable {
      */
     private TexturedModel toTexturedModel() {
         float[] texCoords = new float[] {
-                0, 1,
-                1, 1,
-                1, 0,
                 0, 0,
+                1, 0,
+                1, 1,
+                0, 1,
         };
 
         return new TexturedModel(this.getVertices(), this.getIndices(), texCoords);
-    }
-
-    /**
-     * Check if a point is inside the rect. Used for collision checking.
-     *
-     * @param coords The point
-     * @return If it is inside the rect
-     */
-    public boolean pointInsideRect(ScreenCoords coords) {
-        return (coords.y > this.y1 && coords.y < this.y2) &&
-                (coords.x > this.x1 && coords.x < this.x2);
     }
 
     /**
