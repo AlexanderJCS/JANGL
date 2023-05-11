@@ -16,7 +16,11 @@ public class ColorShader extends Shader {
         this.setRGBA(red, green, blue, alpha);
     }
 
-    public ColorShader(float[] rgba) {
+    /**
+     * @param rgba The RGBA value to set the color to
+     * @throws IllegalArgumentException Throws if the RGBA length is not 4 (one value for r, g, b, and a)
+     */
+    public ColorShader(float[] rgba) throws IllegalArgumentException {
         super(
                 "src/main/resources/shaders/colorShader/colorShader.vert",
                 "src/main/resources/shaders/colorShader/colorShader.frag"
