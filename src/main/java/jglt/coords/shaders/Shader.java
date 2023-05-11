@@ -1,4 +1,4 @@
-package jglt.shaders;
+package jglt.coords.shaders;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

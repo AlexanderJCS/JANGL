@@ -1,4 +1,4 @@
-package jglt.shaders;
+package jglt.coords.shaders;
 
 import static org.lwjgl.opengl.GL20.glUniform4f;
 
