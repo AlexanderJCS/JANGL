@@ -1,6 +1,6 @@
 package jglt.shapes;
 
-import jglt.coords.shaders.ColorShader;
+import jglt.graphics.shaders.ColorShader;
 import jglt.util.ArrayUtils;
 import jglt.coords.PixelCoords;
 import jglt.util.Range;

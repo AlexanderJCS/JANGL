@@ -3,12 +3,15 @@ package shaderdemo;
 import jglt.JANGL;
 import jglt.coords.ScreenCoords;
 import jglt.io.Window;
-import jglt.coords.shaders.ColorShader;
-import jglt.coords.shaders.Shader;
+import jglt.graphics.shaders.ColorShader;
+import jglt.graphics.shaders.Shader;
 import jglt.shapes.Circle;
 import jglt.shapes.Rect;
 import jglt.time.Clock;
 
+import java.util.Arrays;
+
+import static org.lwjgl.opengl.GL20.glShaderSource;
 import static org.lwjgl.opengl.GL20.glUniform4f;
 
 public class ShaderDemo {
