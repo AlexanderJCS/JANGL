@@ -2,8 +2,7 @@ package shapedemo;
 
 import jglt.JANGL;
 import jglt.coords.ScreenCoords;
-import jglt.graphics.Image;
-import jglt.graphics.Texture;
+import jglt.graphics.shaders.ColorShader;
 import jglt.io.Event;
 import jglt.io.Window;
 import jglt.io.keyboard.Keyboard;
@@ -23,8 +22,8 @@ public class ShapeDemo {
         try (
                 Rect rect = new Rect(new ScreenCoords(-0.25f, 0.25f), 0.5f, 0.5f);
                 Circle circle = new Circle(new ScreenCoords(0, 0.5f), 0.1f, 70);
-                Image redBackground = new Image(new Rect(new ScreenCoords(-1, 1), 2, 2), new Texture("src/demo/demoResources/shapeDemo/red.png"));
-                Image greenBackground = new Image(new Rect(new ScreenCoords(-1, 1), 2, 2), new Texture("src/demo/demoResources/shapeDemo/green.png"))
+                ColorShader colorShader = new ColorShader(1, 0, 0, 1);
+                Rect background = new Rect(new ScreenCoords(-1, 1), 2, 2)
         ) {
             // While the "X" button on the top right of the window is not pressed
             while (Window.shouldRun()) {
@@ -34,12 +33,18 @@ public class ShapeDemo {
                 // Draw a green background if the rectangle collides with the circle
                 // Otherwise draw a red background
                 if (rect.collidesWith(circle)) {
-                    greenBackground.draw();
+                    // Set the color to 0 red, 1, green, 0 blue, 1 alpha (0 transparency)
+                    colorShader.setRGBA(0, 0.8f, 0, 1);
                 } else {
-                    redBackground.draw();
+                    // Set the color to 1 red, 0, green, 0 blue, 1 alpha (0 transparency)
+                    colorShader.setRGBA(0.8f, 0, 0, 1);
                 }
 
-                // Draw the rectangle to the screen
+                // Draw the background using the given color shader
+                background.draw(colorShader);
+
+                // Draw the rectangle and circle
+                // These draw calls need to be after the background so the background doesn't overlap the shapes
                 rect.draw();
                 circle.draw();
 
