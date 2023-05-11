@@ -74,7 +74,7 @@ public class Rect extends Shape implements AutoCloseable {
         this.x1 = coords.x;
         this.y1 = coords.y;
         this.x2 = this.x1 + width;
-        this.y2 = this.y1 + height;
+        this.y2 = this.y1 - height;
 
         this.model.changeVertices(this.getVertices());
     }
