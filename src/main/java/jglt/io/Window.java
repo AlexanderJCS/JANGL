@@ -29,7 +29,7 @@ public class Window {
         initialized = true;
 
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);  // make the window non-resizeable
-        window = glfwCreateWindow(screenWidth, screenHeight, "JGLT", 0, 0);
+        window = glfwCreateWindow(screenWidth, screenHeight, "JANGL", 0, 0);
         glfwShowWindow(window);
 
         glfwMakeContextCurrent(window);
@@ -62,6 +62,10 @@ public class Window {
 
     public static boolean shouldRun() {
         return !glfwWindowShouldClose(getWindow());
+    }
+
+    public static void close() {
+        glfwTerminate();
     }
 
     public static void setTitle(String newTitle) {

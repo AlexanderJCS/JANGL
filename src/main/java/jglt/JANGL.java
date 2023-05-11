@@ -7,10 +7,10 @@ import jglt.io.Window;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 
-public class JGLT {
+public class JANGL {
     private static boolean initialized = false;
 
-    private JGLT() {}
+    private JANGL() {}
 
     public static void init(int screenWidth, int screenHeight) {
         if (initialized) {

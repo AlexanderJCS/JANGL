@@ -1,6 +1,6 @@
 package shapedemo;
 
-import jglt.JGLT;
+import jglt.JANGL;
 import jglt.coords.ScreenCoords;
 import jglt.graphics.Image;
 import jglt.graphics.Texture;
@@ -12,11 +12,9 @@ import jglt.shapes.Circle;
 import jglt.shapes.Rect;
 import jglt.time.Clock;
 
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
-
 public class ShapeDemo {
     public ShapeDemo() {
-        JGLT.init(1600, 900);
+        JANGL.init(1600, 900);
     }
 
     public void run() {
@@ -45,8 +43,8 @@ public class ShapeDemo {
                 rect.draw();
                 circle.draw();
 
-                // End your draw method with JGLT.update()
-                JGLT.update();
+                // End your draw method with JANGL.update()
+                JANGL.update();
 
                 // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
                 rect.rotateAxis(0.25 * Clock.getTimeDelta());
@@ -63,12 +61,12 @@ public class ShapeDemo {
 
                 // Tick the clock so the FPS is equal to 60
                 Clock.busyTick(60);
-                Window.setTitle("JGLT | FPS: " + Math.round(Clock.getSmoothedFps() * 10) / 10.0);
+                Window.setTitle("JANGL | FPS: " + Math.round(Clock.getSmoothedFps() * 10) / 10.0);
             }
         }
 
-        // Terminate GLFW when the process is done
-        glfwTerminate();
+        // Close the window when the program is done running
+        Window.close();
     }
 
     public static void main(String[] args) {

@@ -1,18 +1,17 @@
 package shaderdemo;
 
-import jglt.JGLT;
+import jglt.JANGL;
 import jglt.coords.ScreenCoords;
 import jglt.io.Window;
 import jglt.shaders.Shader;
 import jglt.shapes.Rect;
 import jglt.time.Clock;
 
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
 import static org.lwjgl.opengl.GL20.glUniform4f;
 
 public class ShaderDemo {
     public ShaderDemo() {
-        JGLT.init(1600, 900);
+        JANGL.init(1600, 900);
     }
 
     public void run() {
@@ -29,7 +28,7 @@ public class ShaderDemo {
             ) {
 
             while (Window.shouldRun()) {
-                JGLT.update();
+                JANGL.update();
                 Window.clear();
 
                 // Bind the shader. Anything drawn when they shader is bound will be drawn with the shader.
@@ -50,7 +49,7 @@ public class ShaderDemo {
             }
         }
 
-        glfwTerminate();
+        Window.close();
     }
 
     public static void main(String[] args) {

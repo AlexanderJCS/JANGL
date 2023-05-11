@@ -1,6 +1,6 @@
 package dvdscreen;
 
-import jglt.JGLT;
+import jglt.JANGL;
 import jglt.coords.PixelCoords;
 import jglt.coords.ScreenCoords;
 import jglt.io.Window;
@@ -15,7 +15,7 @@ public class DvdScreenDemo {
     private final float speedY;
 
     public DvdScreenDemo() {
-        JGLT.init(1600, 900);
+        JANGL.init(1600, 900);
 
         this.circle = new Circle(new ScreenCoords(0.4f, 1f),  0.1f, 100);
         this.xDir = 1;
@@ -45,7 +45,7 @@ public class DvdScreenDemo {
 
     public void run() {
         while (Window.shouldRun()) {
-            JGLT.update();
+            JANGL.update();
 
             this.draw();
             this.update();
@@ -53,6 +53,8 @@ public class DvdScreenDemo {
             // Tick the clock so the FPS is equal to 60
             Clock.busyTick(60);
         }
+
+        Window.close();
     }
 
     public static void main(String[] args) {

@@ -1,11 +1,9 @@
 package playerdemo;
 
+import jglt.JANGL;
 import jglt.coords.ScreenCoords;
 import jglt.io.Window;
 import jglt.time.Clock;
-import jglt.JGLT;
-
-import static org.lwjgl.glfw.GLFW.glfwTerminate;
 
 public class PlayerDemo {
     private final Player player;
@@ -26,7 +24,7 @@ public class PlayerDemo {
     public void run() {
         // While the "X" button on the top right of the window is not pressed
         while (Window.shouldRun()) {
-            JGLT.update();
+            JANGL.update();
 
             this.update();
             this.draw();
@@ -36,11 +34,11 @@ public class PlayerDemo {
         }
 
         // Terminate GLFW when the process is done
-        glfwTerminate();
+        Window.close();
     }
 
     public static void main(String[] args) {
-        JGLT.init(1600, 900);
+        JANGL.init(1600, 900);
         new PlayerDemo().run();
     }
 }
