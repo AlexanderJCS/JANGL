@@ -9,9 +9,6 @@ import jglt.shapes.Circle;
 import jglt.shapes.Rect;
 import jglt.time.Clock;
 
-import java.util.Arrays;
-
-import static org.lwjgl.opengl.GL20.glShaderSource;
 import static org.lwjgl.opengl.GL20.glUniform4f;
 
 public class ShaderDemo {
@@ -32,7 +29,7 @@ public class ShaderDemo {
                 ColorShader colorShader = new ColorShader(1, 0.8f, 0, 1);
 
                 // Create a rectangle. To see more on shapes, and how to make a program, see ShapeDemo.
-                Rect rect = new Rect(new ScreenCoords(-0.25f, 0f), 0.5f, 0.5f);
+                Rect rect = new Rect(new ScreenCoords(0.25f, 0f), 0.5f, 0.5f);
                 Circle circle = new Circle(new ScreenCoords(0f, -0.5f), 0.25f, 50)
             ) {
 

@@ -27,9 +27,6 @@ public class ShapeDemo {
         ) {
             // While the "X" button on the top right of the window is not pressed
             while (Window.shouldRun()) {
-                // Make the screen black for the next frame
-                Window.clear();
-
                 // Draw a green background if the rectangle collides with the circle
                 // Otherwise draw a red background
                 if (rect.collidesWith(circle)) {
@@ -39,6 +36,9 @@ public class ShapeDemo {
                     // Set the color to 1 red, 0, green, 0 blue, 1 alpha (0 transparency)
                     colorShader.setRGBA(0.8f, 0, 0, 1);
                 }
+
+                // Make the screen black for the next frame
+                Window.clear();
 
                 // Draw the background using the given color shader
                 background.draw(colorShader);
