@@ -1,4 +1,3 @@
 - Readme
 - Documentation (Javadoc and quickstart)
 - Window.setIcon()
-- Shaders
