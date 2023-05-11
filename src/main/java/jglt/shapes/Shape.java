@@ -1,6 +1,6 @@
 package jglt.shapes;
 
-import jglt.graphics.shaders.ColorShader;
+import jglt.graphics.shaders.Shader;
 import jglt.util.ArrayUtils;
 import jglt.coords.PixelCoords;
 import jglt.util.Range;
@@ -17,10 +17,10 @@ public abstract class Shape {
 
     public abstract void draw();
 
-    public void draw(ColorShader colorShader) {
-        colorShader.bind();
+    public void draw(Shader shader) {
+        shader.bind();
         this.draw();
-        colorShader.unbind();
+        shader.unbind();
     }
 
     public abstract void shift(float x, float y);
