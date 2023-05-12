@@ -20,8 +20,8 @@ public class DvdScreenDemo {
         this.circle = new Circle(new ScreenCoords(0.4f, 1f),  0.1f, 100);
         this.xDir = 1;
         this.yDir = 1;
-        this.speedX = PixelCoords.distXToScreenDist(5);
-        this.speedY = PixelCoords.distYToScreenDist(5);
+        this.speedX = PixelCoords.distXtoScreenDist(5);
+        this.speedY = PixelCoords.distYtoScreenDist(5);
     }
 
     public void update() {

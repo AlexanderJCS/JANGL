@@ -29,7 +29,7 @@ public class Circle extends Shape implements AutoCloseable {
 
         this.sides = sides;
         this.radiusX = radius;
-        this.radiusY = PixelCoords.distYToScreenDist(ScreenCoords.distXtoPixelCoords(radius));
+        this.radiusY = PixelCoords.distYtoScreenDist(ScreenCoords.distXtoPixelCoords(radius));
         this.model = this.toModel();
     }
 
@@ -43,7 +43,7 @@ public class Circle extends Shape implements AutoCloseable {
      */
     public void setRadius(float newRadius) {
         this.radiusX = newRadius;
-        this.radiusY = PixelCoords.distYToScreenDist(ScreenCoords.distXtoPixelCoords(newRadius));
+        this.radiusY = PixelCoords.distYtoScreenDist(ScreenCoords.distXtoPixelCoords(newRadius));
         this.model.changeVertices(this.getVertices());
     }
 

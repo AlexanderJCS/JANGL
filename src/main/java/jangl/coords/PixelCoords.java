@@ -17,7 +17,7 @@ public final class PixelCoords extends Coords {
      * @param dist Distance
      * @return ScreenCoords distance (float)
      */
-    public static float distXToScreenDist(float dist) {
+    public static float distXtoScreenDist(float dist) {
         return dist / Window.getScreenWidth() * 2;
     }
 
@@ -27,7 +27,7 @@ public final class PixelCoords extends Coords {
      * @param dist Distance
      * @return ScreenCoords distance (float)
      */
-    public static float distYToScreenDist(float dist) {
+    public static float distYtoScreenDist(float dist) {
         return dist / Window.getScreenHeight() * 2;
     }
 

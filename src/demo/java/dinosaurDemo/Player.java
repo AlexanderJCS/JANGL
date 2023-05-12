@@ -19,8 +19,8 @@ public class Player extends Image {
     public Player(float gravity, float jumpVel, float groundHeight) {
         super(
                 new Rect(
-                        new ScreenCoords(0, groundHeight + PixelCoords.distYToScreenDist(50)),
-                        PixelCoords.distXToScreenDist(50), PixelCoords.distYToScreenDist(50)
+                        new ScreenCoords(0, groundHeight + PixelCoords.distYtoScreenDist(50)),
+                        PixelCoords.distXtoScreenDist(50), PixelCoords.distYtoScreenDist(50)
                 ),
                 new Texture("src/demo/demoResources/playerDemo/player.png")
         );

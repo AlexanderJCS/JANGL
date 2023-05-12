@@ -93,8 +93,8 @@ public abstract class Shape {
             double newTheta = 0.5 * Math.PI - theta - angleRadians;
 
             // Set the vertices to the new vertices
-            vertices[i] = PixelCoords.distXToScreenDist((float) Math.round(Math.sin(newTheta) * hyp * 10000000) / 10000000);      // x
-            vertices[i + 1] = PixelCoords.distYToScreenDist((float) Math.round(Math.cos(newTheta) * hyp * 10000000) / 10000000);  // y
+            vertices[i] = PixelCoords.distXtoScreenDist((float) Math.round(Math.sin(newTheta) * hyp * 10000000) / 10000000);      // x
+            vertices[i + 1] = PixelCoords.distYtoScreenDist((float) Math.round(Math.cos(newTheta) * hyp * 10000000) / 10000000);  // y
         }
 
         return vertices;
