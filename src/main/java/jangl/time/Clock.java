@@ -53,8 +53,6 @@ public final class Clock {
 
     /**
      * @param n The number of samples to set the smoothed FPS to. Must be >= 1.
-     *          Warning: This will need to restart FPS sample collection, so the smoothed FPS won't be valid for
-     *          n frames.
      */
     public static void setNumFpsSamples(int n) throws IllegalArgumentException {
         if (n <= 0) {
@@ -75,12 +73,22 @@ public final class Clock {
      * @return The smoothed fps over the last n samples
      */
     public static double getSmoothedFps() {
+        int divide = fpsSamples.length;
         double sum = 0;
 
         for (double sample : fpsSamples) {
             sum += sample;
+
+            // Prevent smoothed fps having to "climb up"
+            if (sample == 0) {
+                divide--;
+            }
         }
 
-        return sum / fpsSamples.length;
+        return sum / divide;
+    }
+
+    public static double getNonSmoothedFPS() {
+        return 1 / Clock.getTimeDelta();
     }
 }
