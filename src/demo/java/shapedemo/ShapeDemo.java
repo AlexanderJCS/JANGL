@@ -9,6 +9,7 @@ import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
+import jangl.shapes.Shape;
 import jangl.time.Clock;
 
 public class ShapeDemo {
@@ -29,7 +30,7 @@ public class ShapeDemo {
             while (Window.shouldRun()) {
                 // Draw a green background if the rectangle collides with the circle
                 // Otherwise draw a red background
-                if (rect.collidesWith(circle)) {
+                if (Shape.collides(rect, circle)) {
                     // Set the color to 0 red, 1, green, 0 blue, 1 alpha (0 transparency)
                     colorShader.setRGBA(0, 0.8f, 0, 1);
                 } else {
@@ -65,8 +66,8 @@ public class ShapeDemo {
                 }
 
                 // Tick the clock so the FPS is equal to 60
-                Clock.busyTick(60);
-                Window.setTitle("JANGL | FPS: " + Math.round(Clock.getSmoothedFps() * 10) / 10.0);
+                Clock.busyTick(-1);
+                Window.setTitle("JANGL | FPS: " + Clock.getSmoothedFps());
             }
         }
 

@@ -102,67 +102,6 @@ public abstract class Shape implements AutoCloseable {
         return vertices;
     }
 
-    /**
-     * Uses the Separating Axis Theorem (SAT) collision detection method.
-     *
-     * @param other The other shape to check collision with
-     * @return True if the objects collide, false otherwise
-     */
-    public boolean collidesWith(Shape other) {
-        double[] angles = this.getOutsideEdgeAngles();
-        double[] otherAngles = other.getOutsideEdgeAngles();
-
-        // https://stackoverflow.com/questions/754294/convert-an-array-of-primitive-longs-into-a-list-of-longs
-        // modified according to IntelliJ's recommendation
-        List<Double> anglesList = new java.util.ArrayList<>(Arrays.stream(angles).boxed().toList());
-        anglesList.addAll(Arrays.stream(otherAngles).boxed().toList());
-
-        double thisBeginningAngle = this.getAxisAngle();
-        double otherBeginningAngle = other.getAxisAngle();
-
-        for (int i = 0; i < anglesList.size(); i++) {
-            double delta;
-
-            if (i == 0) {
-                delta = anglesList.get(i);
-            } else {
-                delta = anglesList.get(i) - anglesList.get(i - 1);
-            }
-
-            // Rotate the axis of the two shapes so that one side is flat
-            // This is kind of a poor man's version of projection
-            float[] thisVertices = this.rotateAxis(delta);
-            float[] otherVertices = other.rotateAxis(delta);
-
-            float[] thisXVerts = ArrayUtils.getEven(thisVertices);
-            float[] thisYVerts = ArrayUtils.getOdd(thisVertices);
-
-            float[] otherXVerts = ArrayUtils.getEven(otherVertices);
-            float[] otherYVerts = ArrayUtils.getOdd(otherVertices);
-
-            Range thisXRange = new Range(ArrayUtils.getMin(thisXVerts), ArrayUtils.getMax(thisXVerts));
-            Range thisYRange = new Range(ArrayUtils.getMin(thisYVerts), ArrayUtils.getMax(thisYVerts));
-
-            Range otherXRange = new Range(ArrayUtils.getMin(otherXVerts), ArrayUtils.getMax(otherXVerts));
-            Range otherYRange = new Range(ArrayUtils.getMin(otherYVerts), ArrayUtils.getMax(otherYVerts));
-
-            // If the ranges do not intersect, the shapes are not colliding
-            if (!thisXRange.intersects(otherXRange) || !thisYRange.intersects(otherYRange)) {
-                // Rotate the axis angles back to what they were at the beginning
-                this.setAxisAngle(thisBeginningAngle);
-                other.setAxisAngle(otherBeginningAngle);
-
-                return false;
-            }
-        }
-
-        // Rotate the axis angles back to what they were at the beginning
-        this.setAxisAngle(thisBeginningAngle);
-        other.setAxisAngle(otherBeginningAngle);
-
-        return true;
-    }
-
     public double getAxisAngle() {
         return this.axisAngle;
     }
@@ -179,6 +118,127 @@ public abstract class Shape implements AutoCloseable {
     public void setLocalAngle(double angleRadians) {
         double delta = angleRadians - this.getLocalAngle();
         this.rotateLocal(delta);
+    }
+
+    public static boolean collides(Shape shape1, Shape shape2) {
+        double[] angles = shape1.getOutsideEdgeAngles();
+        double[] otherAngles = shape2.getOutsideEdgeAngles();
+
+        // https://stackoverflow.com/questions/754294/convert-an-array-of-primitive-longs-into-a-list-of-longs
+        // modified according to IntelliJ's recommendation
+        List<Double> anglesList = new java.util.ArrayList<>(Arrays.stream(angles).boxed().toList());
+        anglesList.addAll(Arrays.stream(otherAngles).boxed().toList());
+
+        double s1BeginningAngle = shape1.getAxisAngle();
+        double s2BeginningAngle = shape2.getAxisAngle();
+
+        for (int i = 0; i < anglesList.size(); i++) {
+            double delta;
+
+            if (i == 0) {
+                delta = anglesList.get(i);
+            } else {
+                delta = anglesList.get(i) - anglesList.get(i - 1);
+            }
+
+            // Rotate the axis of the two shapes so that one side is flat
+            // This is kind of a poor man's version of projection
+            float[] s1Vertices = shape1.rotateAxis(delta);
+            float[] s2Vertices = shape2.rotateAxis(delta);
+
+            float[] s1verticesX = ArrayUtils.getEven(s1Vertices);
+            float[] s1verticesY = ArrayUtils.getOdd(s1Vertices);
+
+            float[] s2verticesX = ArrayUtils.getEven(s2Vertices);
+            float[] s2verticesY = ArrayUtils.getOdd(s2Vertices);
+
+            Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
+            Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
+
+            Range s2RangeX = new Range(ArrayUtils.getMin(s2verticesX), ArrayUtils.getMax(s2verticesX));
+            Range s2RangeY = new Range(ArrayUtils.getMin(s2verticesY), ArrayUtils.getMax(s2verticesY));
+
+            // If the ranges do not intersect, the shapes are not colliding
+            if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
+                // Rotate the axis angles back to what they were at the beginning
+                shape1.setAxisAngle(s1BeginningAngle);
+                shape2.setAxisAngle(s2BeginningAngle);
+
+                return false;
+            }
+        }
+
+        // Rotate the axis angles back to what they were at the beginning
+        shape1.setAxisAngle(s1BeginningAngle);
+        shape2.setAxisAngle(s2BeginningAngle);
+
+        return true;
+    }
+
+    public static boolean collides(Shape polygon, Circle circle) {
+        double[] angles = polygon.getOutsideEdgeAngles();
+
+        double beginningAngle = polygon.getAxisAngle();
+
+        for (int i = 0; i < angles.length; i++) {
+            double delta;
+
+            if (i == 0) {
+                delta = angles[i];
+            } else {
+                delta = angles[i] - angles[i - 1];
+            }
+
+            // Rotate the axis of the two shapes so that one side is flat
+            // This is kind of a poor man's version of projection
+            float[] polyVertices = polygon.rotateAxis(delta);
+            float[] circleCenter = Shape.rotateAxis(
+                    new float[]{circle.getCenter().x, circle.getCenter().y},
+                    angles[i]
+            );
+
+            float[] s1verticesX = ArrayUtils.getEven(polyVertices);
+            float[] s1verticesY = ArrayUtils.getOdd(polyVertices);
+
+            Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
+            Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
+
+            Range s2RangeX = new Range(circleCenter[0] - circle.getRadiusX(), circleCenter[0] + circle.getRadiusX());
+            Range s2RangeY = new Range(circleCenter[1] - circle.getRadiusY(), circleCenter[1] + circle.getRadiusY());
+
+            // If the ranges do not intersect, the shapes are not colliding
+            if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
+                // Rotate the axis angles back to what they were at the beginning
+                polygon.setAxisAngle(beginningAngle);
+
+                return false;
+            }
+        }
+
+        // Rotate the axis angles back to what they were at the beginning
+        polygon.setAxisAngle(beginningAngle);
+
+        return true;
+    }
+
+    public static boolean collides(Circle circle, Shape polygon) {
+        return collides(polygon, circle);
+    }
+
+    public static boolean collides(Circle circle1, Circle circle2) {
+        PixelCoords circle1Center = circle1.getCenter().toPixelCoords();
+        PixelCoords circle2Center = circle2.getCenter().toPixelCoords();
+
+        double distSquared = Math.pow(circle1Center.x - circle2Center.x, 2) +
+                Math.pow(circle1Center.y - circle2Center.y, 2);
+
+        double combinedRadiiSquared = Math.pow(
+                ScreenCoords.distXtoPixelCoords(circle1.getRadiusX()) +
+                        ScreenCoords.distXtoPixelCoords(circle2.getRadiusX()),
+                2
+        );
+
+        return distSquared <= combinedRadiiSquared;
     }
 
     /**
