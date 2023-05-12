@@ -11,6 +11,10 @@ public final class ScreenCoords extends Coords {
         super(x, y);
     }
 
+    public ScreenCoords(float[] coords) throws IllegalArgumentException {
+        super(coords);
+    }
+
     public static float distXtoPixelCoords(float dist) {
         return dist * Window.getScreenWidth() / 2;
     }

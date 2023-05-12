@@ -16,6 +16,15 @@ public sealed abstract class Coords permits PixelCoords, ScreenCoords {
         this.y = y;
     }
 
+    public Coords(float[] coords) throws IllegalArgumentException {
+        if (coords.length != 2) {
+            throw new IllegalArgumentException("Coordinates length must be equal to 2");
+        }
+
+        this.x = coords[0];
+        this.y = coords[1];
+    }
+
     @Override
     public String toString() {
         return "X: " + this.x + " Y: " + this.y;

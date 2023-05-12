@@ -238,6 +238,8 @@ public abstract class Shape implements AutoCloseable {
                 2
         );
 
+        System.out.println(distSquared + ", " + combinedRadiiSquared);
+
         return distSquared <= combinedRadiiSquared;
     }
 

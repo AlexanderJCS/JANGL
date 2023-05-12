@@ -66,7 +66,7 @@ public class ShapeDemo {
                 }
 
                 // Tick the clock so the FPS is equal to 60
-                Clock.busyTick(-1);
+                Clock.busyTick(60);
                 Window.setTitle("JANGL | FPS: " + Clock.getSmoothedFps());
             }
         }

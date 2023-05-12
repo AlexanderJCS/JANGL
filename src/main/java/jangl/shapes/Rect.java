@@ -42,8 +42,13 @@ public class Rect extends Shape {
     @Override
     public ScreenCoords getCenter() {
         return new ScreenCoords(
-                (this.x1 + this.x2) / 2,
-                (this.y1 + this.y2) / 2
+                Shape.rotateAxis(
+                        new float[]{
+                                (this.x1 + this.x2) / 2,
+                                (this.y1 + this.y2) / 2
+                        },
+                        this.axisAngle
+                )
         );
     }
 

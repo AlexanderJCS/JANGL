@@ -11,6 +11,10 @@ public final class PixelCoords extends Coords {
         super(x, y);
     }
 
+    public PixelCoords(float[] coords) throws IllegalArgumentException {
+        super(coords);
+    }
+
     /**
      * Convert a pixel distance value on the X axis to screen distance (which is what LWJGL uses).
      *

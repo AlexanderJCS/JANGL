@@ -56,7 +56,9 @@ public class Circle extends Shape {
 
     @Override
     public ScreenCoords getCenter() {
-        return this.center;
+        return new ScreenCoords(
+                Shape.rotateAxis(new float[]{this.center.x, this.center.y}, this.axisAngle)
+        );
     }
 
     public int getSides() {
