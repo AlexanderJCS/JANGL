@@ -1,7 +1,9 @@
 package quickstart;
 
 import jangl.JANGL;
+import jangl.coords.PixelCoords;
 import jangl.coords.ScreenCoords;
+import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -12,12 +14,20 @@ public class Quickstart {
     }
 
     public void run() {
-        try (Rect rect = new Rect(new ScreenCoords(0, 0), 0.5f, 0.5f)) {
+        try (
+                Rect rect = new Rect(
+                    new ScreenCoords(0, 0),
+                    PixelCoords.distXtoScreenDist(400),
+                    PixelCoords.distYtoScreenDist(400)
+                );
+
+                ColorShader yellow = new ColorShader(1, 1, 0, 1);
+        ) {
             while (Window.shouldRun()) {
                 JANGL.update();
                 Window.clear();
 
-                rect.draw();
+                rect.draw(yellow);
             }
         }
 
