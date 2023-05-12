@@ -54,6 +54,7 @@ public class Circle extends Shape {
         this.model.changeVertices(this.calculateVertices());
     }
 
+    @Override
     public ScreenCoords getCenter() {
         return this.center;
     }
