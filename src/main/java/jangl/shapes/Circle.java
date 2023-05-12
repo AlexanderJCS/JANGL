@@ -7,7 +7,7 @@ import jangl.graphics.models.TriangleFanModel;
 
 import java.util.Arrays;
 
-public class Circle extends Shape implements AutoCloseable {
+public class Circle extends Shape {
     private ScreenCoords center;
     private final int sides;
 
@@ -24,7 +24,6 @@ public class Circle extends Shape implements AutoCloseable {
      * @param sides The number of sides of the shape.
      */
     public Circle(ScreenCoords center, float radius, int sides) {
-        this.axisAngle = 0;
         this.center = center;
 
         this.sides = sides;
@@ -92,7 +91,7 @@ public class Circle extends Shape implements AutoCloseable {
             vertices[i * 2 + 1] = (float) (this.center.y + (this.radiusY * Math.sin(i * 2 * Math.PI / this.sides)));
         }
 
-        return Shape.rotateAxis(vertices, this.axisAngle);
+        return Shape.rotateAxis(Shape.rotateLocal(vertices, this.getCenter(), this.localAngle), this.axisAngle);
     }
 
     @Override

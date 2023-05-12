@@ -6,7 +6,7 @@ import jangl.graphics.models.TexturedModel;
 /**
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
  */
-public class Rect extends Shape implements AutoCloseable {
+public class Rect extends Shape {
     public float x1, y1, x2, y2;
     public float width, height;
 
@@ -16,8 +16,6 @@ public class Rect extends Shape implements AutoCloseable {
      * @param height Height
      */
     public Rect(ScreenCoords coords, float width, float height) {
-        this.axisAngle = 0;
-
         this.x1 = coords.x;
         this.y1 = coords.y;
         this.x2 = coords.x + width;
@@ -98,12 +96,16 @@ public class Rect extends Shape implements AutoCloseable {
     @Override
     public float[] getVertices() {
         return Shape.rotateAxis(
-                new float[] {
-                    x1, y1,  // Top left
-                    x2, y1,  // Top right
-                    x2, y2,  // Bottom right
-                    x1, y2,  // Bottom left
-                },
+                Shape.rotateLocal(
+                        new float[] {
+                                x1, y1,  // Top left
+                                x2, y1,  // Top right
+                                x2, y2,  // Bottom right
+                                x1, y2,  // Bottom left
+                        },
+                        this.getCenter(),
+                        this.localAngle
+                ),
                 this.axisAngle
         );
     }

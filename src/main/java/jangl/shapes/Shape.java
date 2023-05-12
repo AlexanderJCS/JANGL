@@ -10,10 +10,16 @@ import jangl.graphics.models.Model;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class Shape {
+public abstract class Shape implements AutoCloseable {
     protected Model model;
     /** The angle of the shape from the x-axis in radians */
     protected double axisAngle;
+    protected double localAngle;
+
+    public Shape() {
+        this.axisAngle = 0;
+        this.localAngle = 0;
+    }
 
     public abstract void draw();
 
@@ -27,13 +33,9 @@ public abstract class Shape {
     public abstract float[] getVertices();
     public abstract ScreenCoords getCenter();
 
-    public double getAxisAngle() {
-        return this.axisAngle;
-    }
-
-    public void setAxisAngle(double angleRadians) {
-        double delta = angleRadians - this.axisAngle;
-        this.rotateAxis(delta);
+    public void setCenter(ScreenCoords newCenter) {
+        ScreenCoords currentCenter = this.getCenter();
+        this.shift(newCenter.x - currentCenter.x, newCenter.y - currentCenter.y);
     }
 
     /**
@@ -173,6 +175,24 @@ public abstract class Shape {
         return true;
     }
 
+    public double getAxisAngle() {
+        return this.axisAngle;
+    }
+
+    public void setAxisAngle(double angleRadians) {
+        double delta = angleRadians - this.getAxisAngle();
+        this.rotateAxis(delta);
+    }
+
+    public double getLocalAngle() {
+        return this.localAngle;
+    }
+
+    public void setLocalAngle(double angleRadians) {
+        double delta = angleRadians - this.getLocalAngle();
+        this.rotateLocal(delta);
+    }
+
     /**
      * Rotate the axis by a certain amount across the origin (center of the screen).
      * @param angleRadians The angle to rotate the axis in radians.
@@ -183,5 +203,48 @@ public abstract class Shape {
         this.axisAngle += angleRadians;
 
         this.model.changeVertices(vertices);
+    }
+
+    protected static float[] rotateLocal(float[] vertices, ScreenCoords center, double angle) {
+        // Shift the x vertices
+        for (int i = 0; i < vertices.length; i += 2) {
+            vertices[i] -= center.x;
+        }
+
+        // Shift the y vertices
+        for (int i = 1; i < vertices.length; i += 2) {
+            vertices[i] -= center.y;
+        }
+
+        Shape.rotateAxis(vertices, angle);
+
+        // Un-shift the x vertices
+        for (int i = 0; i < vertices.length; i += 2) {
+            vertices[i] += center.x;
+        }
+
+        // Un-shift the y vertices
+        for (int i = 1; i < vertices.length; i += 2) {
+            vertices[i] += center.y;
+        }
+
+        return vertices;
+    }
+
+    /**
+     * Rotate the object while keeping the center of the object the same. This differs from rotateAxis, which
+     * will rotate the object across the center of the screen.
+     *
+     * @param angle The angle, in radians, to rotate the shape by
+     */
+    public void rotateLocal(double angle) {
+        ScreenCoords originalPosition = this.getCenter();
+        this.setCenter(new ScreenCoords(0, 0));
+
+        this.rotateAxis(angle);
+        this.axisAngle -= angle;  // undo the change that rotateAxis did
+
+        this.setCenter(originalPosition);
+        this.localAngle += angle;
     }
 }
