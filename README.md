@@ -166,3 +166,4 @@ public class Quickstart {
 ```
 
 Now, we have a rectangle drawn to our screen. Thank you for going through this quickstart guide and looking at my library.
+![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/9f331770-2d59-4887-ab79-08d20f2312f9)
