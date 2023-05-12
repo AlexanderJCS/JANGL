@@ -1,9 +1,9 @@
 package playerdemo;
 
-import jglt.JANGL;
-import jglt.coords.ScreenCoords;
-import jglt.io.Window;
-import jglt.time.Clock;
+import jangl.JANGL;
+import jangl.coords.ScreenCoords;
+import jangl.io.Window;
+import jangl.time.Clock;
 
 public class PlayerDemo {
     private final Player player;

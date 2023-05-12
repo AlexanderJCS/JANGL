@@ -1,11 +1,11 @@
 package dinosaurDemo;
 
-import jglt.coords.PixelCoords;
-import jglt.coords.ScreenCoords;
-import jglt.graphics.Image;
-import jglt.graphics.Texture;
-import jglt.shapes.Rect;
-import jglt.time.Clock;
+import jangl.coords.PixelCoords;
+import jangl.coords.ScreenCoords;
+import jangl.graphics.Image;
+import jangl.graphics.Texture;
+import jangl.shapes.Rect;
+import jangl.time.Clock;
 
 public class Cactus extends Image {
     private final float speed;

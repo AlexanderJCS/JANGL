@@ -1,13 +1,13 @@
 package dinosaurDemo;
 
-import jglt.JANGL;
-import jglt.coords.ScreenCoords;
-import jglt.graphics.Image;
-import jglt.graphics.Texture;
-import jglt.graphics.shaders.ColorShader;
-import jglt.io.Window;
-import jglt.shapes.Rect;
-import jglt.time.Clock;
+import jangl.JANGL;
+import jangl.coords.ScreenCoords;
+import jangl.graphics.Image;
+import jangl.graphics.Texture;
+import jangl.graphics.shaders.ColorShader;
+import jangl.io.Window;
+import jangl.shapes.Rect;
+import jangl.time.Clock;
 
 public class RunnerDemo {
     private final Player player;

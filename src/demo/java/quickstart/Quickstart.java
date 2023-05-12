@@ -1,9 +1,9 @@
 package quickstart;
 
-import jglt.JANGL;
-import jglt.coords.ScreenCoords;
-import jglt.io.Window;
-import jglt.shapes.Rect;
+import jangl.JANGL;
+import jangl.coords.ScreenCoords;
+import jangl.io.Window;
+import jangl.shapes.Rect;
 
 public class Quickstart {
     public Quickstart() {

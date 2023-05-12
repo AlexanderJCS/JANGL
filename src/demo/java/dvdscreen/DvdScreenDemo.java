@@ -1,11 +1,11 @@
 package dvdscreen;
 
-import jglt.JANGL;
-import jglt.coords.PixelCoords;
-import jglt.coords.ScreenCoords;
-import jglt.io.Window;
-import jglt.shapes.Circle;
-import jglt.time.Clock;
+import jangl.JANGL;
+import jangl.coords.PixelCoords;
+import jangl.coords.ScreenCoords;
+import jangl.io.Window;
+import jangl.shapes.Circle;
+import jangl.time.Clock;
 
 public class DvdScreenDemo {
     private final Circle circle;

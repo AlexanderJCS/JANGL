@@ -1,12 +1,12 @@
 package playerdemo;
 
-import jglt.coords.PixelCoords;
-import jglt.coords.ScreenCoords;
-import jglt.graphics.Image;
-import jglt.graphics.Texture;
-import jglt.io.keyboard.Keyboard;
-import jglt.shapes.Rect;
-import jglt.time.Clock;
+import jangl.coords.PixelCoords;
+import jangl.coords.ScreenCoords;
+import jangl.graphics.Image;
+import jangl.graphics.Texture;
+import jangl.io.keyboard.Keyboard;
+import jangl.shapes.Rect;
+import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
 
 public class Player implements AutoCloseable {

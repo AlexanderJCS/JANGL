@@ -1,6 +1,6 @@
 package dinosaurDemo;
 
-import jglt.time.Clock;
+import jangl.time.Clock;
 
 import java.util.ArrayList;
 import java.util.List;

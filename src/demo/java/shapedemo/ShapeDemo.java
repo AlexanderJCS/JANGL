@@ -1,15 +1,15 @@
 package shapedemo;
 
-import jglt.JANGL;
-import jglt.coords.ScreenCoords;
-import jglt.graphics.shaders.ColorShader;
-import jglt.io.Event;
-import jglt.io.Window;
-import jglt.io.keyboard.Keyboard;
-import jglt.io.mouse.Mouse;
-import jglt.shapes.Circle;
-import jglt.shapes.Rect;
-import jglt.time.Clock;
+import jangl.JANGL;
+import jangl.coords.ScreenCoords;
+import jangl.graphics.shaders.ColorShader;
+import jangl.io.Event;
+import jangl.io.Window;
+import jangl.io.keyboard.Keyboard;
+import jangl.io.mouse.Mouse;
+import jangl.shapes.Circle;
+import jangl.shapes.Rect;
+import jangl.time.Clock;
 
 public class ShapeDemo {
     public ShapeDemo() {

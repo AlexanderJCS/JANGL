@@ -1,13 +1,13 @@
 package shaderdemo;
 
-import jglt.JANGL;
-import jglt.coords.ScreenCoords;
-import jglt.io.Window;
-import jglt.graphics.shaders.ColorShader;
-import jglt.graphics.shaders.Shader;
-import jglt.shapes.Circle;
-import jglt.shapes.Rect;
-import jglt.time.Clock;
+import jangl.JANGL;
+import jangl.coords.ScreenCoords;
+import jangl.io.Window;
+import jangl.graphics.shaders.ColorShader;
+import jangl.graphics.shaders.Shader;
+import jangl.shapes.Circle;
+import jangl.shapes.Rect;
+import jangl.time.Clock;
 
 import static org.lwjgl.opengl.GL20.glUniform4f;
 
