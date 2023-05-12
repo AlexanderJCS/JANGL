@@ -30,7 +30,7 @@ public abstract class Shape implements AutoCloseable {
     }
 
     public abstract void shift(float x, float y);
-    public abstract float[] getVertices();
+    public abstract float[] calculateVertices();
     public abstract ScreenCoords getCenter();
 
     public void setCenter(ScreenCoords newCenter) {
@@ -106,7 +106,7 @@ public abstract class Shape implements AutoCloseable {
      * @return An array of all the X vertices. Used for collision.
      */
     public float[] getXVertices() {
-        float[] vertices = this.getVertices();
+        float[] vertices = this.calculateVertices();
         float[] xVertices = new float[vertices.length / 2];
 
         for (int i = 0; i < xVertices.length; i++) {
@@ -120,7 +120,7 @@ public abstract class Shape implements AutoCloseable {
      * @return An array of all the y vertices. Used for collision.
      */
     public float[] getYVertices() {
-        float[] vertices = this.getVertices();
+        float[] vertices = this.calculateVertices();
         float[] yVertices = new float[vertices.length / 2];
 
         for (int i = 0; i < yVertices.length; i++) {
@@ -198,7 +198,7 @@ public abstract class Shape implements AutoCloseable {
      * @param angleRadians The angle to rotate the axis in radians.
      */
     public void rotateAxis(double angleRadians) {
-        float[] vertices = this.getVertices();
+        float[] vertices = this.calculateVertices();
         Shape.rotateAxis(vertices, angleRadians);
         this.axisAngle += angleRadians;
 

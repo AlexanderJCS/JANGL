@@ -34,7 +34,7 @@ public class Circle extends Shape {
 
     public void setCenter(ScreenCoords newCenter) {
         this.center = newCenter;
-        this.model.changeVertices(this.getVertices());
+        this.model.changeVertices(this.calculateVertices());
     }
 
     /**
@@ -43,7 +43,7 @@ public class Circle extends Shape {
     public void setRadius(float newRadius) {
         this.radiusX = newRadius;
         this.radiusY = PixelCoords.distYtoScreenDist(ScreenCoords.distXtoPixelCoords(newRadius));
-        this.model.changeVertices(this.getVertices());
+        this.model.changeVertices(this.calculateVertices());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Circle extends Shape {
         this.center.x += x;
         this.center.y += y;
 
-        this.model.changeVertices(this.getVertices());
+        this.model.changeVertices(this.calculateVertices());
     }
 
     public ScreenCoords getCenter() {
@@ -71,7 +71,7 @@ public class Circle extends Shape {
     }
 
     private Model toModel() {
-        return new TriangleFanModel(this.getVertices());
+        return new TriangleFanModel(this.calculateVertices());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Circle extends Shape {
     }
 
     @Override
-    public float[] getVertices() {
+    public float[] calculateVertices() {
         float[] vertices = new float[2 * (this.sides + 2)];
 
         vertices[0] = this.center.x;
@@ -96,7 +96,7 @@ public class Circle extends Shape {
 
     @Override
     public float[] getExteriorVertices() {
-        float[] vertices = this.getVertices();
+        float[] vertices = this.calculateVertices();
         return Arrays.copyOfRange(vertices, 2, vertices.length - 2);
     }
 

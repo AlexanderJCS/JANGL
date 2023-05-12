@@ -74,7 +74,7 @@ public class Rect extends Shape {
         this.x2 = this.x1 + width;
         this.y2 = this.y1 - height;
 
-        this.model.changeVertices(this.getVertices());
+        this.model.changeVertices(this.calculateVertices());
     }
 
     /**
@@ -90,11 +90,11 @@ public class Rect extends Shape {
         this.y1 += y;
         this.y2 += y;
 
-        this.model.changeVertices(this.getVertices());
+        this.model.changeVertices(this.calculateVertices());
     }
 
     @Override
-    public float[] getVertices() {
+    public float[] calculateVertices() {
         return Shape.rotateAxis(
                 Shape.rotateLocal(
                         new float[] {
@@ -112,7 +112,7 @@ public class Rect extends Shape {
 
     @Override
     public float[] getExteriorVertices() {
-        return this.getVertices();
+        return this.calculateVertices();
     }
 
     /**
@@ -147,7 +147,7 @@ public class Rect extends Shape {
                 0, 1,
         };
 
-        return new TexturedModel(this.getVertices(), this.getIndices(), texCoords);
+        return new TexturedModel(this.calculateVertices(), this.getIndices(), texCoords);
     }
 
     /**
