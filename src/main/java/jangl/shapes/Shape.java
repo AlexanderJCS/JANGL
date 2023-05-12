@@ -103,34 +103,6 @@ public abstract class Shape implements AutoCloseable {
     }
 
     /**
-     * @return An array of all the X vertices. Used for collision.
-     */
-    public float[] getXVertices() {
-        float[] vertices = this.calculateVertices();
-        float[] xVertices = new float[vertices.length / 2];
-
-        for (int i = 0; i < xVertices.length; i++) {
-            xVertices[i] = vertices[i * 2];
-        }
-
-        return xVertices;
-    }
-
-    /**
-     * @return An array of all the y vertices. Used for collision.
-     */
-    public float[] getYVertices() {
-        float[] vertices = this.calculateVertices();
-        float[] yVertices = new float[vertices.length / 2];
-
-        for (int i = 0; i < yVertices.length; i++) {
-            yVertices[i] = vertices[i * 2 + 1];
-        }
-
-        return yVertices;
-    }
-
-    /**
      * Uses the Separating Axis Theorem (SAT) collision detection method.
      *
      * @param other The other shape to check collision with
@@ -146,14 +118,14 @@ public abstract class Shape implements AutoCloseable {
         anglesList.addAll(Arrays.stream(otherAngles).boxed().toList());
 
         for (double angle : anglesList) {
-            this.rotateAxis(angle);
-            other.rotateAxis(angle);
+            float[] thisVertices = this.rotateAxis(angle);
+            float[] otherVertices = other.rotateAxis(angle);
 
-            float[] thisXVerts = this.getXVertices();
-            float[] thisYVerts = this.getYVertices();
+            float[] thisXVerts = ArrayUtils.getEven(thisVertices);
+            float[] thisYVerts = ArrayUtils.getOdd(thisVertices);
 
-            float[] otherXVerts = other.getXVertices();
-            float[] otherYVerts = other.getYVertices();
+            float[] otherXVerts = ArrayUtils.getEven(otherVertices);
+            float[] otherYVerts = ArrayUtils.getOdd(otherVertices);
 
             Range thisXRange = new Range(ArrayUtils.getMin(thisXVerts), ArrayUtils.getMax(thisXVerts));
             Range thisYRange = new Range(ArrayUtils.getMin(thisYVerts), ArrayUtils.getMax(thisYVerts));
@@ -197,12 +169,14 @@ public abstract class Shape implements AutoCloseable {
      * Rotate the axis by a certain amount across the origin (center of the screen).
      * @param angleRadians The angle to rotate the axis in radians.
      */
-    public void rotateAxis(double angleRadians) {
+    public float[] rotateAxis(double angleRadians) {
         float[] vertices = this.calculateVertices();
         Shape.rotateAxis(vertices, angleRadians);
         this.axisAngle += angleRadians;
 
         this.model.changeVertices(vertices);
+
+        return vertices;
     }
 
     protected static float[] rotateLocal(float[] vertices, ScreenCoords center, double angle) {
