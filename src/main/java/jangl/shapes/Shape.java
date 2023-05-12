@@ -186,9 +186,8 @@ public abstract class Shape implements AutoCloseable {
      * @param angleRadians The angle to rotate the axis in radians.
      */
     public float[] rotateAxis(double angleRadians) {
-        float[] vertices = this.calculateVertices();
-        Shape.rotateAxis(vertices, angleRadians);
         this.axisAngle += angleRadians;
+        float[] vertices = this.calculateVertices();
 
         this.model.changeVertices(vertices);
 
