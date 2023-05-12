@@ -117,9 +117,22 @@ public abstract class Shape implements AutoCloseable {
         List<Double> anglesList = new java.util.ArrayList<>(Arrays.stream(angles).boxed().toList());
         anglesList.addAll(Arrays.stream(otherAngles).boxed().toList());
 
-        for (double angle : anglesList) {
-            float[] thisVertices = this.rotateAxis(angle);
-            float[] otherVertices = other.rotateAxis(angle);
+        double thisBeginningAngle = this.getAxisAngle();
+        double otherBeginningAngle = other.getAxisAngle();
+
+        for (int i = 0; i < anglesList.size(); i++) {
+            double delta;
+
+            if (i == 0) {
+                delta = anglesList.get(i);
+            } else {
+                delta = anglesList.get(i) - anglesList.get(i - 1);
+            }
+
+            // Rotate the axis of the two shapes so that one side is flat
+            // This is kind of a poor man's version of projection
+            float[] thisVertices = this.rotateAxis(delta);
+            float[] otherVertices = other.rotateAxis(delta);
 
             float[] thisXVerts = ArrayUtils.getEven(thisVertices);
             float[] thisYVerts = ArrayUtils.getOdd(thisVertices);
@@ -133,16 +146,19 @@ public abstract class Shape implements AutoCloseable {
             Range otherXRange = new Range(ArrayUtils.getMin(otherXVerts), ArrayUtils.getMax(otherXVerts));
             Range otherYRange = new Range(ArrayUtils.getMin(otherYVerts), ArrayUtils.getMax(otherYVerts));
 
+            // If the ranges do not intersect, the shapes are not colliding
             if (!thisXRange.intersects(otherXRange) || !thisYRange.intersects(otherYRange)) {
-                this.rotateAxis(-angle);
-                other.rotateAxis(-angle);
+                // Rotate the axis angles back to what they were at the beginning
+                this.setAxisAngle(thisBeginningAngle);
+                other.setAxisAngle(otherBeginningAngle);
 
                 return false;
             }
-
-            this.rotateAxis(-angle);
-            other.rotateAxis(-angle);
         }
+
+        // Rotate the axis angles back to what they were at the beginning
+        this.setAxisAngle(thisBeginningAngle);
+        other.setAxisAngle(otherBeginningAngle);
 
         return true;
     }

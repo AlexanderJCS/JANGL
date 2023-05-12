@@ -37,10 +37,6 @@ public class ShapeDemo {
                     colorShader.setRGBA(0.8f, 0, 0, 1);
                 }
 
-                for (int i = 0; i < 100; i++) {
-                    rect.collidesWith(circle);
-                }
-
                 // Make the screen black for the next frame
                 Window.clear();
 
@@ -69,7 +65,7 @@ public class ShapeDemo {
                 }
 
                 // Tick the clock so the FPS is equal to 60
-                Clock.busyTick(-1);
+                Clock.busyTick(60);
                 Window.setTitle("JANGL | FPS: " + Math.round(Clock.getSmoothedFps() * 10) / 10.0);
             }
         }
