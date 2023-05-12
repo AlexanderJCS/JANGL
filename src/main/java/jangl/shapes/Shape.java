@@ -53,9 +53,9 @@ public abstract class Shape implements AutoCloseable {
      */
     public double[] getOutsideEdgeAngles() {
         float[] exteriorVertices = this.getExteriorVertices();
-        double[] normalAngles = new double[exteriorVertices.length / 2];
+        double[] outsideAngles = new double[exteriorVertices.length / 2];
 
-        for (int i = 0; i < normalAngles.length; i++) {
+        for (int i = 0; i < outsideAngles.length; i++) {
             float deltaX, deltaY;
 
             // Avoid an out-of-bounds error
@@ -67,10 +67,10 @@ public abstract class Shape implements AutoCloseable {
                 deltaY = exteriorVertices[i * 2 + 1] - exteriorVertices[i * 2 + 3];
             }
 
-            normalAngles[i] = Math.atan2(ScreenCoords.distYtoPixelCoords(deltaY), ScreenCoords.distXtoPixelCoords(deltaX));
+            outsideAngles[i] = Math.atan2(ScreenCoords.distYtoPixelCoords(deltaY), ScreenCoords.distXtoPixelCoords(deltaX));
         }
 
-        return normalAngles;
+        return outsideAngles;
     }
 
     /**
