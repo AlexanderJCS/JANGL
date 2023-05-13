@@ -7,6 +7,32 @@
     <groupId>io.github.alexanderjcs</groupId>
     <artifactId>jangl</artifactId>
     <version>0.1.0</version>
+    <packaging>jar</packaging>
+
+    <name>JANGL</name>
+    <description>A Java 2D graphics library built on top of LWJGL.</description>
+    <url>https://github.com/AlexanderJCS/JANGL</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Alexander C</name>
+            <organization>io.github.alexanderjcs</organization>
+            <organizationUrl>https://github.com/AlexanderJCS</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/AlexanderJCS/JANGL.git</connection>
+        <developerConnection>scm:git:ssh://github.com/AlexanderJCS/JANGL.git</developerConnection>
+        <url>https://github.com/AlexanderJCS/JANGL</url>
+    </scm>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
