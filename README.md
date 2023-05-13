@@ -3,6 +3,18 @@ JANGL means JAva Graphics Library (the N doesn't mean anything).
 
 This library is built on top of LWJGL, an OpenGL wrapper. This library abstracts a lot of the work required when creating an OpenGL project from scratch, but it still allows the user of the library (you) to have control over the program. 
 
+## Installing JANGL
+
+To install JANGL, first find the latest release in the [releases section](https://github.com/AlexanderJCS/JANGL/releases/), then download the jar file. **JANGL cannot be installed via Maven or Gradle.**
+
+Then, put the jar file in a libs directory in your project. Then, [configure this as a dependency directory](https://www.jetbrains.com/help/idea/working-with-module-dependencies.html#add-a-new-dependency).
+
+After this, JANGL should be set up in your project. You can test it out by following the [quickstart guide](#quickstart-guide)
+
+## Compiling Source
+
+To compile the source code, run `mvn clean install`. Find the resulting jar file in the output directory and follow the [installing JANGL](#installing-jangl) instructions to incorporate it into your project.
+
 ## Examples
 
 For code examples, see [src/demo/java](src/demo/java). Or see the quickstart guide.
@@ -254,7 +266,7 @@ public class Quickstart {
                     PixelCoords.distYtoScreenDist(400)
                 );
 
-                ColorShader yellow = new ColorShader(1, 1, 0, 1);
+                ColorShader yellow = new ColorShader(1, 1, 0, 1)
         ) {
             while (Window.shouldRun()) {
                 JANGL.update();
