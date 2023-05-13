@@ -28,12 +28,6 @@
         </developer>
     </developers>
 
-    <scm>
-        <connection>scm:git:git://github.com/AlexanderJCS/JANGL.git</connection>
-        <developerConnection>scm:git:ssh://github.com/AlexanderJCS/JANGL.git</developerConnection>
-        <url>https://github.com/AlexanderJCS/JANGL</url>
-    </scm>
-
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
