@@ -3,6 +3,15 @@ JANGL means JAva Graphics Library (the N doesn't mean anything).
 
 This library is built on top of LWJGL, an OpenGL wrapper. This library abstracts a lot of the work required when creating an OpenGL project from scratch, but it still allows the user of the library (you) to have control over the program. 
 
+Benefits of this library over OpenGL include:
+- Ease of use when creating rectangles and circles
+- Collision detection between any two polygons or circles
+- Provides more control with custom shaders, as well as some pre-defined shaders
+- Easily load in images using the `Image` class
+- Easy input operations using the `Mouse` and `Keyboard` class.
+- Control over how you structure your project by providing two coordinate systems (`ScreenCoords` and `PixelCoords`)
+- Several other abstractions
+
 ## Installing JANGL
 
 To install JANGL, first find the latest release in the [releases section](https://github.com/AlexanderJCS/JANGL/releases/), then download the jar file. **JANGL cannot be installed via Maven or Gradle.**
