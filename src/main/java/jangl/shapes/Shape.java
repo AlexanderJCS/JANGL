@@ -8,6 +8,7 @@ import jangl.coords.ScreenCoords;
 import jangl.graphics.models.Model;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class Shape implements AutoCloseable {
@@ -126,20 +127,25 @@ public abstract class Shape implements AutoCloseable {
 
         // https://stackoverflow.com/questions/754294/convert-an-array-of-primitive-longs-into-a-list-of-longs
         // modified according to IntelliJ's recommendation
-        List<Double> anglesList = new java.util.ArrayList<>(Arrays.stream(angles).boxed().toList());
-        anglesList.addAll(Arrays.stream(otherAngles).boxed().toList());
+        HashSet<Double> anglesSet = new HashSet<>();
+
+        for (double angle : angles) {
+            anglesSet.add(angle > 0 ? angle : angle + Math.PI);
+        }
+
+        for (double angle : otherAngles) {
+            anglesSet.add(angle > 0 ? angle : angle + Math.PI);
+        }
 
         double s1BeginningAngle = shape1.getAxisAngle();
         double s2BeginningAngle = shape2.getAxisAngle();
 
-        for (int i = 0; i < anglesList.size(); i++) {
-            double delta;
-
-            if (i == 0) {
-                delta = anglesList.get(i);
-            } else {
-                delta = anglesList.get(i) - anglesList.get(i - 1);
-            }
+        double prevAngle = 0;
+        for (double angle : anglesSet) {
+            // Allows the shape to be rotated once per iteration instead of twice
+            // Giving a 20% - 25% performance increase
+            double delta = angle - prevAngle;
+            prevAngle = angle;
 
             // Rotate the axis of the two shapes so that one side is flat
             // This is kind of a poor man's version of projection
