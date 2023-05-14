@@ -7,9 +7,7 @@ import jangl.util.Range;
 import jangl.coords.ScreenCoords;
 import jangl.graphics.models.Model;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 
 public abstract class Shape implements AutoCloseable {
     protected Model model;

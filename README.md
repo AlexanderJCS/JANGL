@@ -22,7 +22,7 @@ After this, JANGL should be set up in your project. You can test it out by follo
 
 ## Compiling Source
 
-To compile the source code, run `mvn clean install`. Find the resulting jar file in the output directory and follow the [installing JANGL](#installing-jangl) instructions to incorporate it into your project.
+To compile the source code to a jar, follow [these instructions](https://www.jetbrains.com/help/idea/compiling-applications.html#compile_module) with IntelliJ.
 
 ## Examples
 
