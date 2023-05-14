@@ -52,6 +52,7 @@ public class Player implements AutoCloseable {
 
     @Override
     public void close() {
-        this.image.close();
+        this.image.getRect().close();
+        this.image.getTexture().close();
     }
 }

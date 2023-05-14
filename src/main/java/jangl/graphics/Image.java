@@ -5,7 +5,7 @@ import jangl.shapes.Rect;
 /**
  * An image class, which has a rect and a texture to bind onto the rectangle when drawn.
  */
-public class Image implements AutoCloseable {
+public class Image {
     private final Rect rect;
     private final Texture texture;
 
@@ -32,14 +32,5 @@ public class Image implements AutoCloseable {
      */
     public Texture getTexture() {
         return this.texture;
-    }
-
-    /**
-     * Prevents a memory leak, so it is essential to close the class after use
-     */
-    @Override
-    public void close() {
-        this.rect.close();
-        this.texture.close();
     }
 }
