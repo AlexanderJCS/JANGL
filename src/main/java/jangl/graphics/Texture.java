@@ -4,7 +4,6 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL21.*;
 
@@ -63,8 +62,6 @@ public class Texture implements AutoCloseable {
      * Writes the designated region of image data to BufferManager.BYTE_BUFFER
      *
      * @param rawData The raw image data
-     * @param x The top left x coord of the region to get
-     * @param y The top left y coord of the region to get
      * @param width The width of the region to get
      * @param height The height of the region to get
      */
