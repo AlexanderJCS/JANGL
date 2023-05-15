@@ -38,7 +38,7 @@ public class Shader implements AutoCloseable {
     /**
      * Unbind the shader. Run this when you do not want the shader to apply to any more objects that you draw.
      */
-    public void unbind() {
+    public static void unbind() {
         glUseProgram(0);
     }
 
