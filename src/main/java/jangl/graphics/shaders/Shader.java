@@ -91,7 +91,7 @@ public class Shader implements AutoCloseable {
      */
     @Override
     public void close() {
-        this.unbind();
+        Shader.unbind();
 
         glDetachShader(this.programID, this.vertexShaderID);
         glDetachShader(this.programID, this.fragmentShaderID);
