@@ -1,6 +1,5 @@
 package jangl.graphics.font.parser;
 
-import jangl.JANGL;
 import jangl.graphics.Texture;
 
 import java.io.*;
@@ -89,14 +88,5 @@ public class Font implements AutoCloseable {
         }
 
         this.textureMap.clear();
-    }
-
-    /**
-     * Delete this main method before committing
-     * This is just to test this class
-     */
-    public static void main(String[] args) {
-        JANGL.init(1600, 900);
-        new Font("src/demo/demoResources/font/arial.fnt", "src/demo/demoResources/font/arial.png");
     }
 }

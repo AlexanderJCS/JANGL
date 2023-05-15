@@ -13,8 +13,21 @@ import java.util.List;
 public class Text {
     private final List<Image> characters;
 
-    public Text(Font font, String text, ScreenCoords topLeft) {
+    /**
+     * @param font The font to use
+     * @param text The text to display
+     * @param topLeft The top left coordinate of the text
+     * @param yHeight How high, in screen coords, each letter should be
+     */
+    public Text(Font font, String text, ScreenCoords topLeft, float yHeight) {
         this.characters = new ArrayList<>();
+
+        // Use the capital letter A to find the scale
+        int aHeightPixels = font.getInfo('a').height();
+        float aHeightScreenCoords = PixelCoords.distYtoScreenDist(aHeightPixels);
+
+        // desired height = current height * scale -> scale = desired height / current height
+        float scaleFactor = yHeight / aHeightScreenCoords;
 
         // The cursor is where the next char should be drawn
         PixelCoords cursor = topLeft.toPixelCoords();
@@ -22,24 +35,24 @@ public class Text {
         for (char ch : text.toCharArray()) {
             CharInfo info = font.getInfo(ch);
 
-            cursor.x += info.xOffset();
-            cursor.y -= info.yOffset();
+            cursor.x += info.xOffset() * scaleFactor;
+            cursor.y -= info.yOffset() * scaleFactor;
 
             characters.add(
                     new Image(
                             new Rect(
                                     cursor.toScreenCoords(),
-                                    PixelCoords.distXtoScreenDist(info.width()),
-                                    PixelCoords.distYtoScreenDist(info.height())
+                                    PixelCoords.distXtoScreenDist(info.width()) * scaleFactor,
+                                    PixelCoords.distYtoScreenDist(info.height()) * scaleFactor
                             ),
                             font.getTexture(ch)
                     )
             );
 
-            cursor.x -= info.xOffset();
-            cursor.y += info.yOffset();
+            cursor.x -= info.xOffset() * scaleFactor;
+            cursor.y += info.yOffset() * scaleFactor;
 
-            cursor.x += info.xAdvance();
+            cursor.x += info.xAdvance() * scaleFactor;
         }
     }
 
