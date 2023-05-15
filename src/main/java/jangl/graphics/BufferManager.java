@@ -16,7 +16,7 @@ public class BufferManager {
     /** Max float buffer capacity */
     private static final int MAX_FB_CAPACITY = 4096;
     /** Max byte buffer capacity */
-    private static final int MAX_BB_CAPACITY = 262144;
+    private static final int MAX_BB_CAPACITY = 32000000;
     /** Max int buffer capacity */
     private static final int MAX_IB_CAPACITY = 4096;
 
