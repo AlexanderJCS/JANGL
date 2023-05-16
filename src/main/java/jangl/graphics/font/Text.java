@@ -38,7 +38,7 @@ public class Text {
             cursor.x += info.xOffset() * scaleFactor;
             cursor.y -= info.yOffset() * scaleFactor;
 
-            characters.add(
+            this.characters.add(
                     new Image(
                             new Rect(
                                     cursor.toScreenCoords(),
@@ -57,7 +57,7 @@ public class Text {
     }
 
     public void draw() {
-        for (Image charImage : characters) {
+        for (Image charImage : this.characters) {
             charImage.draw();
         }
     }
