@@ -20,6 +20,14 @@ Then, put the jar file in a libs directory in your project. Then, [configure thi
 
 After this, JANGL should be set up in your project. You can test it out by following the [quickstart guide](#quickstart-guide)
 
+## MacOS Error
+
+If you receive an error on macOS when running JANGL, make sure to add the following VM option:
+```
+-XstartOnFirstThread
+```
+This will start the program on the first thread, which will allow GLFW, a dependency of JANGL, to initialize.
+
 ## Compiling Source
 
 To compile the source code to a jar, follow [these instructions](https://www.jetbrains.com/help/idea/compiling-applications.html#compile_module) with IntelliJ.
