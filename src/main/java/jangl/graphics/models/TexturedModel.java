@@ -35,8 +35,6 @@ public class TexturedModel extends IndicesModel {
      */
     @Override
     public void render() {
-        super.render();
-
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -47,10 +45,16 @@ public class TexturedModel extends IndicesModel {
         glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iId);
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        glDisable(GL_BLEND);
 
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_VERTEX_ARRAY);
