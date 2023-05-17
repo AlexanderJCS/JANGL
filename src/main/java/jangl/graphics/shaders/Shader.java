@@ -29,7 +29,7 @@ public class Shader implements AutoCloseable {
     }
 
     /**
-     * Bind the sahder. Run this when you want the shader to apply to objects that you draw.
+     * Bind the sander. Run this when you want the shader to apply to objects that you draw.
      */
     public void bind() {
         glUseProgram(programID);
