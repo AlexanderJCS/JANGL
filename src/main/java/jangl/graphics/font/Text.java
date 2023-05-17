@@ -23,7 +23,7 @@ public class Text {
         this.characters = new ArrayList<>();
 
         // Use the capital letter A to find the scale
-        int aHeightPixels = font.getInfo('a').height();
+        int aHeightPixels = font.getInfo('A').height();
         float aHeightScreenCoords = PixelCoords.distYtoScreenDist(aHeightPixels);
 
         // desired height = current height * scale -> scale = desired height / current height
