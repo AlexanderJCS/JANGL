@@ -10,7 +10,7 @@ import jangl.shapes.Rect;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Text {
+public class Text implements AutoCloseable {
     private final List<Image> characters;
 
     /**
@@ -60,5 +60,14 @@ public class Text {
         for (Image charImage : this.characters) {
             charImage.draw();
         }
+    }
+
+    @Override
+    public void close() {
+        for (Image character : this.characters) {
+            character.getRect().close();
+        }
+
+        this.characters.clear();
     }
 }
