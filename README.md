@@ -39,7 +39,7 @@ If you get an error along the lines of:
 #
 #  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at ...
 ```
-The most common cause for this error is that JANGL is not initialized. To fix this error, run:
+The most common cause for this error is that JANGL is not initialized. This error can also be thrown if you try to access JANGL on a thread it was not initialized on. To fix this error, run:
 ```java
 import jangl.JANGL;
 
