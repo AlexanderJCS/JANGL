@@ -1,9 +1,7 @@
 package jangl.graphics.shaders;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.*;
+import java.util.Scanner;
 
 import static org.lwjgl.opengl.GL46.*;
 
@@ -26,6 +24,69 @@ public class Shader implements AutoCloseable {
         glAttachShader(this.programID, this.fragmentShaderID);
         glLinkProgram(this.programID);
         glValidateProgram(this.programID);
+    }
+
+    public Shader(InputStream vertexStream, InputStream fragmentStream) {
+        // https://stackoverflow.com/questions/309424/how-do-i-read-convert-an-inputstream-into-a-string-in-java
+        Scanner vertexScanner = new Scanner(vertexStream).useDelimiter("\\A");
+        String vertexSource = vertexScanner.hasNext() ? vertexScanner.next() : "";
+        vertexScanner.close();
+
+        Scanner fragmentScanner = new Scanner(fragmentStream).useDelimiter("\\A");
+        String fragmentSource = fragmentScanner.hasNext() ? fragmentScanner.next() : "";
+        fragmentScanner.close();
+
+        this.vertexShaderID = compileShader(vertexSource, GL_VERTEX_SHADER);
+        this.fragmentShaderID = compileShader(fragmentSource, GL_FRAGMENT_SHADER);
+
+        this.programID = glCreateProgram();
+
+        glAttachShader(this.programID, this.vertexShaderID);
+        glAttachShader(this.programID, this.fragmentShaderID);
+        glLinkProgram(this.programID);
+        glValidateProgram(this.programID);
+    }
+
+    /**
+     * @param file The filepath to the shader.
+     * @param type The type of shader. Either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
+     * @return The ID of the shader that was just loaded.
+     */
+    private static int loadShader(String file, int type) {
+        StringBuilder shaderSource = new StringBuilder();
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                shaderSource.append(line).append("\n");
+            }
+
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        return compileShader(shaderSource.toString(), type);
+    }
+
+    /**
+     * @param program The shader program source code
+     * @param type The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
+     * @return The ID of the compiled shader
+     */
+    private static int compileShader(String program, int type) {
+        int shaderID = glCreateShader(type);
+        glShaderSource(shaderID, program);
+        glCompileShader(shaderID);
+
+        if (glGetShaderi(shaderID, GL_COMPILE_STATUS) == GL_FALSE) {
+            System.out.println(glGetShaderInfoLog(shaderID, 1024));
+            System.err.println("Could not compile shader");
+            System.exit(1);
+        }
+
+        return shaderID;
     }
 
     /**
@@ -51,39 +112,6 @@ public class Shader implements AutoCloseable {
      */
     public int getUniformLocation(String varName) {
         return glGetUniformLocation(this.programID, varName);
-    }
-
-    /**
-     * @param file The filepath to the shader.
-     * @param type The type of shader. Either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER
-     * @return The ID of the shader that was just loaded.
-     */
-    private static int loadShader(String file, int type) {
-        StringBuilder shaderSource = new StringBuilder();
-
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                shaderSource.append(line).append("\n");
-            }
-
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-
-        int shaderID = glCreateShader(type);
-        glShaderSource(shaderID, shaderSource);
-        glCompileShader(shaderID);
-
-        if (glGetShaderi(shaderID, GL_COMPILE_STATUS) == GL_FALSE) {
-            System.out.println(glGetShaderInfoLog(shaderID, 1024));
-            System.err.println("Could not compile shader");
-            System.exit(1);
-        }
-
-        return shaderID;
     }
 
     /**

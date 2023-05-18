@@ -9,8 +9,8 @@ public class ColorShader extends Shader {
 
     public ColorShader(float red, float green, float blue, float alpha) {
         super(
-                "src/main/resources/shaders/colorShader/colorShader.vert",
-                "src/main/resources/shaders/colorShader/colorShader.frag"
+                Shader.class.getResourceAsStream("/shaders/colorShader/colorShader.vert"),
+                Shader.class.getResourceAsStream("/shaders/colorShader/colorShader.frag")
         );
 
         this.setRGBA(red, green, blue, alpha);
@@ -22,8 +22,8 @@ public class ColorShader extends Shader {
      */
     public ColorShader(float[] rgba) throws IllegalArgumentException {
         super(
-                "src/main/resources/shaders/colorShader/colorShader.vert",
-                "src/main/resources/shaders/colorShader/colorShader.frag"
+                ColorShader.class.getResourceAsStream("/shaders/colorShader/colorShader.vert"),
+                ColorShader.class.getResourceAsStream("/shaders/colorShader/colorShader.frag")
         );
 
         this.setRGBA(rgba);
