@@ -18,9 +18,11 @@ To install JANGL, first find the latest release in the [releases section](https:
 
 Then, put the jar file in a libs directory in your project. Then, [configure this as a dependency directory](https://www.jetbrains.com/help/idea/working-with-module-dependencies.html#add-a-new-dependency).
 
-After this, JANGL should be set up in your project. You can test it out by following the [quickstart guide](#quickstart-guide)
+After this, JANGL should be set up in your project. You can test it out by following the [quickstart guide](#quickstart-guide). If you receive any errors, look at the [errors section](#errors).
 
 ## Errors
+
+If an error you are experiencing is not listed below, please [create an issue](https://github.com/AlexanderJCS/JANGL/issues/new).
 
 ### MacOS Thread Error
 If you receive an error on macOS when running JANGL, make sure to add the following VM option:
