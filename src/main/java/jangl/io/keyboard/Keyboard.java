@@ -1,7 +1,11 @@
 package jangl.io.keyboard;
 
-import jangl.io.EventContainer;
+import jangl.io.EventsConfig;
 import jangl.io.Window;
+import jangl.io.mouse.MouseEvent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.glfwGetKey;
 import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
@@ -9,7 +13,8 @@ import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
 /**
  * Provides a more user-friendly way to interface with keyboard IO operations other than GLFW
  */
-public class Keyboard extends EventContainer {
+public class Keyboard extends EventsConfig {
+    private static List<KeyEvent> EVENTS = new ArrayList<>();
     private static boolean initialized = false;
 
     private Keyboard() {}
@@ -36,5 +41,21 @@ public class Keyboard extends EventContainer {
      */
     public static boolean getKeyDown(int glfwKey) {
         return glfwGetKey(Window.getWindow(), glfwKey) == 1;
+    }
+
+    static void addEvent(KeyEvent event) {
+        EVENTS.add(event);
+
+        // Remove old events if the events list size is too large
+        if (EVENTS.size() > EventsConfig.maxEvents) {
+            EVENTS.remove(0);
+        }
+    }
+
+    public static List<KeyEvent> getEvents() {
+        List<KeyEvent> eventsDeepcopy = new ArrayList<>(EVENTS);
+        EVENTS.clear();
+
+        return eventsDeepcopy;
     }
 }

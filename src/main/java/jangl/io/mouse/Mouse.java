@@ -3,12 +3,16 @@ package jangl.io.mouse;
 import jangl.coords.PixelCoords;
 import jangl.coords.ScreenCoords;
 import jangl.graphics.BufferManager;
-import jangl.io.EventContainer;
+import jangl.io.EventsConfig;
 import jangl.io.Window;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class Mouse extends EventContainer {
+public class Mouse {
+    private static final List<MouseEvent> EVENTS = new ArrayList<>();
     private static boolean initialized = false;
     private Mouse() {
     }
@@ -47,5 +51,21 @@ public class Mouse extends EventContainer {
      */
     public static boolean mouseDown(int button) {
         return glfwGetMouseButton(Window.getWindow(), button) == GLFW_PRESS;
+    }
+
+    static void addEvent(MouseEvent event) {
+        EVENTS.add(event);
+
+        // Remove old events if the events list size is too large
+        if (EVENTS.size() > EventsConfig.maxEvents) {
+            EVENTS.remove(0);
+        }
+    }
+
+    public static List<MouseEvent> getEvents() {
+        List<MouseEvent> eventsDeepcopy = new ArrayList<>(EVENTS);
+        EVENTS.clear();
+
+        return eventsDeepcopy;
     }
 }
