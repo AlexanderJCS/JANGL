@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Text implements AutoCloseable {
+    private String text;
+    private ScreenCoords topLeft;
+    private Font font;
+    private float yHeight;
     private final List<Image> characters;
 
     /**
@@ -21,19 +25,37 @@ public class Text implements AutoCloseable {
      */
     public Text(Font font, String text, ScreenCoords topLeft, float yHeight) {
         this.characters = new ArrayList<>();
+        this.topLeft = topLeft;
+        this.yHeight = yHeight;
+        this.font = font;
+
+        this.setText(text);
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public void setText(String text) {
+        this.close();  // clear the characters list and close all images
+        this.text = text;
 
         // Use the capital letter A to find the scale
-        int aHeightPixels = font.getInfo('A').height();
+        int aHeightPixels = this.font.getInfo('A').height();
         float aHeightScreenCoords = PixelCoords.distYtoScreenDist(aHeightPixels);
 
         // desired height = current height * scale -> scale = desired height / current height
-        float scaleFactor = yHeight / aHeightScreenCoords;
+        float scaleFactor = this.yHeight / aHeightScreenCoords;
 
         // The cursor is where the next char should be drawn
-        PixelCoords cursor = topLeft.toPixelCoords();
+        PixelCoords cursor = this.topLeft.toPixelCoords();
 
         for (char ch : text.toCharArray()) {
-            CharInfo info = font.getInfo(ch);
+            CharInfo info = this.font.getInfo(ch);
+
+            if (info == null) {
+                continue;
+            }
 
             cursor.x += info.xOffset() * scaleFactor;
             cursor.y -= info.yOffset() * scaleFactor;
@@ -54,6 +76,54 @@ public class Text implements AutoCloseable {
 
             cursor.x += info.xAdvance() * scaleFactor;
         }
+    }
+
+    /**
+     * @return A copy of the top left screen coordinates
+     */
+    public ScreenCoords getTopLeft() {
+        return new ScreenCoords(this.topLeft.x, this.topLeft.y);
+    }
+
+    /**
+     * Set the top left coordinate of the text.
+     * @param topLeft The top left coordinate of the text.
+     */
+    public void setTopLeft(ScreenCoords topLeft) {
+        // Shift the rects by the delta instead of recalculating the text
+        // This will save processing time
+        float deltaX = topLeft.x - this.topLeft.y;
+        float deltaY = topLeft.y - this.topLeft.y;
+
+        for (Image character : this.characters) {
+            character.getRect().shift(deltaX, deltaY);
+        }
+
+        this.topLeft = topLeft;
+    }
+
+    /**
+     * @return The font object being used.
+     */
+    public Font getFont() {
+        return font;
+    }
+
+    /**
+     * @param font The new font to set the text to.
+     */
+    public void setFont(Font font) {
+        this.font = font;
+        this.setText(this.getText());  // recalculate text with the new font
+    }
+
+    public float getYHeight() {
+        return yHeight;
+    }
+
+    public void setYHeight(float yHeight) {
+        this.yHeight = yHeight;
+        this.setText(this.getText());  // recalculate text with the new y height
     }
 
     public void draw() {
