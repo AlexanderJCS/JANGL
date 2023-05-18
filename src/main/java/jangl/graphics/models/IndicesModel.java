@@ -2,8 +2,7 @@ package jangl.graphics.models;
 
 import jangl.graphics.BufferManager;
 
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL46.*;
 
 /**
  * Allows you to pass the vertex and index information of a shape into OpenGL. Passing indices reduces video memory,
@@ -24,7 +23,7 @@ public class IndicesModel extends Model {
     }
 
     /**
-     * Renders the model as a white box.
+     * Renders the model as a white box. Use a ColorShader to chance the color, or a TexturedModel to apply a texture.
      */
     @Override
     public void render() {

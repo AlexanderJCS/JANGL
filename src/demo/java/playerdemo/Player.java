@@ -27,7 +27,7 @@ public class Player implements AutoCloseable {
     public void update() {
         float xDist = (float) (this.speedX * Clock.getTimeDelta());
         float yDist = (float) (this.speedY * Clock.getTimeDelta());
-        Rect rect = this.image.getRect();
+        Rect rect = this.image.rect();
 
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_W)) {
             rect.shift(0, yDist);
@@ -52,7 +52,7 @@ public class Player implements AutoCloseable {
 
     @Override
     public void close() {
-        this.image.getRect().close();
-        this.image.getTexture().close();
+        this.image.rect().close();
+        this.image.texture().close();
     }
 }

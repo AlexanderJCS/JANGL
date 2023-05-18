@@ -10,6 +10,10 @@ public class Font implements AutoCloseable {
     private final Map<Integer, Texture> textureMap;
     private final Map<Integer, CharInfo> infoMap;
 
+    /**
+     * @param fontFile The .fnt file of your font
+     * @param fontImage The associated .png image associated with that .fnt file
+     */
     public Font(String fontFile, String fontImage) {
         this.textureMap = new HashMap<>();
         this.infoMap = new HashMap<>();
@@ -38,6 +42,10 @@ public class Font implements AutoCloseable {
         }
     }
 
+    /**
+     * @param line One line of the .fnt file to parse
+     * @return The information from that line.
+     */
     private CharInfo parseLine(String line) {
         // Replace all repeated spaces with a single space, then split by a single space
         String[] splitted = line.replaceAll("\\s+", " ").split(" ");
@@ -64,18 +72,34 @@ public class Font implements AutoCloseable {
         );
     }
 
+    /**
+     * @param id The ASCII ID of the character to get the texture of
+     * @return The texture of the character
+     */
     public Texture getTexture(int id) {
         return this.textureMap.get(id);
     }
 
+    /**
+     * @param ch The character to get the texture of
+     * @return The texture of the character
+     */
     public Texture getTexture(char ch) {
         return this.getTexture((int) ch);
     }
 
+    /**
+     * @param id The ASCII ID of the character to get information of
+     * @return The CharInfo for that character
+     */
     public CharInfo getInfo(int id) {
         return this.infoMap.get(id);
     }
 
+    /**
+     * @param ch The character to get information of
+     * @return The CharInfo for that character
+     */
     public CharInfo getInfo(char ch) {
         return this.getInfo((int) ch);
     }

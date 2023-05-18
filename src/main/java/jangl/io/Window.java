@@ -3,7 +3,7 @@ package jangl.io;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL46.*;
 
 public class Window {
     public static int screenWidth;

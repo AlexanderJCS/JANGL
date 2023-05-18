@@ -2,7 +2,7 @@ package jangl.graphics.shaders;
 
 import java.util.Arrays;
 
-import static org.lwjgl.opengl.GL20.glUniform4fv;
+import static org.lwjgl.opengl.GL46.glUniform4fv;
 
 public class ColorShader extends Shader {
     private float[] rgba;

@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-import static org.lwjgl.opengl.GL21.*;
+import static org.lwjgl.opengl.GL46.*;
 
 /**
  * This class allows images to be drawn to the screen.

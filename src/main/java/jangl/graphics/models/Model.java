@@ -2,7 +2,7 @@ package jangl.graphics.models;
 
 import jangl.graphics.BufferManager;
 
-import static org.lwjgl.opengl.GL21.*;
+import static org.lwjgl.opengl.GL46.*;
 
 /**
  * Modified from:
@@ -48,11 +48,11 @@ public class Model implements AutoCloseable {
     }
 
     /**
-     * Changes the vertices to the ones given. This is a memory-safe way to do so, since creating a new
-     * Model will cause a memory leak.
-     * <a href="http://forum.lwjgl.org/index.php?topic=5334.0">...</a>
+     * Changes the vertices to the ones given.
      */
     public void changeVertices(float[] vertices) {
+        // http://forum.lwjgl.org/index.php?topic=5334.0
+
         glBindBuffer(GL_ARRAY_BUFFER, this.vId);
         BufferManager.setFloatBuffer(BufferManager.VBO_BUFFER, vertices);
         glBufferSubData(GL_ARRAY_BUFFER, 0, BufferManager.VBO_BUFFER);

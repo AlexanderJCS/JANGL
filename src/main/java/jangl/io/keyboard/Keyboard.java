@@ -2,7 +2,6 @@ package jangl.io.keyboard;
 
 import jangl.io.EventsConfig;
 import jangl.io.Window;
-import jangl.io.mouse.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
  * Provides a more user-friendly way to interface with keyboard IO operations other than GLFW
  */
 public class Keyboard extends EventsConfig {
-    private static List<KeyEvent> EVENTS = new ArrayList<>();
+    private static final List<KeyEvent> EVENTS = new ArrayList<>();
     private static boolean initialized = false;
 
     private Keyboard() {}

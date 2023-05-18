@@ -36,6 +36,10 @@ public class Text implements AutoCloseable {
         return this.text;
     }
 
+    /**
+     * Set the text to be displayed to the screen.
+     * @param text The text string to be displayed to the screen.
+     */
     public void setText(String text) {
         this.close();  // clear the characters list and close all images
         this.text = text;
@@ -96,7 +100,7 @@ public class Text implements AutoCloseable {
         float deltaY = topLeft.y - this.topLeft.y;
 
         for (Image character : this.characters) {
-            character.getRect().shift(deltaX, deltaY);
+            character.rect().shift(deltaX, deltaY);
         }
 
         this.topLeft = topLeft;
@@ -117,10 +121,17 @@ public class Text implements AutoCloseable {
         this.setText(this.getText());  // recalculate text with the new font
     }
 
+    /**
+     * @return The y height, in screen coordinates, of the capital A letter. Other letters are proportional.
+     */
     public float getYHeight() {
         return yHeight;
     }
 
+    /**
+     * Set the y height, in y screen coordinates, of the text. The y height is measured for the letter capital A.
+     * @param yHeight The y height of the text.
+     */
     public void setYHeight(float yHeight) {
         this.yHeight = yHeight;
         this.setText(this.getText());  // recalculate text with the new y height
@@ -135,7 +146,7 @@ public class Text implements AutoCloseable {
     @Override
     public void close() {
         for (Image character : this.characters) {
-            character.getRect().close();
+            character.rect().close();
         }
 
         this.characters.clear();

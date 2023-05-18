@@ -16,6 +16,10 @@ public sealed abstract class Coords permits PixelCoords, ScreenCoords {
         this.y = y;
     }
 
+    /**
+     * @param coords A 2-length array of the 2D coordinates to be passed in
+     * @throws IllegalArgumentException Throws if the array is not of length 2
+     */
     public Coords(float[] coords) throws IllegalArgumentException {
         if (coords.length != 2) {
             throw new IllegalArgumentException("Coordinates length must be equal to 2");

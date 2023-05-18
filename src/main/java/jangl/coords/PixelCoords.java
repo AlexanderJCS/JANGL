@@ -11,12 +11,16 @@ public final class PixelCoords extends Coords {
         super(x, y);
     }
 
+    /**
+     * @param coords A 2-length array of the 2D coordinates to be passed in
+     * @throws IllegalArgumentException Throws if the array is not of length 2
+     */
     public PixelCoords(float[] coords) throws IllegalArgumentException {
         super(coords);
     }
 
     /**
-     * Convert a pixel distance value on the X axis to screen distance (which is what LWJGL uses).
+     * Convert a pixel distance value on the X axis to screen distance.
      *
      * @param dist Distance
      * @return ScreenCoords distance (float)
@@ -26,7 +30,7 @@ public final class PixelCoords extends Coords {
     }
 
     /**
-     * Convert a pixel distance value on the Y axis to screen distance (which is what LWJGL uses).
+     * Convert a pixel distance value on the Y axis to screen distance.
      *
      * @param dist Distance
      * @return ScreenCoords distance (float)

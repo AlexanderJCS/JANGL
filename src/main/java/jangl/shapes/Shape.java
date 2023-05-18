@@ -25,7 +25,7 @@ public abstract class Shape implements AutoCloseable {
     public void draw(Shader shader) {
         shader.bind();
         this.draw();
-        shader.unbind();
+        Shader.unbind();
     }
 
     public abstract void shift(float x, float y);

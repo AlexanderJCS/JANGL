@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL46.*;
 
 public class Shader implements AutoCloseable {
     private final int programID;

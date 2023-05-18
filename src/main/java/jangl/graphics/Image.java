@@ -3,17 +3,9 @@ package jangl.graphics;
 import jangl.shapes.Rect;
 
 /**
- * An image class, which has a rect and a texture to bind onto the rectangle when drawn.
+ * An image record, which has a rect and a texture to bind onto the rectangle when drawn.
  */
-public class Image {
-    private final Rect rect;
-    private final Texture texture;
-
-    public Image(Rect rect, Texture texture) {
-        this.rect = rect;
-        this.texture = texture;
-    }
-
+public record Image(Rect rect, Texture texture) {
     public void draw() {
         this.texture.bind();
         this.rect.draw();
@@ -23,14 +15,16 @@ public class Image {
     /**
      * @return A reference to the image's rect
      */
-    public Rect getRect() {
+    @Override
+    public Rect rect() {
         return this.rect;
     }
 
     /**
      * @return A reference to the image's texture
      */
-    public Texture getTexture() {
+    @Override
+    public Texture texture() {
         return this.texture;
     }
 }
