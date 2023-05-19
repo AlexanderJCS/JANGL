@@ -7,6 +7,7 @@ import jangl.util.Range;
 import jangl.coords.ScreenCoords;
 import jangl.graphics.models.Model;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
 
 public abstract class Shape implements AutoCloseable {
@@ -123,16 +124,16 @@ public abstract class Shape implements AutoCloseable {
         double[] angles = shape1.getOutsideEdgeAngles();
         double[] otherAngles = shape2.getOutsideEdgeAngles();
 
-        // https://stackoverflow.com/questions/754294/convert-an-array-of-primitive-longs-into-a-list-of-longs
-        // modified according to IntelliJ's recommendation
         HashSet<Double> anglesSet = new HashSet<>();
 
         for (double angle : angles) {
-            anglesSet.add(angle > 0 ? angle : angle + Math.PI);
+            double nonNegativeAngle = angle > 0 ? angle : angle + Math.PI;
+            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
         }
 
         for (double angle : otherAngles) {
-            anglesSet.add(angle > 0 ? angle : angle + Math.PI);
+            double nonNegativeAngle = angle > 0 ? angle : angle + Math.PI;
+            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
         }
 
         double s1BeginningAngle = shape1.getAxisAngle();
