@@ -6,6 +6,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
+
 public class Font implements AutoCloseable {
     private final Map<Integer, Texture> textureMap;
     private final Map<Integer, CharInfo> infoMap;
@@ -29,7 +31,9 @@ public class Font implements AutoCloseable {
                 CharInfo info = this.parseLine(line);
 
                 this.textureMap.put(
-                        info.charID(), new Texture(fontImage, info.x(), info.y(), info.width(), info.height())
+                        info.charID(),
+                        // The GL_LINEAR filter is important in order to make the text look "smoother"
+                        new Texture(fontImage, info.x(), info.y(), info.width(), info.height(), GL_LINEAR)
                 );
 
                 this.infoMap.put(

@@ -19,8 +19,11 @@ public class Texture implements AutoCloseable {
 
     /**
      * @param filepath The filepath of the texture.
+     * @param filterMode The filter mode for scaling the image. Common filter modes are:
+     *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
+     *                   for when scaling.
      */
-    public Texture(String filepath) throws UncheckedIOException {
+    public Texture(String filepath, int filterMode) throws UncheckedIOException {
         try {
             BufferManager.bufferedImage = ImageIO.read(new File(filepath));
         } catch (IOException e) {
@@ -33,7 +36,14 @@ public class Texture implements AutoCloseable {
         int[] rawData = BufferManager.bufferedImage.getRGB(0, 0, width, height, null, 0, width);
         this.calculateImageData(rawData, width, height);
 
-        this.id = this.createImage(width, height);
+        this.id = this.createImage(width, height, filterMode);
+    }
+
+    /**
+     * @param filepath The filepath of the texture. Defaults to nearest-neighbor filter mode.
+     */
+    public Texture(String filepath) {
+        this(filepath, GL_NEAREST);
     }
 
     /**
@@ -42,10 +52,13 @@ public class Texture implements AutoCloseable {
      * @param y The y component, in pixels, of the top left corner of the rectangular region of the image to get
      * @param width The width of the region, in pixels, to get.
      * @param height The height of the region, in pixels, to get.
+     * @param filterMode The filter mode for scaling the image. Common filter modes are:
+     *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
+     *                   for when scaling.
      *
      * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
      */
-    public Texture(String filepath, int x, int y, int width, int height) throws IndexOutOfBoundsException {
+    public Texture(String filepath, int x, int y, int width, int height, int filterMode) throws IndexOutOfBoundsException {
         try {
             BufferManager.bufferedImage = ImageIO.read(new File(filepath));
         } catch (IOException e) {
@@ -55,7 +68,22 @@ public class Texture implements AutoCloseable {
         int[] rawData = BufferManager.bufferedImage.getRGB(x, y, width, height, null, 0, width);
         this.calculateImageData(rawData, width, height);
 
-        this.id = this.createImage(width, height);
+        this.id = this.createImage(width, height, filterMode);
+    }
+
+    /**
+     * Defaults to nearest-neighbor filter mode.
+     *
+     * @param filepath The filepath of the image.
+     * @param x The x component, in pixels, of the top left corner of the rectangular region of the image to get
+     * @param y The y component, in pixels, of the top left corner of the rectangular region of the image to get
+     * @param width The width of the region, in pixels, to get.
+     * @param height The height of the region, in pixels, to get.
+     *
+     * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
+     */
+    public Texture(String filepath, int x, int y, int width, int height) throws IndexOutOfBoundsException {
+        this(filepath, x, y, width, height, GL_NEAREST);
     }
 
     /**
@@ -85,12 +113,12 @@ public class Texture implements AutoCloseable {
     /**
      * @return the ID of the created image
      */
-    private int createImage(int width, int height) {
+    private int createImage(int width, int height, int filterMode) {
         int imageID = glGenTextures();
 
         glBindTexture(GL_TEXTURE_2D, imageID);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, BufferManager.BYTE_BUFFER);
         Texture.unbind();
 
