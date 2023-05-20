@@ -3,10 +3,7 @@ package shapedemo;
 import jangl.JANGL;
 import jangl.coords.ScreenCoords;
 import jangl.graphics.shaders.ColorShader;
-import jangl.io.Event;
 import jangl.io.Window;
-import jangl.io.keyboard.Keyboard;
-import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Shape;
@@ -55,15 +52,6 @@ public class ShapeDemo {
                 // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
                 rect.rotateAxis(0.25 * Clock.getTimeDelta());
                 circle.rotateAxis(0.05 * Clock.getTimeDelta());
-
-                // Print all keyboard and mouse events to the console
-                for (Event event : Keyboard.getEvents()) {
-                    System.out.println(event);
-                }
-
-                for (Event event : Mouse.getEvents()) {
-                    System.out.println(event);
-                }
 
                 // Tick the clock so the FPS is equal to 60
                 Clock.busyTick(60);
