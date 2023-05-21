@@ -3,13 +3,15 @@ package jangl.io.mouse;
 import jangl.io.Event;
 
 public class MouseEvent extends Event {
-    /** The mouse button being pressed. */
+    /**
+     * The mouse button being pressed.
+     */
     public final int button;
 
     /**
      * @param button The mouse button being pressed.
      * @param action The action performed. Either GLFW.GLFW_PRESS or GLFW.GLFW_RELEASE
-     * @param mods Modifiers of the button press. I.e., if shift, control, etc. were pressed, this would be different
+     * @param mods   Modifiers of the button press. I.e., if shift, control, etc. were pressed, this would be different
      */
     public MouseEvent(int button, int action, int mods) {
         super(action, mods);

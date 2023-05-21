@@ -102,7 +102,7 @@ public class Rect extends Shape {
     public float[] calculateVertices() {
         return Shape.rotateAxis(
                 Shape.rotateLocal(
-                        new float[] {
+                        new float[]{
                                 x1, y1,  // Top left
                                 x2, y1,  // Top right
                                 x2, y2,  // Bottom right
@@ -124,7 +124,7 @@ public class Rect extends Shape {
      * @return The vertex indices that are passed to OpenGL.
      */
     private int[] getIndices() {
-        return new int[] {
+        return new int[]{
                 0, 1, 2,
                 2, 3, 0
         };
@@ -145,7 +145,7 @@ public class Rect extends Shape {
      * @return A textured model.
      */
     private TexturedModel toTexturedModel() {
-        float[] texCoords = new float[] {
+        float[] texCoords = new float[]{
                 0, 0,
                 1, 0,
                 1, 1,

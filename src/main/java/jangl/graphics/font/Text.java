@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Text implements AutoCloseable {
+    private final List<Image> characters;
     private String text;
     private ScreenCoords topLeft;
     private Font font;
     private float yHeight;
-    private final List<Image> characters;
 
     /**
-     * @param font The font to use
-     * @param text The text to display
+     * @param font    The font to use
+     * @param text    The text to display
      * @param topLeft The top left coordinate of the text
      * @param yHeight How high, in screen coords, each letter should be
      */
@@ -38,6 +38,7 @@ public class Text implements AutoCloseable {
 
     /**
      * Set the text to be displayed to the screen.
+     *
      * @param text The text string to be displayed to the screen.
      */
     public void setText(String text) {
@@ -91,6 +92,7 @@ public class Text implements AutoCloseable {
 
     /**
      * Set the top left coordinate of the text.
+     *
      * @param topLeft The top left coordinate of the text.
      */
     public void setTopLeft(ScreenCoords topLeft) {
@@ -130,6 +132,7 @@ public class Text implements AutoCloseable {
 
     /**
      * Set the y height, in y screen coordinates, of the text. The y height is measured for the letter capital A.
+     *
      * @param yHeight The y height of the text.
      */
     public void setYHeight(float yHeight) {

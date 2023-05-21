@@ -16,7 +16,8 @@ public class Keyboard extends EventsConfig {
     private static final List<KeyEvent> EVENTS = new ArrayList<>();
     private static boolean initialized = false;
 
-    private Keyboard() {}
+    private Keyboard() {
+    }
 
     public static void init() {
         if (getInit()) {

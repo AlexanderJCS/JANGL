@@ -8,9 +8,8 @@ import jangl.graphics.models.TriangleFanModel;
 import java.util.Arrays;
 
 public class Circle extends Shape {
-    private ScreenCoords center;
     private final int sides;
-
+    private ScreenCoords center;
     // X and Y radius need to be different since the screen may not be square
     private float radiusX;
     private float radiusY;
@@ -21,7 +20,7 @@ public class Circle extends Shape {
      *
      * @param center The center of the circle.
      * @param radius The X-radius of the circle (see the above note)
-     * @param sides The number of sides of the shape.
+     * @param sides  The number of sides of the shape.
      */
     public Circle(ScreenCoords center, float radius, int sides) {
         this.center = center;
@@ -30,11 +29,6 @@ public class Circle extends Shape {
         this.radiusX = radius;
         this.radiusY = PixelCoords.distYtoScreenDist(ScreenCoords.distXtoPixelCoords(radius));
         this.model = this.toModel();
-    }
-
-    public void setCenter(ScreenCoords newCenter) {
-        this.center = newCenter;
-        this.model.changeVertices(this.calculateVertices());
     }
 
     /**
@@ -59,6 +53,11 @@ public class Circle extends Shape {
         return new ScreenCoords(
                 Shape.rotateAxis(new float[]{this.center.x, this.center.y}, this.axisAngle)
         );
+    }
+
+    public void setCenter(ScreenCoords newCenter) {
+        this.center = newCenter;
+        this.model.changeVertices(this.calculateVertices());
     }
 
     public int getSides() {

@@ -28,9 +28,8 @@ public class ArrayUtils {
     /**
      * Used for collision.
      *
-     * @param arr The array to get the even or odd indices of
+     * @param arr    The array to get the even or odd indices of
      * @param offset 0 to get even indices, 1 to get odd indices
-     *
      * @return a float arr of even or odd indices
      */
     private static float[] getEvenOrOdd(float[] arr, int offset) {
@@ -45,6 +44,7 @@ public class ArrayUtils {
 
     /**
      * Get the odd indices of an array. WARNING: may not work with odd array lengths (it might, I haven't tested it)
+     *
      * @param arr The array to get the even indices of.
      * @return The values of the even indices of the array.
      */
@@ -54,6 +54,7 @@ public class ArrayUtils {
 
     /**
      * Get the even indices of an array.
+     *
      * @param arr The array to get the even indices of.
      * @return The values of the even indices of the array.
      */

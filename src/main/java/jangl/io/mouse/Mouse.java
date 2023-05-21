@@ -14,6 +14,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Mouse {
     private static final List<MouseEvent> EVENTS = new ArrayList<>();
     private static boolean initialized = false;
+
     private Mouse() {
     }
 

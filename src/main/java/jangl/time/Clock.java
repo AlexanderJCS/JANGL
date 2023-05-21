@@ -12,7 +12,9 @@ public final class Clock {
     private static double secondToLastTick = 0;
     private static double lastTick = 0;
     private static double[] fpsSamples = new double[100];
-    /** The next index to modify in fpsSamples. */
+    /**
+     * The next index to modify in fpsSamples.
+     */
     private static int fpsSampleIndex = 0;
 
     private Clock() {}
@@ -52,6 +54,13 @@ public final class Clock {
     }
 
     /**
+     * @return The number of smoothed FPS samples
+     */
+    public static int getNumFpsSamples() {
+        return fpsSamples.length;
+    }
+
+    /**
      * @param n The number of samples to set the smoothed FPS to. Must be >= 1.
      */
     public static void setNumFpsSamples(int n) throws IllegalArgumentException {
@@ -60,13 +69,6 @@ public final class Clock {
         }
 
         fpsSamples = new double[n];
-    }
-
-    /**
-     * @return The number of smoothed FPS samples
-     */
-    public static int getNumFpsSamples() {
-        return fpsSamples.length;
     }
 
     /**

@@ -21,7 +21,7 @@ public class Quickstart {
                     PixelCoords.distYtoScreenDist(400)
                 );
 
-                ColorShader yellow = new ColorShader(1, 1, 0, 1);
+                ColorShader yellow = new ColorShader(1, 1, 0, 1)
         ) {
             while (Window.shouldRun()) {
                 JANGL.update();

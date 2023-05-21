@@ -39,7 +39,7 @@ public class Triangle extends Shape {
     public float[] calculateVertices() {
         return Shape.rotateAxis(
                 Shape.rotateLocal(
-                        new float[] {
+                        new float[]{
                                 this.point1.x, this.point1.y,
                                 this.point2.x, this.point2.y,
                                 this.point3.x, this.point3.y

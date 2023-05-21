@@ -49,7 +49,7 @@ public class ShaderDemo {
                 rect.draw();
 
                 // When done with the shader, make sure to unbind it
-                shader.unbind();
+                Shader.unbind();
 
                 // You can also use color shaders to do this automatically
                 circle.draw(colorShader);

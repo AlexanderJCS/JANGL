@@ -2,7 +2,10 @@ package jangl.graphics.font.parser;
 
 import jangl.graphics.Texture;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +16,7 @@ public class Font implements AutoCloseable {
     private final Map<Integer, CharInfo> infoMap;
 
     /**
-     * @param fontFile The .fnt file of your font
+     * @param fontFile  The .fnt file of your font
      * @param fontImage The associated .png image associated with that .fnt file
      */
     public Font(String fontFile, String fontImage) {

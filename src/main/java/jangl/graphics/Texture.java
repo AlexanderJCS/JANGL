@@ -1,6 +1,7 @@
 package jangl.graphics;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -18,22 +19,24 @@ public class Texture implements AutoCloseable {
     private final int id;
 
     /**
-     * @param filepath The filepath of the texture.
+     * @param filepath   The filepath of the texture.
      * @param filterMode The filter mode for scaling the image. Common filter modes are:
      *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
      *                   for when scaling.
      */
     public Texture(String filepath, int filterMode) throws UncheckedIOException {
+        BufferedImage bufferedImage;
+
         try {
-            BufferManager.bufferedImage = ImageIO.read(new File(filepath));
+            bufferedImage = ImageIO.read(new File(filepath));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        int width = BufferManager.bufferedImage.getWidth();
-        int height = BufferManager.bufferedImage.getHeight();
+        int width = bufferedImage.getWidth();
+        int height = bufferedImage.getHeight();
 
-        int[] rawData = BufferManager.bufferedImage.getRGB(0, 0, width, height, null, 0, width);
+        int[] rawData = bufferedImage.getRGB(0, 0, width, height, null, 0, width);
         this.calculateImageData(rawData, width, height);
 
         this.id = this.createImage(width, height, filterMode);
@@ -47,25 +50,26 @@ public class Texture implements AutoCloseable {
     }
 
     /**
-     * @param filepath The filepath of the image.
-     * @param x The x component, in pixels, of the top left corner of the rectangular region of the image to get
-     * @param y The y component, in pixels, of the top left corner of the rectangular region of the image to get
-     * @param width The width of the region, in pixels, to get.
-     * @param height The height of the region, in pixels, to get.
+     * @param filepath   The filepath of the image.
+     * @param x          The x component, in pixels, of the top left corner of the rectangular region of the image to get
+     * @param y          The y component, in pixels, of the top left corner of the rectangular region of the image to get
+     * @param width      The width of the region, in pixels, to get.
+     * @param height     The height of the region, in pixels, to get.
      * @param filterMode The filter mode for scaling the image. Common filter modes are:
      *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
      *                   for when scaling.
-     *
      * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
      */
     public Texture(String filepath, int x, int y, int width, int height, int filterMode) throws IndexOutOfBoundsException {
+        BufferedImage bufferedImage;
+
         try {
-            BufferManager.bufferedImage = ImageIO.read(new File(filepath));
+            bufferedImage = ImageIO.read(new File(filepath));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        int[] rawData = BufferManager.bufferedImage.getRGB(x, y, width, height, null, 0, width);
+        int[] rawData = bufferedImage.getRGB(x, y, width, height, null, 0, width);
         this.calculateImageData(rawData, width, height);
 
         this.id = this.createImage(width, height, filterMode);
@@ -75,11 +79,10 @@ public class Texture implements AutoCloseable {
      * Defaults to nearest-neighbor filter mode.
      *
      * @param filepath The filepath of the image.
-     * @param x The x component, in pixels, of the top left corner of the rectangular region of the image to get
-     * @param y The y component, in pixels, of the top left corner of the rectangular region of the image to get
-     * @param width The width of the region, in pixels, to get.
-     * @param height The height of the region, in pixels, to get.
-     *
+     * @param x        The x component, in pixels, of the top left corner of the rectangular region of the image to get
+     * @param y        The y component, in pixels, of the top left corner of the rectangular region of the image to get
+     * @param width    The width of the region, in pixels, to get.
+     * @param height   The height of the region, in pixels, to get.
      * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
      */
     public Texture(String filepath, int x, int y, int width, int height) throws IndexOutOfBoundsException {
@@ -87,11 +90,18 @@ public class Texture implements AutoCloseable {
     }
 
     /**
+     * Unbinds any existing bound texture
+     */
+    public static void unbind() {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    /**
      * Writes the designated region of image data to BufferManager.BYTE_BUFFER
      *
      * @param rawData The raw image data
-     * @param width The width of the region to get
-     * @param height The height of the region to get
+     * @param width   The width of the region to get
+     * @param height  The height of the region to get
      */
     private void calculateImageData(int[] rawData, int width, int height) {
         BufferManager.BYTE_BUFFER.clear();
@@ -131,13 +141,6 @@ public class Texture implements AutoCloseable {
      */
     public void bind() {
         glBindTexture(GL_TEXTURE_2D, this.id);
-    }
-
-    /**
-     * Unbinds any existing bound texture
-     */
-    public static void unbind() {
-        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     @Override

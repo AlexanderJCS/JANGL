@@ -11,7 +11,7 @@ public class Shader implements AutoCloseable {
     private final int fragmentShaderID;
 
     /**
-     * @param vertexFile The filepath to the vertex shader.
+     * @param vertexFile   The filepath to the vertex shader.
      * @param fragmentFile The filepath to the fragment shader.
      */
     public Shader(String vertexFile, String fragmentFile) {
@@ -72,7 +72,7 @@ public class Shader implements AutoCloseable {
 
     /**
      * @param program The shader program source code
-     * @param type The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
+     * @param type    The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
      * @return The ID of the compiled shader
      */
     private static int compileShader(String program, int type) {
@@ -90,17 +90,17 @@ public class Shader implements AutoCloseable {
     }
 
     /**
-     * Bind the sander. Run this when you want the shader to apply to objects that you draw.
-     */
-    public void bind() {
-        glUseProgram(programID);
-    }
-
-    /**
      * Unbind the shader. Run this when you do not want the shader to apply to any more objects that you draw.
      */
     public static void unbind() {
         glUseProgram(0);
+    }
+
+    /**
+     * Bind the sander. Run this when you want the shader to apply to objects that you draw.
+     */
+    public void bind() {
+        glUseProgram(programID);
     }
 
     /**

@@ -47,10 +47,6 @@ public class ColorShader extends Shader {
         return Arrays.copyOf(this.rgba, this.rgba.length);
     }
 
-    public void setRGBA(float red, float green, float blue, float alpha) {
-        this.rgba = new float[]{ red, green, blue, alpha };
-    }
-
     /**
      * @param rgba The RGBA value to set the color to
      * @throws IllegalArgumentException Throws if the RGBA length is not 4 (one value for r, g, b, and a)
@@ -61,5 +57,9 @@ public class ColorShader extends Shader {
         }
 
         this.rgba = rgba;
+    }
+
+    public void setRGBA(float red, float green, float blue, float alpha) {
+        this.rgba = new float[]{red, green, blue, alpha};
     }
 }

@@ -1,8 +1,8 @@
 package jangl;
 
+import jangl.io.Window;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
-import jangl.io.Window;
 
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
