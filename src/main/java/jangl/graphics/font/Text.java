@@ -72,7 +72,7 @@ public class Text implements AutoCloseable {
                                     PixelCoords.distXtoScreenDist(info.width()) * scaleFactor,
                                     PixelCoords.distYtoScreenDist(info.height()) * scaleFactor
                             ),
-                            font.getTexture(ch)
+                            this.font.getTexture(ch)
                     )
             );
 

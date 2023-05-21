@@ -2,7 +2,6 @@ package shapedemo;
 
 import jangl.JANGL;
 import jangl.coords.ScreenCoords;
-import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
@@ -12,22 +11,15 @@ import jangl.time.Clock;
 public class ShapeDemo {
     private final Rect rect;
     private final Circle circle;
-    private final ColorShader colorShader;
-    private final Rect background;
 
     public ShapeDemo() {
         this.rect = new Rect(new ScreenCoords(-0.25f, 0.25f), 0.5f, 0.5f);
         this.circle = new Circle(new ScreenCoords(0, 0.5f), 0.1f, 70);
-        this.colorShader = new ColorShader(1, 0, 0, 1);
-        this.background = new Rect(new ScreenCoords(-1, 1), 2, 2);
     }
 
     public void draw() {
-        // Make the screen black for the next frame
+        // Clear the screen by making it the background color as a blank slate for the next frame
         Window.clear();
-
-        // Draw the background using the given color shader
-        this.background.draw(this.colorShader);
 
         // Draw the rectangle and circle
         // These draw calls need to be after the background so the background doesn't overlap the shapes
@@ -47,10 +39,10 @@ public class ShapeDemo {
         // Otherwise draw a red background
         if (Shape.collides(this.rect, this.circle)) {
             // Set the color to 0 red, 1, green, 0 blue, 1 alpha (0 transparency)
-            this.colorShader.setRGBA(0, 0.8f, 0, 1);
+            Window.setBackgroundColor(0, 0.8f, 0, 1);
         } else {
             // Set the color to 1 red, 0, green, 0 blue, 1 alpha (0 transparency)
-            this.colorShader.setRGBA(0.8f, 0, 0, 1);
+            Window.setBackgroundColor(0.8f, 0, 0, 1);
         }
     }
 
@@ -70,8 +62,6 @@ public class ShapeDemo {
         // Close all shapes and textures the program used. This is important in order to prevent memory leaks
         this.rect.close();
         this.circle.close();
-        this.colorShader.close();
-        this.background.close();
     }
 
     public static void main(String[] args) {

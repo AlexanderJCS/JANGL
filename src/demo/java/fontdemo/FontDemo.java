@@ -17,11 +17,12 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                arial, "abcdefghijklmnopqrstuvwxyz", new ScreenCoords(-1, 0), 0.1f
+                arial, "abcdefghijklmnopqrstuvwxyz", new ScreenCoords(-0.7f, 0), 0.1f
         );
     }
 
     public void draw() {
+        Window.clear();
         this.text.draw();
     }
 
