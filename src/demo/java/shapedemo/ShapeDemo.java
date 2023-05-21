@@ -39,10 +39,10 @@ public class ShapeDemo {
         // Otherwise draw a red background
         if (Shape.collides(this.rect, this.circle)) {
             // Set the color to 0 red, 1, green, 0 blue, 1 alpha (0 transparency)
-            Window.setBackgroundColor(0, 0.8f, 0, 1);
+            Window.setClearColor(0, 0.8f, 0, 1);
         } else {
             // Set the color to 1 red, 0, green, 0 blue, 1 alpha (0 transparency)
-            Window.setBackgroundColor(0.8f, 0, 0, 1);
+            Window.setClearColor(0.8f, 0, 0, 1);
         }
     }
 

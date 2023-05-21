@@ -1,9 +1,8 @@
 package jangl.io;
 
-import jangl.coords.ScreenCoords;
-import jangl.graphics.shaders.ColorShader;
-import jangl.shapes.Rect;
 import org.lwjgl.opengl.GL;
+
+import java.util.Arrays;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL46.*;
@@ -11,9 +10,7 @@ import static org.lwjgl.opengl.GL46.*;
 public class Window {
     public static int screenWidth;
     public static int screenHeight;
-
-    private static ColorShader BG_COLOR;
-    private static Rect BG_RECT;
+    private static float[] clearColor;
     private static long window;
     private static boolean initialized = false;
 
@@ -41,10 +38,6 @@ public class Window {
         GL.createCapabilities();
 
         glEnable(GL_TEXTURE_2D);
-
-        // Create the background once everything else is done to avoid an OpenGL access violation exception
-        BG_COLOR = new ColorShader(0, 0, 0, 1);
-        BG_RECT = new Rect(new ScreenCoords(-1, 1), 2, 2);
     }
 
     public static int getScreenWidth() {
@@ -62,19 +55,8 @@ public class Window {
     public static long getWindow() {
         return window;
     }
-
-    private static boolean backgroundNotBlack() {
-        float[] bgColor = BG_COLOR.getRGBA();
-
-        return bgColor[0] != 0 || bgColor[1] != 0 || bgColor[2] != 0;
-    }
-
     public static void clear() {
         glClear(GL_COLOR_BUFFER_BIT);  // Clear the screen for the next frame
-
-        if (backgroundNotBlack()) {
-            BG_RECT.draw(BG_COLOR);
-        }
     }
 
     /**
@@ -83,8 +65,9 @@ public class Window {
      * @param blue  The blue value of the background, float between 0 and 1
      * @param alpha The alpha value of the background, float between 0 and 1
      */
-    public static void setBackgroundColor(float red, float green, float blue, float alpha) {
-        BG_COLOR.setRGBA(red, green, blue, alpha);
+    public static void setClearColor(float red, float green, float blue, float alpha) {
+        clearColor = new float[]{ red, green, blue, alpha };
+        glClearColor(red, green, blue, alpha);
     }
 
     /**
@@ -92,15 +75,19 @@ public class Window {
      *
      * @throws IllegalArgumentException Throws if the array is not of length 4 (one value for R, G, B, and A)
      */
-    public static void setBackgroundColor(float[] rgba) throws IllegalArgumentException {
-        BG_COLOR.setRGBA(rgba);
+    public static void setClearColor(float[] rgba) throws IllegalArgumentException {
+        if (rgba.length != 4) {
+            throw new IllegalArgumentException("RGBA float array must be of length 4: red, green, blue, alpha");
+        }
+
+        setClearColor(rgba[0], rgba[1], rgba[2], rgba[3]);
     }
 
     /**
      * @return An array of the background color, in RGBA, where for each value, 0 = no color and 1 = full color
      */
-    public static float[] getBackgroundColor() {
-        return BG_COLOR.getRGBA();
+    public static float[] getClearColor() {
+        return Arrays.copyOf(clearColor, clearColor.length);
     }
 
     public static boolean shouldRun() {
@@ -109,9 +96,6 @@ public class Window {
 
     public static void close() {
         glfwTerminate();
-
-        BG_COLOR.close();
-        BG_RECT.close();
     }
 
     public static void setTitle(String newTitle) {

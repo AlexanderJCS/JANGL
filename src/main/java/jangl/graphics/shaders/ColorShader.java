@@ -56,7 +56,7 @@ public class ColorShader extends Shader {
             throw new IllegalArgumentException("RGBA length must be 4, not " + rgba.length);
         }
 
-        this.rgba = rgba;
+        this.rgba = Arrays.copyOf(rgba, rgba.length);
     }
 
     public void setRGBA(float red, float green, float blue, float alpha) {

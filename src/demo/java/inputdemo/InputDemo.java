@@ -21,7 +21,7 @@ public class InputDemo implements AutoCloseable {
                 "src/demo/demoResources/font/arial.png");
 
         this.text = new Text(this.font, "", new ScreenCoords(-0.7f, 0), 0.1f);
-        Window.setBackgroundColor(0.7f, 0, 0, 1);
+        Window.setClearColor(0.7f, 0, 0, 1);
     }
 
     @Override
@@ -42,9 +42,9 @@ public class InputDemo implements AutoCloseable {
             }
 
             if (event.action == GLFW.GLFW_PRESS) {
-                Window.setBackgroundColor(0, 0.7f, 0, 1);
+                Window.setClearColor(0, 0.7f, 0, 1);
             } else {
-                Window.setBackgroundColor(0.7f, 0, 0, 1);
+                Window.setClearColor(0.7f, 0, 0, 1);
             }
         }
     }
