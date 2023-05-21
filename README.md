@@ -1,7 +1,7 @@
 # JANGL
 JANGL means JAva Graphics Library (the N doesn't mean anything).
 
-This library is built on top of LWJGL, an OpenGL wrapper. This library abstracts a lot of the work required when creating an OpenGL project from scratch, but it still allows the user of the library (you) to have control over the program. 
+This library is built on top of LWJGL, an OpenGL wrapper. This library abstracts a lot of the work required when creating an OpenGL project from scratch, but it still allows the user of the library (you) to have control over the program. This project does not have any affiliation with LWJGL.
 
 Benefits of this library over OpenGL include:
 - Ease of use when creating rectangles and circles
