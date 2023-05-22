@@ -15,12 +15,15 @@ import org.lwjgl.glfw.GLFW;
 public class InputDemo implements AutoCloseable {
     private final Font font;
     private final Text text;
+    private final Text prompt;
 
     public InputDemo() {
         this.font = new Font("src/demo/demoResources/font/arial.fnt",
                 "src/demo/demoResources/font/arial.png");
 
         this.text = new Text(this.font, "", new ScreenCoords(-0.7f, 0), 0.1f);
+        this.prompt = new Text(this.font, "Left click and type something", new ScreenCoords(-0.7f, 0.5f), 0.1f);
+
         Window.setClearColor(0.7f, 0, 0, 1);
     }
 
@@ -32,7 +35,9 @@ public class InputDemo implements AutoCloseable {
 
     private void draw() {
         Window.clear();
+
         this.text.draw();
+        this.prompt.draw();
     }
 
     private void updateMouse() {
