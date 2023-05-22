@@ -124,7 +124,7 @@ public class Texture implements AutoCloseable {
         BufferManager.BYTE_BUFFER.limit(width * height * 4);
 
         for (int i = 0; i < height; i++) {
-            for (int j = 0; j <  width; j++) {
+            for (int j = 0; j < width; j++) {
                 int pixel = rawData[i * width + j];
                 BufferManager.BYTE_BUFFER.put((byte) ((pixel >> 16) & 0xFF));  // Red
                 BufferManager.BYTE_BUFFER.put((byte) ((pixel >> 8) & 0xFF));   // Green
