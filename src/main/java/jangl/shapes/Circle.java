@@ -21,8 +21,14 @@ public class Circle extends Shape {
      * @param center The center of the circle.
      * @param radius The X-radius of the circle (see the above note)
      * @param sides  The number of sides of the shape.
+     *
+     * @throws IllegalArgumentException Throws if the number of sides on the circle is less than 3.
      */
-    public Circle(ScreenCoords center, float radius, int sides) {
+    public Circle(ScreenCoords center, float radius, int sides) throws IllegalArgumentException {
+        if (sides <= 2) {
+            throw new IllegalArgumentException("A circle must have 3 or more sides, not " + sides);
+        }
+
         this.center = center;
 
         this.sides = sides;
