@@ -1,5 +1,7 @@
 package jangl.graphics;
 
+import jangl.util.BufferManager;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;

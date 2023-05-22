@@ -1,6 +1,6 @@
 package jangl.graphics.models;
 
-import jangl.graphics.BufferManager;
+import jangl.util.BufferManager;
 
 import static org.lwjgl.opengl.GL46.*;
 

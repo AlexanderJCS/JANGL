@@ -2,7 +2,7 @@ package jangl.io.mouse;
 
 import jangl.coords.PixelCoords;
 import jangl.coords.ScreenCoords;
-import jangl.graphics.BufferManager;
+import jangl.util.BufferManager;
 import jangl.io.EventsConfig;
 import jangl.io.Window;
 

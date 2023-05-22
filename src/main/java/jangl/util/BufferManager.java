@@ -1,4 +1,4 @@
-package jangl.graphics;
+package jangl.util;
 
 import org.lwjgl.BufferUtils;
 
