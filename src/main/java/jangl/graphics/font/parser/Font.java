@@ -2,12 +2,13 @@ package jangl.graphics.font.parser;
 
 import jangl.graphics.Texture;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
 
 public class Font implements AutoCloseable {
     private final Map<Integer, Texture> textureMap;
@@ -21,8 +22,14 @@ public class Font implements AutoCloseable {
         this.textureMap = new HashMap<>();
         this.infoMap = new HashMap<>();
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(fontFile))) {
+        BufferedImage charImage;
+        try {
+            charImage = ImageIO.read(new File(fontImage));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(fontFile))) {
             for (String line = reader.readLine(); line != null; line = reader.readLine()) {
                 // The line must start with "char" and must not contain "count"
                 if (!line.startsWith("char") || line.contains("count")) {
@@ -33,8 +40,7 @@ public class Font implements AutoCloseable {
 
                 this.textureMap.put(
                         info.charID(),
-                        // The GL_LINEAR filter is important in order to make the text look "smoother"
-                        new Texture(fontImage, info.x(), info.y(), info.width(), info.height())
+                        new Texture(charImage, info.x(), info.y(), info.width(), info.height(), GL_NEAREST)
                 );
 
                 this.infoMap.put(

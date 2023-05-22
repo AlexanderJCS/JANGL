@@ -90,6 +90,22 @@ public class Texture implements AutoCloseable {
     }
 
     /**
+     * Generates an image from an RGBA array of raw data (one int = 1 pixel). Mainly used for the Font class.
+     *
+     * @param bufferedImage The buffered image.
+     * @param x             The top left x coordinate
+     * @param y             The top left y coordinate
+     * @param width         The width of the image
+     * @param height        The height of the image
+     * @param filterMode    The OpenGL filter mode.
+     */
+    public Texture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode) {
+        int[] rawData = bufferedImage.getRGB(x, y, width, height, null, 0, width);
+        this.calculateImageData(rawData, width, height);
+        this.id = this.createImage(width, height, filterMode);
+    }
+
+    /**
      * Unbinds any existing bound texture
      */
     public static void unbind() {
@@ -108,7 +124,7 @@ public class Texture implements AutoCloseable {
         BufferManager.BYTE_BUFFER.limit(width * height * 4);
 
         for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+            for (int j = 0; j <  width; j++) {
                 int pixel = rawData[i * width + j];
                 BufferManager.BYTE_BUFFER.put((byte) ((pixel >> 16) & 0xFF));  // Red
                 BufferManager.BYTE_BUFFER.put((byte) ((pixel >> 8) & 0xFF));   // Green
