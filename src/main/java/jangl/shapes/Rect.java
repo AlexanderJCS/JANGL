@@ -7,24 +7,32 @@ import jangl.graphics.models.TexturedModel;
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
  */
 public class Rect extends Shape {
-    public float x1, y1, x2, y2;
-    public float width, height;
+    private float x1, y1, x2, y2;
+    private float width, height;
 
     /**
-     * @param coords the coordinates of the rect
-     * @param width  Width
-     * @param height Height
+     * @param topLeft the top left coordinate of the rect
+     * @param width   The width of the rect, units screen coords
+     * @param height  The height of the rect, units screen coords
      */
-    public Rect(ScreenCoords coords, float width, float height) {
-        this.x1 = coords.x;
-        this.y1 = coords.y;
-        this.x2 = coords.x + width;
-        this.y2 = coords.y - height;
+    public Rect(ScreenCoords topLeft, float width, float height) {
+        this.x1 = topLeft.x;
+        this.y1 = topLeft.y;
+        this.x2 = topLeft.x + width;
+        this.y2 = topLeft.y - height;
 
         this.width = width;
         this.height = height;
 
         this.model = this.toTexturedModel();
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
     }
 
     public void setWidthHeight(float width, float height) {
