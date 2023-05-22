@@ -54,7 +54,9 @@ To compile the source code to a jar, follow [these instructions](https://www.jet
 
 ## Examples
 
-For code examples, see [src/demo/java](src/demo/java). Or see the quickstart guide.
+For code examples, see [src/demo/java](src/demo/java).
+
+You can also see [the quickstart guide](#quickstart-guide) or more guides within [the docs directory](/docs)
 
 ## Quickstart Guide
 

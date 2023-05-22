@@ -1,3 +1,5 @@
+# Text Rendering
+
 Creating and displaying text to the screen is easy.
 
 ## Hiero
