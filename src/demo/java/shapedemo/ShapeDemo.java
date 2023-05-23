@@ -52,8 +52,12 @@ public class ShapeDemo {
             this.update();
             this.draw();
 
-            // Tick the clock so the FPS is equal to 60
-            GameClock.busyTick(60);
+            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
+            try {
+                GameClock.smartTick(60);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
 
         // Close the window when the program is done running

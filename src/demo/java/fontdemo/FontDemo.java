@@ -30,7 +30,13 @@ public class FontDemo {
         while (Window.shouldRun()) {
             this.draw();
             JANGL.update();
-            GameClock.busyTick(60);
+
+            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
+            try {
+                GameClock.smartTick(60);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
 
         Window.close();
