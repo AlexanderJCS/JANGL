@@ -5,7 +5,7 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 /**
  * A utility class to handle different time-related tasks.
  */
-public final class GameClock {
+public final class Clock {
     /**
      * Second to last tick is used for getTimeDelta()
      */
@@ -17,7 +17,7 @@ public final class GameClock {
      */
     private static int fpsSampleIndex = 0;
 
-    private GameClock() {}
+    private Clock() {}
 
 
     /**
@@ -131,6 +131,6 @@ public final class GameClock {
     }
 
     public static double getNonSmoothedFPS() {
-        return 1 / GameClock.getTimeDelta();
+        return 1 / Clock.getTimeDelta();
     }
 }

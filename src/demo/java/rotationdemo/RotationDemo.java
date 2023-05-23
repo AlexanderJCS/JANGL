@@ -6,7 +6,7 @@ import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class RotationDemo implements AutoCloseable {
 
             // Run the window at 60 FPS, handling any interrupted exceptions that may occur
             try {
-                GameClock.smartTick(60);
+                Clock.smartTick(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

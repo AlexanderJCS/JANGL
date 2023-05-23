@@ -3,7 +3,7 @@ package playerdemo;
 import jangl.JANGL;
 import jangl.coords.ScreenCoords;
 import jangl.io.Window;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 public class PlayerDemo {
     private final Player player;
@@ -31,7 +31,7 @@ public class PlayerDemo {
 
             // Run the window at 60 FPS, handling any interrupted exceptions that may occur
             try {
-                GameClock.smartTick(60);
+                Clock.smartTick(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

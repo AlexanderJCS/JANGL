@@ -6,7 +6,7 @@ import jangl.graphics.Image;
 import jangl.graphics.Texture;
 import jangl.io.keyboard.Keyboard;
 import jangl.shapes.Rect;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
 
 public class Player implements AutoCloseable {
@@ -25,8 +25,8 @@ public class Player implements AutoCloseable {
     }
 
     public void update() {
-        float xDist = (float) (this.speedX * GameClock.getTimeDelta());
-        float yDist = (float) (this.speedY * GameClock.getTimeDelta());
+        float xDist = (float) (this.speedX * Clock.getTimeDelta());
+        float yDist = (float) (this.speedY * Clock.getTimeDelta());
         Rect rect = this.image.rect();
 
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_W)) {

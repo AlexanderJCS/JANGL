@@ -16,6 +16,7 @@ Before we start, we need to create a base program that will contain our shapes. 
 ```java
 import jangl.JANGL;
 import jangl.io.Window;
+import jangl.time.Clock;
 import jangl.time.GameClock;
 
 public class ShapeGuide {
@@ -36,7 +37,7 @@ public class ShapeGuide {
 
             // Run the window at 60 fps
             try {
-                GameClock.smartTick(60);
+                Clock.smartTick(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -70,6 +71,7 @@ import jangl.JANGL;
 import jangl.coords.ScreenCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
+import jangl.time.Clock;
 import jangl.time.GameClock;
 
 public class ShapeGuide {
@@ -94,7 +96,7 @@ public class ShapeGuide {
 
             // Run the window at 60 fps
             try {
-                GameClock.smartTick(60);
+                Clock.smartTick(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -137,6 +139,7 @@ import jangl.coords.ScreenCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
+import jangl.time.Clock;
 import jangl.time.GameClock;
 
 public class ShapeGuide {
@@ -164,7 +167,7 @@ public class ShapeGuide {
 
             // Run the window at 60 fps
             try {
-                GameClock.smartTick(60);
+                Clock.smartTick(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -203,6 +206,7 @@ import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Triangle;
+import jangl.time.Clock;
 import jangl.time.GameClock;
 
 public class ShapeGuide {
@@ -237,7 +241,7 @@ public class ShapeGuide {
 
             // Run the window at 60 fps
             try {
-                GameClock.smartTick(60);
+                Clock.smartTick(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

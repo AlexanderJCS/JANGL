@@ -6,7 +6,7 @@ import jangl.coords.ScreenCoords;
 import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 public class Quickstart {
     public Quickstart() {
@@ -32,7 +32,7 @@ public class Quickstart {
 
                 // Run the window at 60 FPS, handling any interrupted exceptions that may occur
                 try {
-                    GameClock.smartTick(60);
+                    Clock.smartTick(60);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }

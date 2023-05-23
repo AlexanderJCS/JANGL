@@ -96,6 +96,7 @@ import jangl.coords.ScreenCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
+import jangl.time.Clock;
 import jangl.time.GameClock;
 
 public class FontDemo {
@@ -120,7 +121,7 @@ public class FontDemo {
             this.text.draw();
 
             JANGL.update();
-            GameClock.busyTick(60);
+            Clock.busyTick(60);
         }
 
         Window.close();
@@ -142,6 +143,7 @@ import jangl.coords.ScreenCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
+import jangl.time.Clock;
 import jangl.time.GameClock;
 
 public class FontDemo {
@@ -166,7 +168,7 @@ public class FontDemo {
             this.text.draw();
 
             JANGL.update();
-            GameClock.busyTick(60);
+            Clock.busyTick(60);
         }
 
         Window.close();

@@ -7,7 +7,7 @@ import jangl.graphics.shaders.ColorShader;
 import jangl.graphics.shaders.Shader;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 import static org.lwjgl.opengl.GL20.glUniform4f;
 
@@ -56,7 +56,7 @@ public class ShaderDemo {
 
                 // Run the window at 60 FPS, handling any interrupted exceptions that may occur
                 try {
-                    GameClock.smartTick(60);
+                    Clock.smartTick(60);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }

@@ -5,7 +5,7 @@ import jangl.coords.ScreenCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 public class FontDemo {
     private final Text text;
@@ -33,7 +33,7 @@ public class FontDemo {
 
             // Run the window at 60 FPS, handling any interrupted exceptions that may occur
             try {
-                GameClock.smartTick(60);
+                Clock.smartTick(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }

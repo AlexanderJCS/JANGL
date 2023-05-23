@@ -9,7 +9,7 @@ import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
 import jangl.io.mouse.MouseEvent;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 import org.lwjgl.glfw.GLFW;
 
 public class InputDemo implements AutoCloseable {
@@ -84,7 +84,7 @@ public class InputDemo implements AutoCloseable {
 
             // Run the window at 60 FPS, handling any interrupted exceptions that may occur
             try {
-                GameClock.smartTick(60);
+                Clock.smartTick(60);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
