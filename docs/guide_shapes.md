@@ -35,7 +35,11 @@ public class ShapeGuide {
             JANGL.update();
 
             // Run the window at 60 fps
-            GameClock.busyTick(60);
+            try {
+                GameClock.smartTick(60);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
@@ -89,7 +93,11 @@ public class ShapeGuide {
             JANGL.update();
 
             // Run the window at 60 fps
-            GameClock.busyTick(60);
+            try {
+                GameClock.smartTick(60);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
@@ -155,7 +163,11 @@ public class ShapeGuide {
             JANGL.update();
 
             // Run the window at 60 fps
-            GameClock.busyTick(60);
+            try {
+                GameClock.smartTick(60);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
@@ -224,7 +236,11 @@ public class ShapeGuide {
             JANGL.update();
 
             // Run the window at 60 fps
-            GameClock.busyTick(60);
+            try {
+                GameClock.smartTick(60);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 

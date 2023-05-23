@@ -220,6 +220,48 @@ public class Quickstart {
 Now, we have a rectangle drawn to your screen.
 ![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/9f331770-2d59-4887-ab79-08d20f2312f9)
 
+If you notice that your computer fans start spinning faster when running this program, that's no coincidence. You're running the window at the maximum speed your computer can handle, so it's going to put strain on the CPU and GPU. You can limit this by using the `GameClock.smartTick(int fps)` method. This will run the window at the desired frames per second.
+
+The smart tick method throws an interrupted exception if the program is interrupted while it is sleeping, so it is important to handle that as well.
+
+```java
+import jangl.JANGL;
+import jangl.coords.ScreenCoords;
+import jangl.io.Window;
+import jangl.shapes.Rect;
+
+public class Quickstart {
+    public Quickstart() {
+        // Input the width and height of your screen in pixels.
+        JANGL.init(1600, 900);
+    }
+
+    public void run() {
+        try (Rect rect = new Rect(new ScreenCoords(0, 0), 0.5f, 0.5f)) {
+            while (Window.shouldRun()) {
+                JANGL.update();
+                Window.clear();
+
+                rect.draw();
+
+                // Run the window at 60 FPS, handling any interrupted exceptions that may occur
+                try {
+                    GameClock.smartTick(60);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+
+        Window.close();
+    }
+
+    public static void main(String[] args) {
+        new Quickstart().run();
+    }
+}
+```
+
 However, one thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `ScreenCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit ont he X axis. To circumvent this, we can specify the number of pixels the `Rect` will be on the X and Y axis instead of using ScreenCoords.
 
 We can do this by using the `PixelCoords` object. It allows us to convert a certain number of pixels in the X axis and a certain number of pixels in the Y axis to screen coordinates using the `distXtoScreenCoords` and `distYtoScreenCoords` method. For example, if we want our cube to be 400 pixels wide and tall, we can initialize our rect like so:
@@ -253,6 +295,13 @@ public class Quickstart {
                 Window.clear();
 
                 rect.draw();
+
+                // Run the window at 60 FPS, handling any interrupted exceptions that may occur
+                try {
+                    GameClock.smartTick(60);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
 
@@ -312,6 +361,13 @@ public class Quickstart {
                 Window.clear();
 
                 rect.draw(yellow);
+
+                // Run the window at 60 FPS, handling any interrupted exceptions that may occur
+                try {
+                    GameClock.smartTick(60);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
         }
 
