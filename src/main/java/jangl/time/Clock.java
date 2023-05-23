@@ -84,6 +84,9 @@ public final class Clock {
         // Busy wait
         double start = glfwGetTime();
         while (glfwGetTime() - start < seconds);
+
+        secondToLastTick = lastTick;
+        lastTick = glfwGetTime();
     }
 
     /**
