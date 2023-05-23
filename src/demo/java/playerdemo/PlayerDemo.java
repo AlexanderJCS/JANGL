@@ -3,7 +3,7 @@ package playerdemo;
 import jangl.JANGL;
 import jangl.coords.ScreenCoords;
 import jangl.io.Window;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class PlayerDemo {
     private final Player player;
@@ -30,7 +30,7 @@ public class PlayerDemo {
             this.draw();
 
             // Tick the clock so the FPS is equal to 60
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
 
         // Terminate GLFW when the process is done

@@ -6,7 +6,7 @@ import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Triangle;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -39,7 +39,7 @@ public class ShapeGuide {
             JANGL.update();
 
             // Run the window at 60 fps
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
     }
 

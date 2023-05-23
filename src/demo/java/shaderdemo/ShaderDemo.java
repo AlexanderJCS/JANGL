@@ -7,7 +7,7 @@ import jangl.graphics.shaders.ColorShader;
 import jangl.graphics.shaders.Shader;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 import static org.lwjgl.opengl.GL20.glUniform4f;
 
@@ -54,7 +54,7 @@ public class ShaderDemo {
                 // You can also use color shaders to do this automatically
                 circle.draw(colorShader);
 
-                Clock.busyTick(60);
+                GameClock.busyTick(60);
             }
         }
 

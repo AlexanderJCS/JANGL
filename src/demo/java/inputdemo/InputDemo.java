@@ -9,7 +9,7 @@ import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
 import jangl.io.mouse.MouseEvent;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 import org.lwjgl.glfw.GLFW;
 
 public class InputDemo implements AutoCloseable {
@@ -82,7 +82,7 @@ public class InputDemo implements AutoCloseable {
             this.draw();
             this.update();
 
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
 
         Window.close();

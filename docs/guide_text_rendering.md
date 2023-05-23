@@ -96,17 +96,17 @@ import jangl.coords.ScreenCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class FontDemo {
     Text text;
-    
+
     public FontDemo() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
-        
+
         this.text = new Text(
                 myFont,  // the font object
                 "Hello World!",  // the text to display
@@ -118,14 +118,14 @@ public class FontDemo {
     public void run() {
         while (Window.shouldRun()) {
             this.text.draw();
-            
+
             JANGL.update();
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
 
         Window.close();
     }
-    
+
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
     }
@@ -142,17 +142,17 @@ import jangl.coords.ScreenCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class FontDemo {
     Text text;
-    
+
     public FontDemo() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
-        
+
         this.text = new Text(
                 myFont,  // the font object
                 "Hello World!",  // the text to display
@@ -164,20 +164,20 @@ public class FontDemo {
     public void run() {
         while (Window.shouldRun()) {
             this.text.draw();
-            
+
             JANGL.update();
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
 
         Window.close();
-        
+
         // It is important to close the Font object in addition to the text object
         // to avoid a memory leak. To do so, we can call the close() method.
         // It is important to note that text.close() does not close the font.
         this.text.getFont().close();
         this.text.close();
     }
-    
+
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
         new FontDemo().run();  // run a new FontDemo

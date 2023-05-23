@@ -16,29 +16,29 @@ Before we start, we need to create a base program that will contain our shapes. 
 ```java
 import jangl.JANGL;
 import jangl.io.Window;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class ShapeGuide {
     public ShapeGuide() {
-        
+
     }
-    
+
     public void draw() {
         Window.clear();
     }
-    
+
     public void run() {
         while (Window.shouldRun()) {
             this.draw();
-            
+
             // This is method is required to be called so the window doesn't say "not responding"
             JANGL.update();
-            
+
             // Run the window at 60 fps
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
     }
-    
+
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
         JANGL.init(1600, 900);
@@ -66,7 +66,7 @@ import jangl.JANGL;
 import jangl.coords.ScreenCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -89,7 +89,7 @@ public class ShapeGuide {
             JANGL.update();
 
             // Run the window at 60 fps
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
     }
 
@@ -129,7 +129,7 @@ import jangl.coords.ScreenCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -155,7 +155,7 @@ public class ShapeGuide {
             JANGL.update();
 
             // Run the window at 60 fps
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
     }
 
@@ -191,7 +191,7 @@ import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Triangle;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -224,7 +224,7 @@ public class ShapeGuide {
             JANGL.update();
 
             // Run the window at 60 fps
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
     }
 

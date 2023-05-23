@@ -1,15 +1,11 @@
 package jangl.time;
 
-import jangl.JANGL;
-
-import java.util.concurrent.locks.LockSupport;
-
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 /**
  * A utility class to handle different time-related tasks.
  */
-public final class Clock {
+public final class GameClock {
     /**
      * Second to last tick is used for getTimeDelta()
      */
@@ -21,7 +17,7 @@ public final class Clock {
      */
     private static int fpsSampleIndex = 0;
 
-    private Clock() {}
+    private GameClock() {}
 
 
     /**
@@ -135,6 +131,6 @@ public final class Clock {
     }
 
     public static double getNonSmoothedFPS() {
-        return 1 / Clock.getTimeDelta();
+        return 1 / GameClock.getTimeDelta();
     }
 }

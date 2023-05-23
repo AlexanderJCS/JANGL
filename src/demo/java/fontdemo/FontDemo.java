@@ -5,7 +5,7 @@ import jangl.coords.ScreenCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class FontDemo {
     private final Text text;
@@ -30,7 +30,7 @@ public class FontDemo {
         while (Window.shouldRun()) {
             this.draw();
             JANGL.update();
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
 
         Window.close();

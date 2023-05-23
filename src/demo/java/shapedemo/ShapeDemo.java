@@ -6,7 +6,7 @@ import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Shape;
-import jangl.time.Clock;
+import jangl.time.GameClock;
 
 public class ShapeDemo {
     private final Rect rect;
@@ -32,8 +32,8 @@ public class ShapeDemo {
         JANGL.update();
 
         // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
-        this.rect.rotateAxis(0.25 * Clock.getTimeDelta());
-        this.circle.rotateAxis(0.05 * Clock.getTimeDelta());
+        this.rect.rotateAxis(0.25 * GameClock.getTimeDelta());
+        this.circle.rotateAxis(0.05 * GameClock.getTimeDelta());
 
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background
@@ -53,7 +53,7 @@ public class ShapeDemo {
             this.draw();
 
             // Tick the clock so the FPS is equal to 60
-            Clock.busyTick(60);
+            GameClock.busyTick(60);
         }
 
         // Close the window when the program is done running
