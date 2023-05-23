@@ -1,5 +1,9 @@
 package jangl.time;
 
+import jangl.JANGL;
+
+import java.util.concurrent.locks.LockSupport;
+
 import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 /**
@@ -24,7 +28,7 @@ public final class Clock {
      * Busy waits for the necessary time for the given fps. Busy waiting means that the thread constantly checks
      * if the time is up, which uses more CPU power but can be very precise way of waiting.
      *
-     * @param fps The fps the program should run at.
+     * @param fps The frames per second the program should run at.
      */
     public static void busyTick(double fps) {
         // For future reference:
@@ -33,7 +37,7 @@ public final class Clock {
         double interval = 1 / fps;
 
         // Wait until the current time passed interval
-        while (glfwGetTime() - lastTick < interval) {}
+        while (glfwGetTime() - lastTick < interval);
 
         secondToLastTick = lastTick;
         lastTick = glfwGetTime();
@@ -44,6 +48,46 @@ public final class Clock {
         if (fpsSampleIndex >= fpsSamples.length) {
             fpsSampleIndex = 0;
         }
+    }
+
+    /**
+     * The smartTick method differs from busyTick in that it provides a CPU-efficient way to wait for the next frame.
+     * This is generally always recommended over the busyTick alternative.
+     * <p>
+     * To learn more about this, <a href="https://blog.bearcats.nl/accurate-sleep-function/">visit this blog post</a>
+     *
+     * @param fps The frames per second the program should run at.
+     * @throws InterruptedException Throws if the thread is interrupted while sleeping.
+     */
+    public static void smartTick(double fps) throws InterruptedException {
+        double seconds = 1 / fps;
+
+        double estimate = 5e-3;
+        double mean = 5e-3;
+        double m2 = 0;
+        long count = 1;
+
+        while (seconds > estimate) {
+            double start = glfwGetTime();
+            Thread.sleep(1);
+            double end = glfwGetTime();
+
+            double observed = end - start;
+            seconds -= observed;
+
+            count++;
+
+            double delta = observed - mean;
+            mean += delta / count;
+            m2 += delta * (observed - mean);
+            double stdDev = Math.sqrt(m2 / (count - 1));
+
+            estimate = mean + stdDev;
+        }
+
+        // Busy wait
+        double start = glfwGetTime();
+        while (glfwGetTime() - start < seconds);
     }
 
     /**
