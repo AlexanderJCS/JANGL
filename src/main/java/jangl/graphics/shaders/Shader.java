@@ -14,7 +14,7 @@ public class Shader implements AutoCloseable {
      * @param vertexFile   The filepath to the vertex shader.
      * @param fragmentFile The filepath to the fragment shader.
      */
-    public Shader(String vertexFile, String fragmentFile) {
+    public Shader(String vertexFile, String fragmentFile) throws ShaderCompileException {
         this.vertexShaderID = loadShader(vertexFile, GL_VERTEX_SHADER);
         this.fragmentShaderID = loadShader(fragmentFile, GL_FRAGMENT_SHADER);
 
@@ -26,7 +26,7 @@ public class Shader implements AutoCloseable {
         glValidateProgram(this.programID);
     }
 
-    public Shader(InputStream vertexStream, InputStream fragmentStream) {
+    public Shader(InputStream vertexStream, InputStream fragmentStream) throws ShaderCompileException {
         // https://stackoverflow.com/questions/309424/how-do-i-read-convert-an-inputstream-into-a-string-in-java
         Scanner vertexScanner = new Scanner(vertexStream).useDelimiter("\\A");
         String vertexSource = vertexScanner.hasNext() ? vertexScanner.next() : "";
@@ -75,15 +75,18 @@ public class Shader implements AutoCloseable {
      * @param type    The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
      * @return The ID of the compiled shader
      */
-    private static int compileShader(String program, int type) {
+    private static int compileShader(String program, int type) throws ShaderCompileException {
         int shaderID = glCreateShader(type);
         glShaderSource(shaderID, program);
         glCompileShader(shaderID);
 
         if (glGetShaderi(shaderID, GL_COMPILE_STATUS) == GL_FALSE) {
-            System.out.println(glGetShaderInfoLog(shaderID, 1024));
-            System.err.println("Could not compile shader");
-            System.exit(1);
+            String shaderTypeString = type == GL_VERTEX_SHADER ? "vertex" : "fragment";
+
+            throw new ShaderCompileException(
+                    "Could not compile " + shaderTypeString + " shader.\nError message:\n" +
+                            glGetShaderInfoLog(shaderID, 8192)
+            );
         }
 
         return shaderID;
