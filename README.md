@@ -6,8 +6,8 @@ This library is built on top of LWJGL, an OpenGL wrapper. JANGL abstracts a lot 
 Benefits of this library over OpenGL include:
 - Ease of use when creating rectangles and circles
 - Collision detection between any two polygons or circles
-- Provides more control with custom shaders, as well as some pre-defined shaders
-- Easily load in images using the `Image` class
+- Provides the ability to program custom shaders. JANGL also provides some pre-defined shaders
+- Easily render images using the `Image` class
 - Easy input operations using the `Mouse` and `Keyboard` class.
 - Control over how you structure your project by providing two coordinate systems (`ScreenCoords` and `PixelCoords`)
 - Several other abstractions
