@@ -25,6 +25,8 @@ public class Texture implements AutoCloseable {
      * @param filterMode The filter mode for scaling the image. Common filter modes are:
      *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
      *                   for when scaling.
+     *
+     * @throws UncheckedIOException If the specified filepath cannot be found.
      */
     public Texture(String filepath, int filterMode) throws UncheckedIOException {
         BufferedImage bufferedImage;
@@ -47,7 +49,7 @@ public class Texture implements AutoCloseable {
     /**
      * @param filepath The filepath of the texture. Defaults to nearest-neighbor filter mode.
      */
-    public Texture(String filepath) {
+    public Texture(String filepath) throws UncheckedIOException {
         this(filepath, GL_NEAREST);
     }
 
@@ -60,9 +62,11 @@ public class Texture implements AutoCloseable {
      * @param filterMode The filter mode for scaling the image. Common filter modes are:
      *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
      *                   for when scaling.
-     * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
+     * @throws IndexOutOfBoundsException Throws if the specified rectangle goes off the image
+     * @throws UncheckedIOException If the specified filepath cannot be found.
      */
-    public Texture(String filepath, int x, int y, int width, int height, int filterMode) throws IndexOutOfBoundsException {
+    public Texture(String filepath, int x, int y, int width, int height, int filterMode)
+            throws IndexOutOfBoundsException, UncheckedIOException {
         BufferedImage bufferedImage;
 
         try {
@@ -85,9 +89,12 @@ public class Texture implements AutoCloseable {
      * @param y        The y component, in pixels, of the top left corner of the rectangular region of the image to get
      * @param width    The width of the region, in pixels, to get.
      * @param height   The height of the region, in pixels, to get.
+     *
      * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
+     * @throws UncheckedIOException If the specified filepath cannot be found.
      */
-    public Texture(String filepath, int x, int y, int width, int height) throws IndexOutOfBoundsException {
+    public Texture(String filepath, int x, int y, int width, int height)
+            throws IndexOutOfBoundsException, UncheckedIOException {
         this(filepath, x, y, width, height, GL_NEAREST);
     }
 
@@ -100,8 +107,12 @@ public class Texture implements AutoCloseable {
      * @param width         The width of the image
      * @param height        The height of the image
      * @param filterMode    The OpenGL filter mode.
+     *
+     * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
+     * @throws UncheckedIOException If the specified filepath cannot be found.
      */
-    public Texture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode) {
+    public Texture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode)
+            throws IndexOutOfBoundsException, UncheckedIOException {
         int[] rawData = bufferedImage.getRGB(x, y, width, height, null, 0, width);
         this.calculateImageData(rawData, width, height);
         this.id = this.createImage(width, height, filterMode);
