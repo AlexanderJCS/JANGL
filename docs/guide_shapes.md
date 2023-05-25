@@ -11,13 +11,13 @@ It is also recommended to see the [quickstart guide](/README.md#quickstart-guide
 
 ## Creating a base program
 
-Before we start, we need to create a base program that will contain our shapes. This code is largely explained within the [quickstart guide](/README.md#quickstart-guide), and thus will not be explained in great detail.
+Before we start, we need to create a base program that will contain our shapes. This code is largely explained within the [quickstart guide](/README.md#quickstart-guide), and therefore will not be explained in great detail.
 
 ```java
 import jangl.JANGL;
 import jangl.io.Window;
 import jangl.time.Clock;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 public class ShapeGuide {
     public ShapeGuide() {
@@ -72,7 +72,7 @@ import jangl.coords.ScreenCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -140,7 +140,7 @@ import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -207,7 +207,7 @@ import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Triangle;
 import jangl.time.Clock;
-import jangl.time.GameClock;
+import jangl.time.Clock;
 
 public class ShapeGuide {
     private final Rect rect;
