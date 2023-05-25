@@ -95,6 +95,7 @@ public class Window {
     }
 
     public static void close() {
+        glfwDestroyWindow(window);
         glfwTerminate();
     }
 
