@@ -41,4 +41,10 @@ public class IndicesModel extends Model {
 
         glDisableClientState(GL_VERTEX_ARRAY);
     }
+
+    @Override
+    public void close() {
+        super.close();
+        glDeleteBuffers(iId);
+    }
 }
