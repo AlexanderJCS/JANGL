@@ -52,10 +52,10 @@ public class FontDemo {
 ```
 
 Now, you can create a `Text` class that takes in the following constructor arguments:
-- The `Font` class
-- The text you want to display (string)
 - The top left position of the text
+- The `Font` class
 - The y height of the text, in `ScreenCoords`
+- The text you want to display (string)
 
 For this example, the text will be a member variable of `FontDemo` so it can be accessed through a `run` method that will be created later.
 
@@ -75,10 +75,10 @@ public class FontDemo {
         );
         
         this.text = new Text(
-                myFont,  // the font object
-                "Hello World!",  // the text to display
                 new ScreenCoords(-0.5f, 0),  // the top left coordinate of the text
-                0.1f  // the y height, in screen coords, of the text
+                myFont,  // the font object
+                0.1f,  // the y height, in screen coords, of the text
+                "Hello World!"  // the text to display
         );
     }
     
@@ -109,10 +109,10 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                myFont,  // the font object
-                "Hello World!",  // the text to display
                 new ScreenCoords(-0.5f, 0),  // the top left coordinate of the text
-                0.1f  // the y height, in screen coords, of the text
+                myFont,  // the font object
+                0.1f,  // the y height, in screen coords, of the text
+                "Hello World!"  // the text to display
         );
     }
 
@@ -156,10 +156,10 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                myFont,  // the font object
-                "Hello World!",  // the text to display
                 new ScreenCoords(-0.5f, 0),  // the top left coordinate of the text
-                0.1f  // the y height, in screen coords, of the text
+                myFont,  // the font object
+                0.1f,  // the y height, in screen coords, of the text
+                "Hello World!"  // the text to display
         );
     }
 
