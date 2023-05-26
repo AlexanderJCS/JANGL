@@ -2,16 +2,20 @@ package jangl.io.mouse;
 
 import jangl.coords.PixelCoords;
 import jangl.coords.ScreenCoords;
-import jangl.util.BufferManager;
 import jangl.io.EventsConfig;
 import jangl.io.Window;
+import org.lwjgl.BufferUtils;
 
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Mouse {
+    private static final DoubleBuffer MOUSE_POS_BUFFER_X = BufferUtils.createDoubleBuffer(1);
+    private static final DoubleBuffer MOUSE_POS_BUFFER_Y = BufferUtils.createDoubleBuffer(1);
+
     private static final List<MouseEvent> EVENTS = new ArrayList<>();
     private static boolean initialized = false;
 
@@ -39,9 +43,9 @@ public class Mouse {
      */
     public static ScreenCoords getMousePos() {
         // https://stackoverflow.com/questions/33592499/lwjgl-3-get-cursor-position
-        glfwGetCursorPos(Window.getWindow(), BufferManager.MOUSE_BUFFER_1, BufferManager.MOUSE_BUFFER_2);
-        double x = BufferManager.MOUSE_BUFFER_1.get(0);
-        double y = BufferManager.MOUSE_BUFFER_2.get(0);
+        glfwGetCursorPos(Window.getWindow(), MOUSE_POS_BUFFER_X, MOUSE_POS_BUFFER_Y);
+        double x = MOUSE_POS_BUFFER_X.get(0);
+        double y = MOUSE_POS_BUFFER_Y.get(0);
 
         return new PixelCoords((float) x, (float) (Window.getScreenHeight() - y)).toScreenCoords();
     }

@@ -1,12 +1,13 @@
 package jangl.graphics;
 
-import jangl.util.BufferManager;
+import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL46.*;
 
@@ -41,9 +42,9 @@ public class Texture implements AutoCloseable {
         int height = bufferedImage.getHeight();
 
         int[] rawData = bufferedImage.getRGB(0, 0, width, height, null, 0, width);
-        this.calculateImageData(rawData, width, height);
+        ByteBuffer imageData = this.calculateImageData(rawData, width, height);
 
-        this.id = this.createImage(width, height, filterMode);
+        this.id = this.createImage(imageData, width, height, filterMode);
     }
 
     /**
@@ -76,9 +77,9 @@ public class Texture implements AutoCloseable {
         }
 
         int[] rawData = bufferedImage.getRGB(x, y, width, height, null, 0, width);
-        this.calculateImageData(rawData, width, height);
+        ByteBuffer imageData = this.calculateImageData(rawData, width, height);
 
-        this.id = this.createImage(width, height, filterMode);
+        this.id = this.createImage(imageData, width, height, filterMode);
     }
 
     /**
@@ -114,8 +115,8 @@ public class Texture implements AutoCloseable {
     public Texture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode)
             throws IndexOutOfBoundsException, UncheckedIOException {
         int[] rawData = bufferedImage.getRGB(x, y, width, height, null, 0, width);
-        this.calculateImageData(rawData, width, height);
-        this.id = this.createImage(width, height, filterMode);
+        ByteBuffer imageData = this.calculateImageData(rawData, width, height);
+        this.id = this.createImage(imageData, width, height, filterMode);
     }
 
     /**
@@ -132,33 +133,34 @@ public class Texture implements AutoCloseable {
      * @param width   The width of the region to get
      * @param height  The height of the region to get
      */
-    private void calculateImageData(int[] rawData, int width, int height) {
-        BufferManager.BYTE_BUFFER.clear();
-        BufferManager.BYTE_BUFFER.limit(width * height * 4);
+    private ByteBuffer calculateImageData(int[] rawData, int width, int height) {
+        ByteBuffer imageData = BufferUtils.createByteBuffer(width * height * 4);
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int pixel = rawData[i * width + j];
-                BufferManager.BYTE_BUFFER.put((byte) ((pixel >> 16) & 0xFF));  // Red
-                BufferManager.BYTE_BUFFER.put((byte) ((pixel >> 8) & 0xFF));   // Green
-                BufferManager.BYTE_BUFFER.put((byte) (pixel & 0xFF));          // Blue
-                BufferManager.BYTE_BUFFER.put((byte) ((pixel >> 24) & 0xFF));  // Alpha
+                imageData.put((byte) ((pixel >> 16) & 0xFF));  // Red
+                imageData.put((byte) ((pixel >> 8) & 0xFF));   // Green
+                imageData.put((byte) (pixel & 0xFF));          // Blue
+                imageData.put((byte) ((pixel >> 24) & 0xFF));  // Alpha
             }
         }
 
-        BufferManager.BYTE_BUFFER.flip();
+        imageData.flip();
+
+        return imageData;
     }
 
     /**
      * @return the ID of the created image
      */
-    private int createImage(int width, int height, int filterMode) {
+    private int createImage(ByteBuffer imageData, int width, int height, int filterMode) {
         int imageID = glGenTextures();
 
         glBindTexture(GL_TEXTURE_2D, imageID);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, BufferManager.BYTE_BUFFER);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
         Texture.unbind();
 
         return imageID;
