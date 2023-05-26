@@ -8,23 +8,32 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
-
 public class Font implements AutoCloseable {
-    private final Map<Integer, Texture> textureMap;
+    public final Texture fontTexture;
+    private final Map<Integer, float[]> texCoordsMap;
     private final Map<Integer, CharInfo> infoMap;
 
     /**
      * @param fontFile  The .fnt file of your font
      * @param fontImage The associated .png image associated with that .fnt file
+     *
+     * @throws UncheckedIOException if the fontFile or fontImage is not found
      */
-    public Font(String fontFile, String fontImage) {
-        this.textureMap = new HashMap<>();
+    public Font(String fontFile, String fontImage) throws UncheckedIOException {
+        this.texCoordsMap = new HashMap<>();
         this.infoMap = new HashMap<>();
 
-        BufferedImage charImage;
+        this.fontTexture = new Texture(fontImage);
+
+        int glyphImageWidth;
+        int glyphImageHeight;
+
         try {
-            charImage = ImageIO.read(new File(fontImage));
+             BufferedImage glyphImage = ImageIO.read(new File(fontImage));
+
+            glyphImageWidth = glyphImage.getWidth();
+            glyphImageHeight = glyphImage.getHeight();
+
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -38,11 +47,28 @@ public class Font implements AutoCloseable {
 
                 CharInfo info = this.parseLine(line);
 
-                this.textureMap.put(
+                // Calculate the texture coordinates
+                float uvTopLeftX = (float) info.x() / glyphImageWidth;
+                float uvTopLeftY = ((float) info.y() / glyphImageHeight);
+
+                float uvWidth = (float) info.width() / glyphImageWidth;
+                float uvHeight = (float) info.height() / glyphImageHeight;
+
+                /*
+                 * Gives texture coordinates in this order: top left, top right, bottom right, bottom left
+                 * AKA clockwise order starting from the bottom left
+                 */
+                this.texCoordsMap.put(
                         info.charID(),
-                        new Texture(charImage, info.x(), info.y(), info.width(), info.height(), GL_NEAREST)
+                        new float[]{
+                                uvTopLeftX, uvTopLeftY,  // top left
+                                uvTopLeftX + uvWidth, uvTopLeftY,  // top right
+                                uvTopLeftX + uvWidth, uvTopLeftY + uvHeight,  // bottom right
+                                uvTopLeftX, uvTopLeftY + uvHeight,  // bottom left
+                        }
                 );
 
+                // Put metadata in the infoMap
                 this.infoMap.put(
                         info.charID(), info
                 );
@@ -85,18 +111,18 @@ public class Font implements AutoCloseable {
 
     /**
      * @param id The ASCII ID of the character to get the texture of
-     * @return The texture of the character
+     * @return The texture of the character in clockwise order, starting from the top left
      */
-    public Texture getTexture(int id) {
-        return this.textureMap.get(id);
+    public float[] getTexCoords(int id) {
+        return this.texCoordsMap.get(id);
     }
 
     /**
      * @param ch The character to get the texture of
-     * @return The texture of the character
+     * @return The texture coords of the character in clockwise order, starting from the top left.
      */
-    public Texture getTexture(char ch) {
-        return this.getTexture((int) ch);
+    public float[] getTexCoords(char ch) {
+        return this.getTexCoords((int) ch);
     }
 
     /**
@@ -118,10 +144,6 @@ public class Font implements AutoCloseable {
 
     @Override
     public void close() {
-        for (Texture texture : textureMap.values()) {
-            texture.close();
-        }
-
-        this.textureMap.clear();
+        this.fontTexture.close();
     }
 }

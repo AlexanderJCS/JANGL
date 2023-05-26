@@ -2,49 +2,38 @@ package jangl.graphics.font;
 
 import jangl.coords.PixelCoords;
 import jangl.coords.ScreenCoords;
-import jangl.graphics.Image;
+import jangl.graphics.Texture;
 import jangl.graphics.font.parser.CharInfo;
 import jangl.graphics.font.parser.Font;
-import jangl.shapes.Rect;
-
-import java.util.ArrayList;
-import java.util.List;
+import jangl.graphics.models.TexturedModel;
 
 public class Text implements AutoCloseable {
-    private final List<Image> characters;
+    private TexturedModel model;
     private String text;
     private ScreenCoords topLeft;
     private Font font;
     private float yHeight;
 
     /**
-     * @param font    The font to use
-     * @param text    The text to display
      * @param topLeft The top left coordinate of the text
+     * @param font    The font to use
      * @param yHeight How high, in screen coords, each letter should be
+     * @param text    The text to display
      */
-    public Text(Font font, String text, ScreenCoords topLeft, float yHeight) {
-        this.characters = new ArrayList<>();
+    public Text(ScreenCoords topLeft, Font font, float yHeight, String text) {
         this.topLeft = topLeft;
         this.yHeight = yHeight;
         this.font = font;
+        this.text = text;
 
-        this.setText(text);
+        this.model = this.getModel();
     }
 
     public String getText() {
         return this.text;
     }
 
-    /**
-     * Set the text to be displayed to the screen.
-     *
-     * @param text The text string to be displayed to the screen.
-     */
-    public void setText(String text) {
-        this.close();  // clear the characters list and close all images
-        this.text = text;
-
+    public TexturedModel getModel() {
         // Use the capital letter A to find the scale
         int aHeightPixels = this.font.getInfo('A').height();
         float aHeightScreenCoords = PixelCoords.distYtoScreenDist(aHeightPixels);
@@ -55,7 +44,13 @@ public class Text implements AutoCloseable {
         // The cursor is where the next char should be drawn
         PixelCoords cursor = this.topLeft.toPixelCoords();
 
-        for (char ch : text.toCharArray()) {
+        float[] vertices = new float[this.text.length() * 8];
+        float[] texCoords = new float[this.text.length() * 8];
+        int[] indices = new int[this.text.length() * 6];
+
+        for (int i = 0; i < this.text.length(); i++) {
+            char ch = this.text.charAt(i);
+
             CharInfo info = this.font.getInfo(ch);
 
             if (info == null) {
@@ -65,22 +60,70 @@ public class Text implements AutoCloseable {
             cursor.x += info.xOffset() * scaleFactor;
             cursor.y -= info.yOffset() * scaleFactor;
 
-            this.characters.add(
-                    new Image(
-                            new Rect(
-                                    cursor.toScreenCoords(),
-                                    PixelCoords.distXtoScreenDist(info.width()) * scaleFactor,
-                                    PixelCoords.distYtoScreenDist(info.height()) * scaleFactor
-                            ),
-                            this.font.getTexture(ch)
-                    )
-            );
+            ScreenCoords scCursor = cursor.toScreenCoords();
+            float x1 = scCursor.x;
+            float y1 = scCursor.y;
+            float x2 = scCursor.x + PixelCoords.distXtoScreenDist(info.width()) * scaleFactor;
+            float y2 = scCursor.y - PixelCoords.distYtoScreenDist(info.height()) * scaleFactor;
+
+            float[] charVertices = new float[]{
+                    x1, y1,
+                    x2, y1,
+                    x2, y2,
+                    x1, y2
+            };
+            System.arraycopy(charVertices, 0, vertices, i * 8, charVertices.length);
+
+            int[] charIndices = new int[]{
+                    i * 4, i * 4 + 1, i * 4 + 2,
+                    i * 4 + 2, i * 4 + 3, i * 4
+            };
+            System.arraycopy(charIndices, 0, indices, i * 6, charIndices.length);
+
+            float[] charTexCoords = this.font.getTexCoords(ch);
+            System.arraycopy(charTexCoords, 0, texCoords, i * 8, charTexCoords.length);
 
             cursor.x -= info.xOffset() * scaleFactor;
             cursor.y += info.yOffset() * scaleFactor;
 
             cursor.x += info.xAdvance() * scaleFactor;
         }
+
+        return new TexturedModel(vertices, indices, texCoords);
+    }
+
+    /**
+     * Regenerate the new model with any changes that may have been made since the last time it was generated
+     */
+    protected void regenerate() {
+        this.close();  // close the old model before generating the new one
+        this.model = this.getModel();
+    }
+
+    public void setText(String newText) {
+        this.text = newText;
+        this.regenerate();
+    }
+
+    /**
+     * WARNING: This method does not close the old font. It is recommended to run font.getFont().close() before calling
+     * this method.
+     *
+     * @param font The new font.
+     */
+    public void setFont(Font font) {
+        this.font = font;
+        this.regenerate();
+    }
+
+    public void setYHeight(float newYHeight) {
+        this.yHeight = newYHeight;
+        this.regenerate();
+    }
+
+    public void setTopLeft(ScreenCoords newTopLeft) {
+        this.topLeft = new ScreenCoords(newTopLeft.x, newTopLeft.y);
+        this.regenerate();
     }
 
     /**
@@ -91,36 +134,10 @@ public class Text implements AutoCloseable {
     }
 
     /**
-     * Set the top left coordinate of the text.
-     *
-     * @param topLeft The top left coordinate of the text.
-     */
-    public void setTopLeft(ScreenCoords topLeft) {
-        // Shift the rects by the delta instead of recalculating the text
-        // This will save processing time
-        float deltaX = topLeft.x - this.topLeft.y;
-        float deltaY = topLeft.y - this.topLeft.y;
-
-        for (Image character : this.characters) {
-            character.rect().shift(deltaX, deltaY);
-        }
-
-        this.topLeft = topLeft;
-    }
-
-    /**
      * @return The font object being used.
      */
     public Font getFont() {
         return font;
-    }
-
-    /**
-     * @param font The new font to set the text to.
-     */
-    public void setFont(Font font) {
-        this.font = font;
-        this.setText(this.getText());  // recalculate text with the new font
     }
 
     /**
@@ -130,28 +147,14 @@ public class Text implements AutoCloseable {
         return yHeight;
     }
 
-    /**
-     * Set the y height, in y screen coordinates, of the text. The y height is measured for the letter capital A.
-     *
-     * @param yHeight The y height of the text.
-     */
-    public void setYHeight(float yHeight) {
-        this.yHeight = yHeight;
-        this.setText(this.getText());  // recalculate text with the new y height
-    }
-
     public void draw() {
-        for (Image charImage : this.characters) {
-            charImage.draw();
-        }
+        this.font.fontTexture.bind();
+        this.model.render();
+        Texture.unbind();
     }
 
     @Override
     public void close() {
-        for (Image character : this.characters) {
-            character.rect().close();
-        }
-
-        this.characters.clear();
+        this.model.close();
     }
 }

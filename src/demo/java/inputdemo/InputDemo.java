@@ -21,8 +21,8 @@ public class InputDemo implements AutoCloseable {
         this.font = new Font("src/demo/demoResources/font/arial.fnt",
                 "src/demo/demoResources/font/arial.png");
 
-        this.text = new Text(this.font, "", new ScreenCoords(-0.7f, 0), 0.1f);
-        this.prompt = new Text(this.font, "Left click and type something", new ScreenCoords(-0.7f, 0.5f), 0.1f);
+        this.text = new Text(new ScreenCoords(-0.7f, 0), this.font, 0.1f, "");
+        this.prompt = new Text(new ScreenCoords(-0.7f, 0.5f), this.font, 0.1f, "Left click and type something");
 
         Window.setClearColor(0.7f, 0, 0, 1);
     }

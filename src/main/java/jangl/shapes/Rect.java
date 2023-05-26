@@ -131,7 +131,7 @@ public class Rect extends Shape {
     /**
      * @return The vertex indices that are passed to OpenGL.
      */
-    private int[] getIndices() {
+    protected int[] getIndices() {
         return new int[]{
                 0, 1, 2,
                 2, 3, 0
@@ -152,7 +152,7 @@ public class Rect extends Shape {
      *
      * @return A textured model.
      */
-    private TexturedModel toTexturedModel() {
+    protected TexturedModel toTexturedModel() {
         float[] texCoords = new float[]{
                 0, 0,
                 1, 0,
