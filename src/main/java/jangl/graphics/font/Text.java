@@ -43,7 +43,9 @@ public class Text implements AutoCloseable {
         StringBuilder builder = new StringBuilder();
 
         for (char ch : text.toCharArray()) {
-            if (this.font.getInfo(ch) != null || ch == '\n') {
+            if (ch == '\t') {
+                builder.append("    ");
+            } else if (this.font.getInfo(ch) != null || ch == '\n') {
                 builder.append(ch);
             }
         }

@@ -17,7 +17,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new NDCoords(-0.7f, 0), arial, 0.1f, "abcdefghijklmnopqrstuvwxyz\nnewline :)"
+                new NDCoords(-0.7f, 0), arial, 0.1f, "abcdefghijklmnopqrstuvwxyz\nnewline\t<- tab"
         );
     }
 
