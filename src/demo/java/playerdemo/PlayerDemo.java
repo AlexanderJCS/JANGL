@@ -1,7 +1,7 @@
 package playerdemo;
 
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.time.Clock;
 
@@ -9,7 +9,7 @@ public class PlayerDemo {
     private final Player player;
 
     public PlayerDemo() {
-        this.player = new Player(new ScreenCoords(0, 0), 400);
+        this.player = new Player(new NDCoords(0, 0), 400);
     }
 
     private void draw() {

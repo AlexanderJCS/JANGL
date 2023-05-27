@@ -1,14 +1,14 @@
 package jangl.shapes;
 
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.models.Model;
 
 public class Triangle extends Shape {
-    private final ScreenCoords point1;
-    private final ScreenCoords point2;
-    private final ScreenCoords point3;
+    private final NDCoords point1;
+    private final NDCoords point2;
+    private final NDCoords point3;
 
-    public Triangle(ScreenCoords point1, ScreenCoords point2, ScreenCoords point3) {
+    public Triangle(NDCoords point1, NDCoords point2, NDCoords point3) {
         this.point1 = point1;
         this.point2 = point2;
         this.point3 = point3;
@@ -17,11 +17,11 @@ public class Triangle extends Shape {
     }
 
     @Override
-    public ScreenCoords getCenter() {
+    public NDCoords getCenter() {
         float xSum = this.point1.x + this.point2.x + this.point3.x;
         float ySum = this.point1.y + this.point2.y + this.point3.y;
 
-        return new ScreenCoords(xSum / 3, ySum / 3);
+        return new NDCoords(xSum / 3, ySum / 3);
     }
 
     @Override

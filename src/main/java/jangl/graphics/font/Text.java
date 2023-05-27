@@ -1,7 +1,7 @@
 package jangl.graphics.font;
 
+import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
 import jangl.graphics.Texture;
 import jangl.graphics.font.parser.CharInfo;
 import jangl.graphics.font.parser.Font;
@@ -10,7 +10,7 @@ import jangl.graphics.models.TexturedModel;
 public class Text implements AutoCloseable {
     private TexturedModel model;
     private String text;
-    private ScreenCoords topLeft;
+    private NDCoords topLeft;
     private Font font;
     private float yHeight;
 
@@ -20,7 +20,7 @@ public class Text implements AutoCloseable {
      * @param yHeight How high, in screen coords, each letter should be
      * @param text    The text to display
      */
-    public Text(ScreenCoords topLeft, Font font, float yHeight, String text) {
+    public Text(NDCoords topLeft, Font font, float yHeight, String text) {
         this.topLeft = topLeft;
         this.yHeight = yHeight;
         this.font = font;
@@ -36,7 +36,7 @@ public class Text implements AutoCloseable {
     public TexturedModel getModel() {
         // Use the capital letter A to find the scale
         int aHeightPixels = this.font.tallestLetter.height();
-        float aHeightScreenCoords = PixelCoords.distYtoScreenDist(aHeightPixels);
+        float aHeightScreenCoords = PixelCoords.distYtoNDC(aHeightPixels);
 
         // desired height = current height * scale -> scale = desired height / current height
         float scaleFactor = this.yHeight / aHeightScreenCoords;
@@ -53,7 +53,7 @@ public class Text implements AutoCloseable {
 
             if (ch == '\n') {
                 cursor.x = this.topLeft.toPixelCoords().x;
-                cursor.y -= ScreenCoords.distYtoPixelCoords(this.yHeight) * 1.2;
+                cursor.y -= NDCoords.distYtoPixelCoords(this.yHeight) * 1.2;
             }
 
             CharInfo info = this.font.getInfo(ch);
@@ -65,11 +65,11 @@ public class Text implements AutoCloseable {
             cursor.x += info.xOffset() * scaleFactor;
             cursor.y -= info.yOffset() * scaleFactor;
 
-            ScreenCoords scCursor = cursor.toScreenCoords();
+            NDCoords scCursor = cursor.toScreenCoords();
             float x1 = scCursor.x;
             float y1 = scCursor.y;
-            float x2 = scCursor.x + PixelCoords.distXtoScreenDist(info.width()) * scaleFactor;
-            float y2 = scCursor.y - PixelCoords.distYtoScreenDist(info.height()) * scaleFactor;
+            float x2 = scCursor.x + PixelCoords.distXtoNDC(info.width()) * scaleFactor;
+            float y2 = scCursor.y - PixelCoords.distYtoNDC(info.height()) * scaleFactor;
 
             float[] charVertices = new float[]{
                     x1, y1,
@@ -126,16 +126,16 @@ public class Text implements AutoCloseable {
         this.regenerate();
     }
 
-    public void setTopLeft(ScreenCoords newTopLeft) {
-        this.topLeft = new ScreenCoords(newTopLeft.x, newTopLeft.y);
+    public void setTopLeft(NDCoords newTopLeft) {
+        this.topLeft = new NDCoords(newTopLeft.x, newTopLeft.y);
         this.regenerate();
     }
 
     /**
      * @return A copy of the top left screen coordinates
      */
-    public ScreenCoords getTopLeft() {
-        return new ScreenCoords(this.topLeft.x, this.topLeft.y);
+    public NDCoords getTopLeft() {
+        return new NDCoords(this.topLeft.x, this.topLeft.y);
     }
 
     /**

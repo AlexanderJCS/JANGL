@@ -1,7 +1,7 @@
 package shaderdemo;
 
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.graphics.shaders.ColorShader;
 import jangl.graphics.shaders.Shader;
@@ -29,8 +29,8 @@ public class ShaderDemo {
                 ColorShader colorShader = new ColorShader(1, 0.8f, 0, 1);
 
                 // Create a rectangle. To see more on shapes, and how to make a program, see ShapeDemo.
-                Rect rect = new Rect(new ScreenCoords(0.25f, 0f), 0.5f, 0.5f);
-                Circle circle = new Circle(new ScreenCoords(0f, -0.5f), 0.25f, 50)
+                Rect rect = new Rect(new NDCoords(0.25f, 0f), 0.5f, 0.5f);
+                Circle circle = new Circle(new NDCoords(0f, -0.5f), 0.25f, 50)
             ) {
 
             while (Window.shouldRun()) {

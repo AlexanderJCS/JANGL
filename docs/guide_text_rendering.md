@@ -54,34 +54,34 @@ public class FontDemo {
 Now, you can create a `Text` class that takes in the following constructor arguments:
 - The top left position of the text
 - The `Font` class
-- The y height of the text, in `ScreenCoords`
+- The y height of the text, in `NDCoords` (normalized device coordinates)
 - The text you want to display (string)
 
 For this example, the text will be a member variable of `FontDemo` so it can be accessed through a `run` method that will be created later.
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 
 public class FontDemo {
     Text text;
-    
+
     public FontDemo() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
-        
+
         this.text = new Text(
-                new ScreenCoords(-0.5f, 0),  // the top left coordinate of the text
+                new NDCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
                 0.1f,  // the y height, in screen coords, of the text
                 "Hello World!"  // the text to display
         );
     }
-    
+
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
     }
@@ -92,7 +92,7 @@ Now, this text needs to be drawn to the screen. To do so, a new method called `r
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
@@ -109,7 +109,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new ScreenCoords(-0.5f, 0),  // the top left coordinate of the text
+                new NDCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
                 0.1f,  // the y height, in screen coords, of the text
                 "Hello World!"  // the text to display
@@ -139,7 +139,7 @@ Finally, we need to add a few finishing touches:
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
@@ -156,7 +156,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new ScreenCoords(-0.5f, 0),  // the top left coordinate of the text
+                new NDCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
                 0.1f,  // the y height, in screen coords, of the text
                 "Hello World!"  // the text to display

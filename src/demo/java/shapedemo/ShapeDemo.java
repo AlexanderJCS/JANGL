@@ -1,7 +1,7 @@
 package shapedemo;
 
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
@@ -13,8 +13,8 @@ public class ShapeDemo {
     private final Circle circle;
 
     public ShapeDemo() {
-        this.rect = new Rect(new ScreenCoords(-0.25f, 0.25f), 0.5f, 0.5f);
-        this.circle = new Circle(new ScreenCoords(0, 0.5f), 0.1f, 70);
+        this.rect = new Rect(new NDCoords(-0.25f, 0.25f), 0.5f, 0.5f);
+        this.circle = new Circle(new NDCoords(0, 0.5f), 0.1f, 70);
     }
 
     public void draw() {

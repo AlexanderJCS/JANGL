@@ -17,7 +17,6 @@ Before we start, we need to create a base program that will contain our shapes. 
 import jangl.JANGL;
 import jangl.io.Window;
 import jangl.time.Clock;
-import jangl.time.Clock;
 
 public class ShapeGuide {
     public ShapeGuide() {
@@ -57,7 +56,7 @@ public class ShapeGuide {
 
 Rectangles take three arguments into its constructor:
 ```java
-public Rect(ScreenCoords topLeft, float width, float height)
+public Rect(NDCoords topLeft, float width, float height)
 ```
 
 All variables, including width and height, are in the units of screen coordinates.
@@ -68,17 +67,16 @@ The rectangle will have a top left coordinate of (-0.75, 0.75), a width of 0.6, 
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
 import jangl.time.Clock;
 
 public class ShapeGuide {
     private final Rect rect;
 
     public ShapeGuide() {
-        this.rect = new Rect(new ScreenCoords(-0.75f, 0.75f), 0.6f, 0.6f);
+        this.rect = new Rect(new NDCoords(-0.75f, 0.75f), 0.6f, 0.6f);
     }
 
     public void draw() {
@@ -122,10 +120,10 @@ At the end of this tutorial, you will learn how to give all shapes, including th
 
 Circles take three arguments into its constructor:
 ```java
-public Circle(ScreenCoords center, float radius, int sides)
+public Circle(NDCoords center, float radius, int sides)
 ```
 
-The radius of the circle is in the units of ScreenCoords x-distance. It is important to differentiate between x and y distance since, if the aspect ratio of the window is not 1:1, one unit on the x-axis will not equal one unit on the y-axis.
+The radius of the circle is in the units of normalized device coordinates (NDC) in the x-plane. It is important to differentiate between the x and y plane since, if the aspect ratio of the window is not 1:1, NDC one unit on the x-axis will not equal one unit on the y-axis.
 
 Since circles are just approximations of an infinite-sided circle in computer graphics, a finite number of sides needs to be specified. Large numbers of sides will greatly reduce performance, so it is recommended to keep this number low while still maintaining a circular-looking shape. The `sides` argument can also be used to create other shapes, such as pentagons, hexagons, octagons, etc. 
 
@@ -135,11 +133,10 @@ Going back to the code, let's create a new `Circle` member variable, initialize 
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
 import jangl.time.Clock;
 
 public class ShapeGuide {
@@ -147,8 +144,8 @@ public class ShapeGuide {
     private final Circle circle;
 
     public ShapeGuide() {
-        this.rect = new Rect(new ScreenCoords(-0.75f, 0.75f), 0.6f, 0.6f);
-        this.circle = new Circle(new ScreenCoords(-0.5f, -0.5f), 0.25f, 48);
+        this.rect = new Rect(new NDCoords(-0.75f, 0.75f), 0.6f, 0.6f);
+        this.circle = new Circle(new NDCoords(-0.5f, -0.5f), 0.25f, 48);
     }
 
     public void draw() {
@@ -190,7 +187,7 @@ You can now see the rectangle and circle are both being drawn to the screen.
 ## Triangles
 The last shape that JANGL supports is a triangle. Out of all the shapes, the triangle constructor is the simplest and goes as follows:
 ```java
-public Triangle(ScreenCoords point1, ScreenCoords point2, ScreenCoords point3)
+public Triangle(NDCoords point1, NDCoords point2, NDCoords point3)
 ```
 
 Points 1, 2, and 3 can go in any order: the triangle will still draw the same.
@@ -201,12 +198,11 @@ Incorporating this into the code, the first vertex (bottom left) will be at (0, 
 package shapeguide;
 
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Triangle;
-import jangl.time.Clock;
 import jangl.time.Clock;
 
 public class ShapeGuide {
@@ -215,12 +211,12 @@ public class ShapeGuide {
     private final Triangle triangle;
 
     public ShapeGuide() {
-        this.rect = new Rect(new ScreenCoords(-0.75f, 0.75f), 0.6f, 0.6f);
-        this.circle = new Circle(new ScreenCoords(-0.5f, -0.5f), 0.25f, 48);
+        this.rect = new Rect(new NDCoords(-0.75f, 0.75f), 0.6f, 0.6f);
+        this.circle = new Circle(new NDCoords(-0.5f, -0.5f), 0.25f, 48);
         this.triangle = new Triangle(
-                new ScreenCoords(0, -0.3f),
-                new ScreenCoords(0.5f, -0.3f),
-                new ScreenCoords(0.25f, 0.3f)
+                new NDCoords(0, -0.3f),
+                new NDCoords(0.5f, -0.3f),
+                new NDCoords(0.25f, 0.3f)
         );
     }
 

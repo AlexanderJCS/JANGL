@@ -20,7 +20,6 @@ Before we start, we need to create a base program that will contain our shapes. 
 import jangl.JANGL;
 import jangl.io.Window;
 import jangl.time.Clock;
-import jangl.time.GameClock;
 
 public class ImageGuide {
     public ImageGuide() {
@@ -73,9 +72,9 @@ If you do not understand the code below, it is recommended to read the [quicksta
 
 ```java
 new Rect(
-        new ScreenCoords(0, 0),
-        PixelCoords.distXtoScreenDist(300),
-        PixelCoords.distYtoScreenDist(300)
+        new NDCoords(0, 0),
+        PixelCoords.distXtoNDC(300),
+        PixelCoords.distYtoNDC(300)
 );
 ```
 
@@ -103,9 +102,9 @@ Now that we have a rectangle and texture, we can create an image:
 ```java
 new Image (
         new Rect(
-            new ScreenCoords(0, 0),
-            PixelCoords.distXtoScreenDist(300),
-            PixelCoords.distYtoScreenDist(300)
+            new NDCoords(0, 0),
+            PixelCoords.distXtoNDC(300),
+            PixelCoords.distYtoNDC(300)
         ),
 
         new Texture(
@@ -115,10 +114,11 @@ new Image (
 ```
 
 Incorporating this into the code into the constructor of the [base program](#creating-a-base-program), we get:
+
 ```java
 import jangl.JANGL;
+import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
 import jangl.io.Window;
@@ -127,13 +127,13 @@ import jangl.time.Clock;
 
 public class ImageGuide {
     Image image;
-    
+
     public ImageGuide() {
-        this.image = new Image (
+        this.image = new Image(
                 new Rect(
-                        new ScreenCoords(0, 0), 
-                        PixelCoords.distXtoScreenDist(300),
-                        PixelCoords.distYtoScreenDist(300)
+                        new NDCoords(0, 0),
+                        PixelCoords.distXtoNDC(300),
+                        PixelCoords.distYtoNDC(300)
                 ),
 
                 new Texture(
@@ -176,7 +176,7 @@ Then, we need to draw the image within the `draw()` method by calling `this.imag
 ```java
 import jangl.JANGL;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
 import jangl.io.Window;
@@ -187,11 +187,11 @@ public class ImageGuide {
     Image image;
 
     public ImageGuide() {
-        this.image = new Image (
+        this.image = new Image(
                 new Rect(
-                        new ScreenCoords(0, 0),
-                        PixelCoords.distXtoScreenDist(300),
-                        PixelCoords.distYtoScreenDist(300)
+                        new NDCoords(0, 0),
+                        PixelCoords.distXtoNDC(300),
+                        PixelCoords.distYtoNDC(300)
                 ),
 
                 new Texture(
@@ -250,8 +250,8 @@ We can incorporate these two lines at the end of the `run` method:
 
 ```java
 import jangl.JANGL;
+import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
 import jangl.io.Window;
@@ -262,11 +262,11 @@ public class ImageGuide {
     Image image;
 
     public ImageGuide() {
-        this.image = new Image (
+        this.image = new Image(
                 new Rect(
-                        new ScreenCoords(0, 0),
-                        PixelCoords.distXtoScreenDist(300),
-                        PixelCoords.distYtoScreenDist(300)
+                        new NDCoords(0, 0),
+                        PixelCoords.distXtoNDC(300),
+                        PixelCoords.distYtoNDC(300)
                 ),
 
                 new Texture(
@@ -296,7 +296,7 @@ public class ImageGuide {
                 Thread.currentThread().interrupt();
             }
         }
-        
+
         this.image.rect().close();
         this.image.texture().close();
     }

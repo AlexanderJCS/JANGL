@@ -1,7 +1,7 @@
 package fontdemo;
 
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
@@ -17,7 +17,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new ScreenCoords(-0.7f, 0), arial, 0.1f, "abcdefghijklmnopqrstuvwxyz\nnewline :)"
+                new NDCoords(-0.7f, 0), arial, 0.1f, "abcdefghijklmnopqrstuvwxyz\nnewline :)"
         );
     }
 

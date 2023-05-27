@@ -1,7 +1,7 @@
 package rotationdemo;
 
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
@@ -21,9 +21,9 @@ public class RotationDemo implements AutoCloseable {
         this.colorShader = new ColorShader(0.9f, 0.5f, 0.2f, 1);
 
         this.pointingShapes = new ArrayList<>();
-        this.pointingShapes.add(new PointingShape(new Circle(new ScreenCoords(0, 0), 0.1f, 3), 1.0472));
-        this.pointingShapes.add(new PointingShape(new Circle(new ScreenCoords(0f, 0.5f), 0.1f, 3), 1.0472));
-        this.pointingShapes.add(new PointingShape(new Circle(new ScreenCoords(0f, -0.5f), 0.1f, 3), 1.0472));
+        this.pointingShapes.add(new PointingShape(new Circle(new NDCoords(0, 0), 0.1f, 3), 1.0472));
+        this.pointingShapes.add(new PointingShape(new Circle(new NDCoords(0f, 0.5f), 0.1f, 3), 1.0472));
+        this.pointingShapes.add(new PointingShape(new Circle(new NDCoords(0f, -0.5f), 0.1f, 3), 1.0472));
     }
 
     public void update() {

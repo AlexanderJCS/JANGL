@@ -9,7 +9,7 @@ Benefits of this library over OpenGL include:
 - Provides the ability to program custom shaders. JANGL also provides some pre-defined shaders
 - Easily render images using the `Image` class
 - Easy input operations using the `Mouse` and `Keyboard` class.
-- Control over how you structure your project by providing two coordinate systems (`ScreenCoords` and `PixelCoords`)
+- Control over how you structure your project by providing two coordinate systems (normalized device coordinates and pixel coordinates)
 - Several other abstractions
 
 ## Installing JANGL
@@ -125,7 +125,7 @@ Because of this, you can put the `Rect` inside a try-with-resources statement in
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.shapes.Rect;
 
 public class Quickstart {
@@ -135,7 +135,7 @@ public class Quickstart {
     }
 
     public void run() {
-        try (Rect rect = new Rect(new ScreenCoords(0, 0), 0.5f, 0.5f)) {
+        try (Rect rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f)) {
 
         }
     }
@@ -145,7 +145,7 @@ public class Quickstart {
     }
 }
 ```
-The first argument of the `Rect` constructor is the `ScreenCoords` location, which requires an x and y position. For this rectangle, you set the position at `(0, 0)`. The second and third parameter is the `width` and `height` respectively, both in the units of screen coordinates. That value is set to 0.5.
+The first argument of the `Rect` constructor is the `NDCoords` (normalized device coordinates) location, which requires an x and y position. For this rectangle, you set the position at `(0, 0)`. The second and third parameter is the `width` and `height` respectively, both in the units of screen coordinates. That value is set to 0.5.
 
 Next, you need to draw your shape. First, you need to run `JANGL.update()`. This method will populate events, but more on that later. If this method is not called, the application will not respond.
 
@@ -157,7 +157,7 @@ When those three methods are combined, you get the following code:
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -168,7 +168,7 @@ public class Quickstart {
     }
 
     public void run() {
-        try (Rect rect = new Rect(new ScreenCoords(0, 0), 0.5f, 0.5f)) {
+        try (Rect rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f)) {
             JANGL.update();
             Window.clear();
 
@@ -188,7 +188,7 @@ Also, at the end of the `run()` method, you can call `Window.close()` to de-init
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -199,7 +199,7 @@ public class Quickstart {
     }
 
     public void run() {
-        try (Rect rect = new Rect(new ScreenCoords(0, 0), 0.5f, 0.5f)) {
+        try (Rect rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f)) {
             while (Window.shouldRun()) {
                 JANGL.update();
                 Window.clear();
@@ -226,7 +226,7 @@ The smart tick method throws an interrupted exception if the program is interrup
 
 ```java
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -237,7 +237,7 @@ public class Quickstart {
     }
 
     public void run() {
-        try (Rect rect = new Rect(new ScreenCoords(0, 0), 0.5f, 0.5f)) {
+        try (Rect rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f)) {
             while (Window.shouldRun()) {
                 JANGL.update();
                 Window.clear();
@@ -262,18 +262,19 @@ public class Quickstart {
 }
 ```
 
-However, one thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `ScreenCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit ont he X axis. To circumvent this, we can specify the number of pixels the `Rect` will be on the X and Y axis instead of using ScreenCoords.
+However, one thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `NDCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit on the X axis. To circumvent this, we can specify the number of pixels the `Rect` will be on the X and Y axis using `NDCoords`.
 
-We can do this by using the `PixelCoords` object. It allows us to convert a certain number of pixels in the X axis and a certain number of pixels in the Y axis to screen coordinates using the `distXtoScreenCoords` and `distYtoScreenCoords` method. For example, if we want our cube to be 400 pixels wide and tall, we can initialize our rect like so:
+We can do this by using the `PixelCoords` type. It allows us to convert a certain number of pixels in the X axis and a certain number of pixels in the Y axis to screen coordinates using the `distXtoNDC` and `distYtoNDC` method. For example, if we want our cube to be 400 pixels wide and tall, we can initialize our rect like so:
 ```java
-new Rect(new ScreenCoords(0, 0), PixelCoords.distXtoScreenCoords(400), PixelCoords.distYtoScreenCoords(400));
+new Rect(new NDCoords(0, 0), PixelCoords.distXtoNDC(400), PixelCoords.distYtoNDC(400));
 ```
 
 Now, you can incorporate this into your program:
+
 ```java
 import jangl.JANGL;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -285,10 +286,10 @@ public class Quickstart {
 
     public void run() {
         try (Rect rect = new Rect(
-                new ScreenCoords(0, 0),
-                PixelCoords.distXtoScreenDist(400),
-                PixelCoords.distYtoScreenDist(400)
-            )
+                new NDCoords(0, 0),
+                PixelCoords.distXtoNDC(400),
+                PixelCoords.distYtoNDC(400)
+        )
         ) {
             while (Window.shouldRun()) {
                 JANGL.update();
@@ -332,10 +333,11 @@ Once the shader is created, you can pass it into the overloaded `Shape.draw(Shad
 Before incorporating shaders into our program, it's also important to note that all shaders, including `ColorShader`s, need to be closed to prevent a memory leak. So, in our program, it will go inside the try-with-resources statement.
 
 With this knowledge, let's add a shader to our rectangle:
+
 ```java
 import jangl.JANGL;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -349,9 +351,9 @@ public class Quickstart {
     public void run() {
         try (
                 Rect rect = new Rect(
-                    new ScreenCoords(0, 0),
-                    PixelCoords.distXtoScreenDist(400),
-                    PixelCoords.distYtoScreenDist(400)
+                        new NDCoords(0, 0),
+                        PixelCoords.distXtoNDC(400),
+                        PixelCoords.distYtoNDC(400)
                 );
 
                 ColorShader yellow = new ColorShader(1, 1, 0, 1)

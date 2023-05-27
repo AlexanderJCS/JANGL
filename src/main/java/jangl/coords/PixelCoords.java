@@ -23,9 +23,9 @@ public final class PixelCoords extends Coords {
      * Convert a pixel distance value on the X axis to screen distance.
      *
      * @param dist Distance
-     * @return ScreenCoords distance (float)
+     * @return NDCoords distance (float)
      */
-    public static float distXtoScreenDist(float dist) {
+    public static float distXtoNDC(float dist) {
         return dist / Window.getScreenWidth() * 2;
     }
 
@@ -33,21 +33,21 @@ public final class PixelCoords extends Coords {
      * Convert a pixel distance value on the Y axis to screen distance.
      *
      * @param dist Distance
-     * @return ScreenCoords distance (float)
+     * @return NDCoords distance (float)
      */
-    public static float distYtoScreenDist(float dist) {
+    public static float distYtoNDC(float dist) {
         return dist / Window.getScreenHeight() * 2;
     }
 
     /**
      * Convert pixel coordinates to screen coordinates.
      *
-     * @return The ScreenCoords equivalent.
+     * @return The NDCoords equivalent.
      */
-    public ScreenCoords toScreenCoords() {
+    public NDCoords toScreenCoords() {
         float screenX = this.x / Window.getScreenWidth() * 2 - 1;
         float screenY = this.y / Window.getScreenHeight() * 2 - 1;
 
-        return new ScreenCoords(screenX, screenY);
+        return new NDCoords(screenX, screenY);
     }
 }

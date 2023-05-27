@@ -1,7 +1,7 @@
 package shapeguide;
 
 import jangl.JANGL;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
@@ -14,12 +14,12 @@ public class ShapeGuide {
     private final Triangle triangle;
 
     public ShapeGuide() {
-        this.rect = new Rect(new ScreenCoords(-0.75f, 0.75f), 0.6f, 0.6f);
-        this.circle = new Circle(new ScreenCoords(-0.5f, -0.5f), 0.25f, 48);
+        this.rect = new Rect(new NDCoords(-0.75f, 0.75f), 0.6f, 0.6f);
+        this.circle = new Circle(new NDCoords(-0.5f, -0.5f), 0.25f, 48);
         this.triangle = new Triangle(
-                new ScreenCoords(0, -0.3f),
-                new ScreenCoords(0.5f, -0.3f),
-                new ScreenCoords(0.25f, 0.3f)
+                new NDCoords(0, -0.3f),
+                new NDCoords(0.5f, -0.3f),
+                new NDCoords(0.25f, 0.3f)
         );
     }
 

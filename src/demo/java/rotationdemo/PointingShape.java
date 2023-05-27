@@ -1,7 +1,7 @@
 package rotationdemo;
 
+import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
 import jangl.shapes.Shape;
 
 public class PointingShape {
@@ -17,7 +17,7 @@ public class PointingShape {
         return this.shape;
     }
 
-    public void pointTo(ScreenCoords coords) {
+    public void pointTo(NDCoords coords) {
         PixelCoords pixelCoords = coords.toPixelCoords();
         PixelCoords center = this.shape.getCenter().toPixelCoords();
 

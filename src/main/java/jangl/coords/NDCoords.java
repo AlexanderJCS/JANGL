@@ -3,12 +3,12 @@ package jangl.coords;
 import jangl.io.Window;
 
 /**
- * ScreenCoords is the coordinate system that OpenGL uses to render to the screen. There are
+ * NDCoords is the coordinate system that OpenGL uses to render to the screen. There are
  * two units on the X axis and two units on the Y axis for any screen size, meaning that one
  * unit in the X axis can be longer than one unit in the Y axis.
  */
-public final class ScreenCoords extends Coords {
-    public ScreenCoords(float x, float y) {
+public final class NDCoords extends Coords {
+    public NDCoords(float x, float y) {
         super(x, y);
     }
 
@@ -16,7 +16,7 @@ public final class ScreenCoords extends Coords {
      * @param coords A 2-length array of the 2D coordinates to be passed in
      * @throws IllegalArgumentException Throws if the array is not of length 2
      */
-    public ScreenCoords(float[] coords) throws IllegalArgumentException {
+    public NDCoords(float[] coords) throws IllegalArgumentException {
         super(coords);
     }
 

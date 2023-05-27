@@ -1,7 +1,7 @@
 package jangl.shapes;
 
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.Shader;
 import jangl.util.ArrayUtils;
@@ -33,19 +33,19 @@ public abstract class Shape implements AutoCloseable {
         angleRadians *= -1;  // make the shape rotate clockwise when angleRadians > 0
 
         for (int i = 0; i < vertices.length; i += 2) {
-            float x = ScreenCoords.distXtoPixelCoords(vertices[i]);
+            float x = NDCoords.distXtoPixelCoords(vertices[i]);
 
             // this will not cause an out-of-bounds error since vertices.length is required to be even
             // to be drawn to the screen correctly
-            float y = ScreenCoords.distYtoPixelCoords(vertices[i + 1]);
+            float y = NDCoords.distYtoPixelCoords(vertices[i + 1]);
 
             double theta = Math.atan2(y, x);
             double hyp = Math.sqrt(x * x + y * y);
             double newTheta = 0.5 * Math.PI - theta - angleRadians;
 
             // Set the vertices to the new vertices
-            vertices[i] = PixelCoords.distXtoScreenDist((float) Math.round(Math.sin(newTheta) * hyp * 10000000) / 10000000);      // x
-            vertices[i + 1] = PixelCoords.distYtoScreenDist((float) Math.round(Math.cos(newTheta) * hyp * 10000000) / 10000000);  // y
+            vertices[i] = PixelCoords.distXtoNDC((float) Math.round(Math.sin(newTheta) * hyp * 10000000) / 10000000);      // x
+            vertices[i + 1] = PixelCoords.distYtoNDC((float) Math.round(Math.cos(newTheta) * hyp * 10000000) / 10000000);  // y
         }
 
         return vertices;
@@ -169,8 +169,8 @@ public abstract class Shape implements AutoCloseable {
                 Math.pow(circle1Center.y - circle2Center.y, 2);
 
         double combinedRadiiSquared = Math.pow(
-                ScreenCoords.distXtoPixelCoords(circle1.getRadiusX()) +
-                        ScreenCoords.distXtoPixelCoords(circle2.getRadiusX()),
+                NDCoords.distXtoPixelCoords(circle1.getRadiusX()) +
+                        NDCoords.distXtoPixelCoords(circle2.getRadiusX()),
                 2
         );
 
@@ -179,7 +179,7 @@ public abstract class Shape implements AutoCloseable {
         return distSquared <= combinedRadiiSquared;
     }
 
-    protected static float[] rotateLocal(float[] vertices, ScreenCoords center, double angle) {
+    protected static float[] rotateLocal(float[] vertices, NDCoords center, double angle) {
         // Shift the x vertices
         for (int i = 0; i < vertices.length; i += 2) {
             vertices[i] -= center.x;
@@ -217,10 +217,10 @@ public abstract class Shape implements AutoCloseable {
 
     public abstract float[] calculateVertices();
 
-    public abstract ScreenCoords getCenter();
+    public abstract NDCoords getCenter();
 
-    public void setCenter(ScreenCoords newCenter) {
-        ScreenCoords currentCenter = this.getCenter();
+    public void setCenter(NDCoords newCenter) {
+        NDCoords currentCenter = this.getCenter();
         this.shift(newCenter.x - currentCenter.x, newCenter.y - currentCenter.y);
     }
 
@@ -253,7 +253,7 @@ public abstract class Shape implements AutoCloseable {
                 deltaY = exteriorVertices[i * 2 + 1] - exteriorVertices[i * 2 + 3];
             }
 
-            outsideAngles[i] = Math.atan2(ScreenCoords.distYtoPixelCoords(deltaY), ScreenCoords.distXtoPixelCoords(deltaX));
+            outsideAngles[i] = Math.atan2(NDCoords.distYtoPixelCoords(deltaY), NDCoords.distXtoPixelCoords(deltaX));
         }
 
         return outsideAngles;
@@ -298,8 +298,8 @@ public abstract class Shape implements AutoCloseable {
      * @param angle The angle, in radians, to rotate the shape by
      */
     public void rotateLocal(double angle) {
-        ScreenCoords originalPosition = this.getCenter();
-        this.setCenter(new ScreenCoords(0, 0));
+        NDCoords originalPosition = this.getCenter();
+        this.setCenter(new NDCoords(0, 0));
 
         this.rotateAxis(angle);
         this.axisAngle -= angle;  // undo the change that rotateAxis did

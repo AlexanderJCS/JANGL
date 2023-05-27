@@ -1,7 +1,7 @@
 package jangl.shapes;
 
+import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
 import jangl.graphics.models.Model;
 import jangl.graphics.models.TriangleFanModel;
 
@@ -9,14 +9,14 @@ import java.util.Arrays;
 
 public class Circle extends Shape {
     private final int sides;
-    private ScreenCoords center;
+    private NDCoords center;
     // X and Y radius need to be different since the screen may not be square
     private float radiusX;
     private float radiusY;
 
     /**
      * Since one ScreenCoord on the x-axis is not the same as one ScreenCoord on the y-axis if the aspect ratio
-     * is not 1:1, the radius will be in the units of X-axis ScreenCoords.
+     * is not 1:1, the radius will be in the units of X-axis NDCoords.
      *
      * @param center The center of the circle.
      * @param radius The X-radius of the circle (see the above note)
@@ -24,7 +24,7 @@ public class Circle extends Shape {
      *
      * @throws IllegalArgumentException Throws if the number of sides on the circle is less than 3.
      */
-    public Circle(ScreenCoords center, float radius, int sides) throws IllegalArgumentException {
+    public Circle(NDCoords center, float radius, int sides) throws IllegalArgumentException {
         if (sides <= 2) {
             throw new IllegalArgumentException("A circle must have 3 or more sides, not " + sides);
         }
@@ -33,7 +33,7 @@ public class Circle extends Shape {
 
         this.sides = sides;
         this.radiusX = radius;
-        this.radiusY = PixelCoords.distYtoScreenDist(ScreenCoords.distXtoPixelCoords(radius));
+        this.radiusY = PixelCoords.distYtoNDC(NDCoords.distXtoPixelCoords(radius));
         this.model = this.toModel();
     }
 
@@ -42,7 +42,7 @@ public class Circle extends Shape {
      */
     public void setRadius(float newRadius) {
         this.radiusX = newRadius;
-        this.radiusY = PixelCoords.distYtoScreenDist(ScreenCoords.distXtoPixelCoords(newRadius));
+        this.radiusY = PixelCoords.distYtoNDC(NDCoords.distXtoPixelCoords(newRadius));
         this.model.changeVertices(this.calculateVertices());
     }
 
@@ -55,13 +55,13 @@ public class Circle extends Shape {
     }
 
     @Override
-    public ScreenCoords getCenter() {
-        return new ScreenCoords(
+    public NDCoords getCenter() {
+        return new NDCoords(
                 Shape.rotateAxis(new float[]{this.center.x, this.center.y}, this.axisAngle)
         );
     }
 
-    public void setCenter(ScreenCoords newCenter) {
+    public void setCenter(NDCoords newCenter) {
         this.center = newCenter;
         this.model.changeVertices(this.calculateVertices());
     }

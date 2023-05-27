@@ -1,8 +1,8 @@
 package quickstart;
 
 import jangl.JANGL;
+import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
 import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -17,9 +17,9 @@ public class Quickstart {
     public void run() {
         try (
                 Rect rect = new Rect(
-                    new ScreenCoords(0, 0),
-                    PixelCoords.distXtoScreenDist(400),
-                    PixelCoords.distYtoScreenDist(400)
+                    new NDCoords(0, 0),
+                    PixelCoords.distXtoNDC(400),
+                    PixelCoords.distYtoNDC(400)
                 );
 
                 ColorShader yellow = new ColorShader(1, 1, 0, 1)

@@ -1,9 +1,9 @@
 package jangl.coords;
 
 /**
- * The base coordinates class. See its inheritors: PixelCoords and ScreenCoords
+ * The base coordinates class. See its inheritors: PixelCoords and NDCoords
  */
-public sealed abstract class Coords permits PixelCoords, ScreenCoords {
+public sealed abstract class Coords permits PixelCoords, NDCoords {
     public float x;
     public float y;
 

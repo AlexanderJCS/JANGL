@@ -1,6 +1,6 @@
 package jangl.shapes;
 
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.models.TexturedModel;
 
 /**
@@ -15,7 +15,7 @@ public class Rect extends Shape {
      * @param width   The width of the rect, units screen coords
      * @param height  The height of the rect, units screen coords
      */
-    public Rect(ScreenCoords topLeft, float width, float height) {
+    public Rect(NDCoords topLeft, float width, float height) {
         this.x1 = topLeft.x;
         this.y1 = topLeft.y;
         this.x2 = topLeft.x + width;
@@ -39,17 +39,17 @@ public class Rect extends Shape {
         this.width = width;
         this.height = height;
 
-        this.setPos(new ScreenCoords(this.x1, this.y1));
+        this.setPos(new NDCoords(this.x1, this.y1));
     }
 
     /**
      * Get the center coordinates of the rect.
      *
-     * @return The center coordinates of the rect, type ScreenCoords
+     * @return The center coordinates of the rect, type NDCoords
      */
     @Override
-    public ScreenCoords getCenter() {
-        return new ScreenCoords(
+    public NDCoords getCenter() {
+        return new NDCoords(
                 Shape.rotateAxis(
                         new float[]{
                                 (this.x1 + this.x2) / 2,
@@ -81,7 +81,7 @@ public class Rect extends Shape {
      *
      * @param coords The new coordinates
      */
-    public void setPos(ScreenCoords coords) {
+    public void setPos(NDCoords coords) {
         this.x1 = coords.x;
         this.y1 = coords.y;
         this.x2 = this.x1 + width;

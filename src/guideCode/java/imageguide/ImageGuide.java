@@ -1,8 +1,8 @@
 package imageguide;
 
 import jangl.JANGL;
+import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
 import jangl.io.Window;
@@ -15,9 +15,9 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image (
                 new Rect(
-                        new ScreenCoords(0, 0),
-                        PixelCoords.distXtoScreenDist(300),
-                        PixelCoords.distYtoScreenDist(300)
+                        new NDCoords(0, 0),
+                        PixelCoords.distXtoNDC(300),
+                        PixelCoords.distYtoNDC(300)
                 ),
 
                 new Texture(

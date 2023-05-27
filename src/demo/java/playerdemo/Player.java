@@ -1,7 +1,7 @@
 package playerdemo;
 
 import jangl.coords.PixelCoords;
-import jangl.coords.ScreenCoords;
+import jangl.coords.NDCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
 import jangl.io.keyboard.Keyboard;
@@ -14,12 +14,12 @@ public class Player implements AutoCloseable {
     private final float speedY;
     private final Image image;
 
-    public Player(ScreenCoords coords, float speed) {
-        this.speedX = PixelCoords.distXtoScreenDist(speed);
-        this.speedY = PixelCoords.distYtoScreenDist(speed);
+    public Player(NDCoords coords, float speed) {
+        this.speedX = PixelCoords.distXtoNDC(speed);
+        this.speedY = PixelCoords.distYtoNDC(speed);
 
         this.image = new Image(
-                new Rect(coords, PixelCoords.distXtoScreenDist(50), PixelCoords.distYtoScreenDist(50)),
+                new Rect(coords, PixelCoords.distXtoNDC(50), PixelCoords.distYtoNDC(50)),
                 new Texture("src/demo/demoResources/playerDemo/player.png")
         );
     }
