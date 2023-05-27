@@ -12,8 +12,8 @@ public class Rect extends Shape {
 
     /**
      * @param topLeft the top left coordinate of the rect
-     * @param width   The width of the rect, units screen coords
-     * @param height  The height of the rect, units screen coords
+     * @param width   The width of the rect, units of normalized device coordinates
+     * @param height  The height of the rect, units of normalized device coordinates
      */
     public Rect(NDCoords topLeft, float width, float height) {
         this.x1 = topLeft.x;

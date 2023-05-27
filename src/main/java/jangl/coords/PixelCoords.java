@@ -20,7 +20,7 @@ public final class PixelCoords extends Coords {
     }
 
     /**
-     * Convert a pixel distance value on the X axis to screen distance.
+     * Convert a pixel distance value on the X axis to normalized device coordinates.
      *
      * @param dist Distance
      * @return NDCoords distance (float)
@@ -30,7 +30,7 @@ public final class PixelCoords extends Coords {
     }
 
     /**
-     * Convert a pixel distance value on the Y axis to screen distance.
+     * Convert a pixel distance value on the Y axis to normalized device coordinates.
      *
      * @param dist Distance
      * @return NDCoords distance (float)
@@ -40,7 +40,7 @@ public final class PixelCoords extends Coords {
     }
 
     /**
-     * Convert pixel coordinates to screen coordinates.
+     * Convert pixel coordinates to normalized device coordinates.
      *
      * @return The NDCoords equivalent.
      */

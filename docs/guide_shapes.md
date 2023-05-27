@@ -59,7 +59,7 @@ Rectangles take three arguments into its constructor:
 public Rect(NDCoords topLeft, float width, float height)
 ```
 
-All variables, including width and height, are in the units of screen coordinates.
+All variables, including width and height, are in the units of normalized device coordinates.
 
 Now, let's add a `Rect` member variable to the program. In addition, we will run the `Rect.draw()` method (inherited from `Shape`) inside our own draw method, allowing the rect to be drawn to the screen.
 

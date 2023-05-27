@@ -145,7 +145,7 @@ public class Quickstart {
     }
 }
 ```
-The first argument of the `Rect` constructor is the `NDCoords` (normalized device coordinates) location, which requires an x and y position. For this rectangle, you set the position at `(0, 0)`. The second and third parameter is the `width` and `height` respectively, both in the units of screen coordinates. That value is set to 0.5.
+The first argument of the `Rect` constructor is the `NDCoords` (normalized device coordinates) location, which requires an x and y position. For this rectangle, you set the position at `(0, 0)`. The second and third parameter is the `width` and `height` respectively, both in the units of normalized device coordinates. That value is set to 0.5.
 
 Next, you need to draw your shape. First, you need to run `JANGL.update()`. This method will populate events, but more on that later. If this method is not called, the application will not respond.
 
@@ -264,7 +264,7 @@ public class Quickstart {
 
 However, one thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `NDCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit on the X axis. To circumvent this, we can specify the number of pixels the `Rect` will be on the X and Y axis using `NDCoords`.
 
-We can do this by using the `PixelCoords` type. It allows us to convert a certain number of pixels in the X axis and a certain number of pixels in the Y axis to screen coordinates using the `distXtoNDC` and `distYtoNDC` method. For example, if we want our cube to be 400 pixels wide and tall, we can initialize our rect like so:
+We can do this by using the `PixelCoords` type. It allows us to convert a certain number of pixels in the X axis and a certain number of pixels in the Y axis to normalized device coordinates using the `distXtoNDC` and `distYtoNDC` method. For example, if we want our cube to be 400 pixels wide and tall, we can initialize our rect like so:
 ```java
 new Rect(new NDCoords(0, 0), PixelCoords.distXtoNDC(400), PixelCoords.distYtoNDC(400));
 ```

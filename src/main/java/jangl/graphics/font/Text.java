@@ -17,7 +17,7 @@ public class Text implements AutoCloseable {
     /**
      * @param topLeft The top left coordinate of the text
      * @param font    The font to use
-     * @param yHeight How high, in screen coords, each letter should be
+     * @param yHeight How high, in NDCoords, each letter should be
      * @param text    The text to display
      */
     public Text(NDCoords topLeft, Font font, float yHeight, String text) {
@@ -132,7 +132,7 @@ public class Text implements AutoCloseable {
     }
 
     /**
-     * @return A copy of the top left screen coordinates
+     * @return A copy of the top left coordinates
      */
     public NDCoords getTopLeft() {
         return new NDCoords(this.topLeft.x, this.topLeft.y);
@@ -146,7 +146,8 @@ public class Text implements AutoCloseable {
     }
 
     /**
-     * @return The y height, in screen coordinates, of the capital A letter. Other letters are proportional.
+     * @return The y height, in normalized device coords, of the tallest letter in the font.
+     *         Other letters are proportional.
      */
     public float getYHeight() {
         return yHeight;

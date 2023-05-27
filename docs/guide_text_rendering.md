@@ -77,7 +77,7 @@ public class FontDemo {
         this.text = new Text(
                 new NDCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
-                0.1f,  // the y height, in screen coords, of the text
+                0.1f,  // the y height, in normalized device coords, of the text
                 "Hello World!"  // the text to display
         );
     }
@@ -111,7 +111,7 @@ public class FontDemo {
         this.text = new Text(
                 new NDCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
-                0.1f,  // the y height, in screen coords, of the text
+                0.1f,  // the y height, in normalized device coords, of the text
                 "Hello World!"  // the text to display
         );
     }
@@ -158,7 +158,7 @@ public class FontDemo {
         this.text = new Text(
                 new NDCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
-                0.1f,  // the y height, in screen coords, of the text
+                0.1f,  // the y height, in normalized device coords, of the text
                 "Hello World!"  // the text to display
         );
     }
