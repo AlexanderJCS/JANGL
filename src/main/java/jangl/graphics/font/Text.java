@@ -51,6 +51,11 @@ public class Text implements AutoCloseable {
         for (int i = 0; i < this.text.length(); i++) {
             char ch = this.text.charAt(i);
 
+            if (ch == '\n') {
+                cursor.x = this.topLeft.toPixelCoords().x;
+                cursor.y -= ScreenCoords.distYtoPixelCoords(this.yHeight) * 1.2;
+            }
+
             CharInfo info = this.font.getInfo(ch);
 
             if (info == null) {

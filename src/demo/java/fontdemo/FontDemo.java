@@ -17,7 +17,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new ScreenCoords(-0.7f, 0), arial, 0.1f, "abcdefghijklmnopqrstuvwxyz"
+                new ScreenCoords(-0.7f, 0), arial, 0.1f, "abcdefghijklmnopqrstuvwxyz\nnewline :)"
         );
     }
 
