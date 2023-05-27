@@ -65,7 +65,7 @@ public class InputDemo implements AutoCloseable {
             // Remove the last letter if backspace is pressed
             if (event.key == GLFW.GLFW_KEY_BACKSPACE && textString.length() > 0) {
                 this.text.setText(textString.substring(0, textString.length() - 1));
-            } else if (event.key >= ' ' && event.key <= '~') {  // if it is a type-able character
+            } else {
                 this.text.setText(textString + event.key);
             }
         }

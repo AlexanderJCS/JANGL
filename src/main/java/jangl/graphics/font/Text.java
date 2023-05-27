@@ -7,6 +7,8 @@ import jangl.graphics.font.parser.CharInfo;
 import jangl.graphics.font.parser.Font;
 import jangl.graphics.models.TexturedModel;
 
+import java.util.Scanner;
+
 public class Text implements AutoCloseable {
     private TexturedModel model;
     private String text;
@@ -24,13 +26,29 @@ public class Text implements AutoCloseable {
         this.topLeft = topLeft;
         this.yHeight = yHeight;
         this.font = font;
-        this.text = text;
+        this.text = this.pruneText(text);
 
         this.model = this.getModel();
     }
 
     public String getText() {
         return this.text;
+    }
+
+    /**
+     * Removes any chars that cannot be displayed from the string.
+     * @return The pruned text.
+     */
+    public String pruneText(String text) {
+        StringBuilder builder = new StringBuilder();
+
+        for (char ch : text.toCharArray()) {
+            if (this.font.getInfo(ch) != null || ch == '\n') {
+                builder.append(ch);
+            }
+        }
+
+        return builder.toString();
     }
 
     public TexturedModel getModel() {
@@ -54,6 +72,7 @@ public class Text implements AutoCloseable {
             if (ch == '\n') {
                 cursor.x = this.topLeft.toPixelCoords().x;
                 cursor.y -= NDCoords.distYtoPixelCoords(this.yHeight) * 1.2;
+                continue;
             }
 
             CharInfo info = this.font.getInfo(ch);
@@ -106,7 +125,7 @@ public class Text implements AutoCloseable {
     }
 
     public void setText(String newText) {
-        this.text = newText;
+        this.text = this.pruneText(newText);
         this.regenerate();
     }
 
