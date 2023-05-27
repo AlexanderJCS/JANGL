@@ -12,6 +12,7 @@ public class Font implements AutoCloseable {
     public final Texture fontTexture;
     private final Map<Integer, float[]> texCoordsMap;
     private final Map<Integer, CharInfo> infoMap;
+    public final CharInfo tallestLetter;
 
     /**
      * @param fontFile  The .fnt file of your font
@@ -77,6 +78,23 @@ public class Font implements AutoCloseable {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+
+        this.tallestLetter = this.getTallestLetter();
+    }
+
+    /**
+     * @return The CharInfo of the tallest letter in pixels.
+     */
+    private CharInfo getTallestLetter() {
+        CharInfo max = null;
+
+        for (CharInfo info : this.infoMap.values()) {
+            if (max == null || info.height() > max.height()) {
+                max = info;
+            }
+        }
+
+        return max;
     }
 
     /**

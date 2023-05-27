@@ -35,7 +35,7 @@ public class Text implements AutoCloseable {
 
     public TexturedModel getModel() {
         // Use the capital letter A to find the scale
-        int aHeightPixels = this.font.getInfo('A').height();
+        int aHeightPixels = this.font.tallestLetter.height();
         float aHeightScreenCoords = PixelCoords.distYtoScreenDist(aHeightPixels);
 
         // desired height = current height * scale -> scale = desired height / current height
