@@ -113,13 +113,13 @@ Inside the run method, you can include your first object to draw to a screen: a 
 
 To initialize a rectangle, you need to pass the `coords`, `width`, and `height`. Now is a good time to talk about how coordinates work.
 
-The top left of the window has the coordinates `(1, 1)`. The bottom right of has the coordinates `(1, -1)`. The center of the screen has the coordinates `(0, 0)`. What's great about this coordinate system is that your window scales and stretches correctly regardless what your resolution is (the two parameters you passed to `JANGL.init()`).
+The top left of the window has the coordinates `(-1, 1)`. The bottom right of has the coordinates `(1, -1)`. The center of the screen has the coordinates `(0, 0)`. What's great about this coordinate system is that your window scales and stretches correctly regardless what your resolution is (the two parameters you passed to `JANGL.init()`).
 
 Here, you can see a diagram of important coordinates to know in the window.
 
 ![image](https://github.com/AlexanderJCS/JGLT/assets/98898166/722f8e9c-5c11-4974-bf19-cefe0ac51515)
 
-With that knowledge, you can make your first rectangle. One important thing to note is that all shape classes, the `Texture` class, and the `Shader` class all implement `AutoClosable`: if you forget to close them, there will be a memory leak.
+With that knowledge, you can make your first rectangle. One important thing to note is that all shape classes (including `Rect`s) as well as several other classes in JANGL implement AutoCloseable. It is important to close these classes when you're done to avoid a memory leak.
 
 Because of this, you can put the `Rect` inside a try-with-resources statement inside your `run()` method.
 
@@ -262,7 +262,7 @@ public class Quickstart {
 }
 ```
 
-However, one thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `NDCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit on the X axis. To circumvent this, we can specify the number of pixels the `Rect` will be on the X and Y axis using `NDCoords`.
+However, one thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `NDCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit on the X axis. To circumvent this, we can specify the width and height of the `Rect` in pixels using the `PixelCoords` class.
 
 We can do this by using the `PixelCoords` type. It allows us to convert a certain number of pixels in the X axis and a certain number of pixels in the Y axis to normalized device coordinates using the `distXtoNDC` and `distYtoNDC` method. For example, if we want our cube to be 400 pixels wide and tall, we can initialize our rect like so:
 ```java
