@@ -10,8 +10,6 @@ If you do not want to create an image, you can use the one below:
 
 ![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/c3ea4ebc-8fb9-4974-b033-de762ea1b337)
 
-If the image file size is large, you may encounter an error.
-
 ## Creating a base program
 
 Before we start, we need to create a base program that will contain our shapes. This code is largely explained within the [quickstart guide](/README.md#quickstart-guide), and therefore will not be explained in great detail. This code will be used later.
