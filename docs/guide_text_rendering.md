@@ -5,11 +5,13 @@ Creating and displaying text to the screen is easy.
 ## Hiero
 The first step is to [download the Hiero software](https://libgdx.com/wiki/tools/hiero). This application will be used to create font files. If you do not want to use Hiero, you can also download the Arial font files [here](/src/demo/demoResources/font).
 
-1. First, select which font to use on the top left. Either select a file or use a system font.
-2. In the "Sample Text" area, select which charset you want. You can also use the default.
-3. Click on "Glyph cache" above the window displaying the font text. This will reveal the "pages" value, which is important for the next step.
-4. On the left, below where you selected your font, increase the size to the largest possible while the pages value is still equal to 1.
-5. Select File -> `Save BMFont files (text)` and select a location to save your `.fnt` and `.png` files that will be accessible to your Java program.
+1. Select which font to use on the top left. Either select a file or use a system font.
+2. On the left, select if you want your text to be bold or italic.
+3. On the right, select the color of the text by clicking on the Color box.
+4. In the "Sample Text" area, select which charset you want. The options are: extended, NEHE, and ASCII. The default is ASCII. **If you choose the extended charset, make sure to manually add a space character since Hiero does not include it automatically.**
+5. On the left, below the font selection area, set the font size. Larger font sizes consumes more memory, but it is also less pixelated. It is recommended to choose a font size that suits the text in your application.
+6. Click on "Glyph cache" above the window displaying the sample text. This reveals the "pages" value and page width and height settings. Lower the width and height to the smallest possible image while the pages value is still 1. JANGL does not support multiple pages of text.
+7. Select File -> `Save BMFont files (text)` and select a location to save your `.fnt` and `.png` files that will be accessible to your Java program.
 
 Now, you can close Hiero.
 
