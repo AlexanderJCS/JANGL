@@ -34,16 +34,6 @@ public final class Clock {
 
         // Wait until the current time passed interval
         while (glfwGetTime() - lastTick < interval);
-
-        secondToLastTick = lastTick;
-        lastTick = glfwGetTime();
-
-        fpsSamples[fpsSampleIndex] = 1 / getTimeDelta();
-        fpsSampleIndex++;
-
-        if (fpsSampleIndex >= fpsSamples.length) {
-            fpsSampleIndex = 0;
-        }
     }
 
     /**
@@ -84,9 +74,35 @@ public final class Clock {
         // Busy wait
         double start = glfwGetTime();
         while (glfwGetTime() - start < seconds);
+    }
 
+    /**
+     * Sets deltaTime to the correct value
+     */
+    private static void updateDeltaTime() {
         secondToLastTick = lastTick;
         lastTick = glfwGetTime();
+    }
+
+    /**
+     * Add a new value to smoothedFps. Should only be called after updateDeltaTime so the information is for this frame
+     * and not the previous frame.
+     */
+    private static void updateSmoothedFPS() {
+        fpsSamples[fpsSampleIndex] = 1 / getTimeDelta();
+        fpsSampleIndex++;
+
+        if (fpsSampleIndex >= fpsSamples.length) {
+            fpsSampleIndex = 0;
+        }
+    }
+
+    /**
+     * Updates the delta time and the smoothed FPS.
+     */
+    public static void update() {
+        updateDeltaTime();
+        updateSmoothedFPS();
     }
 
     /**

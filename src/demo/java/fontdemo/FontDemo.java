@@ -5,7 +5,6 @@ import jangl.coords.NDCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
-import jangl.time.Clock;
 
 public class FontDemo {
     private final Text text;
@@ -30,14 +29,8 @@ public class FontDemo {
     public void run() {
         while (Window.shouldRun()) {
             this.draw();
-            JANGL.update();
 
-            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            JANGL.update();
         }
 
         Window.close();
@@ -45,6 +38,8 @@ public class FontDemo {
 
     public static void main(String[] args) {
         JANGL.init(1600, 900);
+        Window.setVsync(true);
+
         new FontDemo().run();
     }
 }

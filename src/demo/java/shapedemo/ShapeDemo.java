@@ -52,12 +52,7 @@ public class ShapeDemo {
             this.update();
             this.draw();
 
-            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            Window.setTitle("FPS: " + (Math.round(1 / Clock.getTimeDelta() * 10) / 10d));
         }
 
         // Close the window when the program is done running
@@ -71,6 +66,7 @@ public class ShapeDemo {
     public static void main(String[] args) {
         // Initialize JANGL with a screen width of 1600 pixels and a screen height of 900 pixels
         JANGL.init(1600, 900);
+        Window.setVsync(true);
 
         new ShapeDemo().run();
     }

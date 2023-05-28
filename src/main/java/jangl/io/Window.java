@@ -16,6 +16,11 @@ public class Window {
 
     private Window() {}
 
+    /**
+     * Initialize the window. Vsync is off by default.
+     * @param screenWidth The window width.
+     * @param screenHeight The window height.
+     */
     public static void init(int screenWidth, int screenHeight) {
         if (getInit()) {
             return;
@@ -38,6 +43,8 @@ public class Window {
         GL.createCapabilities();
 
         glEnable(GL_TEXTURE_2D);
+
+        Window.setVsync(false);
     }
 
     public static int getScreenWidth() {
@@ -92,6 +99,13 @@ public class Window {
 
     public static boolean shouldRun() {
         return !glfwWindowShouldClose(getWindow());
+    }
+
+    /**
+     * @param vsyncOn true to turn vsync on, false to turn vsync off.
+     */
+    public static void setVsync(boolean vsyncOn) {
+        glfwSwapInterval(vsyncOn ? 1 : 0);
     }
 
     public static void close() {

@@ -3,7 +3,6 @@ package playerdemo;
 import jangl.JANGL;
 import jangl.coords.NDCoords;
 import jangl.io.Window;
-import jangl.time.Clock;
 
 public class PlayerDemo {
     private final Player player;
@@ -28,13 +27,6 @@ public class PlayerDemo {
 
             this.update();
             this.draw();
-
-            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
 
         // Terminate GLFW when the process is done
@@ -43,6 +35,8 @@ public class PlayerDemo {
 
     public static void main(String[] args) {
         JANGL.init(1600, 900);
+        Window.setVsync(true);
+
         new PlayerDemo().run();
     }
 }

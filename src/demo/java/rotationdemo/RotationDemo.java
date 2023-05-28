@@ -6,7 +6,6 @@ import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
-import jangl.time.Clock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +16,7 @@ public class RotationDemo implements AutoCloseable {
 
     public RotationDemo() {
         JANGL.init(1600, 900);
+        Window.setVsync(true);
 
         this.colorShader = new ColorShader(0.9f, 0.5f, 0.2f, 1);
 
@@ -46,13 +46,6 @@ public class RotationDemo implements AutoCloseable {
         while (Window.shouldRun()) {
             this.draw();
             this.update();
-
-            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
 
         Window.close();

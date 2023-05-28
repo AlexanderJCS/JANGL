@@ -7,13 +7,13 @@ import jangl.graphics.shaders.ColorShader;
 import jangl.graphics.shaders.Shader;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
 
 import static org.lwjgl.opengl.GL20.glUniform4f;
 
 public class ShaderDemo {
     public ShaderDemo() {
         JANGL.init(1600, 900);
+        Window.setVsync(true);
     }
 
     public void run() {
@@ -53,13 +53,6 @@ public class ShaderDemo {
 
                 // You can also use color shaders to do this automatically
                 circle.draw(colorShader);
-
-                // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-                try {
-                    Clock.smartTick(60);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
             }
         }
 

@@ -7,8 +7,6 @@ import jangl.graphics.font.parser.CharInfo;
 import jangl.graphics.font.parser.Font;
 import jangl.graphics.models.TexturedModel;
 
-import java.util.Scanner;
-
 public class Text implements AutoCloseable {
     private TexturedModel model;
     private String text;
