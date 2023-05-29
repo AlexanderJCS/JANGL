@@ -20,6 +20,8 @@ import static org.lwjgl.opengl.GL46.*;
  */
 public class Texture implements AutoCloseable {
     private final int id;
+    public final int width;
+    public final int height;
 
     /**
      * @param filepath   The filepath of the texture.
@@ -38,11 +40,11 @@ public class Texture implements AutoCloseable {
             throw new UncheckedIOException(e);
         }
 
-        int width = bufferedImage.getWidth();
-        int height = bufferedImage.getHeight();
+        this.width = bufferedImage.getWidth();
+        this.height = bufferedImage.getHeight();
 
-        int[] rawData = bufferedImage.getRGB(0, 0, width, height, null, 0, width);
-        ByteBuffer imageData = this.calculateImageData(rawData, width, height);
+        int[] rawData = bufferedImage.getRGB(0, 0, this.width, this.height, null, 0, this.width);
+        ByteBuffer imageData = this.calculateImageData(rawData);
 
         this.id = this.createImage(imageData, width, height, filterMode);
     }
@@ -76,8 +78,11 @@ public class Texture implements AutoCloseable {
             throw new UncheckedIOException(e);
         }
 
+        this.width = width;
+        this.height = height;
+
         int[] rawData = bufferedImage.getRGB(x, y, width, height, null, 0, width);
-        ByteBuffer imageData = this.calculateImageData(rawData, width, height);
+        ByteBuffer imageData = this.calculateImageData(rawData);
 
         this.id = this.createImage(imageData, width, height, filterMode);
     }
@@ -114,9 +119,13 @@ public class Texture implements AutoCloseable {
      */
     public Texture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode)
             throws IndexOutOfBoundsException, UncheckedIOException {
+
         int[] rawData = bufferedImage.getRGB(x, y, width, height, null, 0, width);
-        ByteBuffer imageData = this.calculateImageData(rawData, width, height);
+        ByteBuffer imageData = this.calculateImageData(rawData);
         this.id = this.createImage(imageData, width, height, filterMode);
+
+        this.width = width;
+        this.height = height;
     }
 
     /**
@@ -126,6 +135,13 @@ public class Texture implements AutoCloseable {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
+    protected void putPixel(ByteBuffer buffer, int pixelData) {
+        buffer.put((byte) ((pixelData >> 16) & 0xFF));  // Red
+        buffer.put((byte) ((pixelData >> 8) & 0xFF));   // Green
+        buffer.put((byte) (pixelData & 0xFF));          // Blue
+        buffer.put((byte) ((pixelData >> 24) & 0xFF));  // Alpha
+    }
+
     /**
      * Writes the designated region of image data to BufferManager.BYTE_BUFFER
      *
@@ -133,16 +149,13 @@ public class Texture implements AutoCloseable {
      * @param width   The width of the region to get
      * @param height  The height of the region to get
      */
-    private ByteBuffer calculateImageData(int[] rawData, int width, int height) {
-        ByteBuffer imageData = BufferUtils.createByteBuffer(width * height * 4);
+    protected ByteBuffer calculateImageData(int[] rawData) {
+        ByteBuffer imageData = BufferUtils.createByteBuffer(this.width * this.height * 4);
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int pixel = rawData[i * width + j];
-                imageData.put((byte) ((pixel >> 16) & 0xFF));  // Red
-                imageData.put((byte) ((pixel >> 8) & 0xFF));   // Green
-                imageData.put((byte) (pixel & 0xFF));          // Blue
-                imageData.put((byte) ((pixel >> 24) & 0xFF));  // Alpha
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                int pixel = rawData[i * this.width + j];
+                this.putPixel(imageData, pixel);
             }
         }
 
