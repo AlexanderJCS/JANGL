@@ -146,8 +146,6 @@ public class Texture implements AutoCloseable {
      * Writes the designated region of image data to BufferManager.BYTE_BUFFER
      *
      * @param rawData The raw image data
-     * @param width   The width of the region to get
-     * @param height  The height of the region to get
      */
     protected ByteBuffer calculateImageData(int[] rawData) {
         ByteBuffer imageData = BufferUtils.createByteBuffer(this.width * this.height * 4);
