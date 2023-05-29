@@ -9,8 +9,7 @@ import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 
 /**
- * Allows you to set individual pixel values of the texture. As a consequence, this will use more memory than an
- * immutable Texture, so it is recommended to use that whenever possible.
+ * Allows you to set individual pixel values of the texture.
  */
 public class MutableTexture extends Texture {
     private final ByteBuffer pixelBuffer;
