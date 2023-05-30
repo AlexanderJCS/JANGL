@@ -67,4 +67,28 @@ public class MutableTexture extends Texture {
 
         Texture.unbind();
     }
+
+    public void fillImage(float red, float green, float blue, float alpha) {
+        ByteBuffer imageBuffer = BufferUtils.createByteBuffer(this.width * this.height * 4);
+
+        for (int i = 0; i < this.width * this.height; i++) {
+            imageBuffer.put((byte) (red * 255));
+            imageBuffer.put((byte) (green * 255));
+            imageBuffer.put((byte) (blue * 255));
+            imageBuffer.put((byte) (alpha * 255));
+        }
+
+        imageBuffer.flip();
+        this.bind();
+
+        glTexSubImage2D(
+                GL_TEXTURE_2D,
+                0, 0, 0,
+                this.width, this.height,
+                GL_RGBA, GL_UNSIGNED_BYTE,
+                imageBuffer
+        );
+
+        Texture.unbind();
+    }
 }
