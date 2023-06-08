@@ -14,9 +14,6 @@ import static org.lwjgl.opengl.GL46.*;
 /**
  * This class allows images to be drawn to the screen.
  * To use it, run Texture.bind() then render the TexturedModel you want to map it to.
- * <p>
- * Taken from this tutorial:
- * <a href="https://www.youtube.com/watch?v=crOzRjzqI-o&list=PLILiqflMilIxta2xKk2EftiRHD4nQGW0u&index=4&ab_channel=WarmfulDevelopment">...</a>
  */
 public class Texture implements AutoCloseable {
     private final int id;
