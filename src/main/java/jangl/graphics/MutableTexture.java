@@ -1,5 +1,6 @@
 package jangl.graphics;
 
+import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
 
 import static org.lwjgl.opengl.GL46.*;
@@ -13,6 +14,21 @@ import java.nio.ByteBuffer;
  */
 public class MutableTexture extends Texture {
     private final ByteBuffer pixelBuffer;
+
+    public MutableTexture(float red, float green, float blue, float alpha, int width, int height, int filterMode) {
+        // TODO: cleanup this code
+        super(
+                ArrayUtils.repeatSequence(new int[]{(int) (red * 255), (int) (green * 255), (int) (blue * 255), (int) (alpha * 255)},
+                        width * height),
+                width, height, filterMode
+        );
+
+        this.pixelBuffer = BufferUtils.createByteBuffer(16);
+    }
+
+    public MutableTexture(float red, float green, float blue, float alpha, int width, int height) {
+        this(red, green, blue, alpha, width, height, GL_NEAREST);
+    }
 
     public MutableTexture(String filepath, int filterMode) throws UncheckedIOException {
         super(filepath, filterMode);

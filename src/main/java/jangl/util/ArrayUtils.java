@@ -61,4 +61,14 @@ public class ArrayUtils {
     public static float[] getOdd(float[] arr) {
         return getEvenOrOdd(arr, 1);
     }
+
+    public static int[] repeatSequence(int[] sequence, int times) {
+        int[] repeated = new int[sequence.length * times];
+
+        for (int i = 0; i < times; i++) {
+            System.arraycopy(sequence, 0, repeated, i * times, sequence.length);
+        }
+
+        return repeated;
+    }
 }

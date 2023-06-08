@@ -78,7 +78,7 @@ public abstract class Shape implements AutoCloseable {
             prevAngle = angle;
 
             // Rotate the axis of the two shapes so that one side is flat
-            // This is kind of a poor man's version of projection
+            // This is used as a substitute for projection
             float[] s1Vertices = shape1.rotateAxis(delta);
             float[] s2Vertices = shape2.rotateAxis(delta);
 

@@ -21,6 +21,22 @@ public class Texture implements AutoCloseable {
     public final int height;
 
     /**
+     * Creates a texture from the raw data.
+     *
+     * @param rawData    The raw texture data. Should be of length width * height * 4.
+     * @param width      The width of the image.
+     * @param height     The height of the image.
+     * @param filterMode The OpenGL filter mode ID.
+     */
+    protected Texture(int[] rawData, int width, int height, int filterMode) {
+        this.width = width;
+        this.height = height;
+
+        ByteBuffer imageData = this.calculateImageData(rawData);
+        this.id = this.createImage(imageData, this.width, this.height, filterMode);
+    }
+
+    /**
      * @param filepath   The filepath of the texture.
      * @param filterMode The filter mode for scaling the image. Common filter modes are:
      *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
