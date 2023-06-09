@@ -71,4 +71,20 @@ public class ArrayUtils {
 
         return repeated;
     }
+
+    /**
+     * Down casts an int array to a byte array.
+     *
+     * @param ints The int array to downcast.
+     * @return     The byte array.
+     */
+    public static byte[] intsToBytes(int[] ints) {
+        byte[] bytes = new byte[ints.length];
+
+        for (int i = 0; i < ints.length; i++) {
+            bytes[i] = (byte) ints[i];
+        }
+
+        return bytes;
+    }
 }

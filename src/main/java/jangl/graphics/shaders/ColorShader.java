@@ -1,5 +1,7 @@
 package jangl.graphics.shaders;
 
+import jangl.color.Color;
+
 import java.util.Arrays;
 
 import static org.lwjgl.opengl.GL46.glUniform4fv;
@@ -7,12 +9,21 @@ import static org.lwjgl.opengl.GL46.glUniform4fv;
 public class ColorShader extends Shader {
     private float[] rgba;
 
-    public ColorShader(float red, float green, float blue, float alpha) {
+    private ColorShader() {
         super(
                 Shader.class.getResourceAsStream("/shaders/colorShader/colorShader.vert"),
                 Shader.class.getResourceAsStream("/shaders/colorShader/colorShader.frag")
         );
+    }
 
+    public ColorShader(Color color) {
+        this();
+        this.setRGBA(color);
+    }
+
+    @Deprecated
+    public ColorShader(float red, float green, float blue, float alpha) {
+        this();
         this.setRGBA(red, green, blue, alpha);
     }
 
@@ -20,12 +31,9 @@ public class ColorShader extends Shader {
      * @param rgba The RGBA value to set the color to
      * @throws IllegalArgumentException Throws if the RGBA length is not 4 (one value for r, g, b, and a)
      */
+    @Deprecated
     public ColorShader(float[] rgba) throws IllegalArgumentException {
-        super(
-                ColorShader.class.getResourceAsStream("/shaders/colorShader/colorShader.vert"),
-                ColorShader.class.getResourceAsStream("/shaders/colorShader/colorShader.frag")
-        );
-
+        this();
         this.setRGBA(rgba);
     }
 
@@ -61,5 +69,9 @@ public class ColorShader extends Shader {
 
     public void setRGBA(float red, float green, float blue, float alpha) {
         this.rgba = new float[]{red, green, blue, alpha};
+    }
+
+    public void setRGBA(Color color) {
+        this.rgba = color.getNormRGBA();
     }
 }

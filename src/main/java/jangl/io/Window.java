@@ -1,5 +1,6 @@
 package jangl.io;
 
+import jangl.color.Color;
 import org.lwjgl.opengl.GL;
 
 import java.util.Arrays;
@@ -72,6 +73,7 @@ public class Window {
      * @param blue  The blue value of the background, float between 0 and 1
      * @param alpha The alpha value of the background, float between 0 and 1
      */
+    @Deprecated
     public static void setClearColor(float red, float green, float blue, float alpha) {
         clearColor = new float[]{ red, green, blue, alpha };
         glClearColor(red, green, blue, alpha);
@@ -82,12 +84,18 @@ public class Window {
      *
      * @throws IllegalArgumentException Throws if the array is not of length 4 (one value for R, G, B, and A)
      */
+    @Deprecated
     public static void setClearColor(float[] rgba) throws IllegalArgumentException {
         if (rgba.length != 4) {
             throw new IllegalArgumentException("RGBA float array must be of length 4: red, green, blue, alpha");
         }
 
         setClearColor(rgba[0], rgba[1], rgba[2], rgba[3]);
+    }
+
+    public static void setClearColor(Color color) {
+        clearColor = color.getNormRGBA();
+        glClearColor(color.getNormRed(), color.getNormGreen(), color.getNormBlue(), color.getNormAlpha());
     }
 
     /**
