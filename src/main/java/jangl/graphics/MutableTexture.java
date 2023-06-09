@@ -18,7 +18,7 @@ public class MutableTexture extends Texture {
     public MutableTexture(float red, float green, float blue, float alpha, int width, int height, int filterMode) {
         // TODO: cleanup this code
         super(
-                ArrayUtils.repeatSequence(new int[]{(int) (red * 255), (int) (green * 255), (int) (blue * 255), (int) (alpha * 255)},
+                ArrayUtils.repeatSequence(new byte[]{(byte) (red * 255), (byte) (green * 255), (byte) (blue * 255), (byte) (alpha * 255)},
                         width * height),
                 width, height, filterMode
         );

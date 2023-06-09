@@ -28,11 +28,14 @@ public class Texture implements AutoCloseable {
      * @param height     The height of the image.
      * @param filterMode The OpenGL filter mode ID.
      */
-    protected Texture(int[] rawData, int width, int height, int filterMode) {
+    protected Texture(byte[] rawData, int width, int height, int filterMode) {
         this.width = width;
         this.height = height;
 
-        ByteBuffer imageData = this.calculateImageData(rawData);
+        ByteBuffer imageData = BufferUtils.createByteBuffer(width * height * 4);
+        imageData.put(rawData);
+        imageData.flip();
+
         this.id = this.createImage(imageData, this.width, this.height, filterMode);
     }
 

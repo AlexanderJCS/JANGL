@@ -62,11 +62,11 @@ public class ArrayUtils {
         return getEvenOrOdd(arr, 1);
     }
 
-    public static int[] repeatSequence(int[] sequence, int times) {
-        int[] repeated = new int[sequence.length * times];
+    public static byte[] repeatSequence(byte[] sequence, int times) {
+        byte[] repeated = new byte[sequence.length * times];
 
         for (int i = 0; i < times; i++) {
-            System.arraycopy(sequence, 0, repeated, i * times, sequence.length);
+            System.arraycopy(sequence, 0, repeated, sequence.length * i, sequence.length);
         }
 
         return repeated;
