@@ -7,9 +7,7 @@ import jangl.shapes.Rect;
  */
 public record Image(Rect rect, Texture texture) {
     public void draw() {
-        this.texture.bind();
-        this.rect.draw();
-        Texture.unbind();
+        this.rect.draw(this.texture);
     }
 
     /**

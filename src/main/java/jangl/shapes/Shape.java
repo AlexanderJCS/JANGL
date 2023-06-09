@@ -2,6 +2,7 @@ package jangl.shapes;
 
 import jangl.coords.PixelCoords;
 import jangl.coords.NDCoords;
+import jangl.graphics.Texture;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.Shader;
 import jangl.util.ArrayUtils;
@@ -211,6 +212,12 @@ public abstract class Shape implements AutoCloseable {
         shader.bind();
         this.draw();
         Shader.unbind();
+    }
+
+    public void draw(Texture texture) {
+        texture.bind();
+        this.draw();
+        Texture.unbind();
     }
 
     public abstract void shift(float x, float y);
