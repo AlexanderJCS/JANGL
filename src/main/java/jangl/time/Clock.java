@@ -46,7 +46,7 @@ public final class Clock {
      * @throws InterruptedException Throws if the thread is interrupted while sleeping.
      */
     public static void smartTick(double fps) throws InterruptedException {
-        double seconds = 1 / fps - Clock.getTimeDelta();
+        double seconds = 1 / fps - lastTick;
 
         double estimate = 5e-3;
         double mean = 5e-3;
