@@ -1,6 +1,7 @@
 package inputdemo;
 
 import jangl.JANGL;
+import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
@@ -23,7 +24,7 @@ public class InputDemo implements AutoCloseable {
         this.text = new Text(new NDCoords(-0.7f, 0), this.font, 0.1f, "");
         this.prompt = new Text(new NDCoords(-0.7f, 0.5f), this.font, 0.1f, "Left click and type something");
 
-        Window.setClearColor(0.7f, 0, 0, 1);
+        Window.setClearColor(ColorFactory.fromNormalized(0.7f, 0, 0, 1));
     }
 
     @Override
@@ -46,9 +47,9 @@ public class InputDemo implements AutoCloseable {
             }
 
             if (event.action == GLFW.GLFW_PRESS) {
-                Window.setClearColor(0, 0.7f, 0, 1);
+                Window.setClearColor(ColorFactory.fromNormalized(0, 0.7f, 0, 1));
             } else {
-                Window.setClearColor(0.7f, 0, 0, 1);
+                Window.setClearColor(ColorFactory.fromNormalized(0.7f, 0, 0, 1));
             }
         }
     }

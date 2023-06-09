@@ -1,6 +1,7 @@
 package shapedemo;
 
 import jangl.JANGL;
+import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
@@ -39,10 +40,10 @@ public class ShapeDemo {
         // Otherwise draw a red background
         if (Shape.collides(this.rect, this.circle)) {
             // Set the color to 0 red, 1, green, 0 blue, 1 alpha (0 transparency)
-            Window.setClearColor(0, 0.8f, 0, 1);
+            Window.setClearColor(ColorFactory.fromNormalized(0, 0.8f, 0, 1));
         } else {
             // Set the color to 1 red, 0, green, 0 blue, 1 alpha (0 transparency)
-            Window.setClearColor(0.8f, 0, 0, 1);
+            Window.setClearColor(ColorFactory.fromNormalized(0.8f, 0, 0, 1));
         }
     }
 
@@ -51,8 +52,6 @@ public class ShapeDemo {
         while (Window.shouldRun()) {
             this.update();
             this.draw();
-
-            Window.setTitle("FPS: " + (Math.round(1 / Clock.getTimeDelta() * 10) / 10d));
         }
 
         // Close the window when the program is done running

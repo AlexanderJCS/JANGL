@@ -1,6 +1,7 @@
 package rotationdemo;
 
 import jangl.JANGL;
+import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
 import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
@@ -18,7 +19,7 @@ public class RotationDemo implements AutoCloseable {
         JANGL.init(1600, 900);
         Window.setVsync(true);
 
-        this.colorShader = new ColorShader(0.9f, 0.5f, 0.2f, 1);
+        this.colorShader = new ColorShader(ColorFactory.fromNormalized(0.9f, 0.5f, 0.2f, 1));
 
         this.pointingShapes = new ArrayList<>();
         this.pointingShapes.add(new PointingShape(new Circle(new NDCoords(0, 0), 0.1f, 3), 1.0472));

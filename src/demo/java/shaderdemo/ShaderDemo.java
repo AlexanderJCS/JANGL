@@ -1,6 +1,7 @@
 package shaderdemo;
 
 import jangl.JANGL;
+import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.graphics.shaders.ColorShader;
@@ -26,7 +27,7 @@ public class ShaderDemo {
                 );
 
                 // You can also use color shaders to do this automatically
-                ColorShader colorShader = new ColorShader(1, 0.8f, 0, 1);
+                ColorShader colorShader = new ColorShader(ColorFactory.fromNormalized(1, 0.8f, 0, 1));
 
                 // Create a rectangle. To see more on shapes, and how to make a program, see ShapeDemo.
                 Rect rect = new Rect(new NDCoords(0.25f, 0f), 0.5f, 0.5f);
