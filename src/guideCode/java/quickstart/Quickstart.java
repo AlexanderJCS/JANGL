@@ -1,6 +1,7 @@
 package quickstart;
 
 import jangl.JANGL;
+import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.shaders.ColorShader;
@@ -22,7 +23,7 @@ public class Quickstart {
                     PixelCoords.distYtoNDC(400)
                 );
 
-                ColorShader yellow = new ColorShader(1, 1, 0, 1)
+                ColorShader yellow = new ColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
         ) {
             while (Window.shouldRun()) {
                 JANGL.update();

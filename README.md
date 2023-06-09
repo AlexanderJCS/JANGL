@@ -327,10 +327,12 @@ You can specify the red, green, blue, and alpha values of a shape using the `Col
 public ColorShader(float red, float green, float blue, float alpha)
 ```
 
-The red, green, blue, and alpha values are 32-bit floating-point values between 0 and 1, where 0 = 0%, 0.5f = 50%, and 1 = 100%, just to name a few notable values. So, if we wanted to define a `ColorShader` with the color yellow, we need to define 100% red, 100% green, and 100% alpha (0% transparency, since transparency = 100% - alpha). We can do so using the following declaration:
+The red, green, blue, and alpha values are 32-bit floating-point values between 0 and 1. So, if we wanted to define a `ColorShader` with the color yellow, we need to define 100% red, 100% green, and 100% alpha (0% transparency, since transparency = 100% - alpha). We can do so using the following declaration:
 ```java
-ColorShader yellow = new ColorShader(1, 1, 0, 1);
+ColorShader yellow = new ColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
 ```
+
+We use the ColorFactory class to create the normalized Color.
 
 Once the shader is created, you can pass it into the overloaded `Shape.draw(Shader shader)` method to draw a shape with the shader.
 
@@ -342,6 +344,7 @@ With this knowledge, let's add a shader to our rectangle:
 import jangl.JANGL;
 import jangl.coords.PixelCoords;
 import jangl.coords.NDCoords;
+import jangl.color.ColorFactory;
 import jangl.graphics.shaders.ColorShader;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -360,7 +363,7 @@ public class Quickstart {
                         PixelCoords.distYtoNDC(400)
                 );
 
-                ColorShader yellow = new ColorShader(1, 1, 0, 1)
+                ColorShader yellow = new ColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
         ) {
             while (Window.shouldRun()) {
                 JANGL.update();
