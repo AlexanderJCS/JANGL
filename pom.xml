@@ -189,5 +189,14 @@
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl-openal</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.lwjgl</groupId>
+            <artifactId>lwjgl-stb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.lwjgl</groupId>
+            <artifactId>lwjgl-stb</artifactId>
+            <classifier>${lwjgl.natives}</classifier>
+        </dependency>
     </dependencies>
 </project>

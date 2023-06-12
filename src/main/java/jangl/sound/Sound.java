@@ -1,28 +1,24 @@
 package jangl.sound;
 
 import org.lwjgl.BufferUtils;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.AL11.*;
+import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.nio.ShortBuffer;
 
 public class Sound implements AutoCloseable {
-    private final int soundBuffer;
-    private final int soundSource;
+    private final int bufferID;
+    private final int sourceID;
     private static boolean initialized = false;
 
     public static void init() {
@@ -51,25 +47,17 @@ public class Sound implements AutoCloseable {
             throw new IllegalStateException("Sound.init() must be called before creating a sound object.");
         }
 
-        this.soundSource = alGenSources();
+        this.sourceID = alGenSources();
 
-        this.soundBuffer = this.loadSound(soundFile);
-        alSourcei(soundSource, AL_BUFFER, this.soundBuffer);
+        this.bufferID = this.loadSound(soundFile);
+        alSourcei(sourceID, AL_BUFFER, this.bufferID);
     }
 
-    private int determineFormat(int channels, int sampleSizeBits) {
+    private int determineFormat(int channels) {
         if (channels == 1) {
-            if (sampleSizeBits == 8) {
-                return AL_FORMAT_MONO8;
-            } else {
-                return AL_FORMAT_MONO16;
-            }
+            return AL_FORMAT_MONO16;
         } else {
-            if (sampleSizeBits == 8) {
-                return AL_FORMAT_STEREO8;
-            } else {
-                return AL_FORMAT_STEREO16;
-            }
+            return AL_FORMAT_STEREO16;
         }
     }
 
@@ -77,68 +65,57 @@ public class Sound implements AutoCloseable {
      * @param soundFile The sound file to load
      * @return The sound buffer ID
      * @throws UncheckedIOException If the soundFile could not be found
-     * @throws UnsupportedAudioFileException If the audio file is unsupported
      */
-    private int loadSound(File soundFile) throws UncheckedIOException, UnsupportedAudioFileException {
-        int soundBuffer = alGenBuffers();
+    private int loadSound(File soundFile) throws UncheckedIOException {
+        IntBuffer channelsBuffer = BufferUtils.createIntBuffer(1);
+        IntBuffer sampleRateBuffer = BufferUtils.createIntBuffer(1);
 
-        try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile)) {
-            int bufferSize = audioStream.available();
+        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(soundFile.getPath(), channelsBuffer, sampleRateBuffer);
 
-            ByteBuffer audioData = BufferUtils.createByteBuffer(bufferSize);
-            byte[] tempBuffer = new byte[bufferSize];
-
-            // Read all the data from audioStream into tempBuffer
-            while (audioStream.read(tempBuffer) != -1);
-
-            audioData.put(tempBuffer);
-            audioData.flip();
-
-            // Get the format
-            AudioFormat audioFormat = audioStream.getFormat();
-            int format = this.determineFormat(audioFormat.getChannels(), audioFormat.getSampleSizeInBits());
-
-            // Put the data into the sound buffer
-            alBufferData(soundBuffer, format, audioData, (int) audioFormat.getSampleRate());
-
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } catch (UnsupportedAudioFileException e) {
-            throw new UnsupportedAudioFileException("Could not load file " + soundFile.getName() + " since its file format is not .wav");
+        if (rawAudioBuffer == null) {
+            // TODO: do error handling
+            System.out.println("Could not load sound... do this error handling lader");
+            System.exit(1);
         }
 
-        return soundBuffer;
+        int channels = channelsBuffer.get();
+        int sampleRate = sampleRateBuffer.get();
+
+        int format = this.determineFormat(channels);
+
+        int bufferID = alGenBuffers();
+        System.out.println(rawAudioBuffer);
+        alBufferData(bufferID, format, rawAudioBuffer, sampleRate);
+
+        return bufferID;
     }
 
     /**
-     * Plays the sound, with a few conditions:<br>
-     * 1. If the sound is currently playing, start the sound from the beginning<br>
-     * 2. If the sound is rewound or stopped, start the sound from the beginning<br>
-     * 3. If the sound is paused, start the sound where it left off<br>
+     * Plays the sound
      */
     public void play() {
-        alSourcePlay(this.soundSource);
+        alSourcePlay(this.sourceID);
     }
 
     /**
      * Pauses the sound.
      */
     public void pause() {
-        alSourcePause(this.soundSource);
+        alSourcePause(this.sourceID);
     }
 
     /**
      * Stops the sound.
      */
     public void stop() {
-        alSourceStop(this.soundSource);
+        alSourceStop(this.sourceID);
     }
 
     /**
      * Stops the sound and sets its state to the initial state.
      */
     public void rewind() {
-        alSourceRewind(this.soundSource);
+        alSourceRewind(this.sourceID);
     }
 
     /**
@@ -150,12 +127,25 @@ public class Sound implements AutoCloseable {
             throw new IllegalArgumentException("The volume of a sound must be a float within the range [0, 1]");
         }
 
-        alSourcef(this.soundSource, AL_GAIN, volume);
+        alSourcef(this.sourceID, AL_GAIN, volume);
+    }
+
+    /**
+     * Set the audio to loop or not loop. Looping is off by default.
+     *
+     * @param loop true to make the audio loop, false to make the audio not loop.
+     */
+    public void setLooping(boolean loop) {
+        if (loop) {
+            alSourcei(this.sourceID, AL_LOOPING, AL_TRUE);
+        } else {
+            alSourcei(this.sourceID, AL_LOOPING, AL_FALSE);
+        }
     }
 
     @Override
     public void close() {
-        alDeleteSources(this.soundSource);
-        alDeleteBuffers(this.soundBuffer);
+        alDeleteSources(this.sourceID);
+        alDeleteBuffers(this.bufferID);
     }
 }
