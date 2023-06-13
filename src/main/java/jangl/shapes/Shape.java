@@ -127,7 +127,7 @@ public abstract class Shape implements AutoCloseable {
             }
 
             // Rotate the axis of the two shapes so that one side is flat
-            // This is kind of a poor man's version of projection
+            // This is used as a substitute for projection
             float[] polyVertices = polygon.rotateAxis(delta);
             float[] circleCenter = Shape.rotateAxis(
                     new float[]{circle.getCenter().x, circle.getCenter().y},
@@ -137,6 +137,7 @@ public abstract class Shape implements AutoCloseable {
             float[] s1verticesX = ArrayUtils.getEven(polyVertices);
             float[] s1verticesY = ArrayUtils.getOdd(polyVertices);
 
+            // Here, "s" means "shape". So "s1Range" means shape 1 range.
             Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
             Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
 
@@ -178,6 +179,63 @@ public abstract class Shape implements AutoCloseable {
         System.out.println(distSquared + ", " + combinedRadiiSquared);
 
         return distSquared <= combinedRadiiSquared;
+    }
+
+    public static boolean collides(Circle circle, NDCoords point) {
+        PixelCoords circleCenter = circle.getCenter().toPixelCoords();
+        PixelCoords pointPixels = point.toPixelCoords();
+        double radiusPixelsSquared = Math.pow(NDCoords.distXtoPixelCoords(circle.getRadiusX()), 2);
+
+        double distSquared = Math.pow(circleCenter.x - pointPixels.x, 2) +
+                Math.pow(circleCenter.y - pointPixels.y, 2);
+
+        return distSquared <= radiusPixelsSquared;
+    }
+
+    public static boolean collides(NDCoords point, Circle circle) {
+        return collides(circle, point);
+    }
+
+    public static boolean collides(Shape polygon, NDCoords point) {
+        double[] angles = polygon.getOutsideEdgeAngles();
+
+        double beginningAngle = polygon.getAxisAngle();
+
+        float[] pointCoordsArr = new float[]{point.x, point.y};
+        for (int i = 0; i < angles.length; i++) {
+            double delta;
+
+            if (i == 0) {
+                delta = angles[i];
+            } else {
+                delta = angles[i] - angles[i - 1];
+            }
+
+            // Rotate the axis of the two shapes so that one side is flat
+            // This is used as a substitute for projection
+            float[] polyVertices = polygon.rotateAxis(delta);
+            Shape.rotateAxis(pointCoordsArr, delta);
+
+            float[] s1verticesX = ArrayUtils.getEven(polyVertices);
+            float[] s1verticesY = ArrayUtils.getOdd(polyVertices);
+
+            // Here, "s" means "shape". So "s1Range" means shape 1 range.
+            Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
+            Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
+
+            // If the ranges do not intersect, the shapes are not colliding
+            if (!s1RangeX.intersects(pointCoordsArr[0]) || !s1RangeY.intersects(pointCoordsArr[1])) {
+                // Rotate the axis angles back to what they were at the beginning
+                polygon.setAxisAngle(beginningAngle);
+
+                return false;
+            }
+        }
+
+        // Rotate the axis angles back to what they were at the beginning
+        polygon.setAxisAngle(beginningAngle);
+
+        return true;
     }
 
     protected static float[] rotateLocal(float[] vertices, NDCoords center, double angle) {

@@ -19,4 +19,12 @@ public record Range(float min, float max) {
     public boolean intersects(Range other) {
         return this.contains(other) || other.contains(this);
     }
+
+    /**
+     * @param other The point the range intersects with.
+     * @return If the range intersects with the point.
+     */
+    public boolean intersects(float other) {
+        return this.max > other && this.min < other;
+    }
 }
