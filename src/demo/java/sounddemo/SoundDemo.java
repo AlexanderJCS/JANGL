@@ -12,17 +12,13 @@ import jangl.sound.Sound;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SoundDemo {
-    private Sound sound;
+    private final Sound sound;
     private final Text instructions;
+    private char lastInput;
 
     public SoundDemo() {
-        try {
-            this.sound = new Sound("src/demo/demoResources/soundDemo/cMajScale.ogg");
-            this.sound.setLooping(true);
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+        this.sound = new Sound("src/demo/demoResources/soundDemo/cMajScale.ogg");
+        this.sound.setLooping(true);
 
         this.instructions = new Text(
                 new NDCoords(-0.9f, 0.9f),
@@ -39,6 +35,11 @@ public class SoundDemo {
     private void handleInput(char key) {
         key = Character.toUpperCase(key);
 
+        // Do not repeat the same function multiple times
+        if (key == this.lastInput) {
+            return;
+        }
+
         if (key == ' ') {
             this.sound.play();
         } else if (key == 'P') {
@@ -48,6 +49,8 @@ public class SoundDemo {
         } else if (key == 'R') {
             this.sound.rewind();
         }
+
+        this.lastInput = key;
     }
 
     public void update() {

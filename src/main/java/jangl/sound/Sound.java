@@ -11,6 +11,7 @@ import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.AL11.*;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 
+import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
@@ -38,10 +39,9 @@ public class Sound implements AutoCloseable {
 
     /**
      * @param soundFilepath The sound file, in the .wav format, to load.
-     * @throws UnsupportedAudioFileException Throws if the file format is not .wav
      * @throws IllegalStateException Throws if Sound.init() has not been called. Since JANGL.init() initializes sound under the hood, you usually should not encounter this issue.
      */
-    public Sound(String soundFilepath) throws UnsupportedAudioFileException, IllegalStateException {
+    public Sound(String soundFilepath) throws IllegalStateException {
         if (!initialized) {
             throw new IllegalStateException("Sound.init() must be called before creating a sound object.");
         }
@@ -72,9 +72,10 @@ public class Sound implements AutoCloseable {
         ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(soundFilepath, channelsBuffer, sampleRateBuffer);
 
         if (rawAudioBuffer == null) {
-            // TODO: do error handling
-            System.out.println("Could not load sound... do this error handling later");
-            System.exit(1);
+            throw new UncheckedIOException(new IOException(
+                    "Could not load from file: " + soundFilepath + ". Make sure that:\n"
+                    + "1. The file exists.\n2. It has a .ogg file format. JANGL does not support other file formats."
+            ));
         }
 
         int channels = channelsBuffer.get();
@@ -89,7 +90,7 @@ public class Sound implements AutoCloseable {
     }
 
     /**
-     * Plays the sound
+     * Plays the sound.
      */
     public void play() {
         alSourcePlay(this.sourceID);
