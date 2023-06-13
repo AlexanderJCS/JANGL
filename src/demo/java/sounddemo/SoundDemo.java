@@ -10,7 +10,6 @@ import jangl.io.keyboard.Keyboard;
 import jangl.sound.Sound;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.File;
 
 public class SoundDemo {
     private Sound sound;
@@ -18,7 +17,7 @@ public class SoundDemo {
 
     public SoundDemo() {
         try {
-            this.sound = new Sound(new File("src/demo/demoResources/soundDemo/cMajScale.ogg"));
+            this.sound = new Sound("src/demo/demoResources/soundDemo/cMajScale.ogg");
             this.sound.setLooping(true);
         } catch (UnsupportedAudioFileException e) {
             e.printStackTrace();

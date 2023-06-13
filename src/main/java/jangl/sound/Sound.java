@@ -11,7 +11,6 @@ import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.AL11.*;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 
-import java.io.File;
 import java.io.UncheckedIOException;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
@@ -38,18 +37,18 @@ public class Sound implements AutoCloseable {
     }
 
     /**
-     * @param soundFile The sound file, in the .wav format, to load.
+     * @param soundFilepath The sound file, in the .wav format, to load.
      * @throws UnsupportedAudioFileException Throws if the file format is not .wav
      * @throws IllegalStateException Throws if Sound.init() has not been called. Since JANGL.init() initializes sound under the hood, you usually should not encounter this issue.
      */
-    public Sound(File soundFile) throws UnsupportedAudioFileException, IllegalStateException {
+    public Sound(String soundFilepath) throws UnsupportedAudioFileException, IllegalStateException {
         if (!initialized) {
             throw new IllegalStateException("Sound.init() must be called before creating a sound object.");
         }
 
         this.sourceID = alGenSources();
 
-        this.bufferID = this.loadSound(soundFile);
+        this.bufferID = this.loadSound(soundFilepath);
         alSourcei(sourceID, AL_BUFFER, this.bufferID);
     }
 
@@ -62,15 +61,15 @@ public class Sound implements AutoCloseable {
     }
 
     /**
-     * @param soundFile The sound file to load
+     * @param soundFilepath The sound file to load
      * @return The sound buffer ID
      * @throws UncheckedIOException If the soundFile could not be found
      */
-    private int loadSound(File soundFile) throws UncheckedIOException {
+    private int loadSound(String soundFilepath) throws UncheckedIOException {
         IntBuffer channelsBuffer = BufferUtils.createIntBuffer(1);
         IntBuffer sampleRateBuffer = BufferUtils.createIntBuffer(1);
 
-        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(soundFile.getPath(), channelsBuffer, sampleRateBuffer);
+        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(soundFilepath, channelsBuffer, sampleRateBuffer);
 
         if (rawAudioBuffer == null) {
             // TODO: do error handling
