@@ -16,6 +16,24 @@ import java.nio.ByteBuffer;
 public class MutableTexture extends Texture {
     private final ByteBuffer pixelBuffer;
 
+    /**
+     * Functionally the same as the Color color, int width, int height, int filterMode constructor,
+     * but it has a default filter mode of GL_LINEAR.
+     * @param color The color of the background
+     * @param width The width of the texture in pixels
+     * @param height The height of the texture in pixels
+     */
+    public MutableTexture(Color color, int width, int height) {
+        this(color, width, height, GL_LINEAR);
+    }
+
+    /**
+     * but it has a default filter mode of GL_LINEAR.
+     * @param color The color of the background
+     * @param width The width of the texture in pixels
+     * @param height The height of the texture in pixels
+     * @param filterMode The filter mode of the texture.
+     */
     public MutableTexture(Color color, int width, int height, int filterMode) {
         super(
                 ArrayUtils.repeatSequence(ArrayUtils.intsToBytes(color.get255RGBA()), width * height),
