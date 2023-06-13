@@ -74,7 +74,7 @@ public class Sound implements AutoCloseable {
 
         if (rawAudioBuffer == null) {
             // TODO: do error handling
-            System.out.println("Could not load sound... do this error handling lader");
+            System.out.println("Could not load sound... do this error handling later");
             System.exit(1);
         }
 
