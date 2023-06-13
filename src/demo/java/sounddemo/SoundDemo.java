@@ -8,13 +8,11 @@ import jangl.io.Window;
 import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
 import jangl.sound.Sound;
-
-import javax.sound.sampled.UnsupportedAudioFileException;
+import jangl.sound.SoundState;
 
 public class SoundDemo {
     private final Sound sound;
     private final Text instructions;
-    private char lastInput;
 
     public SoundDemo() {
         this.sound = new Sound("src/demo/demoResources/soundDemo/cMajScale.ogg");
@@ -34,23 +32,17 @@ public class SoundDemo {
 
     private void handleInput(char key) {
         key = Character.toUpperCase(key);
+        SoundState state = sound.getState();
 
-        // Do not repeat the same function multiple times
-        if (key == this.lastInput) {
-            return;
-        }
-
-        if (key == ' ') {
+        if (key == ' ' && state != SoundState.PLAYING) {
             this.sound.play();
-        } else if (key == 'P') {
+        } else if (key == 'P' && state != SoundState.PAUSED) {
             this.sound.pause();
-        } else if (key == 'S') {
+        } else if (key == 'S' && state != SoundState.STOPPED) {
             this.sound.stop();
-        } else if (key == 'R') {
+        } else if (key == 'R' && state != SoundState.INITIAL) {
             this.sound.rewind();
         }
-
-        this.lastInput = key;
     }
 
     public void update() {

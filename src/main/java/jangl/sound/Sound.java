@@ -1,11 +1,14 @@
+/*
+ * I used this resource when programming the Sound class:
+ * https://www.youtube.com/watch?v=dLrqBTeipwg&ab_channel=GamesWithGabe
+ */
+
 package jangl.sound;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
-
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.AL11.*;
@@ -39,7 +42,8 @@ public class Sound implements AutoCloseable {
 
     /**
      * @param soundFilepath The sound file, in the .wav format, to load.
-     * @throws IllegalStateException Throws if Sound.init() has not been called. Since JANGL.init() initializes sound under the hood, you usually should not encounter this issue.
+     * @throws IllegalStateException Throws if Sound.init() has not been called. Since JANGL.init() initializes sound
+     *                               under the hood, you usually do not encounter this issue.
      */
     public Sound(String soundFilepath) throws IllegalStateException {
         if (!initialized) {
@@ -140,6 +144,10 @@ public class Sound implements AutoCloseable {
         } else {
             alSourcei(this.sourceID, AL_LOOPING, AL_FALSE);
         }
+    }
+
+    public SoundState getState() {
+        return SoundState.ALStateToSoundState(alGetSourcei(this.sourceID, AL_SOURCE_STATE));
     }
 
     @Override
