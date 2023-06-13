@@ -84,7 +84,6 @@ public class Sound implements AutoCloseable {
         int format = this.determineFormat(channels);
 
         int bufferID = alGenBuffers();
-        System.out.println(rawAudioBuffer);
         alBufferData(bufferID, format, rawAudioBuffer, sampleRate);
 
         return bufferID;
