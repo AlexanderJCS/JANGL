@@ -27,6 +27,7 @@ public class SoundDemo {
     }
 
     public void draw() {
+        Window.clear();
         this.instructions.draw();
     }
 
