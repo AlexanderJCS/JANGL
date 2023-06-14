@@ -64,6 +64,7 @@ public class SoundDemo {
 
     public static void main(String[] args) {
         JANGL.init(1600, 900);
+        Window.setVsync(true);
 
         SoundDemo sd = new SoundDemo();
         sd.run();
