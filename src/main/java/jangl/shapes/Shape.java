@@ -24,9 +24,10 @@ public abstract class Shape implements AutoCloseable {
     }
 
     /**
-     * Modifies the vertices passed to rotate across the origin (the center of the screen). This is used for collision.
+     * Modifies the vertices passed to rotate across the origin (the center of the screen). This is primarily used for collision.
+     * NOTE: the vertices must be in the units of NDCoords to work properly.
      *
-     * @param vertices     The vertex data to rotate.
+     * @param vertices     The vertex data to rotate. Even indices are x coordinates, odd indices are y coordinates.
      * @param angleRadians The angle, in radians, to rotate
      * @return the vertices object that was passed in
      */
