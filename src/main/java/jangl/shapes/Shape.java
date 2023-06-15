@@ -30,7 +30,7 @@ public abstract class Shape implements AutoCloseable {
      * @param angleRadians The angle, in radians, to rotate
      * @return the vertices object that was passed in
      */
-    protected static float[] rotateAxis(float[] vertices, double angleRadians) {
+    public static float[] rotateAxis(float[] vertices, double angleRadians) {
         angleRadians *= -1;  // make the shape rotate clockwise when angleRadians > 0
 
         for (int i = 0; i < vertices.length; i += 2) {
