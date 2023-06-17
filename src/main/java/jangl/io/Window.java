@@ -37,7 +37,7 @@ public class Window {
         initialized = true;
 
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);  // make the window non-resizeable
-        window = glfwCreateWindow(screenWidth, screenHeight, "JANGL", 0, 0);
+        window = glfwCreateWindow(screenWidth, screenHeight, "JANGL", glfwGetPrimaryMonitor(), 0);
         glfwShowWindow(window);
 
         glfwMakeContextCurrent(window);
