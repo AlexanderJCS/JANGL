@@ -116,6 +116,15 @@ public class Window {
         glfwSwapInterval(vsyncOn ? 1 : 0);
     }
 
+    /**
+     * By default, wireframe mode is off.
+     *
+     * @param showWireframe True to show the wireframes of objects. False to not set the wireframes.
+     */
+    public static void showWireframe(boolean showWireframe) {
+        glPolygonMode(GL_FRONT_AND_BACK, showWireframe ? GL_LINE : GL_FILL);
+    }
+
     public static void close() {
         glfwDestroyWindow(window);
         glfwTerminate();
