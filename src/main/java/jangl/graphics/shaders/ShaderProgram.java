@@ -14,7 +14,7 @@ public class ShaderProgram implements AutoCloseable {
         this(Collections.singletonList(shader));
     }
 
-    public ShaderProgram(List<Shader> shaders) {
+    public ShaderProgram(List<Shader> shaders) throws ShaderCompileException {
         this.shaderIDs = new ArrayList<>();
 
         for (Shader shader : shaders) {
@@ -28,7 +28,22 @@ public class ShaderProgram implements AutoCloseable {
         }
 
         glLinkProgram(this.programID);
+
+        if (glGetProgrami(this.programID, GL_LINK_STATUS) == GL_FALSE) {
+            throw new ShaderCompileException(
+                    "Could not link shader program.\nError message:\n" +
+                            glGetShaderInfoLog(this.programID, 8192)
+            );
+        }
+
         glValidateProgram(this.programID);
+
+        if (glGetProgrami(this.programID, GL_VALIDATE_STATUS) == GL_FALSE) {
+            throw new ShaderCompileException(
+                    "Could not validate shader program.\nError message:\n" +
+                            glGetShaderInfoLog(this.programID, 8192)
+            );
+        }
     }
 
     /**
