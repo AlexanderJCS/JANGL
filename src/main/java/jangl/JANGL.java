@@ -1,5 +1,6 @@
 package jangl;
 
+import jangl.graphics.Camera;
 import jangl.io.Window;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
@@ -21,6 +22,7 @@ public class JANGL {
         }
 
         Window.init(screenWidth, screenHeight);
+        Camera.init();
         Mouse.init();
         Scroll.init();
         Keyboard.init();
