@@ -3,6 +3,7 @@ package jangl;
 import jangl.io.Window;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
+import jangl.io.mouse.Scroll;
 import jangl.sound.Sound;
 import jangl.time.Clock;
 
@@ -21,6 +22,7 @@ public class JANGL {
 
         Window.init(screenWidth, screenHeight);
         Mouse.init();
+        Scroll.init();
         Keyboard.init();
         Sound.init();
 
