@@ -9,6 +9,7 @@ import static org.lwjgl.opengl.GL46.*;
 public class ShaderProgram implements AutoCloseable {
     private final int programID;
     private final List<Integer> shaderIDs;
+    private final List<Shader> shaders;
 
     public ShaderProgram(Shader shader) {
         this(Collections.singletonList(shader));
@@ -16,6 +17,7 @@ public class ShaderProgram implements AutoCloseable {
 
     public ShaderProgram(List<Shader> shaders) throws ShaderCompileException {
         this.shaderIDs = new ArrayList<>();
+        this.shaders = shaders;
 
         for (Shader shader : shaders) {
             this.shaderIDs.add(compileShader(shader.sourceCode, shader.type));
@@ -80,17 +82,10 @@ public class ShaderProgram implements AutoCloseable {
      */
     public void bind() {
         glUseProgram(programID);
-    }
 
-    /**
-     * Get the location of a variable's name to be passed into OpenGL. This is used to pass uniform information
-     * into the shader.
-     *
-     * @param varName The variable name.
-     * @return The location of the shader to be passed into OpenGL.
-     */
-    public int getUniformLocation(String varName) {
-        return glGetUniformLocation(this.programID, varName);
+        for (Shader shader : this.shaders) {
+            shader.setUniforms(this.programID);
+        }
     }
 
     /**

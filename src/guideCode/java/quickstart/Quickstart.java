@@ -4,6 +4,7 @@ import jangl.JANGL;
 import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
+import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -23,7 +24,7 @@ public class Quickstart {
                     PixelCoords.distYtoNDC(400)
                 );
 
-                ColorShader yellow = new ColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
+                ShaderProgram yellow = new ShaderProgram(new ColorShader(ColorFactory.fromNormalized(1, 1, 0, 1)))
         ) {
             while (Window.shouldRun()) {
                 JANGL.update();

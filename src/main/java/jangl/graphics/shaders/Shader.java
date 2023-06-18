@@ -16,6 +16,15 @@ public class Shader {
         this.type = ShaderType.toOpenGLType(shaderType);
     }
 
+    /**
+     * The method to override to pass uniforms to the shader.
+     *
+     * @param programID The ID of the program. Used for passing uniform information.
+     */
+    public void setUniforms(int programID) {
+
+    }
+
     private static String loadShader(InputStream inputStream) throws UncheckedIOException {
         // Slightly modified solution 8 from:
         // https://stackoverflow.com/questions/309424/how-do-i-read-convert-an-inputstream-into-a-string-in-java

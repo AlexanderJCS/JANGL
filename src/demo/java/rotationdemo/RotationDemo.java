@@ -3,6 +3,7 @@ package rotationdemo;
 import jangl.JANGL;
 import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
+import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
@@ -13,13 +14,13 @@ import java.util.List;
 
 public class RotationDemo implements AutoCloseable {
     private final List<PointingShape> pointingShapes;
-    private final ColorShader colorShader;
+    private final ShaderProgram colorShader;
 
     public RotationDemo() {
         JANGL.init(1600, 900);
         Window.setVsync(true);
 
-        this.colorShader = new ColorShader(ColorFactory.fromNormalized(0.9f, 0.5f, 0.2f, 1));
+        this.colorShader = new ShaderProgram(new ColorShader(ColorFactory.fromNormalized(0.9f, 0.5f, 0.2f, 1)));
 
         this.pointingShapes = new ArrayList<>();
         this.pointingShapes.add(new PointingShape(new Circle(new NDCoords(0, 0), 0.1f, 3), 1.0472));

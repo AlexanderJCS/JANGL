@@ -18,7 +18,7 @@ public class IndicesModel extends Model {
     }
 
     /**
-     * Renders the model as a white box. Use a ColorShader to chance the color, or a TexturedModel to apply a texture.
+     * Renders the model as a white box. Use a ColorShaderProgram to chance the color, or a TexturedModel to apply a texture.
      */
     @Override
     public void render() {
