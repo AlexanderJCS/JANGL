@@ -46,7 +46,7 @@ public class IndicesModel extends Model {
     }
 
     public void subIndices(int[] indices, int offset) {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.vID);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iID);
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, indices);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
