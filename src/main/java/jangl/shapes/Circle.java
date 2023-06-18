@@ -43,7 +43,7 @@ public class Circle extends Shape {
     public void setRadius(float newRadius) {
         this.radiusX = newRadius;
         this.radiusY = PixelCoords.distYtoNDC(NDCoords.distXtoPixelCoords(newRadius));
-        this.model.setVertices(this.calculateVertices());
+        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Circle extends Shape {
         this.center.x += x;
         this.center.y += y;
 
-        this.model.setVertices(this.calculateVertices());
+        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Circle extends Shape {
 
     public void setCenter(NDCoords newCenter) {
         this.center = newCenter;
-        this.model.setVertices(this.calculateVertices());
+        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     public int getSides() {

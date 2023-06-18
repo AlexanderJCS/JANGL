@@ -50,13 +50,13 @@ public class Model implements AutoCloseable {
         // http://forum.lwjgl.org/index.php?topic=5334.0
 
         glBindBuffer(GL_ARRAY_BUFFER, this.vID);
-        glBufferData(GL_ARRAY_BUFFER, BufferManager.createFloatBuffer(vertices), GL_DYNAMIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertices, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     public void subVertices(float[] vertices, int offset) {
         glBindBuffer(GL_ARRAY_BUFFER, this.vID);
-        glBufferSubData(GL_ARRAY_BUFFER, offset, BufferManager.createFloatBuffer(vertices));
+        glBufferSubData(GL_ARRAY_BUFFER, offset, vertices);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 

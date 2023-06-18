@@ -87,7 +87,7 @@ public class Rect extends Shape {
         this.x2 = this.x1 + width;
         this.y2 = this.y1 - height;
 
-        this.model.setVertices(this.calculateVertices());
+        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     /**
@@ -103,7 +103,7 @@ public class Rect extends Shape {
         this.y1 += y;
         this.y2 += y;
 
-        this.model.setVertices(this.calculateVertices());
+        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     @Override
