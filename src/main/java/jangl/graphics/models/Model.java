@@ -14,7 +14,7 @@ import static org.lwjgl.opengl.GL46.*;
 public class Model implements AutoCloseable {
     protected static final int DIMENSIONS = 2;
     protected int drawCount;
-    protected int vId;
+    protected int vID;
 
     /**
      * Create a new model with the given vertices.
@@ -24,10 +24,8 @@ public class Model implements AutoCloseable {
     public Model(float[] vertices) {
         this.drawCount = vertices.length / DIMENSIONS;
 
-        this.vId = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, this.vId);
-        glBufferData(GL_ARRAY_BUFFER, BufferManager.createFloatBuffer(vertices), GL_DYNAMIC_DRAW);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        this.vID = glGenBuffers();
+        this.setVertices(vertices);
     }
 
     /**
@@ -36,7 +34,7 @@ public class Model implements AutoCloseable {
     public void render() {
         glEnableClientState(GL_VERTEX_ARRAY);
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.vId);
+        glBindBuffer(GL_ARRAY_BUFFER, this.vID);
         glVertexPointer(DIMENSIONS, GL_FLOAT, 0, 0);
 
         glDrawArrays(GL_TRIANGLES, 0, this.drawCount);
@@ -48,12 +46,18 @@ public class Model implements AutoCloseable {
     /**
      * Changes the vertices to the ones given.
      */
-    public void changeVertices(float[] vertices) {
+    public void setVertices(float[] vertices) {
         // http://forum.lwjgl.org/index.php?topic=5334.0
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.vId);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, BufferManager.createFloatBuffer(vertices));
-        glBindBuffer(GL_ARRAY_BUFFER, this.vId);
+        glBindBuffer(GL_ARRAY_BUFFER, this.vID);
+        glBufferData(GL_ARRAY_BUFFER, BufferManager.createFloatBuffer(vertices), GL_DYNAMIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
+    public void subVertices(float[] vertices, int offset) {
+        glBindBuffer(GL_ARRAY_BUFFER, this.vID);
+        glBufferSubData(GL_ARRAY_BUFFER, offset, BufferManager.createFloatBuffer(vertices));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     /**
@@ -61,6 +65,6 @@ public class Model implements AutoCloseable {
      */
     @Override
     public void close() {
-        glDeleteBuffers(vId);
+        glDeleteBuffers(vID);
     }
 }

@@ -9,16 +9,14 @@ import static org.lwjgl.opengl.GL46.*;
  * so it is recommended compared to the base Model class.
  */
 public class IndicesModel extends Model {
-    protected int iId;
+    protected int iID;
 
     public IndicesModel(float[] vertices, int[] indices) {
         super(vertices);
 
         this.drawCount = indices.length;
-        this.iId = glGenBuffers();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iId);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, BufferManager.createIntBuffer(indices), GL_STATIC_DRAW);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+        this.iID = glGenBuffers();
+        this.setIndices(indices);
     }
 
     /**
@@ -28,22 +26,34 @@ public class IndicesModel extends Model {
     public void render() {
         glEnableClientState(GL_VERTEX_ARRAY);
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.vId);
+        glBindBuffer(GL_ARRAY_BUFFER, this.vID);
         glVertexPointer(DIMENSIONS, GL_FLOAT, 0, 0);
 
         glDrawArrays(GL_TRIANGLES, 0, this.drawCount);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iId);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iID);
         glDrawElements(GL_TRIANGLES, drawCount, GL_UNSIGNED_INT, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 
+    public void setIndices(int[] indices) {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iID);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
+
+    public void subIndices(int[] indices, int offset) {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.vID);
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, indices);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
+
     @Override
     public void close() {
         super.close();
-        glDeleteBuffers(iId);
+        glDeleteBuffers(iID);
     }
 }

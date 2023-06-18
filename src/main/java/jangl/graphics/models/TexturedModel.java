@@ -12,7 +12,7 @@ public class TexturedModel extends IndicesModel {
     // Modified (heavily) from this tutorial:
     // https://www.youtube.com/watch?v=-6P_CkT-FlQ&list=PLILiqflMilIxta2xKk2EftiRHD4nQGW0u&index=5&ab_channel=WarmfulDevelopment
 
-    private final int tId;
+    private final int tID;
 
     /**
      * @param vertices  The vertices.
@@ -21,12 +21,8 @@ public class TexturedModel extends IndicesModel {
     public TexturedModel(float[] vertices, int[] indices, float[] texCoords) {
         super(vertices, indices);
 
-        this.tId = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, this.tId);
-        glBufferData(GL_ARRAY_BUFFER, BufferManager.createFloatBuffer(texCoords), GL_STATIC_DRAW);
-
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        this.tID = glGenBuffers();
+        this.setTexCoords(texCoords);
     }
 
     /**
@@ -37,13 +33,13 @@ public class TexturedModel extends IndicesModel {
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.vId);
+        glBindBuffer(GL_ARRAY_BUFFER, this.vID);
         glVertexPointer(DIMENSIONS, GL_FLOAT, 0, 0);
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.tId);
+        glBindBuffer(GL_ARRAY_BUFFER, this.tID);
         glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iId);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iID);
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -59,9 +55,21 @@ public class TexturedModel extends IndicesModel {
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 
+    public void setTexCoords(float[] texCoords) {
+        glBindBuffer(GL_ARRAY_BUFFER, this.tID);
+        glBufferData(GL_ARRAY_BUFFER, texCoords, GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
+    public void subTexCoords(float[] texCoords, int offset) {
+        glBindBuffer(GL_ARRAY_BUFFER, this.tID);
+        glBufferSubData(GL_ARRAY_BUFFER, offset, texCoords);
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
     @Override
     public void close() {
         super.close();
-        glDeleteBuffers(tId);
+        glDeleteBuffers(tID);
     }
 }

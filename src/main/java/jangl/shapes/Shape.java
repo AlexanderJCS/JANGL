@@ -350,7 +350,7 @@ public abstract class Shape implements AutoCloseable {
         this.axisAngle += angleRadians;
         float[] vertices = this.calculateVertices();
 
-        this.model.changeVertices(vertices);
+        this.model.setVertices(vertices);
 
         return vertices;
     }

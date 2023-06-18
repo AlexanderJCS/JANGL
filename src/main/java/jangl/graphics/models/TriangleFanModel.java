@@ -14,7 +14,7 @@ public class TriangleFanModel extends Model {
     public void render() {
         glEnableClientState(GL_VERTEX_ARRAY);
 
-        glBindBuffer(GL_ARRAY_BUFFER, this.vId);
+        glBindBuffer(GL_ARRAY_BUFFER, this.vID);
         glVertexPointer(DIMENSIONS, GL_FLOAT, 0, 0);
 
         glDrawArrays(GL_TRIANGLE_FAN, 0, this.drawCount);
