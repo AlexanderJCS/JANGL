@@ -3,9 +3,11 @@ package shaderdemo;
 import jangl.JANGL;
 import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
-import jangl.io.Window;
-import jangl.graphics.shaders.ColorShader;
 import jangl.graphics.shaders.Shader;
+import jangl.graphics.shaders.ShaderType;
+import jangl.io.Window;
+import jangl.graphics.shaders.premade.ColorShader;
+import jangl.graphics.shaders.ShaderProgram;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 
@@ -21,9 +23,10 @@ public class ShaderDemo {
         try (
                 // Create the shader by passing in the filepaths of the vertex and fragment shader
                 // This needs to be inside a try-with-resources statement to prevent memory leaks
-                Shader shader = new Shader(
-                        "src/demo/java/shaderdemo/colorShader.vert",
-                        "src/demo/java/shaderdemo/colorShader.frag"
+                ShaderProgram shader = new ShaderProgram(
+                        new Shader(
+                                "src/demo/java/shaderdemo/colorShader.frag", ShaderType.FRAGMENT
+                        )
                 );
 
                 // You can also use color shaders to do this automatically
@@ -50,7 +53,7 @@ public class ShaderDemo {
                 rect.draw();
 
                 // When done with the shader, make sure to unbind it
-                Shader.unbind();
+                ShaderProgram.unbind();
 
                 // You can also use color shaders to do this automatically
                 circle.draw(colorShader);

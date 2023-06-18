@@ -4,7 +4,7 @@ import jangl.coords.PixelCoords;
 import jangl.coords.NDCoords;
 import jangl.graphics.Texture;
 import jangl.graphics.models.Model;
-import jangl.graphics.shaders.Shader;
+import jangl.graphics.shaders.ShaderProgram;
 import jangl.util.ArrayUtils;
 import jangl.util.Range;
 
@@ -265,10 +265,10 @@ public abstract class Shape implements AutoCloseable {
 
     public abstract void draw();
 
-    public void draw(Shader shader) {
+    public void draw(ShaderProgram shader) {
         shader.bind();
         this.draw();
-        Shader.unbind();
+        ShaderProgram.unbind();
     }
 
     public void draw(Texture texture) {

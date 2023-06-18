@@ -1,18 +1,23 @@
-package jangl.graphics.shaders;
+package jangl.graphics.shaders.premade;
 
 import jangl.color.Color;
+import jangl.graphics.shaders.Shader;
+import jangl.graphics.shaders.ShaderProgram;
+import jangl.graphics.shaders.ShaderType;
 
 import java.util.Arrays;
 
 import static org.lwjgl.opengl.GL46.glUniform4fv;
 
-public class ColorShader extends Shader {
+public class ColorShader extends ShaderProgram {
     private float[] rgba;
 
     private ColorShader() {
         super(
-                Shader.class.getResourceAsStream("/shaders/colorShader/colorShader.vert"),
-                Shader.class.getResourceAsStream("/shaders/colorShader/colorShader.frag")
+                new Shader(
+                        ShaderProgram.class.getResourceAsStream("/shaders/colorShader/colorShader.frag"),
+                        ShaderType.FRAGMENT
+                )
         );
     }
 

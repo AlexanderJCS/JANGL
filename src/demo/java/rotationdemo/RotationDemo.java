@@ -3,7 +3,7 @@ package rotationdemo;
 import jangl.JANGL;
 import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
-import jangl.graphics.shaders.ColorShader;
+import jangl.graphics.shaders.premade.ColorShader;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;

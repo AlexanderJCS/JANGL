@@ -1,0 +1,95 @@
+package jangl.graphics.shaders;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static org.lwjgl.opengl.GL46.*;
+
+public class ShaderProgram implements AutoCloseable {
+    private final int programID;
+    private final List<Integer> shaderIDs;
+
+    public ShaderProgram(Shader shader) {
+        this(Collections.singletonList(shader));
+    }
+
+    public ShaderProgram(List<Shader> shaders) {
+        this.shaderIDs = new ArrayList<>();
+
+        for (Shader shader : shaders) {
+            this.shaderIDs.add(compileShader(shader.sourceCode, shader.type));
+        }
+
+        this.programID = glCreateProgram();
+
+        for (int shaderID : this.shaderIDs) {
+            glAttachShader(this.programID, shaderID);
+        }
+
+        glLinkProgram(this.programID);
+        glValidateProgram(this.programID);
+    }
+
+    /**
+     * @param program The shader program source code
+     * @param type    The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
+     * @return The ID of the compiled shader
+     */
+    private static int compileShader(String program, int type) throws ShaderCompileException {
+        int shaderID = glCreateShader(type);
+        glShaderSource(shaderID, program);
+        glCompileShader(shaderID);
+
+        if (glGetShaderi(shaderID, GL_COMPILE_STATUS) == GL_FALSE) {
+            String shaderTypeString = type == GL_VERTEX_SHADER ? "vertex" : "fragment";
+
+            throw new ShaderCompileException(
+                    "Could not compile " + shaderTypeString + " shader.\nError message:\n" +
+                            glGetShaderInfoLog(shaderID, 8192)
+            );
+        }
+
+        return shaderID;
+    }
+
+    /**
+     * Unbind the shader. Run this when you do not want the shader to apply to any more objects that you draw.
+     */
+    public static void unbind() {
+        glUseProgram(0);
+    }
+
+    /**
+     * Bind the sander. Run this when you want the shader to apply to objects that you draw.
+     */
+    public void bind() {
+        glUseProgram(programID);
+    }
+
+    /**
+     * Get the location of a variable's name to be passed into OpenGL. This is used to pass uniform information
+     * into the shader.
+     *
+     * @param varName The variable name.
+     * @return The location of the shader to be passed into OpenGL.
+     */
+    public int getUniformLocation(String varName) {
+        return glGetUniformLocation(this.programID, varName);
+    }
+
+    /**
+     * Delete all information relating to the shader to avoid memory leaks.
+     */
+    @Override
+    public void close() {
+        ShaderProgram.unbind();
+
+        for (int shaderID : this.shaderIDs) {
+            glDetachShader(this.programID, shaderID);
+            glDeleteShader(shaderID);
+        }
+
+        glDeleteProgram(this.programID);
+    }
+}
