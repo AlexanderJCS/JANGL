@@ -1,7 +1,5 @@
 package jangl.graphics.models;
 
-import jangl.util.BufferManager;
-
 import static org.lwjgl.opengl.GL46.*;
 
 /**
@@ -46,9 +44,7 @@ public class Model implements AutoCloseable {
     /**
      * Changes the vertices to the ones given.
      */
-    public void setVertices(float[] vertices) {
-        // http://forum.lwjgl.org/index.php?topic=5334.0
-
+    private void setVertices(float[] vertices) {
         glBindBuffer(GL_ARRAY_BUFFER, this.vID);
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);

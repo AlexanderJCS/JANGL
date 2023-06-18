@@ -1,7 +1,5 @@
 package jangl.graphics.models;
 
-import jangl.util.BufferManager;
-
 import static org.lwjgl.opengl.GL46.*;
 
 /**
@@ -39,7 +37,7 @@ public class IndicesModel extends Model {
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 
-    public void setIndices(int[] indices) {
+    private void setIndices(int[] indices) {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iID);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

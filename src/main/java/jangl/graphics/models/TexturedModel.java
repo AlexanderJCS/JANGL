@@ -1,7 +1,5 @@
 package jangl.graphics.models;
 
-import jangl.util.BufferManager;
-
 import static org.lwjgl.opengl.GL46.*;
 
 
@@ -55,7 +53,7 @@ public class TexturedModel extends IndicesModel {
         glDisableClientState(GL_VERTEX_ARRAY);
     }
 
-    public void setTexCoords(float[] texCoords) {
+    private void setTexCoords(float[] texCoords) {
         glBindBuffer(GL_ARRAY_BUFFER, this.tID);
         glBufferData(GL_ARRAY_BUFFER, texCoords, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
