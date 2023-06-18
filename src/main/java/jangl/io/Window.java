@@ -3,15 +3,13 @@ package jangl.io;
 import jangl.color.Color;
 import org.lwjgl.opengl.GL;
 
-import java.util.Arrays;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL46.*;
 
 public class Window {
     public static int screenWidth;
     public static int screenHeight;
-    private static float[] clearColor;
+    private static Color clearColor;
     private static long window;
     private static boolean initialized = false;
 
@@ -67,42 +65,16 @@ public class Window {
         glClear(GL_COLOR_BUFFER_BIT);  // Clear the screen for the next frame
     }
 
-    /**
-     * @param red   The red value of the background, float between 0 and 1
-     * @param green The green value of the background, float between 0 and 1
-     * @param blue  The blue value of the background, float between 0 and 1
-     * @param alpha The alpha value of the background, float between 0 and 1
-     */
-    @Deprecated
-    public static void setClearColor(float red, float green, float blue, float alpha) {
-        clearColor = new float[]{ red, green, blue, alpha };
-        glClearColor(red, green, blue, alpha);
-    }
-
-    /**
-     * @param rgba An RGBA float array of the background color. For each float, 0 = no color and 1 = full color.
-     *
-     * @throws IllegalArgumentException Throws if the array is not of length 4 (one value for R, G, B, and A)
-     */
-    @Deprecated
-    public static void setClearColor(float[] rgba) throws IllegalArgumentException {
-        if (rgba.length != 4) {
-            throw new IllegalArgumentException("RGBA float array must be of length 4: red, green, blue, alpha");
-        }
-
-        setClearColor(rgba[0], rgba[1], rgba[2], rgba[3]);
-    }
-
     public static void setClearColor(Color color) {
-        clearColor = color.getNormRGBA();
+        clearColor = color;
         glClearColor(color.getNormRed(), color.getNormGreen(), color.getNormBlue(), color.getNormAlpha());
     }
 
     /**
      * @return An array of the background color, in RGBA, where for each value, 0 = no color and 1 = full color
      */
-    public static float[] getClearColor() {
-        return Arrays.copyOf(clearColor, clearColor.length);
+    public static Color getClearColor() {
+        return clearColor;
     }
 
     public static boolean shouldRun() {

@@ -24,6 +24,14 @@ public class ColorFactory {
         return new Color(redNormalized, greenNormalized, blueNormalized, alphaNormalized);
     }
 
+    public static Color from255(int[] rgba) {
+        if (rgba.length != 4) {
+            throw new IllegalArgumentException("RGBA array must be of length 4");
+        }
+
+        return from255(rgba[0], rgba[1], rgba[2], rgba[3]);
+    }
+
     public static Color fromNormalized(float red, float green, float blue, float alpha) throws IllegalArgumentException {
         if (red > 1 || red < 0) {
             throw new IllegalArgumentException("Normalized red colors should be between 0 and 1");
@@ -36,5 +44,13 @@ public class ColorFactory {
         }
 
         return new Color(red, green, blue, alpha);
+    }
+
+    public static Color fromNormalized(float[] rgba) {
+        if (rgba.length != 4) {
+            throw new IllegalArgumentException("RGBA array must be of length 4");
+        }
+
+        return fromNormalized(rgba[0], rgba[1], rgba[2], rgba[3]);
     }
 }
