@@ -52,12 +52,11 @@ public class Text implements AutoCloseable {
     }
 
     public TexturedModel getModel() {
-        // Use the capital letter A to find the scale
-        int aHeightPixels = this.font.tallestLetter.height();
-        float aHeightScreenCoords = PixelCoords.distYtoNDC(aHeightPixels);
+        int heightPixels = this.font.tallestLetter.height();
+        float heightNDC = PixelCoords.distYtoNDC(heightPixels);
 
         // desired height = current height * scale -> scale = desired height / current height
-        float scaleFactor = this.yHeight / aHeightScreenCoords;
+        float scaleFactor = this.yHeight / heightNDC;
 
         // The cursor is where the next char should be drawn
         PixelCoords cursor = this.topLeft.toPixelCoords();
