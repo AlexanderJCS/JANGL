@@ -84,7 +84,7 @@ public class Text implements AutoCloseable {
             cursor.x += info.xOffset() * scaleFactor;
             cursor.y -= info.yOffset() * scaleFactor;
 
-            NDCoords scCursor = cursor.toScreenCoords();
+            NDCoords scCursor = cursor.toNDCoords();
             float x1 = scCursor.x;
             float y1 = scCursor.y;
             float x2 = scCursor.x + PixelCoords.distXtoNDC(info.width()) * scaleFactor;

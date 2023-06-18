@@ -47,7 +47,7 @@ public class Mouse {
         double x = MOUSE_POS_BUFFER_X.get(0);
         double y = MOUSE_POS_BUFFER_Y.get(0);
 
-        return new PixelCoords((float) x, (float) (Window.getScreenHeight() - y)).toScreenCoords();
+        return new PixelCoords((float) x, (float) (Window.getScreenHeight() - y)).toNDCoords();
     }
 
     /**

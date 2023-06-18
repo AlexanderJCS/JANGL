@@ -44,7 +44,7 @@ public final class PixelCoords extends Coords {
      *
      * @return The NDCoords equivalent.
      */
-    public NDCoords toScreenCoords() {
+    public NDCoords toNDCoords() {
         float screenX = this.x / Window.getScreenWidth() * 2 - 1;
         float screenY = this.y / Window.getScreenHeight() * 2 - 1;
 
