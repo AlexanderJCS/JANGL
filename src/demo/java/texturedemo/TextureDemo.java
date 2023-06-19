@@ -2,7 +2,6 @@ package texturedemo;
 
 import jangl.JANGL;
 import jangl.coords.NDCoords;
-import jangl.graphics.Camera;
 import jangl.graphics.Texture;
 import jangl.graphics.shaders.AttribLocation;
 import jangl.graphics.shaders.ShaderProgram;
