@@ -8,5 +8,5 @@ layout (location = 0) out vec2 tex_coords;
 
 void main() {
     tex_coords = textures;
-    dgl_Position = applyCamera(vec4(vertices, 1.0));
+    gl_Position = applyCamera(vec4(vertices, 1.0));
 }
