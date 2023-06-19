@@ -86,6 +86,11 @@ public class Shader {
             String fileToImport = line.substring(firstQuoteIndex + 1, secondQuoteIndex);
 
             InputStream stream = Shader.class.getResourceAsStream("/shaderInclude/" + fileToImport);
+
+            if (stream == null) {
+                throw new ShaderCompileException("Precompilation error: Could not find file /shaderInclude/" + fileToImport + "\n" + line);
+            }
+
             String importedFile = loadShader(stream);
 
             importedFile += "\n#line " + (i + 2);  // set the line number back to what it should be
