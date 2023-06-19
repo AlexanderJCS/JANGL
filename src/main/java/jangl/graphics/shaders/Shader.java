@@ -1,7 +1,5 @@
 package jangl.graphics.shaders;
 
-import jangl.graphics.shaders.premade.ColorShader;
-
 import java.io.*;
 
 public class Shader {
@@ -87,7 +85,7 @@ public class Shader {
 
             String fileToImport = line.substring(firstQuoteIndex + 1, secondQuoteIndex);
 
-            InputStream stream = Shader.class.getResourceAsStream("/precompilation/" + fileToImport);
+            InputStream stream = Shader.class.getResourceAsStream("/shaderInclude/" + fileToImport);
             String importedFile = loadShader(stream);
 
             importedFile += "\n#line " + (i + 2);  // set the line number back to what it should be

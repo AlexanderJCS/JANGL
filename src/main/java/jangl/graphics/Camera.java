@@ -10,7 +10,7 @@ public class Camera {
     private static NDCoords center = new NDCoords(0, 0);
 
     public static final Shader SHADER = new Shader(
-            Camera.class.getResourceAsStream("/precompilation/janglCamera.glsl"), ShaderType.VERTEX
+            Camera.class.getResourceAsStream("/shaderInclude/janglCamera.glsl"), ShaderType.VERTEX
     );
     public static final int BINDING_POINT = 10;
     private static int uboID;
