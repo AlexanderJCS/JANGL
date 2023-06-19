@@ -4,16 +4,13 @@ import java.io.*;
 
 public class Shader {
     public final String sourceCode;
-    public final int type;
 
-    public Shader(String filepath, ShaderType shaderType) throws UncheckedIOException {
+    public Shader(String filepath) throws UncheckedIOException {
         this.sourceCode = precompile(loadShader(filepath));
-        this.type = ShaderType.toOpenGLType(shaderType);
     }
 
-    public Shader(InputStream shaderStream, ShaderType shaderType) throws UncheckedIOException {
+    public Shader(InputStream shaderStream) throws UncheckedIOException {
         this.sourceCode = precompile(loadShader(shaderStream));
-        this.type = ShaderType.toOpenGLType(shaderType);
     }
 
     /**

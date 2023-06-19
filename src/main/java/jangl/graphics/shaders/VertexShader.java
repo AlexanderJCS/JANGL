@@ -5,11 +5,11 @@ import java.io.UncheckedIOException;
 
 public class VertexShader extends Shader {
 
-    public VertexShader(String filepath, ShaderType shaderType) throws UncheckedIOException {
-        super(filepath, shaderType);
+    public VertexShader(String filepath) throws UncheckedIOException {
+        super(filepath);
     }
 
-    public VertexShader(InputStream shaderStream, ShaderType shaderType) throws UncheckedIOException {
-        super(shaderStream, shaderType);
+    public VertexShader(InputStream shaderStream) throws UncheckedIOException {
+        super(shaderStream);
     }
 }

@@ -4,13 +4,12 @@ import static org.lwjgl.opengl.GL46.*;
 
 import jangl.graphics.shaders.FragmentShader;
 import jangl.graphics.shaders.Shader;
-import jangl.graphics.shaders.ShaderType;
 
 import java.io.UncheckedIOException;
 
 public class TextureShaderFrag extends FragmentShader {
     public TextureShaderFrag() throws UncheckedIOException {
-        super(Shader.class.getResourceAsStream("/shaders/textureShader/textureShader.frag"), ShaderType.FRAGMENT);
+        super(Shader.class.getResourceAsStream("/shaders/textureShader/textureShader.frag"));
     }
 
     @Override

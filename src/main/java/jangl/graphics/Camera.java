@@ -3,15 +3,9 @@ package jangl.graphics;
 import static org.lwjgl.opengl.GL46.*;
 
 import jangl.coords.NDCoords;
-import jangl.graphics.shaders.Shader;
-import jangl.graphics.shaders.ShaderType;
 
 public class Camera {
     private static NDCoords center = new NDCoords(0, 0);
-
-    public static final Shader SHADER = new Shader(
-            Camera.class.getResourceAsStream("/shaderInclude/janglCamera.glsl"), ShaderType.VERTEX
-    );
     public static final int BINDING_POINT = 10;
     private static int uboID;
 

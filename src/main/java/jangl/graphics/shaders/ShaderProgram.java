@@ -40,20 +40,25 @@ public class ShaderProgram implements AutoCloseable {
             this.shaders.add(fs);
         }
 
+        // Compile the shaders
         for (Shader shader : this.shaders) {
-            this.shaderIDs.add(compileShader(shader.sourceCode, shader.type));
+            int shaderType = shader instanceof VertexShader ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER;
+            this.shaderIDs.add(compileShader(shader.sourceCode, shaderType));
         }
 
         this.programID = glCreateProgram();
 
+        // Attach the shader to the program
         for (int shaderID : this.shaderIDs) {
             glAttachShader(this.programID, shaderID);
         }
 
+        // Bind attribute locations
         for (AttribLocation attribLocation : attribLocations) {
             glBindAttribLocation(this.programID, attribLocation.index(), attribLocation.name());
         }
 
+        // Link and validate the programs. Check for errors.
         glLinkProgram(this.programID);
 
         if (glGetProgrami(this.programID, GL_LINK_STATUS) == GL_FALSE) {
