@@ -6,9 +6,13 @@ import jangl.graphics.Texture;
 import jangl.graphics.font.parser.CharInfo;
 import jangl.graphics.font.parser.Font;
 import jangl.graphics.models.TexturedModel;
+import jangl.graphics.shaders.ShaderProgram;
+import jangl.graphics.shaders.premade.TextureShaderFrag;
+import jangl.graphics.shaders.premade.TextureShaderVert;
 
 public class Text implements AutoCloseable {
     private TexturedModel model;
+    private ShaderProgram shaderProgram;
     private String text;
     private NDCoords topLeft;
     private Font font;
@@ -27,6 +31,7 @@ public class Text implements AutoCloseable {
         this.text = this.pruneText(text);
 
         this.model = this.getModel();
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(true), new TextureShaderFrag());
     }
 
     public String getText() {
@@ -119,7 +124,7 @@ public class Text implements AutoCloseable {
      * Regenerate the new model with any changes that may have been made since the last time it was generated
      */
     protected void regenerate() {
-        this.close();  // close the old model before generating the new one
+        this.model.close();  // close the old model before generating the new one
         this.model = this.getModel();
     }
 
@@ -172,13 +177,16 @@ public class Text implements AutoCloseable {
     }
 
     public void draw() {
+        this.shaderProgram.bind();
         this.font.fontTexture.bind();
         this.model.render();
         Texture.unbind();
+        ShaderProgram.unbind();
     }
 
     @Override
     public void close() {
         this.model.close();
+        this.shaderProgram.close();
     }
 }
