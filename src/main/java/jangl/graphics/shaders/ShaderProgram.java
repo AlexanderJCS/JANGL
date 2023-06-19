@@ -1,7 +1,6 @@
 package jangl.graphics.shaders;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL46.*;
@@ -11,23 +10,37 @@ public class ShaderProgram implements AutoCloseable {
     private final List<Integer> shaderIDs;
     private final List<Shader> shaders;
 
-    public ShaderProgram(Shader shader) {
-        this(Collections.singletonList(shader), new ArrayList<>());
+    public ShaderProgram(VertexShader vs) {
+        this(vs, null, new ArrayList<>());
     }
 
-    public ShaderProgram(Shader shader, List<AttribLocation> attribLocations) {
-        this(Collections.singletonList(shader), attribLocations);
+    public ShaderProgram(FragmentShader fs) {
+        this(null, fs, new ArrayList<>());
     }
 
-    public ShaderProgram(List<Shader> shaders) {
-        this(shaders, new ArrayList<>());
+    public ShaderProgram(VertexShader vs, List<AttribLocation> attribLocations) {
+        this(vs, null, attribLocations);
     }
 
-    public ShaderProgram(List<Shader> shaders, List<AttribLocation> attribLocations) throws ShaderCompileException {
+    public ShaderProgram(FragmentShader fs, List<AttribLocation> attribLocations) {
+        this(null, fs, attribLocations);
+    }
+
+    public ShaderProgram(VertexShader vs, FragmentShader fs) {
+        this(vs, fs, new ArrayList<>());
+    }
+
+    public ShaderProgram(VertexShader vs, FragmentShader fs, List<AttribLocation> attribLocations) throws ShaderCompileException {
         this.shaderIDs = new ArrayList<>();
-        this.shaders = shaders;
+        this.shaders = new ArrayList<>();
 
-        for (Shader shader : shaders) {
+        if (vs != null) {
+            this.shaders.add(vs);
+        } if (fs != null) {
+            this.shaders.add(fs);
+        }
+
+        for (Shader shader : this.shaders) {
             this.shaderIDs.add(compileShader(shader.sourceCode, shader.type));
         }
 

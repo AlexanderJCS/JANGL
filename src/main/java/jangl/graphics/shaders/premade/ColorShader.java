@@ -1,7 +1,7 @@
 package jangl.graphics.shaders.premade;
 
 import jangl.color.Color;
-import jangl.graphics.shaders.Shader;
+import jangl.graphics.shaders.FragmentShader;
 import jangl.graphics.shaders.ShaderType;
 
 import java.io.UncheckedIOException;
@@ -9,7 +9,7 @@ import java.io.UncheckedIOException;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform4fv;
 
-public class ColorShader extends Shader {
+public class ColorShader extends FragmentShader {
     private Color color;
 
     public ColorShader(Color color) throws UncheckedIOException {

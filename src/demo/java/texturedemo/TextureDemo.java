@@ -4,7 +4,6 @@ import jangl.JANGL;
 import jangl.coords.NDCoords;
 import jangl.graphics.Texture;
 import jangl.graphics.shaders.AttribLocation;
-import jangl.graphics.shaders.Shader;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderFrag;
 import jangl.graphics.shaders.premade.TextureShaderVert;
@@ -27,11 +26,7 @@ public class TextureDemo implements AutoCloseable {
         attribLocations.add(new AttribLocation(0, "vertices"));
         attribLocations.add(new AttribLocation(1, "textures"));
 
-        List<Shader> shaders = new ArrayList<>();
-        shaders.add(new TextureShaderVert());
-        shaders.add(new TextureShaderFrag());
-
-        this.shaderProgram = new ShaderProgram(shaders, attribLocations);
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new TextureShaderFrag(), attribLocations);
     }
 
     public void draw() {
