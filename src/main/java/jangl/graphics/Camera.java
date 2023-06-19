@@ -6,7 +6,7 @@ import jangl.coords.NDCoords;
 
 public class Camera {
     private static NDCoords center = new NDCoords(0, 0);
-    public static final int BINDING_POINT = 10;
+    public static final int BINDING_POINT = 83;
     private static int uboID;
 
     private static boolean initialized = false;

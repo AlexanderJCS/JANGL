@@ -1,4 +1,4 @@
-layout(binding = 10) uniform CameraPos {
+layout(binding = 83) uniform CameraPos {
     vec2 cameraPos;
 };
 
