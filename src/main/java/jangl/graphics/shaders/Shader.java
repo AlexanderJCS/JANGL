@@ -14,7 +14,10 @@ public class Shader {
     }
 
     /**
-     * The method to override to pass uniforms to the shader.
+     * Override this method to pass uniforms to the shader or do any calculation before the shader runs.
+     * To pass a uniform, use:<br>
+     * int location = org.lwjgl.opengl.GL46.glGetUniformLocation(programID, "uniform name");
+     * org.lwjgl.opengl.GL46.glUniform___(location, data);
      *
      * @param programID The ID of the program. Used for passing uniform information.
      */
