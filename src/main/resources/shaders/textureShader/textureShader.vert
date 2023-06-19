@@ -1,11 +1,12 @@
-#version 120
+#version 460
+#include "janglCamera.glsl"
 
-attribute vec3 vertices;
-attribute vec2 textures;
+layout (location = 0) in vec3 vertices;
+layout (location = 1) in vec2 textures;
 
-varying vec2 tex_coords;
+layout (location = 0) out vec2 tex_coords;
 
 void main() {
     tex_coords = textures;
-    gl_Position = vec4(vertices, 1.0);
+    dgl_Position = applyCamera(vec4(vertices, 1.0));
 }

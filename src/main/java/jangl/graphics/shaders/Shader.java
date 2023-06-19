@@ -1,5 +1,7 @@
 package jangl.graphics.shaders;
 
+import jangl.graphics.shaders.premade.ColorShader;
+
 import java.io.*;
 
 public class Shader {
@@ -7,12 +9,12 @@ public class Shader {
     public final int type;
 
     public Shader(String filepath, ShaderType shaderType) throws UncheckedIOException {
-        this.sourceCode = loadShader(filepath);
+        this.sourceCode = precompile(loadShader(filepath));
         this.type = ShaderType.toOpenGLType(shaderType);
     }
 
     public Shader(InputStream shaderStream, ShaderType shaderType) throws UncheckedIOException {
-        this.sourceCode = loadShader(shaderStream);
+        this.sourceCode = precompile(loadShader(shaderStream));
         this.type = ShaderType.toOpenGLType(shaderType);
     }
 
@@ -64,5 +66,35 @@ public class Shader {
         }
 
         return shaderSource.toString();
+    }
+
+    private static String precompile(String source) {
+        String[] splitLines = source.split("\n");
+
+        for (int i = 0; i < splitLines.length; i++) {
+            String line = splitLines[i];
+
+            if (!line.startsWith("#include")) {
+                continue;
+            }
+
+            int firstQuoteIndex = line.indexOf('"');
+            int secondQuoteIndex = line.indexOf('"', firstQuoteIndex + 1);
+
+            if (firstQuoteIndex == -1 || secondQuoteIndex == -1) {
+                throw new ShaderCompileException("Precompilation error: Could not parse line\n" + line);
+            }
+
+            String fileToImport = line.substring(firstQuoteIndex + 1, secondQuoteIndex);
+
+            InputStream stream = Shader.class.getResourceAsStream("/precompilation/" + fileToImport);
+            String importedFile = loadShader(stream);
+
+            importedFile += "\n#line " + (i + 2);  // set the line number back to what it should be
+
+            splitLines[i] = importedFile;
+        }
+
+        return String.join("\n", splitLines);
     }
 }

@@ -9,7 +9,7 @@ import java.io.UncheckedIOException;
 
 public class TextureShaderFrag extends Shader {
     public TextureShaderFrag() throws UncheckedIOException {
-        super(ColorShader.class.getResourceAsStream("/shaders/textureShader/textureShader.frag"), ShaderType.FRAGMENT);
+        super(Shader.class.getResourceAsStream("/shaders/textureShader/textureShader.frag"), ShaderType.FRAGMENT);
     }
 
     @Override

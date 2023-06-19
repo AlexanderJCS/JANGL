@@ -7,6 +7,6 @@ import java.io.UncheckedIOException;
 
 public class TextureShaderVert extends Shader {
     public TextureShaderVert() throws UncheckedIOException {
-        super(ColorShader.class.getResourceAsStream("/shaders/textureShader/textureShader.vert"), ShaderType.VERTEX);
+        super(Shader.class.getResourceAsStream("/shaders/textureShader/textureShader.vert"), ShaderType.VERTEX);
     }
 }
