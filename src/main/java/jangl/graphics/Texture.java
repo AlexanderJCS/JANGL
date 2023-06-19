@@ -198,6 +198,7 @@ public class Texture implements AutoCloseable {
      * on the TexturedModel.
      */
     public void bind() {
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this.id);
     }
 

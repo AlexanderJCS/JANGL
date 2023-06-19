@@ -12,10 +12,18 @@ public class ShaderProgram implements AutoCloseable {
     private final List<Shader> shaders;
 
     public ShaderProgram(Shader shader) {
-        this(Collections.singletonList(shader));
+        this(Collections.singletonList(shader), new ArrayList<>());
     }
 
-    public ShaderProgram(List<Shader> shaders) throws ShaderCompileException {
+    public ShaderProgram(Shader shader, List<AttribLocation> attribLocations) {
+        this(Collections.singletonList(shader), attribLocations);
+    }
+
+    public ShaderProgram(List<Shader> shaders) {
+        this(shaders, new ArrayList<>());
+    }
+
+    public ShaderProgram(List<Shader> shaders, List<AttribLocation> attribLocations) throws ShaderCompileException {
         this.shaderIDs = new ArrayList<>();
         this.shaders = shaders;
 
@@ -27,6 +35,10 @@ public class ShaderProgram implements AutoCloseable {
 
         for (int shaderID : this.shaderIDs) {
             glAttachShader(this.programID, shaderID);
+        }
+
+        for (AttribLocation attribLocation : attribLocations) {
+            glBindAttribLocation(this.programID, attribLocation.index(), attribLocation.name());
         }
 
         glLinkProgram(this.programID);

@@ -28,14 +28,14 @@ public class TexturedModel extends IndicesModel {
      */
     @Override
     public void render() {
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
 
         glBindBuffer(GL_ARRAY_BUFFER, this.vID);
-        glVertexPointer(DIMENSIONS, GL_FLOAT, 0, 0);
+        glVertexAttribPointer(0, DIMENSIONS, GL_FLOAT, false, 0, 0);
 
         glBindBuffer(GL_ARRAY_BUFFER, this.tID);
-        glTexCoordPointer(2, GL_FLOAT, 0, 0);
+        glVertexAttribPointer(1, DIMENSIONS, GL_FLOAT, false, 0, 0);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.iID);
 
@@ -49,8 +49,8 @@ public class TexturedModel extends IndicesModel {
 
         glDisable(GL_BLEND);
 
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
     }
 
     private void setTexCoords(float[] texCoords) {
