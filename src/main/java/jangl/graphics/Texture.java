@@ -26,6 +26,7 @@ public class Texture implements AutoCloseable {
     private final ShaderProgram shaderProgram;
     public final int width;
     public final int height;
+    private boolean useDefaultShader = true;
 
     /**
      * Creates a texture from the raw data.
@@ -166,14 +167,6 @@ public class Texture implements AutoCloseable {
         return new ShaderProgram(new TextureShaderVert(obeyCamera), new TextureShaderFrag(), attribLocations);
     }
 
-    /**
-     * Unbinds any existing bound texture
-     */
-    public static void unbind() {
-        glBindTexture(GL_TEXTURE_2D, 0);
-        ShaderProgram.unbind();
-    }
-
     protected void putPixel(ByteBuffer buffer, int pixelData) {
         buffer.put((byte) ((pixelData >> 16) & 0xFF));  // Red
         buffer.put((byte) ((pixelData >> 8) & 0xFF));   // Green
@@ -221,9 +214,31 @@ public class Texture implements AutoCloseable {
      * on the TexturedModel.
      */
     public void bind() {
-        this.shaderProgram.bind();
+        if (this.useDefaultShader) {
+            this.shaderProgram.bind();
+        }
+
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this.id);
+    }
+
+    /**
+     * Unbinds any existing bound texture
+     */
+    public static void unbind() {
+        glBindTexture(GL_TEXTURE_2D, 0);
+        ShaderProgram.unbind();
+    }
+
+    /**
+     * This method allows you to configure if the shader program attached to the texture (default shader) is used when
+     * the texture is bound/unbound. Only set this to false if you plan on using your own custom shader in place of
+     * the default.
+     *
+     * @param useDefaultShader True to use the default shader. False to use a custom shader.
+     */
+    public void useDefaultShader(boolean useDefaultShader) {
+        this.useDefaultShader = useDefaultShader;
     }
 
     @Override
