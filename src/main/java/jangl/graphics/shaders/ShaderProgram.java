@@ -5,31 +5,61 @@ import java.util.List;
 
 import static org.lwjgl.opengl.GL46.*;
 
+/**
+ * A ShaderProgram allows you to combine a FragmentShader and VertexShader into a single program.
+ */
 public class ShaderProgram implements AutoCloseable {
     private final int programID;
     private final List<Integer> shaderIDs;
     private final List<Shader> shaders;
 
+    /**
+     * WARNING: not including a fragment shader may result in the object being black and appearing to be invisible.
+     * If you experience this, you can include a ColorShader fragment shader.
+     *
+     * @param vs The vertex shader to add to the program.
+     */
     public ShaderProgram(VertexShader vs) {
         this(vs, null, new ArrayList<>());
     }
 
+    /**
+     * @param fs The fragment shader to add to the program.
+     */
     public ShaderProgram(FragmentShader fs) {
         this(null, fs, new ArrayList<>());
     }
 
+    /**
+     * @param vs The vertex shader to add to the program.
+     * @param attribLocations A list of attribute locations for the shader.
+     */
     public ShaderProgram(VertexShader vs, List<AttribLocation> attribLocations) {
         this(vs, null, attribLocations);
     }
 
+    /**
+     * @param fs The fragment shader to add to the program.
+     * @param attribLocations A list of attribute locations for the shader.
+     */
     public ShaderProgram(FragmentShader fs, List<AttribLocation> attribLocations) {
         this(null, fs, attribLocations);
     }
 
+    /**
+     * @param vs The vertex shader to add to the program.
+     * @param fs The fragment shader to add to the program.
+     */
     public ShaderProgram(VertexShader vs, FragmentShader fs) {
         this(vs, fs, new ArrayList<>());
     }
 
+    /**
+     * @param vs The vertex shader to add to the program.
+     * @param fs The fragment shader to add to the program.
+     * @param attribLocations A list of attribute locations for the shader.
+     * @throws ShaderCompileException Throws if the shaders cannot compile, link, or validate.
+     */
     public ShaderProgram(VertexShader vs, FragmentShader fs, List<AttribLocation> attribLocations) throws ShaderCompileException {
         this.shaderIDs = new ArrayList<>();
         this.shaders = new ArrayList<>();
@@ -80,7 +110,7 @@ public class ShaderProgram implements AutoCloseable {
 
     /**
      * @param program The shader program source code
-     * @param type    The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
+     * @param type The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
      * @return The ID of the compiled shader
      */
     private static int compileShader(String program, int type) throws ShaderCompileException {

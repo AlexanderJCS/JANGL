@@ -8,6 +8,9 @@ import java.io.UncheckedIOException;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform4fv;
 
+/**
+ * Use this shader color an object a specific color.
+ */
 public class ColorShader extends FragmentShader {
     private Color color;
 

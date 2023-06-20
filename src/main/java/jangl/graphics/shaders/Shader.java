@@ -5,10 +5,20 @@ import java.io.*;
 public class Shader {
     public final String sourceCode;
 
+    /**
+     * Load a shader program.
+     * @param filepath The filepath to the shader program.
+     * @throws UncheckedIOException Throws an UncheckedIOException if it cannot find or read the file.
+     */
     public Shader(String filepath) throws UncheckedIOException {
         this.sourceCode = precompile(loadShader(filepath));
     }
 
+    /**
+     * Load a shader program.
+     * @param shaderStream The stream of the shader program code.
+     * @throws UncheckedIOException Throws an UncheckedIOException if it cannot read the stream.
+     */
     public Shader(InputStream shaderStream) throws UncheckedIOException {
         this.sourceCode = precompile(loadShader(shaderStream));
     }
@@ -66,6 +76,11 @@ public class Shader {
         return shaderSource.toString();
     }
 
+    /**
+     * Precompile the shader. Right now, it just adds #includes.
+     * @param source The source code of the shader.
+     * @return The source code of the shader with other #included code added in
+     */
     private static String precompile(String source) {
         String[] splitLines = source.split("\n");
 
