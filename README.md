@@ -224,7 +224,7 @@ public class Quickstart {
 Now, we have a rectangle drawn to your screen.
 ![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/9f331770-2d59-4887-ab79-08d20f2312f9)
 
-If you notice that your computer fans start spinning faster when running this program, that's no coincidence. You're running the window at the maximum speed your computer can handle, so it's going to put strain on the CPU and GPU. You can limit this by using the `GameClock.smartTick(int fps)` method. This will run the window at the desired frames per second.
+If you notice that your computer fans start spinning faster when running this program, that's no coincidence. You're running the window at the maximum speed your computer can handle, so it's going to put strain on the CPU and GPU. You can limit this by using the `Clock.smartTick(int fps)` method. This will run the window at the desired frames per second.
 
 The smart tick method throws an interrupted exception if the program is interrupted while it is sleeping, so it is important to handle that as well.
 
@@ -250,7 +250,7 @@ public class Quickstart {
 
                 // Run the window at 60 FPS, handling any interrupted exceptions that may occur
                 try {
-                    GameClock.smartTick(60);
+                    Clock.smartTick(60);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -303,7 +303,7 @@ public class Quickstart {
 
                 // Run the window at 60 FPS, handling any interrupted exceptions that may occur
                 try {
-                    GameClock.smartTick(60);
+                    Clock.smartTick(60);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -318,74 +318,6 @@ public class Quickstart {
     }
 }
 ```
+
+Thanks for following!
 ![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/5e44f87a-f76e-49bf-85cd-ea4a1bb28ce8)
-
-Finally, let's give this square some color! Computers handle colors by displaying different levels of red, green, and blue values per pixel. For example, 100% red, 100% green, and 0% blue would result in a yellow color. In addition, there is also an alpha value, which is the transparency of the pixel. 
-
-You can specify the red, green, blue, and alpha values of a shape using the `ColorShader` class. Its constructor method header is:
-```java
-public ColorShader(float red, float green, float blue, float alpha)
-```
-
-The red, green, blue, and alpha values are 32-bit floating-point values between 0 and 1. So, if we wanted to define a `ColorShader` with the color yellow, we need to define 100% red, 100% green, and 100% alpha (0% transparency, since transparency = 100% - alpha). We can do so using the following declaration:
-```java
-ColorShader yellow = new ColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
-```
-
-We use the ColorFactory class to create the normalized Color.
-
-Once the shader is created, you can pass it into the overloaded `Shape.draw(Shader shader)` method to draw a shape with the shader.
-
-Before incorporating shaders into our program, it's also important to note that all shaders, including `ColorShader`s, need to be closed to prevent a memory leak. So, in our program, it will go inside the try-with-resources statement.
-
-With this knowledge, let's add a shader to our rectangle:
-
-```java
-import jangl.JANGL;
-import jangl.coords.PixelCoords;
-import jangl.coords.NDCoords;
-import jangl.color.ColorFactory;
-import jangl.io.Window;
-import jangl.shapes.Rect;
-
-public class Quickstart {
-    public Quickstart() {
-        // Input the width and height of your screen in pixels.
-        JANGL.init(1600, 900);
-    }
-
-    public void run() {
-        try (
-                Rect rect = new Rect(
-                        new NDCoords(0, 0),
-                        PixelCoords.distXtoNDC(400),
-                        PixelCoords.distYtoNDC(400)
-                );
-
-                ColorShaderProgram yellow = new ColorShaderProgram(ColorFactory.fromNormalized(1, 1, 0, 1))
-        ) {
-            while (Window.shouldRun()) {
-                JANGL.update();
-                Window.clear();
-
-                rect.draw(yellow);
-
-                // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-                try {
-                    GameClock.smartTick(60);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-            }
-        }
-
-        Window.close();
-    }
-
-    public static void main(String[] args) {
-        new Quickstart().run();
-    }
-}
-```
-
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/dfe97fdd-0859-485d-ab3b-73329e112ee2)

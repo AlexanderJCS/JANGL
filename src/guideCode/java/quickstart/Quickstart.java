@@ -1,11 +1,8 @@
 package quickstart;
 
 import jangl.JANGL;
-import jangl.color.ColorFactory;
-import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
-import jangl.graphics.shaders.ShaderProgram;
-import jangl.graphics.shaders.premade.ColorShader;
+import jangl.coords.NDCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -17,20 +14,17 @@ public class Quickstart {
     }
 
     public void run() {
-        try (
-                Rect rect = new Rect(
-                    new NDCoords(0, 0),
-                    PixelCoords.distXtoNDC(400),
-                    PixelCoords.distYtoNDC(400)
-                );
-
-                ShaderProgram yellow = new ShaderProgram(new ColorShader(ColorFactory.fromNormalized(1, 1, 0, 1)))
+        try (Rect rect = new Rect(
+                new NDCoords(0, 0),
+                PixelCoords.distXtoNDC(400),
+                PixelCoords.distYtoNDC(400)
+            )
         ) {
             while (Window.shouldRun()) {
                 JANGL.update();
                 Window.clear();
 
-                rect.draw(yellow);
+                rect.draw();
 
                 // Run the window at 60 FPS, handling any interrupted exceptions that may occur
                 try {
