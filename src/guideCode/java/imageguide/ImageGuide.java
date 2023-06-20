@@ -21,7 +21,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        "src/guideCode/guideResources/imageGuide/image.png"
+                        "src/guideCode/guideResources/imageGuide/image.png", true
                 )
         );
     }

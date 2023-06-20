@@ -1,5 +1,9 @@
 package jangl.graphics;
 
+import jangl.graphics.shaders.AttribLocation;
+import jangl.graphics.shaders.ShaderProgram;
+import jangl.graphics.shaders.premade.TextureShaderFrag;
+import jangl.graphics.shaders.premade.TextureShaderVert;
 import org.lwjgl.BufferUtils;
 
 import javax.imageio.ImageIO;
@@ -8,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL46.*;
 
@@ -17,6 +23,7 @@ import static org.lwjgl.opengl.GL46.*;
  */
 public class Texture implements AutoCloseable {
     private final int id;
+    private final ShaderProgram shaderProgram;
     public final int width;
     public final int height;
 
@@ -28,7 +35,7 @@ public class Texture implements AutoCloseable {
      * @param height     The height of the image.
      * @param filterMode The OpenGL filter mode ID.
      */
-    protected Texture(byte[] rawData, int width, int height, int filterMode) {
+    protected Texture(byte[] rawData, int width, int height, int filterMode, boolean obeyCamera) {
         this.width = width;
         this.height = height;
 
@@ -37,6 +44,7 @@ public class Texture implements AutoCloseable {
         imageData.flip();
 
         this.id = this.createImage(imageData, this.width, this.height, filterMode);
+        this.shaderProgram = createShader(obeyCamera);
     }
 
     /**
@@ -44,10 +52,12 @@ public class Texture implements AutoCloseable {
      * @param filterMode The filter mode for scaling the image. Common filter modes are:
      *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
      *                   for when scaling.
+     * @param obeyCamera True if the texture should move on the screen when the camera moves. False to stay stationary
+     *                   when the camera moves.
      *
      * @throws UncheckedIOException If the specified filepath cannot be found.
      */
-    public Texture(String filepath, int filterMode) throws UncheckedIOException {
+    public Texture(String filepath, int filterMode, boolean obeyCamera) throws UncheckedIOException {
         BufferedImage bufferedImage;
 
         try {
@@ -63,13 +73,14 @@ public class Texture implements AutoCloseable {
         ByteBuffer imageData = this.calculateImageData(rawData);
 
         this.id = this.createImage(imageData, width, height, filterMode);
+        this.shaderProgram = createShader(obeyCamera);
     }
 
     /**
      * @param filepath The filepath of the texture. Defaults to nearest-neighbor filter mode.
      */
-    public Texture(String filepath) throws UncheckedIOException {
-        this(filepath, GL_NEAREST);
+    public Texture(String filepath, boolean obeyCamera) throws UncheckedIOException {
+        this(filepath, GL_NEAREST, obeyCamera);
     }
 
     /**
@@ -84,7 +95,7 @@ public class Texture implements AutoCloseable {
      * @throws IndexOutOfBoundsException Throws if the specified rectangle goes off the image
      * @throws UncheckedIOException If the specified filepath cannot be found.
      */
-    public Texture(String filepath, int x, int y, int width, int height, int filterMode)
+    public Texture(String filepath, int x, int y, int width, int height, int filterMode, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException {
         BufferedImage bufferedImage;
 
@@ -101,6 +112,7 @@ public class Texture implements AutoCloseable {
         ByteBuffer imageData = this.calculateImageData(rawData);
 
         this.id = this.createImage(imageData, width, height, filterMode);
+        this.shaderProgram = createShader(obeyCamera);
     }
 
     /**
@@ -115,9 +127,9 @@ public class Texture implements AutoCloseable {
      * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
      * @throws UncheckedIOException If the specified filepath cannot be found.
      */
-    public Texture(String filepath, int x, int y, int width, int height)
+    public Texture(String filepath, int x, int y, int width, int height, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException {
-        this(filepath, x, y, width, height, GL_NEAREST);
+        this(filepath, x, y, width, height, GL_NEAREST, obeyCamera);
     }
 
     /**
@@ -133,7 +145,7 @@ public class Texture implements AutoCloseable {
      * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
      * @throws UncheckedIOException If the specified filepath cannot be found.
      */
-    public Texture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode)
+    public Texture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException {
 
         int[] rawData = bufferedImage.getRGB(x, y, width, height, null, 0, width);
@@ -142,6 +154,16 @@ public class Texture implements AutoCloseable {
 
         this.width = width;
         this.height = height;
+        this.shaderProgram = createShader(obeyCamera);
+    }
+
+    private static ShaderProgram createShader(boolean obeyCamera) {
+        List<AttribLocation> attribLocations = Arrays.asList(
+                new AttribLocation(0, "vertices"),
+                new AttribLocation(1, "textures")
+        );
+
+        return new ShaderProgram(new TextureShaderVert(obeyCamera), new TextureShaderFrag(), attribLocations);
     }
 
     /**
@@ -149,6 +171,7 @@ public class Texture implements AutoCloseable {
      */
     public static void unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
+        ShaderProgram.unbind();
     }
 
     protected void putPixel(ByteBuffer buffer, int pixelData) {
@@ -198,6 +221,7 @@ public class Texture implements AutoCloseable {
      * on the TexturedModel.
      */
     public void bind() {
+        this.shaderProgram.bind();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this.id);
     }
@@ -205,5 +229,6 @@ public class Texture implements AutoCloseable {
     @Override
     public void close() {
         glDeleteTextures(this.id);
+        this.shaderProgram.close();
     }
 }

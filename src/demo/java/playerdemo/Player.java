@@ -20,7 +20,7 @@ public class Player implements AutoCloseable {
 
         this.image = new Image(
                 new Rect(coords, PixelCoords.distXtoNDC(50), PixelCoords.distYtoNDC(50)),
-                new Texture("src/demo/demoResources/playerDemo/player.png")
+                new Texture("src/demo/demoResources/playerDemo/player.png", true)
         );
     }
 

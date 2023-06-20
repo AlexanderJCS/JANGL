@@ -23,10 +23,11 @@ public class MutableTexture extends Texture {
      * @param width The width of the texture in pixels
      * @param height The height of the texture in pixels
      */
-    public MutableTexture(Color color, int width, int height) {
-        this(color, width, height, GL_LINEAR);
+    public MutableTexture(Color color, int width, int height, boolean obeyCamera) {
+        this(color, width, height, GL_LINEAR, obeyCamera);
     }
 
+    // TODO: fix broken docstring
     /**
      * but it has a default filter mode of GL_LINEAR.
      * @param color The color of the background
@@ -34,37 +35,43 @@ public class MutableTexture extends Texture {
      * @param height The height of the texture in pixels
      * @param filterMode The filter mode of the texture.
      */
-    public MutableTexture(Color color, int width, int height, int filterMode) {
+    public MutableTexture(Color color, int width, int height, int filterMode, boolean obeyCamera) {
         super(
                 ArrayUtils.repeatSequence(ArrayUtils.intsToBytes(color.get255RGBA()), width * height),
-                width, height, filterMode
+                width, height, filterMode, obeyCamera
         );
 
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
-    public MutableTexture(String filepath, int filterMode) throws UncheckedIOException {
-        super(filepath, filterMode);
+    public MutableTexture(String filepath, int filterMode, boolean obeyCamera) throws UncheckedIOException {
+        super(filepath, filterMode, obeyCamera);
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
-    public MutableTexture(String filepath) throws UncheckedIOException {
-        super(filepath);
+    public MutableTexture(String filepath, boolean obeyCamera) throws UncheckedIOException {
+        super(filepath, obeyCamera);
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
-    public MutableTexture(String filepath, int x, int y, int width, int height, int filterMode) throws IndexOutOfBoundsException, UncheckedIOException {
-        super(filepath, x, y, width, height, filterMode);
+    public MutableTexture(String filepath, int x, int y, int width, int height, int filterMode, boolean obeyCamera)
+            throws IndexOutOfBoundsException, UncheckedIOException
+    {
+        super(filepath, x, y, width, height, filterMode, obeyCamera);
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
-    public MutableTexture(String filepath, int x, int y, int width, int height) throws IndexOutOfBoundsException, UncheckedIOException {
-        super(filepath, x, y, width, height);
+    public MutableTexture(String filepath, int x, int y, int width, int height, boolean obeyCamera)
+            throws IndexOutOfBoundsException, UncheckedIOException
+    {
+        super(filepath, x, y, width, height, obeyCamera);
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
-    public MutableTexture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode) throws IndexOutOfBoundsException, UncheckedIOException {
-        super(bufferedImage, x, y, width, height, filterMode);
+    public MutableTexture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode, boolean obeyCamera)
+            throws IndexOutOfBoundsException, UncheckedIOException
+    {
+        super(bufferedImage, x, y, width, height, filterMode, obeyCamera);
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
