@@ -82,15 +82,19 @@ This code creates a new rectangle whose top left is at the center of the screen 
 
 The `Texture` class has several constructors, but the simplest constructor is:
 ```java
-public Texture(String filepath) throws UncheckedIOException
+public Texture(String filepath, boolean obeyCamera) throws UncheckedIOException
 ```
 
 An UncheckedIOException is thrown if the filepath to the image cannot be found.
 
+Going through the arguments:
+- `filepath` is the filepath to the texture.
+- `obeyCamera` tells the texture whether it should move on the screen when the camera moves, or if it should stay stationary on the screen. This is useful if you have UI elements that are textures.
+
 We can use this constructor to make our Texture class:
 ```java
 new Texture(
-        "/path/to/your/image/image.png"
+        "/path/to/your/image/image.png", true
 );
 ```
 
@@ -106,7 +110,7 @@ new Image (
         ),
 
         new Texture(
-            "/path/to/your/image/image.png"
+            "/path/to/your/image/image.png", true
         )
 );
 ```
@@ -135,7 +139,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        "/path/to/your/image/image.png"
+                        "/path/to/your/image/image.png", true
                 )
         );
     }
@@ -193,7 +197,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        "/path/to/your/image/image.png"
+                        "/path/to/your/image/image.png", true
                 )
         );
     }
@@ -268,7 +272,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        "/path/to/your/image/image.png"
+                        "/path/to/your/image/image.png", true
                 )
         );
     }
