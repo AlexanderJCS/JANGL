@@ -51,7 +51,7 @@ public class Texture implements AutoCloseable {
     /**
      * @param filepath   The filepath of the texture.
      * @param filterMode The filter mode for scaling the image. Common filter modes are:
-     *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
+     *                   GL_NEAREST, GL_LINEAR, etc. This depends on the effect you are going
      *                   for when scaling.
      * @param obeyCamera True if the texture should move on the screen when the camera moves. False to stay stationary
      *                   when the camera moves.
@@ -91,7 +91,7 @@ public class Texture implements AutoCloseable {
      * @param width      The width of the region, in pixels, to get.
      * @param height     The height of the region, in pixels, to get.
      * @param filterMode The filter mode for scaling the image. Common filter modes are:
-     *                   GL_NEAREST, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, etc. This depends on the effect you are going
+     *                   GL_NEAREST, GL_LINEAR, etc. This depends on the effect you are going
      *                   for when scaling.
      * @throws IndexOutOfBoundsException Throws if the specified rectangle goes off the image
      * @throws UncheckedIOException If the specified filepath cannot be found.
