@@ -138,6 +138,15 @@ public class Rect extends Shape {
         };
     }
 
+    protected float[] getTexCoords() {
+        return new float[]{
+                0, 0,
+                1, 0,
+                1, 1,
+                0, 1,
+        };
+    }
+
     /**
      * Draws the rectangle to the screen. If you want to display a texture, bind the texture before
      * calling this method.
@@ -153,14 +162,7 @@ public class Rect extends Shape {
      * @return A textured model.
      */
     protected TexturedModel toTexturedModel() {
-        float[] texCoords = new float[]{
-                0, 0,
-                1, 0,
-                1, 1,
-                0, 1,
-        };
-
-        return new TexturedModel(this.calculateVertices(), this.getIndices(), texCoords);
+        return new TexturedModel(this.calculateVertices(), this.getIndices(), this.getTexCoords());
     }
 
     /**
