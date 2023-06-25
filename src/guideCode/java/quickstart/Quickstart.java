@@ -7,38 +7,42 @@ import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
 
-public class Quickstart {
+public class Quickstart implements AutoCloseable {
+    private final Rect rect;
+
     public Quickstart() {
-        // Input the width and height of your screen in pixels.
-        JANGL.init(1600, 900);
+        this.rect = new Rect(new NDCoords(0, 0), PixelCoords.distXtoNDC(400), PixelCoords.distYtoNDC(400));
     }
 
     public void run() {
-        try (Rect rect = new Rect(
-                new NDCoords(0, 0),
-                PixelCoords.distXtoNDC(400),
-                PixelCoords.distYtoNDC(400)
-            )
-        ) {
-            while (Window.shouldRun()) {
-                JANGL.update();
-                Window.clear();
+        while (Window.shouldRun()) {
+            JANGL.update();
+            Window.clear();
 
-                rect.draw();
+            this.rect.draw();
 
-                // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-                try {
-                    Clock.smartTick(60);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
+            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
+            try {
+                Clock.smartTick(60);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
+    }
 
-        Window.close();
+    @Override
+    public void close() {
+        this.rect.close();
     }
 
     public static void main(String[] args) {
-        new Quickstart().run();
+        // Input the width and height of your screen in pixels.
+        JANGL.init(1600, 900);
+
+        Quickstart quickstart = new Quickstart();
+        quickstart.run();
+        quickstart.close();
+
+        Window.close();
     }
 }
