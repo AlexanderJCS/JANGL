@@ -13,7 +13,7 @@ public class Color {
         this.alpha = alpha;
     }
 
-    private int normTo255(float norm) {
+    private static int normTo255(float norm) {
         return (int) (norm * 255);
     }
 
@@ -22,7 +22,7 @@ public class Color {
     }
 
     public int get255Red() {
-        return this.normTo255(this.red);
+        return normTo255(this.red);
     }
 
     public float getNormGreen() {
@@ -30,7 +30,7 @@ public class Color {
     }
 
     public int get255Green() {
-        return this.normTo255(this.green);
+        return normTo255(this.green);
     }
 
     public float getNormBlue() {
@@ -38,7 +38,7 @@ public class Color {
     }
 
     public int get255Blue() {
-        return this.normTo255(this.blue);
+        return normTo255(this.blue);
     }
 
     public float getNormAlpha() {
@@ -46,7 +46,7 @@ public class Color {
     }
 
     public int get255Alpha() {
-        return this.normTo255(this.alpha);
+        return normTo255(this.alpha);
     }
 
     public float[] getNormRGBA() {
