@@ -73,7 +73,7 @@ public class ArrayUtils {
     }
 
     /**
-     * Down casts an int array to a byte array.
+     * Down casts an int array to a byte array. If an int value is over 127, it will overflow to -128.
      *
      * @param ints The int array to downcast.
      * @return     The byte array.
