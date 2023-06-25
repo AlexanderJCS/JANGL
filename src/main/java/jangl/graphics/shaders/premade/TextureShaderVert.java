@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL46.glUniform1i;
 import static org.lwjgl.opengl.GL46.glGetUniformLocation;
 
 public class TextureShaderVert extends VertexShader {
-    private final boolean obeyCamera;
+    private boolean obeyCamera;
 
     /**
      * @param obeyCamera True to have the object move with the camera. False to keep the object stationary on the screen
@@ -19,6 +19,14 @@ public class TextureShaderVert extends VertexShader {
      */
     public TextureShaderVert(boolean obeyCamera) throws UncheckedIOException {
         super(Shader.class.getResourceAsStream("/shaders/textureShader/textureShader.vert"));
+        this.obeyCamera = obeyCamera;
+    }
+
+    public boolean isObeyingCamera() {
+        return obeyCamera;
+    }
+
+    public void setObeyCamera(boolean obeyCamera) {
         this.obeyCamera = obeyCamera;
     }
 
