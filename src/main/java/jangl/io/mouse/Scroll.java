@@ -33,7 +33,7 @@ public class Scroll {
         EVENTS.add(event);
 
         // Remove old events if the events list size is too large
-        if (EVENTS.size() > EventsConfig.maxEvents) {
+        if (EVENTS.size() > EventsConfig.MAX_EVENTS) {
             EVENTS.remove(0);
         }
     }
