@@ -226,7 +226,7 @@ Now, we have a rectangle drawn to your screen.
 
 If you notice that your computer fans start spinning faster when running this program, that's no coincidence. You're running the window at the maximum speed your computer can handle, so it's going to put strain on the CPU and GPU. You can limit this by using the `Clock.smartTick(int fps)` method. This will run the window at the desired frames per second.
 
-The smart tick method throws an interrupted exception if the program is interrupted while it is sleeping, so it is important to handle that as well.
+The smart tick method throws an interrupted exception if the program is interrupted while it is `Thread.sleep`ing, so it is important to handle that as well.
 
 ```java
 import jangl.JANGL;
@@ -266,7 +266,41 @@ public class Quickstart {
 }
 ```
 
-However, one thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `NDCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit on the X axis. To circumvent this, we can specify the width and height of the `Rect` in pixels using the `PixelCoords` class.
+Another way to limit FPS is to make the window run at VSync, or the maximum framerate your monitor can display. To do this, get rid of the `Clock.smartTick()` and run `Window.setVsync(true)` after JANGL initializes.
+
+```java
+import jangl.JANGL;
+import jangl.coords.NDCoords;
+import jangl.io.Window;
+import jangl.shapes.Rect;
+
+public class Quickstart {
+    public Quickstart() {
+        // Input the width and height of your screen in pixels.
+        JANGL.init(1600, 900);
+        Window.setVsync(true);  // turn vsync on
+    }
+
+    public void run() {
+        try (Rect rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f)) {
+            while (Window.shouldRun()) {
+                JANGL.update();
+                Window.clear();
+
+                rect.draw();
+            }
+        }
+
+        Window.close();
+    }
+
+    public static void main(String[] args) {
+        new Quickstart().run();
+    }
+}
+```
+
+One thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `NDCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit on the X axis. To circumvent this, we can specify the width and height of the `Rect` in pixels using the `PixelCoords` class.
 
 We can do this by using the `PixelCoords` type. It allows us to convert a certain number of pixels in the X axis and a certain number of pixels in the Y axis to normalized device coordinates using the `distXtoNDC` and `distYtoNDC` method. For example, if we want our cube to be 400 pixels wide and tall, we can initialize our rect like so:
 ```java
