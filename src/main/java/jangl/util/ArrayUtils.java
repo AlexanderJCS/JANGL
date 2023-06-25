@@ -43,7 +43,7 @@ public class ArrayUtils {
     }
 
     /**
-     * Get the odd indices of an array. WARNING: may not work with odd array lengths (it might, I haven't tested it)
+     * Get the even indices of an array. WARNING: may not work with odd array lengths (it might, I haven't tested it)
      *
      * @param arr The array to get the even indices of.
      * @return The values of the even indices of the array.
@@ -53,7 +53,7 @@ public class ArrayUtils {
     }
 
     /**
-     * Get the even indices of an array.
+     * Get the odd indices of an array.
      *
      * @param arr The array to get the even indices of.
      * @return The values of the even indices of the array.
