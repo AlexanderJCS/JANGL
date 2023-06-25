@@ -4,7 +4,7 @@ import jangl.JANGL;
 import jangl.coords.NDCoords;
 import jangl.graphics.Texture;
 import jangl.io.Window;
-import jangl.shapes.Rect;;
+import jangl.shapes.Rect;
 
 public class TextureDemo implements AutoCloseable {
     private final Rect rect;
@@ -12,7 +12,7 @@ public class TextureDemo implements AutoCloseable {
 
     public TextureDemo() {
         this.rect = new Rect(new NDCoords(-0.5f, 0.5f), 1, 1);
-        this.texture = new Texture("src/demo/demoResources/playerDemo/player.png", true);
+        this.texture = new Texture("src/demo/demoResources/textureDemo/image.png", true);
     }
 
     public void draw() {
