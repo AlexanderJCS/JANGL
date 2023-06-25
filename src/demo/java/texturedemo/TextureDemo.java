@@ -11,7 +11,7 @@ public class TextureDemo implements AutoCloseable {
     private final Texture texture;
 
     public TextureDemo() {
-        this.rect = new Rect(new NDCoords(-0.5f, 0.5f), 1, 1);
+        this.rect = new Rect(new NDCoords(-0.5f, 0.5f), NDCoords.distYtoNDCoordsX(1), 1);
         this.texture = new Texture("src/demo/demoResources/textureDemo/image.png", true);
     }
 

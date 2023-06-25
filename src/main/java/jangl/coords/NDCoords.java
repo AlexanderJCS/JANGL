@@ -43,6 +43,26 @@ public final class NDCoords extends Coords {
     }
 
     /**
+     * Converts an x NDC distance to a y distance. Useful for making perfectly square rectangles.
+     *
+     * @param dist The x NDC distance
+     * @return The y NDC distance
+     */
+    public static float distXtoNDCoordsY(float dist) {
+        return dist * Window.getScreenWidth() / Window.getScreenHeight();
+    }
+
+    /**
+     * Converts a y NDC distance to an x distance. Useful for making perfectly square rectangles.
+     *
+     * @param dist The y NDC distance
+     * @return The x NDC distance
+     */
+    public static float distYtoNDCoordsX(float dist) {
+        return dist * Window.getScreenHeight() / Window.getScreenWidth();
+    }
+
+    /**
      * Converts this object to pixel coordinates.
      *
      * @return The pixel coordinate equivalent
