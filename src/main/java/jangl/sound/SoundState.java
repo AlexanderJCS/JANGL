@@ -11,18 +11,15 @@ public enum SoundState {
 
     /**
      * Convert an OpenAL source state to a SoundState enum.
-     * @return The SoundState from the OpenAL source state
+     * @return The SoundState from the OpenAL source state. Null if the source state does not correspond to any SoundState.
      */
     public static SoundState ALStateToSoundState(int sourceState) {
-        SoundState returnValue = null;
-
-        switch (sourceState) {
-            case AL11.AL_INITIAL -> returnValue = SoundState.INITIAL;
-            case AL11.AL_PAUSED -> returnValue = SoundState.PAUSED;
-            case AL11.AL_PLAYING -> returnValue = SoundState.PLAYING;
-            case AL11.AL_STOPPED -> returnValue = SoundState.STOPPED;
-        }
-
-        return returnValue;
+        return switch (sourceState) {
+            case AL11.AL_INITIAL -> INITIAL;
+            case AL11.AL_PAUSED -> PAUSED;
+            case AL11.AL_PLAYING -> PLAYING;
+            case AL11.AL_STOPPED -> STOPPED;
+            default -> null;
+        };
     }
 }
