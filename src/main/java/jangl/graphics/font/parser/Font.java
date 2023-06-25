@@ -25,6 +25,7 @@ public class Font implements AutoCloseable {
         this.infoMap = new HashMap<>();
 
         this.fontTexture = new Texture(fontImage, false);
+        this.fontTexture.useDefaultShader(false);
 
         int glyphImageWidth;
         int glyphImageHeight;

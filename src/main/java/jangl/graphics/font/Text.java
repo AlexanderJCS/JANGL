@@ -12,11 +12,12 @@ import jangl.graphics.shaders.premade.TextureShaderVert;
 
 public class Text implements AutoCloseable {
     private TexturedModel model;
-    private ShaderProgram shaderProgram;
+    private final ShaderProgram shaderProgram;
     private String text;
     private NDCoords topLeft;
     private Font font;
     private float yHeight;
+    private final TextureShaderVert texShaderVert;
 
     /**
      * @param topLeft The top left coordinate of the text
@@ -31,7 +32,12 @@ public class Text implements AutoCloseable {
         this.text = this.pruneText(text);
 
         this.model = this.getModel();
-        this.shaderProgram = new ShaderProgram(new TextureShaderVert(true), new TextureShaderFrag());
+        this.texShaderVert = new TextureShaderVert(true);
+        this.shaderProgram = new ShaderProgram(this.texShaderVert, new TextureShaderFrag());
+    }
+
+    public void obeyCamera(boolean obeyCamera) {
+        this.texShaderVert.obeyCamera(obeyCamera);
     }
 
     public String getText() {

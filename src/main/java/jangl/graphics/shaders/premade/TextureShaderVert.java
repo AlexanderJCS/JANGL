@@ -26,7 +26,7 @@ public class TextureShaderVert extends VertexShader {
         return obeyCamera;
     }
 
-    public void setObeyCamera(boolean obeyCamera) {
+    public void obeyCamera(boolean obeyCamera) {
         this.obeyCamera = obeyCamera;
     }
 
