@@ -1,10 +1,11 @@
-package imageguide;
+package guideCode.java.imageguide;
 
 import jangl.JANGL;
 import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
+import jangl.graphics.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -13,7 +14,7 @@ public class ImageGuide {
     Image image;
 
     public ImageGuide() {
-        this.image = new Image (
+        this.image = new Image(
                 new Rect(
                         new NDCoords(0, 0),
                         PixelCoords.distXtoNDC(300),
@@ -21,7 +22,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        "src/guideCode/guideResources/imageGuide/image.png", true
+                        new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
                 )
         );
     }

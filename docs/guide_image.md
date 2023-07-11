@@ -80,22 +80,28 @@ This code creates a new rectangle whose top left is at the center of the screen 
 
 ### Creating a texture
 
-The `Texture` class has several constructors, but the simplest constructor is:
+The `Texture` class's constructor is
 ```java
-public Texture(String filepath, boolean obeyCamera) throws UncheckedIOException
+public Texture(TextureBuilder);
 ```
 
-An UncheckedIOException is thrown if the filepath to the image cannot be found.
-
-Going through the arguments:
-- `filepath` is the filepath to the texture.
-- `obeyCamera` tells the texture whether it should move on the screen when the camera moves, or if it should stay stationary on the screen. This is useful if you have UI elements that are textures.
-
-We can use this constructor to make our Texture class:
+To assign image data to a `TextureBuilder`, you can do:
 ```java
-new Texture(
-        "/path/to/your/image/image.png", true
-);
+new TextureBuilder().setImagePath("path/to/your/image/image.png");
+```
+
+You can also fill the texture with a solid color by doing:
+```java
+new TextureBuilder().fill(color, width, height);
+```
+
+Where `color` is a `jangl.color.Color` object, `width` is the width of the image in pixels, and `height` is the height of the image in pixels.
+
+Another important method in the `TextureBuilder` class is the `setObeyCamera(bool)` method. When the argument is true, the object will move according to the camera. By default, this is off.
+
+Putting this together, we can create our texture by doing:
+```java
+new Texture(new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true));
 ```
 
 ### Creating an image using the Rect and Texture
@@ -110,7 +116,7 @@ new Image (
         ),
 
         new Texture(
-            "/path/to/your/image/image.png", true
+                new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
         )
 );
 ```
@@ -123,6 +129,7 @@ import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
+import jangl.graphics.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -139,7 +146,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        "/path/to/your/image/image.png", true
+                        new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
                 )
         );
     }
@@ -181,6 +188,7 @@ import jangl.coords.PixelCoords;
 import jangl.coords.NDCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
+import jangl.graphics.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -197,7 +205,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        "/path/to/your/image/image.png", true
+                        new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
                 )
         );
     }
@@ -256,6 +264,7 @@ import jangl.coords.NDCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
+import jangl.graphics.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -272,7 +281,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        "/path/to/your/image/image.png", true
+                        new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
                 )
         );
     }
