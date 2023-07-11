@@ -28,6 +28,17 @@ public class Texture implements AutoCloseable {
     public final int height;
     private boolean useDefaultShader = true;
 
+    public Texture(TextureBuilder builder) throws IllegalArgumentException {
+        if (builder.getImageData() == null) {
+            throw new IllegalArgumentException("The TextureBuilder does not have any image data");
+        }
+
+        this.width = builder.getWidth();
+        this.height = builder.getHeight();
+        this.shaderProgram = createShader(builder.isObeyingCamera());
+        this.id = this.createImage(builder.getImageData(), this.width, this.height, builder.getFilterMode());
+    }
+
     /**
      * Creates a texture from the raw data.
      *
@@ -36,6 +47,7 @@ public class Texture implements AutoCloseable {
      * @param height     The height of the image.
      * @param filterMode The OpenGL filter mode ID.
      */
+    @Deprecated
     protected Texture(byte[] rawData, int width, int height, int filterMode, boolean obeyCamera) {
         this.width = width;
         this.height = height;
@@ -58,6 +70,7 @@ public class Texture implements AutoCloseable {
      *
      * @throws UncheckedIOException If the specified filepath cannot be found.
      */
+    @Deprecated
     public Texture(String filepath, int filterMode, boolean obeyCamera) throws UncheckedIOException {
         BufferedImage bufferedImage;
 
@@ -80,6 +93,7 @@ public class Texture implements AutoCloseable {
     /**
      * @param filepath The filepath of the texture. Defaults to nearest-neighbor filter mode.
      */
+    @Deprecated
     public Texture(String filepath, boolean obeyCamera) throws UncheckedIOException {
         this(filepath, GL_NEAREST, obeyCamera);
     }
@@ -96,6 +110,7 @@ public class Texture implements AutoCloseable {
      * @throws IndexOutOfBoundsException Throws if the specified rectangle goes off the image
      * @throws UncheckedIOException If the specified filepath cannot be found.
      */
+    @Deprecated
     public Texture(String filepath, int x, int y, int width, int height, int filterMode, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException {
         BufferedImage bufferedImage;
@@ -128,6 +143,7 @@ public class Texture implements AutoCloseable {
      * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
      * @throws UncheckedIOException If the specified filepath cannot be found.
      */
+    @Deprecated
     public Texture(String filepath, int x, int y, int width, int height, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException {
         this(filepath, x, y, width, height, GL_NEAREST, obeyCamera);
@@ -146,6 +162,7 @@ public class Texture implements AutoCloseable {
      * @throws IndexOutOfBoundsException Throws IndexOutOfBoundsException if the specified rectangle goes off the image
      * @throws UncheckedIOException If the specified filepath cannot be found.
      */
+    @Deprecated
     public Texture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException {
 
@@ -175,7 +192,7 @@ public class Texture implements AutoCloseable {
     }
 
     /**
-     * Writes the designated region of image data to BufferManager.BYTE_BUFFER
+     * Writes the designated region of image data to byte buffer
      *
      * @param rawData The raw image data
      */

@@ -1,6 +1,7 @@
 package jangl.graphics.font.parser;
 
 import jangl.graphics.Texture;
+import jangl.graphics.TextureBuilder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,7 +25,7 @@ public class Font implements AutoCloseable {
         this.texCoordsMap = new HashMap<>();
         this.infoMap = new HashMap<>();
 
-        this.fontTexture = new Texture(fontImage, false);
+        this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage).setObeyCamera(false));
         this.fontTexture.useDefaultShader(false);
 
         int glyphImageWidth;

@@ -16,6 +16,11 @@ import java.nio.ByteBuffer;
 public class MutableTexture extends Texture {
     private final ByteBuffer pixelBuffer;
 
+    public MutableTexture(TextureBuilder builder) {
+        super(builder);
+        this.pixelBuffer = BufferUtils.createByteBuffer(16);
+    }
+
     /**
      * Functionally the same as the Color color, int width, int height, int filterMode constructor,
      * but it has a default filter mode of GL_LINEAR.
@@ -23,6 +28,7 @@ public class MutableTexture extends Texture {
      * @param width The width of the texture in pixels
      * @param height The height of the texture in pixels
      */
+    @Deprecated
     public MutableTexture(Color color, int width, int height, boolean obeyCamera) {
         this(color, width, height, GL_LINEAR, obeyCamera);
     }
@@ -35,6 +41,8 @@ public class MutableTexture extends Texture {
      * @param height The height of the texture in pixels
      * @param filterMode The filter mode of the texture.
      */
+    @Deprecated
+
     public MutableTexture(Color color, int width, int height, int filterMode, boolean obeyCamera) {
         super(
                 ArrayUtils.repeatSequence(ArrayUtils.intsToBytes(color.get255RGBA()), width * height),
@@ -44,16 +52,19 @@ public class MutableTexture extends Texture {
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
+    @Deprecated
     public MutableTexture(String filepath, int filterMode, boolean obeyCamera) throws UncheckedIOException {
         super(filepath, filterMode, obeyCamera);
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
+    @Deprecated
     public MutableTexture(String filepath, boolean obeyCamera) throws UncheckedIOException {
         super(filepath, obeyCamera);
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
+    @Deprecated
     public MutableTexture(String filepath, int x, int y, int width, int height, int filterMode, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException
     {
@@ -61,6 +72,7 @@ public class MutableTexture extends Texture {
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
+    @Deprecated
     public MutableTexture(String filepath, int x, int y, int width, int height, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException
     {
@@ -68,6 +80,7 @@ public class MutableTexture extends Texture {
         this.pixelBuffer = BufferUtils.createByteBuffer(16);
     }
 
+    @Deprecated
     public MutableTexture(BufferedImage bufferedImage, int x, int y, int width, int height, int filterMode, boolean obeyCamera)
             throws IndexOutOfBoundsException, UncheckedIOException
     {
