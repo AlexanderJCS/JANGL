@@ -1,6 +1,8 @@
 package jangl.io;
 
 import jangl.color.Color;
+import jangl.graphics.TextureBuilder;
+import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -12,6 +14,7 @@ public class Window {
     private static Color clearColor;
     private static long window;
     private static boolean initialized = false;
+    private static GLFWImage.Buffer iconBuffer;
 
     private Window() {}
 
@@ -28,6 +31,8 @@ public class Window {
         if (!glfwInit()) {
             throw new IllegalStateException("GLFW could not initialize");
         }
+
+        iconBuffer = GLFWImage.malloc(1);
 
         Window.screenWidth = screenWidth;
         Window.screenHeight = screenHeight;
@@ -104,5 +109,17 @@ public class Window {
 
     public static void setTitle(String newTitle) {
         glfwSetWindowTitle(getWindow(), newTitle);
+    }
+
+    /**
+     * Sets the taskbar icon of the application.
+     * @param builder The TextureBuilder of the texture to display
+     */
+    public static void setIcon(TextureBuilder builder) {
+        GLFWImage icon = builder.toGLFWImage();
+        iconBuffer.clear();
+        iconBuffer.put(0, icon);
+
+        glfwSetWindowIcon(Window.getWindow(), iconBuffer);
     }
 }

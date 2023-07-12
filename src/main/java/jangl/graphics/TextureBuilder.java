@@ -3,6 +3,7 @@ package jangl.graphics;
 import jangl.color.Color;
 import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.opengl.GL46;
 
 import javax.imageio.ImageIO;
@@ -166,5 +167,20 @@ public class TextureBuilder {
         imageData.flip();
 
         return imageData;
+    }
+
+    /**
+     * Creates a GLFW image buffer. Primarily used for creating the taskbar icon.<br>
+     * Note that you must close the buffer manually using the free() or close() method.
+     *
+     * @return The GLFW image buffer
+     */
+    public GLFWImage toGLFWImage() {
+        GLFWImage image = GLFWImage.create();
+        image.width(this.width);
+        image.height(this.height);
+        image.pixels(this.imageData);
+
+        return image;
     }
 }
