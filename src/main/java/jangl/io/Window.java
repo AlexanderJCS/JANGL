@@ -2,7 +2,6 @@ package jangl.io;
 
 import jangl.color.Color;
 import jangl.graphics.TextureBuilder;
-import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
