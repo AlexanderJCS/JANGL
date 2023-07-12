@@ -169,14 +169,18 @@ public class TextureBuilder {
         return imageData;
     }
 
-    public GLFWImage.Buffer toGLFWImageBuffer() {
+    public GLFWImage toGLFWImage() {
         GLFWImage image = GLFWImage.create();
         image.width(this.width);
         image.height(this.height);
         image.pixels(this.imageData);
 
+        return image;
+    }
+
+    public GLFWImage.Buffer toGLFWImageBuffer() {
         GLFWImage.Buffer imageBuffer = GLFWImage.create(1);
-        imageBuffer.put(0, image);
+        imageBuffer.put(0, this.toGLFWImage());
 
         return imageBuffer;
     }

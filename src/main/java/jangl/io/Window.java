@@ -13,6 +13,7 @@ public class Window {
     private static Color clearColor;
     private static long window;
     private static boolean initialized = false;
+    private static long currentCursor = -1;
 
     private Window() {}
 
@@ -113,5 +114,15 @@ public class Window {
      */
     public static void setIcon(TextureBuilder builder) {
         glfwSetWindowIcon(Window.getWindow(), builder.toGLFWImageBuffer());
+    }
+
+    public static void setCursor(TextureBuilder builder) {
+        if (currentCursor != -1) {
+            glfwDestroyCursor(currentCursor);
+        }
+
+        currentCursor = glfwCreateCursor(builder.toGLFWImage(), 0, 0);
+
+        glfwSetCursor(Window.getWindow(), currentCursor);
     }
 }
