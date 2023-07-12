@@ -14,7 +14,6 @@ public class Window {
     private static Color clearColor;
     private static long window;
     private static boolean initialized = false;
-    private static GLFWImage.Buffer iconBuffer;
 
     private Window() {}
 
@@ -31,8 +30,6 @@ public class Window {
         if (!glfwInit()) {
             throw new IllegalStateException("GLFW could not initialize");
         }
-
-        iconBuffer = GLFWImage.malloc(1);
 
         Window.screenWidth = screenWidth;
         Window.screenHeight = screenHeight;
