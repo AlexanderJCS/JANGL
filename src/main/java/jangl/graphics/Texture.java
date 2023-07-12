@@ -37,6 +37,11 @@ public class Texture implements AutoCloseable {
         this.height = builder.getHeight();
         this.shaderProgram = createShader(builder.isObeyingCamera());
         this.id = this.createImage(builder.getImageData(), this.width, this.height, builder.getFilterMode());
+
+        this.bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        Texture.unbind();
     }
 
     /**
@@ -58,6 +63,11 @@ public class Texture implements AutoCloseable {
 
         this.id = this.createImage(imageData, this.width, this.height, filterMode);
         this.shaderProgram = createShader(obeyCamera);
+
+        this.bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        Texture.unbind();
     }
 
     /**
@@ -88,6 +98,11 @@ public class Texture implements AutoCloseable {
 
         this.id = this.createImage(imageData, width, height, filterMode);
         this.shaderProgram = createShader(obeyCamera);
+
+        this.bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        Texture.unbind();
     }
 
     /**
@@ -129,6 +144,11 @@ public class Texture implements AutoCloseable {
 
         this.id = this.createImage(imageData, width, height, filterMode);
         this.shaderProgram = createShader(obeyCamera);
+
+        this.bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        Texture.unbind();
     }
 
     /**
@@ -173,6 +193,11 @@ public class Texture implements AutoCloseable {
         this.width = width;
         this.height = height;
         this.shaderProgram = createShader(obeyCamera);
+
+        this.bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        Texture.unbind();
     }
 
     private static ShaderProgram createShader(boolean obeyCamera) {

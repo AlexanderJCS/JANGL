@@ -7,6 +7,7 @@ import jangl.graphics.models.TexturedModel;
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
  */
 public class Rect extends Shape {
+    private float texRepeatY, texRepeatX;
     private float x1, y1, x2, y2;
     private float width, height;
 
@@ -20,6 +21,9 @@ public class Rect extends Shape {
         this.y1 = topLeft.y;
         this.x2 = topLeft.x + width;
         this.y2 = topLeft.y - height;
+
+        this.texRepeatY = 1;
+        this.texRepeatX = 1;
 
         this.width = width;
         this.height = height;
@@ -138,12 +142,36 @@ public class Rect extends Shape {
         };
     }
 
+    /**
+     * @param repeatTimes The amount of times for the texture to repeat over the x-axis.
+     */
+    public void setTexRepeatY(float repeatTimes) {
+        this.texRepeatY = repeatTimes;
+        this.model = this.toTexturedModel();
+    }
+
+    /**
+     * @param repeatTimes The amount of times for the texture to repeat over the y-axis.
+     */
+    public void setTexRepeatX(float repeatTimes) {
+        this.texRepeatX = repeatTimes;
+        this.model = this.toTexturedModel();
+    }
+
+    public float getTexRepeatY() {
+        return texRepeatY;
+    }
+
+    public float getTexRepeatX() {
+        return texRepeatX;
+    }
+
     protected float[] getTexCoords() {
         return new float[]{
                 0, 0,
-                1, 0,
-                1, 1,
-                0, 1,
+                this.texRepeatY, 0,
+                this.texRepeatY, this.texRepeatX,
+                0, this.texRepeatX,
         };
     }
 

@@ -8,11 +8,17 @@ import jangl.io.Window;
 import jangl.shapes.Rect;
 
 public class TextureDemo implements AutoCloseable {
-    private final Rect rect;
+    private final Rect rect1;
+    private final Rect rect2;
     private final Texture texture;
 
     public TextureDemo() {
-        this.rect = new Rect(new NDCoords(-0.5f, 0.5f), NDCoords.distYtoNDCoordsX(1), 1);
+        this.rect1 = new Rect(new NDCoords(-0.7f, 0.5f), NDCoords.distYtoNDCoordsX(1), 1);
+        this.rect2 = new Rect(new NDCoords(0.3f, 0.5f), NDCoords.distYtoNDCoordsX(1), 1);
+
+        this.rect1.setTexRepeatX(2);
+        this.rect1.setTexRepeatY(2);
+
         this.texture = new Texture(
                 new TextureBuilder().setImagePath("src/demo/demoResources/textureDemo/image.png").setObeyCamera(true)
         );
@@ -21,7 +27,8 @@ public class TextureDemo implements AutoCloseable {
     public void draw() {
         Window.clear();
 
-        this.rect.draw(this.texture);
+        this.rect1.draw(this.texture);
+        this.rect2.draw(this.texture);
     }
 
     public void run() {
@@ -34,7 +41,8 @@ public class TextureDemo implements AutoCloseable {
 
     @Override
     public void close() {
-        this.rect.close();
+        this.rect1.close();
+        this.rect2.close();
         this.texture.close();
     }
 
