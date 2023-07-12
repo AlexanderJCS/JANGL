@@ -169,18 +169,15 @@ public class TextureBuilder {
         return imageData;
     }
 
-    /**
-     * Creates a GLFW image buffer. Primarily used for creating the taskbar icon.<br>
-     * Note that you must close the buffer manually using the free() or close() method.
-     *
-     * @return The GLFW image buffer
-     */
-    public GLFWImage toGLFWImage() {
+    public GLFWImage.Buffer toGLFWImageBuffer() {
         GLFWImage image = GLFWImage.create();
         image.width(this.width);
         image.height(this.height);
         image.pixels(this.imageData);
 
-        return image;
+        GLFWImage.Buffer imageBuffer = GLFWImage.create(1);
+        imageBuffer.put(0, image);
+
+        return imageBuffer;
     }
 }

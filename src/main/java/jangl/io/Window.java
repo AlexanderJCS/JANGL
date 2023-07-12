@@ -116,10 +116,6 @@ public class Window {
      * @param builder The TextureBuilder of the texture to display
      */
     public static void setIcon(TextureBuilder builder) {
-        GLFWImage icon = builder.toGLFWImage();
-        iconBuffer.clear();
-        iconBuffer.put(0, icon);
-
-        glfwSetWindowIcon(Window.getWindow(), iconBuffer);
+        glfwSetWindowIcon(Window.getWindow(), builder.toGLFWImageBuffer());
     }
 }
