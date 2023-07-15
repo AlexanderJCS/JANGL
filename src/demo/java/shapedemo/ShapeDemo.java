@@ -7,15 +7,18 @@ import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Shape;
+import jangl.shapes.Triangle;
 import jangl.time.Clock;
 
 public class ShapeDemo {
     private final Rect rect;
     private final Circle circle;
+    private final Triangle triangle;
 
     public ShapeDemo() {
         this.rect = new Rect(new NDCoords(0.25f, 0.25f), 0.15f, 0.15f);
         this.circle = new Circle(new NDCoords(0.75f, 0.5f), 0.1f, 70);
+        this.triangle = new Triangle(new NDCoords(0.5f, 0.3f), new NDCoords(0.8f, 0.3f), new NDCoords(0.5f, 0.6f));
     }
 
     public void draw() {
@@ -26,6 +29,7 @@ public class ShapeDemo {
         // These draw calls need to be after the background so the background doesn't overlap the shapes
         this.rect.draw();
         this.circle.draw();
+        this.triangle.draw();
     }
 
     public void update() {
@@ -35,6 +39,7 @@ public class ShapeDemo {
         // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
         this.rect.getTransform().rotate((float) Clock.getTimeDelta());
         this.circle.getTransform().rotate((float) Clock.getTimeDelta());
+        this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
 
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background

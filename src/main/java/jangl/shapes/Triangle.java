@@ -13,8 +13,16 @@ public class Triangle extends Shape {
         this.point2 = point2;
         this.point3 = point3;
 
+        NDCoords center = this.getCenter();
+        this.point1.x -= center.x;
+        this.point1.y -= center.y;
+        this.point2.x -= center.x;
+        this.point2.y -= center.y;
+        this.point3.x -= center.x;
+        this.point3.y -= center.y;
+        this.transform.shift(center.x, center.y);
+
         this.model = this.toModel();
-        this.transform.setCenter(this.getCenter().toVector2f());
     }
 
     @Override
