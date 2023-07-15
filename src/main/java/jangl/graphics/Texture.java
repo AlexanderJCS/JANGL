@@ -260,7 +260,7 @@ public class Texture implements AutoCloseable {
             this.shaderProgram.bind();
         }
 
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE0);  // TODO: check if this line needs to be here, or if it can be at the start of the program
         glBindTexture(GL_TEXTURE_2D, this.id);
     }
 

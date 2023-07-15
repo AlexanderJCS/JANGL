@@ -32,6 +32,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lwjgl.version>3.3.2</lwjgl.version>
+        <joml.version>1.10.5</joml.version>
     </properties>
 
     <profiles>
@@ -158,6 +159,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>org.joml</groupId>
+            <artifactId>joml</artifactId>
+            <version>${joml.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>

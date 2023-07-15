@@ -11,7 +11,7 @@ public class Shader {
      * @throws UncheckedIOException Throws an UncheckedIOException if it cannot find or read the file.
      */
     public Shader(String filepath) throws UncheckedIOException {
-        this.sourceCode = precompile(loadShader(filepath));
+        this.sourceCode = this.precompile(loadShader(filepath));
     }
 
     /**
@@ -20,7 +20,7 @@ public class Shader {
      * @throws UncheckedIOException Throws an UncheckedIOException if it cannot read the stream.
      */
     public Shader(InputStream shaderStream) throws UncheckedIOException {
-        this.sourceCode = precompile(loadShader(shaderStream));
+        this.sourceCode = this.precompile(loadShader(shaderStream));
     }
 
     /**
@@ -81,7 +81,7 @@ public class Shader {
      * @param source The source code of the shader.
      * @return The source code of the shader with other #included code added in
      */
-    private static String precompile(String source) {
+    protected String precompile(String source) {
         String[] splitLines = source.split("\n");
 
         for (int i = 0; i < splitLines.length; i++) {

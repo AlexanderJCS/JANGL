@@ -181,6 +181,7 @@ public class Rect extends Shape {
      */
     @Override
     public void draw() {
+        super.draw();
         this.model.render();
     }
 

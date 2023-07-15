@@ -12,6 +12,7 @@ public class ShaderProgram implements AutoCloseable {
     private final int programID;
     private final List<Integer> shaderIDs;
     private final List<Shader> shaders;
+    private static ShaderProgram boundProgram;
 
     /**
      * WARNING: not including a fragment shader may result in the object being black and appearing to be invisible.
@@ -135,6 +136,7 @@ public class ShaderProgram implements AutoCloseable {
      */
     public static void unbind() {
         glUseProgram(0);
+        boundProgram = null;
     }
 
     /**
@@ -142,10 +144,15 @@ public class ShaderProgram implements AutoCloseable {
      */
     public void bind() {
         glUseProgram(programID);
+        boundProgram = this;
 
         for (Shader shader : this.shaders) {
             shader.setUniforms(this.programID);
         }
+    }
+
+    public static ShaderProgram getBoundProgram() {
+        return boundProgram;
     }
 
     /**
@@ -161,5 +168,35 @@ public class ShaderProgram implements AutoCloseable {
         }
 
         glDeleteProgram(this.programID);
+    }
+
+    /**
+     * @return The shader program's vertex shader if one exists. Otherwise, it returns null.
+     */
+    public VertexShader getVertexShader() {
+        for (Shader shader : this.shaders) {
+            if (VertexShader.class.isAssignableFrom(shader.getClass())) {
+                return (VertexShader) shader;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return The shader program's fragment shader if one exists. Otherwise, it returns null.
+     */
+    public FragmentShader getFragmentShader() {
+        for (Shader shader : this.shaders) {
+            if (FragmentShader.class.isAssignableFrom(shader.getClass())) {
+                return (FragmentShader) shader;
+            }
+        }
+
+        return null;
+    }
+
+    public int getProgramID() {
+        return programID;
     }
 }

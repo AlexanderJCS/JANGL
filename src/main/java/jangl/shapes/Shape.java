@@ -5,9 +5,11 @@ import jangl.coords.NDCoords;
 import jangl.graphics.Texture;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.ShaderProgram;
+import jangl.graphics.shaders.VertexShader;
+import jangl.io.Window;
 import jangl.util.ArrayUtils;
 import jangl.util.Range;
-
+import org.joml.Matrix4f;
 import java.util.HashSet;
 
 public abstract class Shape implements AutoCloseable {
@@ -263,7 +265,17 @@ public abstract class Shape implements AutoCloseable {
         return vertices;
     }
 
-    public abstract void draw();
+    public void draw() {
+        ShaderProgram boundProgram = ShaderProgram.getBoundProgram();
+        VertexShader vertexShader = boundProgram.getVertexShader();
+
+        if (vertexShader != null) {
+            vertexShader.setProjectionUniform(
+                    boundProgram.getProgramID(),
+                    new Matrix4f().ortho2D(-Window.getScreenWidth(), Window.getScreenWidth(), Window.getScreenWidth(), -Window.getScreenWidth()).scale(64)
+            );
+        }
+    }
 
     public void draw(ShaderProgram shader) {
         shader.bind();
@@ -274,7 +286,7 @@ public abstract class Shape implements AutoCloseable {
     public void draw(Texture texture) {
         texture.bind();
         this.draw();
-        Texture.unbind();
+        ShaderProgram.unbind();
     }
 
     public abstract void shift(float x, float y);

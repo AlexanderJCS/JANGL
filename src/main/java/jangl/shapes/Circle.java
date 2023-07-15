@@ -84,6 +84,7 @@ public class Circle extends Shape {
 
     @Override
     public void draw() {
+        super.draw();
         this.model.render();
     }
 
