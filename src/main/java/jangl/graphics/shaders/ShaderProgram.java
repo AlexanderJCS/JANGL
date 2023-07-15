@@ -1,5 +1,9 @@
 package jangl.graphics.shaders;
 
+import jangl.color.ColorFactory;
+import jangl.graphics.shaders.premade.ColorShader;
+import jangl.graphics.shaders.premade.DefaultVertShader;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,14 +25,14 @@ public class ShaderProgram implements AutoCloseable {
      * @param vs The vertex shader to add to the program.
      */
     public ShaderProgram(VertexShader vs) {
-        this(vs, null, new ArrayList<>());
+        this(vs, new ColorShader(ColorFactory.fromNormalized(1, 1, 1, 1)), new ArrayList<>());
     }
 
     /**
      * @param fs The fragment shader to add to the program.
      */
     public ShaderProgram(FragmentShader fs) {
-        this(null, fs, new ArrayList<>());
+        this(new DefaultVertShader(), fs, new ArrayList<>());
     }
 
     /**

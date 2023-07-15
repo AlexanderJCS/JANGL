@@ -6,13 +6,14 @@ import jangl.graphics.Texture;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.VertexShader;
-import jangl.io.Window;
+import jangl.graphics.shaders.premade.DefaultVertShader;
 import jangl.util.ArrayUtils;
 import jangl.util.Range;
 import org.joml.Matrix4f;
 import java.util.HashSet;
 
 public abstract class Shape implements AutoCloseable {
+    private static ShaderProgram defaultShader = new ShaderProgram(new DefaultVertShader());
     protected Model model;
     /**
      * The angle of the shape from the x-axis in radians
@@ -266,15 +267,17 @@ public abstract class Shape implements AutoCloseable {
     }
 
     public void draw() {
+        if (ShaderProgram.getBoundProgram() == null) {
+            defaultShader.bind();
+        }
+
         ShaderProgram boundProgram = ShaderProgram.getBoundProgram();
         VertexShader vertexShader = boundProgram.getVertexShader();
 
-        if (vertexShader != null) {
-            vertexShader.setProjectionUniform(
-                    boundProgram.getProgramID(),
-                    new Matrix4f().ortho2D(-1, 1, 1, -1).scale(1)
-            );
-        }
+        vertexShader.setProjectionUniform(
+                boundProgram.getProgramID(),
+                new Matrix4f().ortho2D(-1, 1, 1, -1).scale(1)
+        );
     }
 
     public void draw(ShaderProgram shader) {
