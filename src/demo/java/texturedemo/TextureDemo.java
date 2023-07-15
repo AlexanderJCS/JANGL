@@ -13,8 +13,8 @@ public class TextureDemo implements AutoCloseable {
     private final Texture texture;
 
     public TextureDemo() {
-        this.rect1 = new Rect(new NDCoords(-0.7f, 0.5f), NDCoords.distYtoNDCoordsX(1), 1);
-        this.rect2 = new Rect(new NDCoords(0.3f, 0.5f), NDCoords.distYtoNDCoordsX(1), 1);
+        this.rect1 = new Rect(new NDCoords(0, 0.5f), 0.5f, 0.5f);
+        this.rect2 = new Rect(new NDCoords(0.7f, 0.5f), 0.5f, 0.5f);
 
         this.rect1.setTexRepeatX(2);
         this.rect1.setTexRepeatY(2);
