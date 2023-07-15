@@ -14,6 +14,7 @@ public class Triangle extends Shape {
         this.point3 = point3;
 
         this.model = this.toModel();
+        this.transform.setCenter(this.getCenter().toVector2f());
     }
 
     @Override

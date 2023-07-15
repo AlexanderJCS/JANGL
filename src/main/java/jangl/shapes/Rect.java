@@ -12,15 +12,15 @@ public class Rect extends Shape {
     private float width, height;
 
     /**
-     * @param topLeft the top left coordinate of the rect
+     * @param center the center of the rect
      * @param width   The width of the rect, units of normalized device coordinates
      * @param height  The height of the rect, units of normalized device coordinates
      */
-    public Rect(NDCoords topLeft, float width, float height) {
-        this.x1 = topLeft.x;
-        this.y1 = topLeft.y;
-        this.x2 = topLeft.x + width;
-        this.y2 = topLeft.y - height;
+    public Rect(NDCoords center, float width, float height) {
+        this.x1 = -width / 2;
+        this.y1 = height / 2;
+        this.x2 = width / 2;
+        this.y2 = -height / 2;
 
         this.texRepeatY = 1;
         this.texRepeatX = 1;
@@ -29,6 +29,7 @@ public class Rect extends Shape {
         this.height = height;
 
         this.model = this.toTexturedModel();
+        this.transform.shift(center.x, center.y);
     }
 
     public float getWidth() {

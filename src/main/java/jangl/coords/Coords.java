@@ -1,5 +1,7 @@
 package jangl.coords;
 
+import org.joml.Vector2f;
+
 /**
  * The base coordinates class. See its inheritors: PixelCoords and NDCoords
  */
@@ -27,6 +29,10 @@ public sealed abstract class Coords permits PixelCoords, NDCoords {
 
         this.x = coords[0];
         this.y = coords[1];
+    }
+
+    public Vector2f toVector2f() {
+        return new Vector2f(this.x, this.y);
     }
 
     @Override

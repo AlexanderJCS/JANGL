@@ -35,6 +35,7 @@ public class Circle extends Shape {
         this.radiusX = radius;
         this.radiusY = PixelCoords.distYtoNDC(NDCoords.distXtoPixelCoords(radius));
         this.model = this.toModel();
+        this.transform.setCenter(this.getCenter().toVector2f());
     }
 
     /**

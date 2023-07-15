@@ -9,11 +9,12 @@ import jangl.graphics.shaders.VertexShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
 import jangl.util.ArrayUtils;
 import jangl.util.Range;
-import org.joml.Matrix4f;
+
 import java.util.HashSet;
 
 public abstract class Shape implements AutoCloseable {
-    private static ShaderProgram defaultShader = new ShaderProgram(new DefaultVertShader());
+    protected final Transform transform;
+    private static final ShaderProgram defaultShader = new ShaderProgram(new DefaultVertShader());
     protected Model model;
     /**
      * The angle of the shape from the x-axis in radians
@@ -22,6 +23,7 @@ public abstract class Shape implements AutoCloseable {
     protected double localAngle;
 
     public Shape() {
+        this.transform = new Transform();
         this.axisAngle = 0;
         this.localAngle = 0;
     }
@@ -276,7 +278,7 @@ public abstract class Shape implements AutoCloseable {
 
         vertexShader.setProjectionUniform(
                 boundProgram.getProgramID(),
-                new Matrix4f().ortho2D(-1, 1, 1, -1).scale(1)
+                this.transform.getMatrix()
         );
     }
 
@@ -290,6 +292,10 @@ public abstract class Shape implements AutoCloseable {
         texture.bind();
         this.draw();
         ShaderProgram.unbind();
+    }
+
+    public Transform getTransform() {
+        return transform;
     }
 
     public abstract void shift(float x, float y);
