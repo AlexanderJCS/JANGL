@@ -272,7 +272,7 @@ public abstract class Shape implements AutoCloseable {
         if (vertexShader != null) {
             vertexShader.setProjectionUniform(
                     boundProgram.getProgramID(),
-                    new Matrix4f().ortho2D(-Window.getScreenWidth(), Window.getScreenWidth(), Window.getScreenWidth(), -Window.getScreenWidth()).scale(64)
+                    new Matrix4f().ortho2D(-1, 1, 1, -1).scale(1)
             );
         }
     }
