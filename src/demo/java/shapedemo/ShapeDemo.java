@@ -15,7 +15,7 @@ public class ShapeDemo {
 
     public ShapeDemo() {
         this.rect = new Rect(new NDCoords(0.25f, 0.25f), 0.15f, 0.15f);
-        this.circle = new Circle(new NDCoords(0, 0.5f), 0.1f, 70);
+        this.circle = new Circle(new NDCoords(0.75f, 0.5f), 0.1f, 70);
     }
 
     public void draw() {
@@ -25,7 +25,7 @@ public class ShapeDemo {
         // Draw the rectangle and circle
         // These draw calls need to be after the background so the background doesn't overlap the shapes
         this.rect.draw();
-        // this.circle.draw();
+        this.circle.draw();
     }
 
     public void update() {
@@ -33,8 +33,8 @@ public class ShapeDemo {
         JANGL.update();
 
         // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
-        this.rect.getTransform().rotate((float) (Clock.getTimeDelta()));
-        // this.circle.rotateAxis(0.05 * Clock.getTimeDelta());
+        this.rect.getTransform().rotate((float) Clock.getTimeDelta());
+        this.circle.getTransform().rotate((float) Clock.getTimeDelta());
 
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background

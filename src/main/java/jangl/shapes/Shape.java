@@ -147,8 +147,8 @@ public abstract class Shape implements AutoCloseable {
             Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
             Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
 
-            Range s2RangeX = new Range(circleCenter[0] - circle.getRadiusX(), circleCenter[0] + circle.getRadiusX());
-            Range s2RangeY = new Range(circleCenter[1] - circle.getRadiusY(), circleCenter[1] + circle.getRadiusY());
+            Range s2RangeX = new Range(circleCenter[0] - circle.getRadius(), circleCenter[0] + circle.getRadius());
+            Range s2RangeY = new Range(circleCenter[1] - circle.getRadius(), circleCenter[1] + circle.getRadius());
 
             // If the ranges do not intersect, the shapes are not colliding
             if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
@@ -177,8 +177,8 @@ public abstract class Shape implements AutoCloseable {
                 Math.pow(circle1Center.y - circle2Center.y, 2);
 
         double combinedRadiiSquared = Math.pow(
-                NDCoords.distXtoPixelCoords(circle1.getRadiusX()) +
-                        NDCoords.distXtoPixelCoords(circle2.getRadiusX()),
+                NDCoords.distXtoPixelCoords(circle1.getRadius()) +
+                        NDCoords.distXtoPixelCoords(circle2.getRadius()),
                 2
         );
 
@@ -188,7 +188,7 @@ public abstract class Shape implements AutoCloseable {
     public static boolean collides(Circle circle, NDCoords point) {
         PixelCoords circleCenter = circle.getCenter().toPixelCoords();
         PixelCoords pointPixels = point.toPixelCoords();
-        double radiusPixelsSquared = Math.pow(NDCoords.distXtoPixelCoords(circle.getRadiusX()), 2);
+        double radiusPixelsSquared = Math.pow(NDCoords.distXtoPixelCoords(circle.getRadius()), 2);
 
         double distSquared = Math.pow(circleCenter.x - pointPixels.x, 2) +
                 Math.pow(circleCenter.y - pointPixels.y, 2);

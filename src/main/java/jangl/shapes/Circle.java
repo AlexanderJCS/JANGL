@@ -1,7 +1,6 @@
 package jangl.shapes;
 
 import jangl.coords.NDCoords;
-import jangl.coords.PixelCoords;
 import jangl.graphics.models.Model;
 import jangl.graphics.models.TriangleFanModel;
 
@@ -11,8 +10,7 @@ public class Circle extends Shape {
     private final int sides;
     private NDCoords center;
     // X and Y radius need to be different since the screen may not be square
-    private float radiusX;
-    private float radiusY;
+    private float radius;
 
     /**
      * Since one ScreenCoord on the x-axis is not the same as one ScreenCoord on the y-axis if the aspect ratio
@@ -32,8 +30,7 @@ public class Circle extends Shape {
         this.center = center;
 
         this.sides = sides;
-        this.radiusX = radius;
-        this.radiusY = PixelCoords.distYtoNDC(NDCoords.distXtoPixelCoords(radius));
+        this.radius = radius;
         this.model = this.toModel();
         this.transform.setCenter(this.getCenter().toVector2f());
     }
@@ -42,8 +39,7 @@ public class Circle extends Shape {
      * @param newRadius The new radius
      */
     public void setRadius(float newRadius) {
-        this.radiusX = newRadius;
-        this.radiusY = PixelCoords.distYtoNDC(NDCoords.distXtoPixelCoords(newRadius));
+        this.radius = newRadius;
         this.model.subVertices(this.calculateVertices(), 0);
     }
 
@@ -71,12 +67,8 @@ public class Circle extends Shape {
         return this.sides;
     }
 
-    public float getRadiusX() {
-        return this.radiusX;
-    }
-
-    public float getRadiusY() {
-        return this.radiusY;
+    public float getRadius() {
+        return this.radius;
     }
 
     private Model toModel() {
@@ -97,8 +89,8 @@ public class Circle extends Shape {
         vertices[1] = this.center.y;
 
         for (int i = 1; i < vertices.length / 2; i++) {
-            vertices[i * 2] = (float) (this.center.x + (this.radiusX * Math.cos(i * 2 * Math.PI / this.sides)));
-            vertices[i * 2 + 1] = (float) (this.center.y + (this.radiusY * Math.sin(i * 2 * Math.PI / this.sides)));
+            vertices[i * 2] = (float) (this.center.x + (this.radius * Math.cos(i * 2 * Math.PI / this.sides)));
+            vertices[i * 2 + 1] = (float) (this.center.y + (this.radius * Math.sin(i * 2 * Math.PI / this.sides)));
         }
 
         return Shape.rotateAxis(Shape.rotateLocal(vertices, this.getCenter(), this.localAngle), this.axisAngle);
