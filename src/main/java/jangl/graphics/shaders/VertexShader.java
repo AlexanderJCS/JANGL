@@ -45,8 +45,6 @@ public class VertexShader extends Shader {
             builder.append(line).append("\n");
         }
 
-        System.out.println(builder);
-
         return super.precompile(builder.toString());
     }
 
