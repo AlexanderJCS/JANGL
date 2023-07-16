@@ -29,7 +29,7 @@ public class VertexShader extends Shader {
             line = line.replace("\r", "\n");
 
             if (lineAfterVersion) {
-                builder.append("uniform mat4 projectionMatrix;\n");
+                builder.append("uniform mat4 projectionMatrix;\nuniform mat4 transformMatrix;\nuniform mat4 rotationMatrix;\n");
                 lineAfterVersion = false;
             }
 
@@ -39,7 +39,7 @@ public class VertexShader extends Shader {
 
             if (line.contains("gl_Position") && line.contains("=")) {
                 line = line.replace(" ", "");
-                line = line.replace("gl_Position=", "gl_Position=projectionMatrix*");
+                line = line.replace("gl_Position=", "gl_Position=projectionMatrix*transformMatrix*rotationMatrix*");
             }
 
             builder.append(line).append("\n");
@@ -48,23 +48,29 @@ public class VertexShader extends Shader {
         return super.precompile(builder.toString());
     }
 
+    private void addMatrixUniform(int programID, String matrixName, Matrix4f matrix) {
+        int uniformLocation = glGetUniformLocation(programID, matrixName);
+
+        // If there's no projection matrix uniform, leave silently
+        if (uniformLocation == -1) {
+            return;
+        }
+
+        float[] matrixArr = new float[16];
+        matrix.get(matrixArr);
+
+        glUniformMatrix4fv(uniformLocation, false, matrixArr);
+    }
+
     /**
      * Sets the projection uniform of the shader program. If there is no projection matrix uniform, the method will
      * return without doing anything.
      *
      * @param programID The program ID to the pass the uniform to
      */
-    public void setProjectionUniform(int programID, Matrix4f projectionMatrix) {
-        int projectionUniformLocation = glGetUniformLocation(programID, "projectionMatrix");
-
-        // If there's no projection matrix uniform, leave silently
-        if (projectionUniformLocation == -1) {
-            return;
-        }
-
-        float[] projectionMatrixArr = new float[16];
-        projectionMatrix.get(projectionMatrixArr);
-
-        glUniformMatrix4fv(projectionUniformLocation, false, projectionMatrixArr);
+    public void setMatrixUniforms(int programID, Matrix4f projectionMatrix, Matrix4f transformMatrix, Matrix4f rotationMatrix) {
+        this.addMatrixUniform(programID, "projectionMatrix", projectionMatrix);
+        this.addMatrixUniform(programID, "transformMatrix", transformMatrix);
+        this.addMatrixUniform(programID, "rotationMatrix", rotationMatrix);
     }
 }
