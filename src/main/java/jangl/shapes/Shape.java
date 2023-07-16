@@ -9,6 +9,8 @@ import jangl.graphics.shaders.VertexShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
 import jangl.util.ArrayUtils;
 import jangl.util.Range;
+import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 import java.util.HashSet;
 
@@ -303,6 +305,27 @@ public abstract class Shape implements AutoCloseable {
     public abstract void shift(float x, float y);
 
     public abstract float[] calculateVertices();
+
+    /**
+     * Calculates the vertices with the matrix applied. This method is not recommended to be called much since matrix
+     * multiplication on the CPU is slow.
+     * @return The vertices in normalize device coords. Odd indices are x coords and even indices are y coords.
+     */
+    public float[] calculateVerticesMatrix() {
+        float[] verticesNoMatrix = this.calculateVertices();
+        float[] verticesMatrix = new float[verticesNoMatrix.length];
+
+        Matrix4f matrix = this.transform.getMatrix();
+
+        for (int i = 0; i < verticesNoMatrix.length; i += 2) {
+            Vector4f vertex = new Vector4f(verticesNoMatrix[i], verticesNoMatrix[i + 1], 0, 1);
+            vertex.mul(matrix);
+            verticesMatrix[i] = vertex.x;
+            verticesMatrix[i + 1] = vertex.y;
+        }
+
+        return verticesMatrix;
+    }
 
     public abstract NDCoords getCenter();
 

@@ -68,7 +68,7 @@ public class Triangle extends Shape {
 
     @Override
     public float[] getExteriorVertices() {
-        return this.calculateVertices();
+        return this.calculateVerticesMatrix();
     }
 
     @Override

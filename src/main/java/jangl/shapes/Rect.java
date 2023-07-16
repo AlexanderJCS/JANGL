@@ -130,7 +130,7 @@ public class Rect extends Shape {
 
     @Override
     public float[] getExteriorVertices() {
-        return this.calculateVertices();
+        return this.calculateVerticesMatrix();
     }
 
     /**

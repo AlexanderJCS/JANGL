@@ -98,7 +98,7 @@ public class Circle extends Shape {
 
     @Override
     public float[] getExteriorVertices() {
-        float[] vertices = this.calculateVertices();
+        float[] vertices = this.calculateVerticesMatrix();
         return Arrays.copyOfRange(vertices, 2, vertices.length - 2);
     }
 
