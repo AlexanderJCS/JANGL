@@ -12,12 +12,18 @@ public class Transform {
     private Vector3f center;
     private final Vector2f shift;
 
+    private float localRotationAngle;
+    private float originRotationAngle;
+
     public Transform() {
         this.center = new Vector3f(0, 0, 0);
         this.shift = new Vector2f(0, 0);
         this.projectionMatrix = new Matrix4f().ortho2D(0, (float) Window.getScreenWidth() / Window.getScreenHeight(), 0, 1);
         this.transformMatrix = new Matrix4f().identity();
         this.rotationMatrix = new Matrix4f().translate(this.center);
+
+        this.localRotationAngle = 0;
+        this.originRotationAngle = 0;
     }
 
     public void setPos(float x, float y) {
@@ -32,10 +38,22 @@ public class Transform {
 
     public void rotate(float radians) {
         this.rotationMatrix.rotateZ(radians);
+        this.localRotationAngle += radians;
     }
 
     public void rotateOrigin(float radians) {
         this.transformMatrix.rotateZ(radians);
+        this.originRotationAngle += radians;
+    }
+
+    public void setLocalRotation(float radians) {
+        float delta = radians - this.localRotationAngle;
+        this.rotate(delta);
+    }
+
+    public void setOriginRotation(float radians) {
+        float delta = radians - this.originRotationAngle;
+        this.rotateOrigin(delta);
     }
 
     void setCenter(Vector2f center) {
@@ -53,6 +71,14 @@ public class Transform {
 
     public Matrix4f getRotationMatrix() {
         return this.rotationMatrix;
+    }
+
+    public float getLocalRotationAngle() {
+        return localRotationAngle;
+    }
+
+    public float getOriginRotationAngle() {
+        return originRotationAngle;
     }
 
     public Matrix4f getMatrix() {

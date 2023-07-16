@@ -88,8 +88,10 @@ public abstract class Shape implements AutoCloseable {
 
             // Rotate the axis of the two shapes so that one side is flat
             // This is used as a substitute for projection
-            float[] s1Vertices = shape1.rotateAxis(delta);
-            float[] s2Vertices = shape2.rotateAxis(delta);
+            shape1.getTransform().rotateOrigin((float) -delta);
+            float[] s1Vertices = shape1.calculateVerticesMatrix();
+            shape2.getTransform().rotateOrigin((float) -delta);
+            float[] s2Vertices = shape2.calculateVerticesMatrix();
 
             float[] s1verticesX = ArrayUtils.getEven(s1Vertices);
             float[] s1verticesY = ArrayUtils.getOdd(s1Vertices);
