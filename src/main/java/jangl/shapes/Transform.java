@@ -40,15 +40,15 @@ public class Transform {
     }
 
     public Matrix4f getProjectionMatrix() {
-        return projectionMatrix;
+        return this.projectionMatrix;
     }
 
     public Matrix4f getTransformMatrix() {
-        return transformMatrix;
+        return this.transformMatrix;
     }
 
     public Matrix4f getRotationMatrix() {
-        return new Matrix4f(rotationMatrix).mul(new Matrix4f().translate(new Vector3f(this.center).mul(-1)));
+        return this.rotationMatrix;
     }
 
     public Matrix4f getMatrix() {

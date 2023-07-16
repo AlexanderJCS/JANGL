@@ -85,15 +85,15 @@ public class Circle extends Shape {
     public float[] calculateVertices() {
         float[] vertices = new float[2 * (this.sides + 2)];
 
-        vertices[0] = this.center.x;
-        vertices[1] = this.center.y;
+        vertices[0] = 0;
+        vertices[1] = 0;
 
         for (int i = 1; i < vertices.length / 2; i++) {
-            vertices[i * 2] = (float) (this.center.x + (this.radius * Math.cos(i * 2 * Math.PI / this.sides)));
-            vertices[i * 2 + 1] = (float) (this.center.y + (this.radius * Math.sin(i * 2 * Math.PI / this.sides)));
+            vertices[i * 2] = (float) (this.radius * Math.cos(i * 2 * Math.PI / this.sides));
+            vertices[i * 2 + 1] = (float) (this.radius * Math.sin(i * 2 * Math.PI / this.sides));
         }
 
-        return Shape.rotateAxis(Shape.rotateLocal(vertices, this.getCenter(), this.localAngle), this.axisAngle);
+        return vertices;
     }
 
     @Override

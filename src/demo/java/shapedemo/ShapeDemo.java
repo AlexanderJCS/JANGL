@@ -10,15 +10,13 @@ import jangl.shapes.Shape;
 import jangl.shapes.Triangle;
 import jangl.time.Clock;
 
-import java.util.Arrays;
-
 public class ShapeDemo {
     private final Rect rect;
     private final Circle circle;
     private final Triangle triangle;
 
     public ShapeDemo() {
-        this.rect = new Rect(new NDCoords(0, 0), 0.25f, 0.25f);
+        this.rect = new Rect(new NDCoords(0.25f, 0.25f), 0.25f, 0.25f);
         this.circle = new Circle(new NDCoords(0.75f, 0.5f), 0.1f, 70);
         this.triangle = new Triangle(new NDCoords(0.5f, 0.3f), new NDCoords(0.8f, 0.3f), new NDCoords(0.5f, 0.6f));
     }
@@ -42,7 +40,7 @@ public class ShapeDemo {
         // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
         this.circle.getTransform().rotate((float) Clock.getTimeDelta());
         this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
-
+        this.rect.getTransform().rotate((float) Clock.getTimeDelta());
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background
         if (Shape.collides(this.rect, this.circle)) {
