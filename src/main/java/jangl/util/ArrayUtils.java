@@ -1,6 +1,54 @@
 package jangl.util;
 
+import org.joml.Vector2f;
+
 public class ArrayUtils {
+    /**
+     * Converts an array of x, y coordinate pairs into a vector array.
+     * @param arr The array of x and y pairs
+     * @throws IndexOutOfBoundsException Throws if the array length is odd
+     * @return The new vector array
+     */
+    public static Vector2f[] toVector2fArray(float[] arr) throws IndexOutOfBoundsException {
+        Vector2f[] vecArr = new Vector2f[arr.length / 2];
+
+        for (int i = 0; i < vecArr.length; i++) {
+            vecArr[i] = new Vector2f(arr[i * 2], arr[i * 2 + 1]);
+        }
+
+        return vecArr;
+    }
+
+    /**
+     * Gets the X component of an array of vectors.
+     * @param vecArr The array of vectors.
+     * @return Only the X values.
+     */
+    public static float[] getX(Vector2f[] vecArr) {
+        float[] xComponent = new float[vecArr.length];
+
+        for (int i = 0; i < xComponent.length; i++) {
+            xComponent[i] = vecArr[i].x;
+        }
+
+        return xComponent;
+    }
+
+    /**
+     * Gets the Y component of an array of vectors.
+     * @param vecArr The array of vectors.
+     * @return Only the X values.
+     */
+    public static float[] getY(Vector2f[] vecArr) {
+        float[] yComponent = new float[vecArr.length];
+
+        for (int i = 0; i < yComponent.length; i++) {
+            yComponent[i] = vecArr[i].y;
+        }
+
+        return yComponent;
+    }
+
     public static float getMax(float[] arr) {
         float max = arr[0];
 

@@ -16,7 +16,7 @@ public class ShapeDemo {
     private final Triangle triangle;
 
     public ShapeDemo() {
-        this.rect = new Rect(new NDCoords(0.25f, 0.25f), 0.25f, 0.25f);
+        this.rect = new Rect(new NDCoords(0.4f, 0.25f), 0.25f, 0.25f);
         this.circle = new Circle(new NDCoords(0.75f, 0.5f), 0.1f, 70);
         this.triangle = new Triangle(new NDCoords(0.5f, 0.3f), new NDCoords(0.8f, 0.3f), new NDCoords(0.5f, 0.6f));
     }
@@ -40,10 +40,12 @@ public class ShapeDemo {
         // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
         this.circle.getTransform().rotate((float) Clock.getTimeDelta());
         this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
-        this.rect.getTransform().rotate((float) Clock.getTimeDelta());
+        // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
+
+        System.out.println(Shape.collides(rect, triangle));
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background
-        if (Shape.collides(this.rect, this.circle)) {
+        if (Shape.collides(this.rect, this.triangle)) {
             // Set the color to 0 red, 1, green, 0 blue, 1 alpha (0 transparency)
             Window.setClearColor(ColorFactory.fromNormalized(0, 0.8f, 0, 1));
         } else {

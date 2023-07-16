@@ -10,9 +10,10 @@ import jangl.graphics.shaders.premade.DefaultVertShader;
 import jangl.util.ArrayUtils;
 import jangl.util.Range;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import java.util.HashSet;
+import java.util.*;
 
 public abstract class Shape implements AutoCloseable {
     protected final Transform transform;
@@ -61,43 +62,30 @@ public abstract class Shape implements AutoCloseable {
     }
 
     public static boolean collides(Shape shape1, Shape shape2) {
-        double[] angles = shape1.getOutsideEdgeAngles();
-        double[] otherAngles = shape2.getOutsideEdgeAngles();
+        Vector2f[] s1Axes = shape1.getOutsideVectors();
+        Vector2f[] s2Axes = shape2.getOutsideVectors();
 
-        HashSet<Double> anglesSet = new HashSet<>();
+        List<Vector2f> combined = new ArrayList<>(s1Axes.length + s2Axes.length);
+        Collections.addAll(combined, s1Axes);
+        Collections.addAll(combined, s2Axes);
 
-        for (double angle : angles) {
-            double nonNegativeAngle = angle > 0 ? angle : angle + Math.PI;
-            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
-        }
+        for (Vector2f axis : combined) {
+            Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.getExteriorVertices());
+            Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.getExteriorVertices());
 
-        for (double angle : otherAngles) {
-            double nonNegativeAngle = angle > 0 ? angle : angle + Math.PI;
-            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
-        }
+            for (Vector2f vertex : s1Vertices) {
+                vertex.dot(axis);
+            }
 
-        double s1BeginningAngle = shape1.getAxisAngle();
-        double s2BeginningAngle = shape2.getAxisAngle();
+            for (Vector2f vertex : s2Vertices) {
+                vertex.dot(axis);
+            }
 
-        double prevAngle = 0;
-        for (double angle : anglesSet) {
-            // Allows the shape to be rotated once per iteration instead of twice
-            // Giving a 20% - 25% performance increase
-            double delta = angle - prevAngle;
-            prevAngle = angle;
+            float[] s1verticesX = ArrayUtils.getX(s1Vertices);
+            float[] s1verticesY = ArrayUtils.getY(s1Vertices);
 
-            // Rotate the axis of the two shapes so that one side is flat
-            // This is used as a substitute for projection
-            shape1.getTransform().rotateOrigin((float) -delta);
-            float[] s1Vertices = shape1.calculateVerticesMatrix();
-            shape2.getTransform().rotateOrigin((float) -delta);
-            float[] s2Vertices = shape2.calculateVerticesMatrix();
-
-            float[] s1verticesX = ArrayUtils.getEven(s1Vertices);
-            float[] s1verticesY = ArrayUtils.getOdd(s1Vertices);
-
-            float[] s2verticesX = ArrayUtils.getEven(s2Vertices);
-            float[] s2verticesY = ArrayUtils.getOdd(s2Vertices);
+            float[] s2verticesX = ArrayUtils.getX(s2Vertices);
+            float[] s2verticesY = ArrayUtils.getY(s2Vertices);
 
             Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
             Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
@@ -107,20 +95,83 @@ public abstract class Shape implements AutoCloseable {
 
             // If the ranges do not intersect, the shapes are not colliding
             if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
-                // Rotate the axis angles back to what they were at the beginning
-                shape1.setAxisAngle(s1BeginningAngle);
-                shape2.setAxisAngle(s2BeginningAngle);
-
                 return false;
             }
         }
 
-        // Rotate the axis angles back to what they were at the beginning
-        shape1.setAxisAngle(s1BeginningAngle);
-        shape2.setAxisAngle(s2BeginningAngle);
-
         return true;
     }
+
+//    public static boolean collides(Shape shape1, Shape shape2) {
+//        double[] angles = shape1.getOutsideEdgeAngles();
+//        double[] otherAngles = shape2.getOutsideEdgeAngles();
+//
+//        HashSet<Double> anglesSet = new HashSet<>();
+//
+//        for (double angle : angles) {
+//            double nonNegativeAngle = angle > 0 ? angle : angle + Math.PI;
+//            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
+//        }
+//
+//        for (double angle : otherAngles) {
+//            double nonNegativeAngle = angle > 0 ? angle : angle + Math.PI;
+//            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
+//        }
+//
+//        float s1BeginningAngle = shape1.getTransform().getOriginRotationAngle();
+//        float s2BeginningAngle = shape2.getTransform().getOriginRotationAngle();
+//
+//        double prevAngle = 0;
+//        for (double angle : anglesSet) {
+//            Window.clear();
+//            shape1.draw();
+//            shape2.draw();
+//            JANGL.update();
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException ignored) {
+//                Thread.currentThread().interrupt();
+//            }
+//            // Allows the shape to be rotated once per iteration instead of twice
+//            // Giving a 20% - 25% performance increase
+//            double delta = angle - prevAngle;
+//            prevAngle = angle;
+//
+//            // Rotate the axis of the two shapes so that one side is flat
+//            // This is used as a substitute for projection
+//            shape1.getTransform().rotateOrigin((float) -delta);
+//            float[] s1Vertices = shape1.calculateVerticesMatrix();
+//            shape2.getTransform().rotateOrigin((float) -delta);
+//            float[] s2Vertices = shape2.calculateVerticesMatrix();
+//
+//            float[] s1verticesX = ArrayUtils.getEven(s1Vertices);
+//            float[] s1verticesY = ArrayUtils.getOdd(s1Vertices);
+//
+//            float[] s2verticesX = ArrayUtils.getEven(s2Vertices);
+//            float[] s2verticesY = ArrayUtils.getOdd(s2Vertices);
+//
+//            Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
+//            Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
+//
+//            Range s2RangeX = new Range(ArrayUtils.getMin(s2verticesX), ArrayUtils.getMax(s2verticesX));
+//            Range s2RangeY = new Range(ArrayUtils.getMin(s2verticesY), ArrayUtils.getMax(s2verticesY));
+//
+//            // If the ranges do not intersect, the shapes are not colliding
+//            if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
+//                // Rotate the axis angles back to what they were at the beginning
+//                shape1.getTransform().setOriginRotation(s1BeginningAngle);
+//                shape2.getTransform().setOriginRotation(s2BeginningAngle);
+//
+//                return false;
+//            }
+//        }
+//
+//        // Rotate the axis angles back to what they were at the beginning
+//        shape1.getTransform().setOriginRotation(s1BeginningAngle);
+//        shape2.getTransform().setOriginRotation(s2BeginningAngle);
+//
+//        return true;
+//    }
 
     public static boolean collides(Shape polygon, Circle circle) {
         double[] angles = polygon.getOutsideEdgeAngles();
@@ -369,6 +420,24 @@ public abstract class Shape implements AutoCloseable {
         }
 
         return outsideAngles;
+    }
+
+    public Vector2f[] getOutsideVectors() {
+        Vector2f[] exteriorVertices = ArrayUtils.toVector2fArray(this.getExteriorVertices());
+        Vector2f[] outsideVectors = new Vector2f[exteriorVertices.length];
+
+        for (int i = 0; i < exteriorVertices.length; i++) {
+            Vector2f lastPoint;
+            if (i == 0) {
+                lastPoint = exteriorVertices[exteriorVertices.length - 1];
+            } else {
+                lastPoint = exteriorVertices[i - 1];
+            }
+
+            outsideVectors[i] = new Vector2f(exteriorVertices[i]).sub(lastPoint).normalize();
+        }
+
+        return outsideVectors;
     }
 
     public double getAxisAngle() {
