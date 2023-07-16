@@ -38,9 +38,9 @@ public class ShapeDemo {
 
         // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
         // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
-        this.circle.getTransform().rotate((float) Clock.getTimeDelta());
-        this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
-        this.rect.getTransform().rotate((float) Clock.getTimeDelta());
+        this.circle.getTransform().rotateOrigin((float) Clock.getTimeDelta());
+        this.triangle.getTransform().rotateOrigin((float) Clock.getTimeDelta());
+        this.rect.getTransform().rotateOrigin((float) Clock.getTimeDelta());
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background
         if (Shape.collides(this.rect, this.circle)) {

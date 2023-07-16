@@ -20,7 +20,7 @@ public class Triangle extends Shape {
         this.point2.y -= center.y;
         this.point3.x -= center.x;
         this.point3.y -= center.y;
-        this.transform.shift(center.x, center.y);
+        this.transform.setCenter(center.toVector2f());
 
         this.model = this.toModel();
     }
@@ -46,18 +46,11 @@ public class Triangle extends Shape {
 
     @Override
     public float[] calculateVertices() {
-        return Shape.rotateAxis(
-                Shape.rotateLocal(
-                        new float[]{
-                                this.point1.x, this.point1.y,
-                                this.point2.x, this.point2.y,
-                                this.point3.x, this.point3.y
-                        },
-                        this.getCenter(),
-                        this.localAngle
-                ),
-                this.axisAngle
-        );
+        return new float[]{
+                this.point1.x, this.point1.y,
+                this.point2.x, this.point2.y,
+                this.point3.x, this.point3.y
+        };
     }
 
     @Override

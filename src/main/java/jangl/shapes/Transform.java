@@ -34,6 +34,10 @@ public class Transform {
         this.rotationMatrix.rotateZ(radians);
     }
 
+    public void rotateOrigin(float radians) {
+        this.transformMatrix.rotateZ(radians);
+    }
+
     void setCenter(Vector2f center) {
         this.center = new Vector3f(center, 0);
         this.rotationMatrix.translate(this.center.x(), this.center.y(), 0);

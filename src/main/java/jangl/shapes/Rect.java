@@ -29,7 +29,7 @@ public class Rect extends Shape {
         this.height = height;
 
         this.model = this.toTexturedModel();
-        this.transform.shift(center.x, center.y);
+        this.transform.setCenter(center.toVector2f());
     }
 
     public float getWidth() {
