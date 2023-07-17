@@ -4,6 +4,7 @@ import jangl.JANGL;
 import jangl.color.ColorFactory;
 import jangl.coords.NDCoords;
 import jangl.io.Window;
+import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
 import jangl.shapes.Shape;
@@ -18,8 +19,8 @@ public class ShapeDemo {
     private final Triangle triangle;
 
     public ShapeDemo() {
-        this.rect = new Rect(new NDCoords(0.4f, 0.25f), 0.25f, 0.25f);
-        this.circle = new Circle(new NDCoords(0.75f, 0.5f), 0.1f, 70);
+        this.rect = new Rect(new NDCoords(0.8f, 0.6f), 0.25f, 0.25f);
+        this.circle = new Circle(new NDCoords(1.3f, 0.5f), 0.1f, 70);
         this.triangle = new Triangle(new NDCoords(0.5f, 0.3f), new NDCoords(0.8f, 0.3f), new NDCoords(0.5f, 0.6f));
     }
 
@@ -40,12 +41,12 @@ public class ShapeDemo {
 
         // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
         // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
-        this.circle.getTransform().rotate((float) Clock.getTimeDelta());
+        // this.circle.getTransform().rotate((float) Clock.getTimeDelta());
         this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
         // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
 
-        System.out.println("triangle: " + Arrays.toString(this.triangle.getExteriorVertices()));
-        System.out.println("rect: " + Arrays.toString(this.rect.getExteriorVertices()));
+        this.rect.getTransform().setPos(Mouse.getMousePos().x, Mouse.getMousePos().y);
+
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background
         if (Shape.collides(this.rect, this.triangle)) {

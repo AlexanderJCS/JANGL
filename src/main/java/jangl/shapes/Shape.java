@@ -70,36 +70,30 @@ public abstract class Shape implements AutoCloseable {
         Collections.addAll(combined, s2Axes);
 
         for (Vector2f axis : combined) {
+            axis.perpendicular();
             Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.getExteriorVertices());
             Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.getExteriorVertices());
 
-            for (Vector2f vertex : s1Vertices) {
-                vertex.dot(axis);
-            }
-
-            for (Vector2f vertex : s2Vertices) {
-                vertex.dot(axis);
-            }
-
-            float[] s1verticesX = ArrayUtils.getX(s1Vertices);
-            float[] s1verticesY = ArrayUtils.getY(s1Vertices);
-
-            float[] s2verticesX = ArrayUtils.getX(s2Vertices);
-            float[] s2verticesY = ArrayUtils.getY(s2Vertices);
-
-            Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
-            Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
-
-            Range s2RangeX = new Range(ArrayUtils.getMin(s2verticesX), ArrayUtils.getMax(s2verticesX));
-            Range s2RangeY = new Range(ArrayUtils.getMin(s2verticesY), ArrayUtils.getMax(s2verticesY));
+            Range s1Range = projectShapeOntoAxis(s1Vertices, axis);
+            Range s2Range = projectShapeOntoAxis(s2Vertices, axis);
 
             // If the ranges do not intersect, the shapes are not colliding
-            if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
+            if (!s1Range.intersects(s2Range)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private static Range projectShapeOntoAxis(Vector2f[] vertices, Vector2f axis) {
+        float[] dotProducts = new float[vertices.length];
+
+        for (int i = 0; i < vertices.length; i++) {
+            dotProducts[i] = vertices[i].dot(axis);
+        }
+
+        return new Range(ArrayUtils.getMin(dotProducts), ArrayUtils.getMax(dotProducts));
     }
 
 //    public static boolean collides(Shape shape1, Shape shape2) {
@@ -341,7 +335,7 @@ public abstract class Shape implements AutoCloseable {
         float[] verticesNoMatrix = this.calculateVertices();
         float[] verticesMatrix = new float[verticesNoMatrix.length];
 
-        Matrix4f matrix = this.transform.getMatrix();
+        Matrix4f matrix = this.transform.getMatrixNoProjection();
 
         for (int i = 0; i < verticesNoMatrix.length; i += 2) {
             Vector4f vertex = new Vector4f(verticesNoMatrix[i], verticesNoMatrix[i + 1], 0, 1);

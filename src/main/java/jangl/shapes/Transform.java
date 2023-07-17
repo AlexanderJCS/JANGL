@@ -81,6 +81,12 @@ public class Transform {
         return originRotationAngle;
     }
 
+    public Matrix4f getMatrixNoProjection() {
+        return new Matrix4f()
+                .set(this.getTransformMatrix())
+                .mul(this.getRotationMatrix());
+    }
+
     public Matrix4f getMatrix() {
         return new Matrix4f()
                 .set(this.getProjectionMatrix())
