@@ -19,16 +19,17 @@ public class Transform {
     public Transform() {
         this.center = new Vector3f(0, 0, 0);
         this.shift = new Vector2f(0, 0);
+
         this.projectionMatrix = new Matrix4f().ortho2D(0, (float) Window.getScreenWidth() / Window.getScreenHeight(), 0, 1);
         this.transformMatrix = new Matrix4f().identity();
-        this.rotationMatrix = new Matrix4f().translate(this.center);
+        this.rotationMatrix = new Matrix4f();
 
         this.localRotationAngle = 0;
         this.originRotationAngle = 0;
     }
 
     public void setPos(float x, float y) {
-        Vector2f delta = new Vector2f(this.shift).sub(x, y).mul(-1);
+        Vector2f delta = new Vector2f(this.shift).sub(x, y).add(this.center.x(), this.center.y()).mul(-1);
         this.shift(delta.x, delta.y);
     }
 
@@ -59,7 +60,7 @@ public class Transform {
 
     void setCenter(Vector2f center) {
         this.center = new Vector3f(center, 0);
-        this.shift(center.x, center.y);
+        this.rotationMatrix.translate(this.center.x(), this.center.y(), 0);
     }
 
     public WorldCoords getCenter() {
