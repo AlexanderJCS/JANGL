@@ -75,6 +75,7 @@ public class Rect extends Shape {
      */
     public void setTexRepeatY(float repeatTimes) {
         this.texRepeatY = repeatTimes;
+        this.model.close();
         this.model = this.toTexturedModel();
     }
 
@@ -83,6 +84,7 @@ public class Rect extends Shape {
      */
     public void setTexRepeatX(float repeatTimes) {
         this.texRepeatX = repeatTimes;
+        this.model.close();
         this.model = this.toTexturedModel();
     }
 

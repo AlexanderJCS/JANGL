@@ -37,18 +37,14 @@ public class ShapeDemo {
         // Update JANGL so events can be received and the screen doesn't say "not responding"
         JANGL.update();
 
-        // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
         this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
-
         this.rect.getTransform().setPos(Mouse.getMousePos().x, Mouse.getMousePos().y);
 
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background
         if (Shape.collides(this.rect, this.circle) || Shape.collides(this.rect, this.triangle)) {
-            // Set the color to 0 red, 1, green, 0 blue, 1 alpha (0 transparency)
             Window.setClearColor(ColorFactory.fromNormalized(0, 0.8f, 0, 1));
         } else {
-            // Set the color to 1 red, 0, green, 0 blue, 1 alpha (0 transparency)
             Window.setClearColor(ColorFactory.fromNormalized(0.8f, 0, 0, 1));
         }
     }
