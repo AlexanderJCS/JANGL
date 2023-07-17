@@ -11,8 +11,6 @@ import jangl.shapes.Shape;
 import jangl.shapes.Triangle;
 import jangl.time.Clock;
 
-import java.util.Arrays;
-
 public class ShapeDemo {
     private final Rect rect;
     private final Circle circle;
@@ -49,7 +47,7 @@ public class ShapeDemo {
 
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background
-        if (Shape.collides(this.rect, this.triangle)) {
+        if (Shape.collides(this.rect, this.circle) || Shape.collides(this.rect, this.triangle)) {
             // Set the color to 0 red, 1, green, 0 blue, 1 alpha (0 transparency)
             Window.setClearColor(ColorFactory.fromNormalized(0, 0.8f, 0, 1));
         } else {
@@ -71,6 +69,7 @@ public class ShapeDemo {
         // Close all shapes and textures the program used. This is important in order to prevent memory leaks
         this.rect.close();
         this.circle.close();
+        this.triangle.close();
     }
 
     public static void main(String[] args) {

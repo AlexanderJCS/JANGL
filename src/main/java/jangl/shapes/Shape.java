@@ -69,10 +69,11 @@ public abstract class Shape implements AutoCloseable {
         Collections.addAll(combined, s1Axes);
         Collections.addAll(combined, s2Axes);
 
+        Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.getExteriorVertices());
+        Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.getExteriorVertices());
+
         for (Vector2f axis : combined) {
             axis.perpendicular();
-            Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.getExteriorVertices());
-            Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.getExteriorVertices());
 
             Range s1Range = projectShapeOntoAxis(s1Vertices, axis);
             Range s2Range = projectShapeOntoAxis(s2Vertices, axis);
@@ -94,101 +95,6 @@ public abstract class Shape implements AutoCloseable {
         }
 
         return new Range(ArrayUtils.getMin(dotProducts), ArrayUtils.getMax(dotProducts));
-    }
-
-//    public static boolean collides(Shape shape1, Shape shape2) {
-//        double[] angles = shape1.getOutsideEdgeAngles();
-//        double[] otherAngles = shape2.getOutsideEdgeAngles();
-//
-//        HashSet<Double> anglesSet = new HashSet<>();
-//
-//        for (double angle : angles) {
-//            double nonNegativeAngle = angle > 0 ? angle : angle + Math.PI;
-//            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
-//        }
-//
-//        for (double angle : otherAngles) {
-//            double nonNegativeAngle = angle > 0 ? angle : angle + Math.PI;
-//            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
-//        }
-//
-//
-//        for (double angle : anglesSet) {
-//            float[] s1Vertices = shape1.calculateVerticesMatrix();
-//            rotateAxis(s1Vertices, angle);
-//            float[] s2Vertices = shape2.calculateVerticesMatrix();
-//            rotateAxis(s1Vertices, angle);
-//
-//            float[] s1verticesX = ArrayUtils.getEven(s1Vertices);
-//            float[] s1verticesY = ArrayUtils.getOdd(s1Vertices);
-//
-//            float[] s2verticesX = ArrayUtils.getEven(s2Vertices);
-//            float[] s2verticesY = ArrayUtils.getOdd(s2Vertices);
-//
-//            Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
-//            Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
-//
-//            Range s2RangeX = new Range(ArrayUtils.getMin(s2verticesX), ArrayUtils.getMax(s2verticesX));
-//            Range s2RangeY = new Range(ArrayUtils.getMin(s2verticesY), ArrayUtils.getMax(s2verticesY));
-//
-//            // If the ranges do not intersect, the shapes are not colliding
-//            if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
-//                return false;
-//            }
-//        }
-//
-//        return true;
-//    }
-
-    public static boolean collides(Shape polygon, Circle circle) {
-        double[] angles = polygon.getOutsideEdgeAngles();
-
-        double beginningAngle = polygon.getAxisAngle();
-
-        for (int i = 0; i < angles.length; i++) {
-            double delta;
-
-            if (i == 0) {
-                delta = angles[i];
-            } else {
-                delta = angles[i] - angles[i - 1];
-            }
-
-            // Rotate the axis of the two shapes so that one side is flat
-            // This is used as a substitute for projection
-            float[] polyVertices = polygon.rotateAxis(delta);
-            float[] circleCenter = Shape.rotateAxis(
-                    new float[]{circle.getCenter().x, circle.getCenter().y},
-                    angles[i]
-            );
-
-            float[] s1verticesX = ArrayUtils.getEven(polyVertices);
-            float[] s1verticesY = ArrayUtils.getOdd(polyVertices);
-
-            // Here, "s" means "shape". So "s1Range" means shape 1 range.
-            Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
-            Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
-
-            Range s2RangeX = new Range(circleCenter[0] - circle.getRadius(), circleCenter[0] + circle.getRadius());
-            Range s2RangeY = new Range(circleCenter[1] - circle.getRadius(), circleCenter[1] + circle.getRadius());
-
-            // If the ranges do not intersect, the shapes are not colliding
-            if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
-                // Rotate the axis angles back to what they were at the beginning
-                polygon.setAxisAngle(beginningAngle);
-
-                return false;
-            }
-        }
-
-        // Rotate the axis angles back to what they were at the beginning
-        polygon.setAxisAngle(beginningAngle);
-
-        return true;
-    }
-
-    public static boolean collides(Circle circle, Shape polygon) {
-        return collides(polygon, circle);
     }
 
     public static boolean collides(Circle circle1, Circle circle2) {
