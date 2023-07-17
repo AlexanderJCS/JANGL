@@ -43,6 +43,8 @@ public class ShapeDemo {
         this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
         // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
 
+        System.out.println(this.circle.getTransform().getCenter());
+
         this.rect.getTransform().setPos(Mouse.getMousePos().x, Mouse.getMousePos().y);
 
         // Draw a green background if the rectangle collides with the circle

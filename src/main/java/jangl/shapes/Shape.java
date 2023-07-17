@@ -19,46 +19,9 @@ public abstract class Shape implements AutoCloseable {
     protected final Transform transform;
     private static final ShaderProgram defaultShader = new ShaderProgram(new DefaultVertShader());
     protected Model model;
-    /**
-     * The angle of the shape from the x-axis in radians
-     */
-    protected double axisAngle;
-    protected double localAngle;
 
     public Shape() {
         this.transform = new Transform();
-        this.axisAngle = 0;
-        this.localAngle = 0;
-    }
-
-    /**
-     * Modifies the vertices passed to rotate across the origin (the center of the screen). This is primarily used for collision.
-     * NOTE: the vertices must be in the units of NDCoords to work properly.
-     *
-     * @param vertices     The vertex data to rotate. Even indices are x coordinates, odd indices are y coordinates.
-     * @param angleRadians The angle, in radians, to rotate
-     * @return the vertices object that was passed in
-     */
-    public static float[] rotateAxis(float[] vertices, double angleRadians) {
-        angleRadians *= -1;  // make the shape rotate clockwise when angleRadians > 0
-
-        for (int i = 0; i < vertices.length; i += 2) {
-            float x = NDCoords.distXtoPixelCoords(vertices[i]);
-
-            // this will not cause an out-of-bounds error since vertices.length is required to be even
-            // to be drawn to the screen correctly
-            float y = NDCoords.distYtoPixelCoords(vertices[i + 1]);
-
-            double theta = Math.atan2(y, x);
-            double hyp = Math.sqrt(x * x + y * y);
-            double newTheta = 0.5 * Math.PI - theta - angleRadians;
-
-            // Set the vertices to the new vertices
-            vertices[i] = PixelCoords.distXtoNDC((float) Math.round(Math.sin(newTheta) * hyp * 10000000) / 10000000);      // x
-            vertices[i + 1] = PixelCoords.distYtoNDC((float) Math.round(Math.cos(newTheta) * hyp * 10000000) / 10000000);  // y
-        }
-
-        return vertices;
     }
 
     public static boolean collides(Shape shape1, Shape shape2) {
@@ -98,8 +61,8 @@ public abstract class Shape implements AutoCloseable {
     }
 
     public static boolean collides(Circle circle1, Circle circle2) {
-        PixelCoords circle1Center = circle1.getCenter().toPixelCoords();
-        PixelCoords circle2Center = circle2.getCenter().toPixelCoords();
+        PixelCoords circle1Center = circle1.getTransform().getCenter().toPixelCoords();
+        PixelCoords circle2Center = circle2.getTransform().getCenter().toPixelCoords();
 
         double distSquared = Math.pow(circle1Center.x - circle2Center.x, 2) +
                 Math.pow(circle1Center.y - circle2Center.y, 2);
@@ -114,7 +77,7 @@ public abstract class Shape implements AutoCloseable {
     }
 
     public static boolean collides(Circle circle, NDCoords point) {
-        PixelCoords circleCenter = circle.getCenter().toPixelCoords();
+        PixelCoords circleCenter = circle.getTransform().getCenter().toPixelCoords();
         PixelCoords pointPixels = point.toPixelCoords();
         double radiusPixelsSquared = Math.pow(NDCoords.distXtoPixelCoords(circle.getRadius()), 2);
 
@@ -126,74 +89,6 @@ public abstract class Shape implements AutoCloseable {
 
     public static boolean collides(NDCoords point, Circle circle) {
         return collides(circle, point);
-    }
-
-    public static boolean collides(Shape polygon, NDCoords point) {
-        double[] angles = polygon.getOutsideEdgeAngles();
-
-        double beginningAngle = polygon.getAxisAngle();
-
-        float[] pointCoordsArr = new float[]{point.x, point.y};
-        for (int i = 0; i < angles.length; i++) {
-            double delta;
-
-            if (i == 0) {
-                delta = angles[i];
-            } else {
-                delta = angles[i] - angles[i - 1];
-            }
-
-            // Rotate the axis of the two shapes so that one side is flat
-            // This is used as a substitute for projection
-            float[] polyVertices = polygon.rotateAxis(delta);
-            Shape.rotateAxis(pointCoordsArr, delta);
-
-            float[] s1verticesX = ArrayUtils.getEven(polyVertices);
-            float[] s1verticesY = ArrayUtils.getOdd(polyVertices);
-
-            // Here, "s" means "shape". So "s1Range" means shape 1 range.
-            Range s1RangeX = new Range(ArrayUtils.getMin(s1verticesX), ArrayUtils.getMax(s1verticesX));
-            Range s1RangeY = new Range(ArrayUtils.getMin(s1verticesY), ArrayUtils.getMax(s1verticesY));
-
-            // If the ranges do not intersect, the shapes are not colliding
-            if (!s1RangeX.intersects(pointCoordsArr[0]) || !s1RangeY.intersects(pointCoordsArr[1])) {
-                // Rotate the axis angles back to what they were at the beginning
-                polygon.setAxisAngle(beginningAngle);
-
-                return false;
-            }
-        }
-
-        // Rotate the axis angles back to what they were at the beginning
-        polygon.setAxisAngle(beginningAngle);
-
-        return true;
-    }
-
-    protected static float[] rotateLocal(float[] vertices, NDCoords center, double angle) {
-        // Shift the x vertices
-        for (int i = 0; i < vertices.length; i += 2) {
-            vertices[i] -= center.x;
-        }
-
-        // Shift the y vertices
-        for (int i = 1; i < vertices.length; i += 2) {
-            vertices[i] -= center.y;
-        }
-
-        Shape.rotateAxis(vertices, angle);
-
-        // Un-shift the x vertices
-        for (int i = 0; i < vertices.length; i += 2) {
-            vertices[i] += center.x;
-        }
-
-        // Un-shift the y vertices
-        for (int i = 1; i < vertices.length; i += 2) {
-            vertices[i] += center.y;
-        }
-
-        return vertices;
     }
 
     public void draw() {
@@ -228,8 +123,6 @@ public abstract class Shape implements AutoCloseable {
         return transform;
     }
 
-    public abstract void shift(float x, float y);
-
     public abstract float[] calculateVertices();
 
     /**
@@ -251,13 +144,6 @@ public abstract class Shape implements AutoCloseable {
         }
 
         return verticesMatrix;
-    }
-
-    public abstract NDCoords getCenter();
-
-    public void setCenter(NDCoords newCenter) {
-        NDCoords currentCenter = this.getCenter();
-        this.shift(newCenter.x - currentCenter.x, newCenter.y - currentCenter.y);
     }
 
     /**
@@ -311,54 +197,5 @@ public abstract class Shape implements AutoCloseable {
         }
 
         return outsideVectors;
-    }
-
-    public double getAxisAngle() {
-        return this.axisAngle;
-    }
-
-    public void setAxisAngle(double angleRadians) {
-        double delta = angleRadians - this.getAxisAngle();
-        this.rotateAxis(delta);
-    }
-
-    public double getLocalAngle() {
-        return this.localAngle;
-    }
-
-    public void setLocalAngle(double angleRadians) {
-        double delta = angleRadians - this.getLocalAngle();
-        this.rotateLocal(delta);
-    }
-
-    /**
-     * Rotate the axis by a certain amount across the origin (center of the screen).
-     *
-     * @param angleRadians The angle to rotate the axis in radians.
-     */
-    public float[] rotateAxis(double angleRadians) {
-        this.axisAngle += angleRadians;
-        float[] vertices = this.calculateVertices();
-
-        this.model.subVertices(vertices, 0);
-
-        return vertices;
-    }
-
-    /**
-     * Rotate the object while keeping the center of the object the same. This differs from rotateAxis, which
-     * will rotate the object across the center of the screen.
-     *
-     * @param angle The angle, in radians, to rotate the shape by
-     */
-    public void rotateLocal(double angle) {
-        NDCoords originalPosition = this.getCenter();
-        this.setCenter(new NDCoords(0, 0));
-
-        this.rotateAxis(angle);
-        this.axisAngle -= angle;  // undo the change that rotateAxis did
-
-        this.setCenter(originalPosition);
-        this.localAngle += angle;
     }
 }

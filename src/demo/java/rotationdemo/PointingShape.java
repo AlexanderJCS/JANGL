@@ -19,12 +19,12 @@ public class PointingShape {
 
     public void pointTo(NDCoords coords) {
         PixelCoords pixelCoords = coords.toPixelCoords();
-        PixelCoords center = this.shape.getCenter().toPixelCoords();
+        PixelCoords center = this.shape.getTransform().getCenter().toPixelCoords();
 
         center.x -= pixelCoords.x;
         center.y -= pixelCoords.y;
 
         double angle = Math.atan2(center.y, center.x);
-        this.shape.setLocalAngle(-angle + this.offset);
+        this.shape.getTransform().setLocalRotation((float) (-angle + this.offset));
     }
 }

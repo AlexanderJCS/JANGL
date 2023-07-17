@@ -4,6 +4,7 @@ import jangl.coords.PixelCoords;
 import jangl.coords.NDCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
+import jangl.graphics.TextureBuilder;
 import jangl.io.keyboard.Keyboard;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -20,7 +21,7 @@ public class Player implements AutoCloseable {
 
         this.image = new Image(
                 new Rect(coords, PixelCoords.distXtoNDC(50), PixelCoords.distYtoNDC(50)),
-                new Texture("src/demo/demoResources/playerDemo/player.png", true)
+                new Texture(new TextureBuilder().setImagePath("src/demo/demoResources/playerDemo/player.png").setObeyCamera(true))
         );
     }
 
@@ -30,19 +31,19 @@ public class Player implements AutoCloseable {
         Rect rect = this.image.rect();
 
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_W)) {
-            rect.shift(0, yDist);
+            rect.getTransform().shift(0, yDist);
         }
 
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_S)) {
-            rect.shift(0, -yDist);
+            rect.getTransform().shift(0, -yDist);
         }
 
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_D)) {
-            rect.shift(xDist, 0);
+            rect.getTransform().shift(xDist, 0);
         }
 
         if (Keyboard.getKeyDown(GLFW.GLFW_KEY_A)) {
-            rect.shift(-xDist, 0);
+            rect.getTransform().shift(-xDist, 0);
         }
     }
 

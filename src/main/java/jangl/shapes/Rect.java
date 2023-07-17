@@ -8,8 +8,8 @@ import jangl.graphics.models.TexturedModel;
  */
 public class Rect extends Shape {
     private float texRepeatY, texRepeatX;
-    private float x1, y1, x2, y2;
-    private float width, height;
+    private final float x1, y1, x2, y2;
+    private final float width, height;
 
     /**
      * @param center the center of the rect
@@ -40,92 +40,14 @@ public class Rect extends Shape {
         return height;
     }
 
-    public void setWidthHeight(float width, float height) {
-        this.width = width;
-        this.height = height;
-
-        this.setPos(new NDCoords(this.x1, this.y1));
-    }
-
-    /**
-     * Get the center coordinates of the rect.
-     *
-     * @return The center coordinates of the rect, type NDCoords
-     */
-    @Override
-    public NDCoords getCenter() {
-        return new NDCoords(
-                Shape.rotateAxis(
-                        new float[]{
-                                (this.x1 + this.x2) / 2,
-                                (this.y1 + this.y2) / 2
-                        },
-                        this.axisAngle
-                )
-        );
-    }
-
-    /**
-     * Set the center of the rect.
-     *
-     * @param x The x coordinate of the rect center.
-     * @param y The y coordinate of the rect center.
-     */
-    public void setCenter(float x, float y) {
-        float halfWidth = (x2 - x1) / 2;
-        float halfHeight = (y2 - y1) / 2;
-
-        this.x1 = x - halfWidth;
-        this.x2 = x + halfWidth;
-        this.y1 = y - halfHeight;
-        this.y2 = y + halfHeight;
-    }
-
-    /**
-     * Sets the coordinates to the ones given.
-     *
-     * @param coords The new coordinates
-     */
-    public void setPos(NDCoords coords) {
-        this.x1 = coords.x;
-        this.y1 = coords.y;
-        this.x2 = this.x1 + width;
-        this.y2 = this.y1 - height;
-
-        this.model.subVertices(this.calculateVertices(), 0);
-    }
-
-    /**
-     * Shift the rectangle by a certain amount
-     *
-     * @param x X amount to shift
-     * @param y Y amount to shift
-     */
-    @Override
-    public void shift(float x, float y) {
-        this.x1 += x;
-        this.x2 += x;
-        this.y1 += y;
-        this.y2 += y;
-
-        this.model.subVertices(this.calculateVertices(), 0);
-    }
-
     @Override
     public float[] calculateVertices() {
-        return Shape.rotateAxis(
-                Shape.rotateLocal(
-                        new float[]{
-                                x1, y1,  // Top left
-                                x2, y1,  // Top right
-                                x2, y2,  // Bottom right
-                                x1, y2,  // Bottom left
-                        },
-                        this.getCenter(),
-                        this.localAngle
-                ),
-                this.axisAngle
-        );
+        return new float[]{
+            x1, y1,  // Top left
+            x2, y1,  // Top right
+            x2, y2,  // Bottom right
+            x1, y2,  // Bottom left
+        };
     }
 
     @Override

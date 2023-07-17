@@ -8,8 +8,6 @@ import java.util.Arrays;
 
 public class Circle extends Shape {
     private final int sides;
-    private NDCoords center;
-    // X and Y radius need to be different since the screen may not be square
     private float radius;
 
     /**
@@ -27,12 +25,10 @@ public class Circle extends Shape {
             throw new IllegalArgumentException("A circle must have 3 or more sides, not " + sides);
         }
 
-        this.center = center;
-
         this.sides = sides;
         this.radius = radius;
         this.model = this.toModel();
-        this.transform.setCenter(this.getCenter().toVector2f());
+        this.transform.setCenter(center.toVector2f());
     }
 
     /**
@@ -40,26 +36,6 @@ public class Circle extends Shape {
      */
     public void setRadius(float newRadius) {
         this.radius = newRadius;
-        this.model.subVertices(this.calculateVertices(), 0);
-    }
-
-    @Override
-    public void shift(float x, float y) {
-        this.center.x += x;
-        this.center.y += y;
-
-        this.model.subVertices(this.calculateVertices(), 0);
-    }
-
-    @Override
-    public NDCoords getCenter() {
-        return new NDCoords(
-                Shape.rotateAxis(new float[]{this.center.x, this.center.y}, this.axisAngle)
-        );
-    }
-
-    public void setCenter(NDCoords newCenter) {
-        this.center = newCenter;
         this.model.subVertices(this.calculateVertices(), 0);
     }
 

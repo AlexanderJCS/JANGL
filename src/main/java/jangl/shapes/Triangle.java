@@ -25,23 +25,11 @@ public class Triangle extends Shape {
         this.model = this.toModel();
     }
 
-    @Override
-    public NDCoords getCenter() {
+    private NDCoords getCenter() {
         float xSum = this.point1.x + this.point2.x + this.point3.x;
         float ySum = this.point1.y + this.point2.y + this.point3.y;
 
         return new NDCoords(xSum / 3, ySum / 3);
-    }
-
-    @Override
-    public void shift(float x, float y) {
-        this.point1.x += x;
-        this.point2.x += x;
-        this.point3.x += x;
-
-        this.point1.y += y;
-        this.point2.y += y;
-        this.point3.y += y;
     }
 
     @Override
