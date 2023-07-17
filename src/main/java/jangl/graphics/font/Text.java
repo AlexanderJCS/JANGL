@@ -1,6 +1,6 @@
 package jangl.graphics.font;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.Texture;
 import jangl.graphics.font.parser.CharInfo;
@@ -14,7 +14,7 @@ public class Text implements AutoCloseable {
     private TexturedModel model;
     private final ShaderProgram shaderProgram;
     private String text;
-    private NDCoords topLeft;
+    private WorldCoords topLeft;
     private Font font;
     private float yHeight;
     private final TextureShaderVert texShaderVert;
@@ -22,10 +22,10 @@ public class Text implements AutoCloseable {
     /**
      * @param topLeft The top left coordinate of the text
      * @param font    The font to use
-     * @param yHeight How high, in NDCoords, each letter should be
+     * @param yHeight How high, in WorldCoords, each letter should be
      * @param text    The text to display
      */
-    public Text(NDCoords topLeft, Font font, float yHeight, String text) {
+    public Text(WorldCoords topLeft, Font font, float yHeight, String text) {
         this.topLeft = topLeft;
         this.yHeight = yHeight;
         this.font = font;
@@ -64,7 +64,7 @@ public class Text implements AutoCloseable {
 
     public TexturedModel getModel() {
         int heightPixels = this.font.tallestLetter.height();
-        float heightNDC = PixelCoords.distYtoNDC(heightPixels);
+        float heightNDC = PixelCoords.distToWorldCoords(heightPixels);
 
         // desired height = current height * scale -> scale = desired height / current height
         float scaleFactor = this.yHeight / heightNDC;
@@ -81,7 +81,7 @@ public class Text implements AutoCloseable {
 
             if (ch == '\n') {
                 cursor.x = this.topLeft.toPixelCoords().x;
-                cursor.y -= NDCoords.distYtoPixelCoords(this.yHeight) * 1.2;
+                cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * 1.2;
                 continue;
             }
 
@@ -94,11 +94,11 @@ public class Text implements AutoCloseable {
             cursor.x += info.xOffset() * scaleFactor;
             cursor.y -= info.yOffset() * scaleFactor;
 
-            NDCoords scCursor = cursor.toNDCoords();
+            WorldCoords scCursor = cursor.toWorldCoords();
             float x1 = scCursor.x;
             float y1 = scCursor.y;
-            float x2 = scCursor.x + PixelCoords.distXtoNDC(info.width()) * scaleFactor;
-            float y2 = scCursor.y - PixelCoords.distYtoNDC(info.height()) * scaleFactor;
+            float x2 = scCursor.x + PixelCoords.distToWorldCoords(info.width()) * scaleFactor;
+            float y2 = scCursor.y - PixelCoords.distToWorldCoords(info.height()) * scaleFactor;
 
             float[] charVertices = new float[]{
                     x1, y1,
@@ -155,16 +155,16 @@ public class Text implements AutoCloseable {
         this.regenerate();
     }
 
-    public void setTopLeft(NDCoords newTopLeft) {
-        this.topLeft = new NDCoords(newTopLeft.x, newTopLeft.y);
+    public void setTopLeft(WorldCoords newTopLeft) {
+        this.topLeft = new WorldCoords(newTopLeft.x, newTopLeft.y);
         this.regenerate();
     }
 
     /**
      * @return A copy of the top left coordinates
      */
-    public NDCoords getTopLeft() {
-        return new NDCoords(this.topLeft.x, this.topLeft.y);
+    public WorldCoords getTopLeft() {
+        return new WorldCoords(this.topLeft.x, this.topLeft.y);
     }
 
     /**

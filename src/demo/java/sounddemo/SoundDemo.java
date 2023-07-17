@@ -1,7 +1,7 @@
 package sounddemo;
 
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
@@ -19,11 +19,13 @@ public class SoundDemo {
         this.sound.setLooping(true);
 
         this.instructions = new Text(
-                new NDCoords(-0.9f, 0.9f),
+                new WorldCoords(-0.9f, 0.9f),
                 new Font("src/demo/demoResources/font/arial.fnt", "src/demo/demoResources/font/arial.png"),
                 0.2f,
                 "Controls:\nSpace: Play\nP: Pause\nS: Stop\nR: Rewind"
         );
+
+        System.out.println(new WorldCoords(0.5f, 0.5f).toPixelCoords().toWorldCoords());
     }
 
     public void draw() {

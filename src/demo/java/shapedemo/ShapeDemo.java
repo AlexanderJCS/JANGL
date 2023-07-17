@@ -2,7 +2,7 @@ package shapedemo;
 
 import jangl.JANGL;
 import jangl.color.ColorFactory;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
@@ -17,9 +17,9 @@ public class ShapeDemo {
     private final Triangle triangle;
 
     public ShapeDemo() {
-        this.rect = new Rect(new NDCoords(0.8f, 0.6f), 0.25f, 0.25f);
-        this.circle = new Circle(new NDCoords(1.3f, 0.5f), 0.1f, 70);
-        this.triangle = new Triangle(new NDCoords(0.5f, 0.3f), new NDCoords(0.8f, 0.3f), new NDCoords(0.5f, 0.6f));
+        this.rect = new Rect(new WorldCoords(0.8f, 0.6f), 0.25f, 0.25f);
+        this.circle = new Circle(new WorldCoords(1.3f, 0.5f), 0.1f, 70);
+        this.triangle = new Triangle(new WorldCoords(0.5f, 0.3f), new WorldCoords(0.8f, 0.3f), new WorldCoords(0.5f, 0.6f));
     }
 
     public void draw() {

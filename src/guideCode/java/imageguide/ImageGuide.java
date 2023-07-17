@@ -1,7 +1,7 @@
 package guideCode.java.imageguide;
 
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
@@ -16,9 +16,9 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image(
                 new Rect(
-                        new NDCoords(0, 0),
-                        PixelCoords.distXtoNDC(300),
-                        PixelCoords.distYtoNDC(300)
+                        new WorldCoords(0, 0),
+                        PixelCoords.distToWorldCoords(300),
+                        PixelCoords.distToWorldCoords(300)
                 ),
 
                 new Texture(

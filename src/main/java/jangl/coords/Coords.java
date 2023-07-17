@@ -3,9 +3,9 @@ package jangl.coords;
 import org.joml.Vector2f;
 
 /**
- * The base coordinates class. See its inheritors: PixelCoords and NDCoords
+ * The base coordinates class. See its inheritors: PixelCoords and WorldCoords
  */
-public sealed abstract class Coords permits PixelCoords, NDCoords {
+public sealed abstract class Coords permits PixelCoords, WorldCoords {
     public float x;
     public float y;
 

@@ -1,15 +1,15 @@
 package shaderdemo;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.VertexShader;
 import org.lwjgl.opengl.GL46;
 
 import java.io.UncheckedIOException;
 
 public class TranslationShader extends VertexShader {
-    private final NDCoords offset;
+    private final WorldCoords offset;
 
-    public TranslationShader(NDCoords offset) throws UncheckedIOException {
+    public TranslationShader(WorldCoords offset) throws UncheckedIOException {
         super("src/demo/java/shaderdemo/transformShader.vert");
 
         this.offset = offset;

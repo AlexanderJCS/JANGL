@@ -1,6 +1,6 @@
 package rotationdemo;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.shapes.Shape;
 
@@ -17,7 +17,7 @@ public class PointingShape {
         return this.shape;
     }
 
-    public void pointTo(NDCoords coords) {
+    public void pointTo(WorldCoords coords) {
         PixelCoords pixelCoords = coords.toPixelCoords();
         PixelCoords center = this.shape.getTransform().getCenter().toPixelCoords();
 

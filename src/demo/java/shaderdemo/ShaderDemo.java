@@ -2,7 +2,7 @@ package shaderdemo;
 
 import jangl.JANGL;
 import jangl.color.ColorFactory;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -13,11 +13,11 @@ public class ShaderDemo implements AutoCloseable {
 
     public ShaderDemo() {
         this.shaderProgram = new ShaderProgram(
-                new TranslationShader(new NDCoords(-0.5f, 0.5f)),
+                new TranslationShader(new WorldCoords(-0.5f, 0.5f)),
                 new CustomColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
         );
 
-        this.rect = new Rect(new NDCoords(0, 0), 1, 1);
+        this.rect = new Rect(new WorldCoords(0, 0), 1, 1);
     }
 
     public void draw() {

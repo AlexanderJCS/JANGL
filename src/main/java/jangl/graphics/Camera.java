@@ -2,10 +2,10 @@ package jangl.graphics;
 
 import static org.lwjgl.opengl.GL46.*;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 
 public class Camera {
-    private static NDCoords center = new NDCoords(0, 0);
+    private static WorldCoords center = new WorldCoords(0, 0);
     public static final int BINDING_POINT = 83;
     private static int uboID;
 
@@ -34,7 +34,7 @@ public class Camera {
         return initialized;
     }
 
-    public static void setCenter(NDCoords center) {
+    public static void setCenter(WorldCoords center) {
         Camera.center = center;
 
         glBindBuffer(GL_UNIFORM_BUFFER, uboID);
@@ -42,7 +42,7 @@ public class Camera {
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 
-    public static NDCoords getCenter(NDCoords center) {
-        return new NDCoords(center.x, center.y);
+    public static WorldCoords getCenter(WorldCoords center) {
+        return new WorldCoords(center.x, center.y);
     }
 }

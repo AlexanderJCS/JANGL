@@ -1,7 +1,7 @@
 package fontdemo;
 
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
@@ -16,7 +16,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new NDCoords(0, 0.7f), arial, 0.1f,
+                new WorldCoords(0, 0.7f), arial, 0.1f,
                 "abcdefghijklmnopqrstuvwxyz\n0123456789\t<- tab"
         );
     }

@@ -1,7 +1,7 @@
 package texturedemo;
 
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.Texture;
 import jangl.graphics.TextureBuilder;
 import jangl.io.Window;
@@ -13,8 +13,8 @@ public class TextureDemo implements AutoCloseable {
     private final Texture texture;
 
     public TextureDemo() {
-        this.rect1 = new Rect(new NDCoords(0, 0.5f), 0.5f, 0.5f);
-        this.rect2 = new Rect(new NDCoords(0.7f, 0.5f), 0.5f, 0.5f);
+        this.rect1 = new Rect(new WorldCoords(0, 0.5f), 0.5f, 0.5f);
+        this.rect2 = new Rect(new WorldCoords(0.7f, 0.5f), 0.5f, 0.5f);
 
         this.rect1.setTexRepeatX(2);
         this.rect1.setTexRepeatY(2);

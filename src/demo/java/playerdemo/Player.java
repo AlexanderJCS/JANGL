@@ -1,7 +1,7 @@
 package playerdemo;
 
 import jangl.coords.PixelCoords;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
 import jangl.graphics.TextureBuilder;
@@ -15,12 +15,12 @@ public class Player implements AutoCloseable {
     private final float speedY;
     private final Image image;
 
-    public Player(NDCoords coords, float speed) {
-        this.speedX = PixelCoords.distXtoNDC(speed);
-        this.speedY = PixelCoords.distYtoNDC(speed);
+    public Player(WorldCoords coords, float speed) {
+        this.speedX = PixelCoords.distToWorldCoords(speed);
+        this.speedY = PixelCoords.distToWorldCoords(speed);
 
         this.image = new Image(
-                new Rect(coords, PixelCoords.distXtoNDC(50), PixelCoords.distYtoNDC(50)),
+                new Rect(coords, PixelCoords.distToWorldCoords(50), PixelCoords.distToWorldCoords(50)),
                 new Texture(new TextureBuilder().setImagePath("src/demo/demoResources/playerDemo/player.png").setObeyCamera(true))
         );
     }

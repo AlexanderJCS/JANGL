@@ -120,24 +120,24 @@ With that knowledge, you can make your first rectangle.
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
 public class Quickstart {
     private final Rect rect;
-    
+
     public Quickstart() {
-        this.rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
     }
 
     public void run() {
-        
+
     }
 
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
-        
+
         new Quickstart().run();
 
         Window.close();
@@ -145,24 +145,24 @@ public class Quickstart {
 }
 ```
 
-One important thing to note is that all shape classes (including `Rect`s) as well as several other classes in JANGL implement AutoCloseable. It is important to close these classes when you're done to avoid a memory leak. To prevent this, we can implement `AutoCloseable` ourselves and close everything when the program stops running. 
+One important thing to note is that all shape classes (including `Rect`s) as well as several other classes in JANGL implement AutoCloseable. It is important to close these classes when you're done to avoid a memory leak. To prevent this, we can implement `AutoCloseable` ourselves and close everything when the program stops running.
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
 public class Quickstart implements AutoCloseable {
     private final Rect rect;
-    
+
     public Quickstart() {
-        this.rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
     }
 
     public void run() {
-        
+
     }
-    
+
     @Override
     public void close() {
         this.rect.close();
@@ -171,7 +171,7 @@ public class Quickstart implements AutoCloseable {
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
-        
+
         Quickstart quickstart = new Quickstart();
         quickstart.run();
         quickstart.close();
@@ -193,7 +193,7 @@ When those three methods are combined, you get the following code:
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -201,11 +201,11 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
     }
 
     public void run() {
-        try (Rect rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f)) {
+        try (Rect rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f)) {
             JANGL.update();
             Window.clear();
 
@@ -217,7 +217,7 @@ public class Quickstart implements AutoCloseable {
     public void close() {
         this.rect.close();
     }
-    
+
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
@@ -235,7 +235,7 @@ However, if you run the code in its current state, you might notice that a windo
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -243,7 +243,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -259,7 +259,7 @@ public class Quickstart implements AutoCloseable {
     public void close() {
         this.rect.close();
     }
-    
+
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
@@ -282,7 +282,7 @@ The smart tick method throws an interrupted exception if the program is interrup
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -291,7 +291,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -316,7 +316,7 @@ public class Quickstart implements AutoCloseable {
     public void close() {
         this.rect.close();
     }
-    
+
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
@@ -334,7 +334,7 @@ Another way to limit FPS is to make the window run at VSync, or the maximum fram
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -342,7 +342,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new NDCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -358,7 +358,7 @@ public class Quickstart implements AutoCloseable {
     public void close() {
         this.rect.close();
     }
-    
+
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
@@ -385,7 +385,7 @@ Now, you can incorporate this into your program:
 ```java
 import jangl.JANGL;
 import jangl.coords.PixelCoords;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -394,7 +394,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new NDCoords(0, 0), PixelCoords.distXtoNDC(400), PixelCoords.distYtoNDC(400));
+        this.rect = new Rect(new WorldCoords(0, 0), PixelCoords.distXtoNDC(400), PixelCoords.distToWorldCoords(400));
     }
 
     public void run() {
@@ -417,7 +417,7 @@ public class Quickstart implements AutoCloseable {
     public void close() {
         this.rect.close();
     }
-    
+
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);

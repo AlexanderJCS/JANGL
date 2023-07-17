@@ -67,7 +67,7 @@ The rectangle will have a top left coordinate of (-0.75, 0.75), a width of 0.6, 
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
@@ -76,7 +76,7 @@ public class ShapeGuide {
     private final Rect rect;
 
     public ShapeGuide() {
-        this.rect = new Rect(new NDCoords(-0.75f, 0.75f), 0.6f, 0.6f);
+        this.rect = new Rect(new WorldCoords(-0.75f, 0.75f), 0.6f, 0.6f);
     }
 
     public void draw() {
@@ -133,7 +133,7 @@ Going back to the code, let's create a new `Circle` member variable, initialize 
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
@@ -144,8 +144,8 @@ public class ShapeGuide {
     private final Circle circle;
 
     public ShapeGuide() {
-        this.rect = new Rect(new NDCoords(-0.75f, 0.75f), 0.6f, 0.6f);
-        this.circle = new Circle(new NDCoords(-0.5f, -0.5f), 0.25f, 48);
+        this.rect = new Rect(new WorldCoords(-0.75f, 0.75f), 0.6f, 0.6f);
+        this.circle = new Circle(new WorldCoords(-0.5f, -0.5f), 0.25f, 48);
     }
 
     public void draw() {
@@ -198,7 +198,7 @@ Incorporating this into the code, the first vertex (bottom left) will be at (0, 
 package shapeguide;
 
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
@@ -211,12 +211,12 @@ public class ShapeGuide {
     private final Triangle triangle;
 
     public ShapeGuide() {
-        this.rect = new Rect(new NDCoords(-0.75f, 0.75f), 0.6f, 0.6f);
-        this.circle = new Circle(new NDCoords(-0.5f, -0.5f), 0.25f, 48);
+        this.rect = new Rect(new WorldCoords(-0.75f, 0.75f), 0.6f, 0.6f);
+        this.circle = new Circle(new WorldCoords(-0.5f, -0.5f), 0.25f, 48);
         this.triangle = new Triangle(
-                new NDCoords(0, -0.3f),
-                new NDCoords(0.5f, -0.3f),
-                new NDCoords(0.25f, 0.3f)
+                new WorldCoords(0, -0.3f),
+                new WorldCoords(0.5f, -0.3f),
+                new WorldCoords(0.25f, 0.3f)
         );
     }
 

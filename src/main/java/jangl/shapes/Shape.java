@@ -1,7 +1,7 @@
 package jangl.shapes;
 
 import jangl.coords.PixelCoords;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.Texture;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.ShaderProgram;
@@ -61,33 +61,27 @@ public abstract class Shape implements AutoCloseable {
     }
 
     public static boolean collides(Circle circle1, Circle circle2) {
-        PixelCoords circle1Center = circle1.getTransform().getCenter().toPixelCoords();
-        PixelCoords circle2Center = circle2.getTransform().getCenter().toPixelCoords();
+        WorldCoords circle1Center = circle1.getTransform().getCenter();
+        WorldCoords circle2Center = circle2.getTransform().getCenter();
 
         double distSquared = Math.pow(circle1Center.x - circle2Center.x, 2) +
                 Math.pow(circle1Center.y - circle2Center.y, 2);
 
-        double combinedRadiiSquared = Math.pow(
-                NDCoords.distXtoPixelCoords(circle1.getRadius()) +
-                        NDCoords.distXtoPixelCoords(circle2.getRadius()),
-                2
-        );
+        double combinedRadiiSquared = Math.pow(circle1.getRadius() + circle2.getRadius(), 2);
 
         return distSquared <= combinedRadiiSquared;
     }
 
-    public static boolean collides(Circle circle, NDCoords point) {
-        PixelCoords circleCenter = circle.getTransform().getCenter().toPixelCoords();
-        PixelCoords pointPixels = point.toPixelCoords();
-        double radiusPixelsSquared = Math.pow(NDCoords.distXtoPixelCoords(circle.getRadius()), 2);
+    public static boolean collides(Circle circle, WorldCoords point) {
+        WorldCoords circleCenter = circle.getTransform().getCenter();
 
-        double distSquared = Math.pow(circleCenter.x - pointPixels.x, 2) +
-                Math.pow(circleCenter.y - pointPixels.y, 2);
+        double radiusPixelsSquared = Math.pow(WorldCoords.distToPixelCoords(circle.getRadius()), 2);
+        double distSquared = Math.pow(circleCenter.x - point.x, 2) + Math.pow(circleCenter.y - point.y, 2);
 
         return distSquared <= radiusPixelsSquared;
     }
 
-    public static boolean collides(NDCoords point, Circle circle) {
+    public static boolean collides(WorldCoords point, Circle circle) {
         return collides(circle, point);
     }
 
@@ -152,34 +146,6 @@ public abstract class Shape implements AutoCloseable {
      * form a line of the outside.
      */
     public abstract float[] getExteriorVertices();
-
-    /**
-     * Calculates the angle (theta) between the x plane and every outside line.
-     * Used for the Separating Axis Theorem (SAT) collision detection algorithm.
-     *
-     * @return an array of all the thetas between the x plane and every outside line in radians
-     */
-    public double[] getOutsideEdgeAngles() {
-        float[] exteriorVertices = this.getExteriorVertices();
-        double[] outsideAngles = new double[exteriorVertices.length / 2];
-
-        for (int i = 0; i < outsideAngles.length; i++) {
-            float deltaX, deltaY;
-
-            // Avoid an out-of-bounds error
-            if (i * 2 + 3 >= exteriorVertices.length) {
-                deltaX = exteriorVertices[i * 2] - exteriorVertices[0];
-                deltaY = exteriorVertices[i * 2 + 1] - exteriorVertices[1];
-            } else {
-                deltaX = exteriorVertices[i * 2] - exteriorVertices[i * 2 + 2];
-                deltaY = exteriorVertices[i * 2 + 1] - exteriorVertices[i * 2 + 3];
-            }
-
-            outsideAngles[i] = Math.atan2(NDCoords.distYtoPixelCoords(deltaY), NDCoords.distXtoPixelCoords(deltaX));
-        }
-
-        return outsideAngles;
-    }
 
     public Vector2f[] getOutsideVectors() {
         Vector2f[] exteriorVertices = ArrayUtils.toVector2fArray(this.getExteriorVertices());

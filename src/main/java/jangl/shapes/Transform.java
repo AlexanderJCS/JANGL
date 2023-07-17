@@ -1,6 +1,6 @@
 package jangl.shapes;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
@@ -62,9 +62,9 @@ public class Transform {
         this.rotationMatrix.translate(this.center.x(), this.center.y(), 0);
     }
 
-    public NDCoords getCenter() {
+    public WorldCoords getCenter() {
         Vector2f center = new Vector2f(this.center.x(), this.center.y()).add(this.shift);
-        return new NDCoords(center.x, center.y);
+        return new WorldCoords(center.x, center.y);
     }
 
     public Matrix4f getProjectionMatrix() {

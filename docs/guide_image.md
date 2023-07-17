@@ -125,7 +125,7 @@ Incorporating this into the code into the constructor of the [base program](#cre
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
@@ -140,9 +140,9 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image(
                 new Rect(
-                        new NDCoords(0, 0),
+                        new WorldCoords(0, 0),
                         PixelCoords.distXtoNDC(300),
-                        PixelCoords.distYtoNDC(300)
+                        PixelCoords.distToWorldCoords(300)
                 ),
 
                 new Texture(
@@ -185,7 +185,7 @@ Then, we need to draw the image within the `draw()` method by calling `this.imag
 ```java
 import jangl.JANGL;
 import jangl.coords.PixelCoords;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
 import jangl.graphics.TextureBuilder;
@@ -199,9 +199,9 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image(
                 new Rect(
-                        new NDCoords(0, 0),
+                        new WorldCoords(0, 0),
                         PixelCoords.distXtoNDC(300),
-                        PixelCoords.distYtoNDC(300)
+                        PixelCoords.distToWorldCoords(300)
                 ),
 
                 new Texture(
@@ -260,7 +260,7 @@ We can incorporate these two lines at the end of the `run` method:
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.Image;
 import jangl.graphics.Texture;
@@ -275,9 +275,9 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image(
                 new Rect(
-                        new NDCoords(0, 0),
+                        new WorldCoords(0, 0),
                         PixelCoords.distXtoNDC(300),
-                        PixelCoords.distYtoNDC(300)
+                        PixelCoords.distToWorldCoords(300)
                 ),
 
                 new Texture(

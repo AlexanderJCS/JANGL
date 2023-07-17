@@ -1,6 +1,6 @@
 package jangl.io.mouse;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.io.EventsConfig;
 import jangl.io.Window;
@@ -36,18 +36,18 @@ public class Mouse {
     }
 
     /**
-     * Returns the mouse position in the units of NDCoords. It's also important to note that the coordinates
+     * Returns the mouse position in the units of WorldCoords. It's also important to note that the coordinates
      * may be offscreen if the mouse is offscreen.
      *
-     * @return The mouse position in the units of NDCoords.
+     * @return The mouse position in the units of WorldCoords.
      */
-    public static NDCoords getMousePos() {
+    public static WorldCoords getMousePos() {
         // https://stackoverflow.com/questions/33592499/lwjgl-3-get-cursor-position
         glfwGetCursorPos(Window.getWindow(), MOUSE_POS_BUFFER_X, MOUSE_POS_BUFFER_Y);
         double x = MOUSE_POS_BUFFER_X.get(0);
         double y = MOUSE_POS_BUFFER_Y.get(0);
 
-        return new PixelCoords((float) x, (float) (Window.getScreenHeight() - y)).toNDCoords();
+        return new PixelCoords((float) x, (float) (Window.getScreenHeight() - y)).toWorldCoords();
     }
 
     /**

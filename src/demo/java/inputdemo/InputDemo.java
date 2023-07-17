@@ -2,7 +2,7 @@ package inputdemo;
 
 import jangl.JANGL;
 import jangl.color.ColorFactory;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
@@ -21,8 +21,8 @@ public class InputDemo implements AutoCloseable {
         this.font = new Font("src/demo/demoResources/font/arial.fnt",
                 "src/demo/demoResources/font/arial.png");
 
-        this.text = new Text(new NDCoords(-0.7f, 0), this.font, 0.1f, "");
-        this.prompt = new Text(new NDCoords(-0.7f, 0.5f), this.font, 0.1f, "Left click and type something");
+        this.text = new Text(new WorldCoords(0.2f, 0.5f), this.font, 0.1f, "");
+        this.prompt = new Text(new WorldCoords(0.2f, 0.7f), this.font, 0.1f, "Left click and type something");
 
         Window.setClearColor(ColorFactory.fromNormalized(0.7f, 0, 0, 1));
     }

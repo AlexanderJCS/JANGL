@@ -1,6 +1,6 @@
 package jangl.shapes;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.models.TexturedModel;
 
 /**
@@ -16,7 +16,7 @@ public class Rect extends Shape {
      * @param width   The width of the rect, units of normalized device coordinates
      * @param height  The height of the rect, units of normalized device coordinates
      */
-    public Rect(NDCoords topLeft, float width, float height) {
+    public Rect(WorldCoords topLeft, float width, float height) {
         this.x1 = -width / 2;
         this.y1 = height / 2;
         this.x2 = width / 2;
@@ -30,7 +30,7 @@ public class Rect extends Shape {
 
         this.model = this.toTexturedModel();
 
-        NDCoords realTopLeft = new NDCoords(topLeft.x, topLeft.y);
+        WorldCoords realTopLeft = new WorldCoords(topLeft.x, topLeft.y);
         realTopLeft.x += this.x2;
         realTopLeft.y += this.y2;
 

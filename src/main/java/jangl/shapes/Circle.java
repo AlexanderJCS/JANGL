@@ -1,6 +1,6 @@
 package jangl.shapes;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.models.Model;
 import jangl.graphics.models.TriangleFanModel;
 
@@ -12,7 +12,7 @@ public class Circle extends Shape {
 
     /**
      * Since one ScreenCoord on the x-axis is not the same as one ScreenCoord on the y-axis if the aspect ratio
-     * is not 1:1, the radius will be in the units of X-axis NDCoords.
+     * is not 1:1, the radius will be in the units of X-axis WorldCoords.
      *
      * @param center The center of the circle.
      * @param radius The X-radius of the circle (see the above note)
@@ -20,7 +20,7 @@ public class Circle extends Shape {
      *
      * @throws IllegalArgumentException Throws if the number of sides on the circle is less than 3.
      */
-    public Circle(NDCoords center, float radius, int sides) throws IllegalArgumentException {
+    public Circle(WorldCoords center, float radius, int sides) throws IllegalArgumentException {
         if (sides <= 2) {
             throw new IllegalArgumentException("A circle must have 3 or more sides, not " + sides);
         }

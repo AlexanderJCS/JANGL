@@ -63,7 +63,7 @@ For this example, the text will be a member variable of `FontDemo` so it can be 
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 
@@ -77,7 +77,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new NDCoords(-0.5f, 0),  // the top left coordinate of the text
+                new WorldCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
                 0.1f,  // the y height, in normalized device coords, of the text
                 "Hello World!"  // the text to display
@@ -94,7 +94,7 @@ Now, this text needs to be drawn to the screen. To do so, a new method called `r
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
@@ -111,7 +111,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new NDCoords(-0.5f, 0),  // the top left coordinate of the text
+                new WorldCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
                 0.1f,  // the y height, in normalized device coords, of the text
                 "Hello World!"  // the text to display
@@ -141,7 +141,7 @@ Finally, we need to add a few finishing touches:
 
 ```java
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
@@ -158,7 +158,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new NDCoords(-0.5f, 0),  // the top left coordinate of the text
+                new WorldCoords(-0.5f, 0),  // the top left coordinate of the text
                 myFont,  // the font object
                 0.1f,  // the y height, in normalized device coords, of the text
                 "Hello World!"  // the text to display

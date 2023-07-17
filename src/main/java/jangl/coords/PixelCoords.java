@@ -20,34 +20,21 @@ public final class PixelCoords extends Coords {
     }
 
     /**
-     * Convert a pixel distance value on the X axis to normalized device coordinates.
-     *
-     * @param dist Distance
-     * @return NDCoords distance (float)
-     */
-    public static float distXtoNDC(float dist) {
-        return dist / Window.getScreenWidth() * 2;
-    }
-
-    /**
      * Convert a pixel distance value on the Y axis to normalized device coordinates.
      *
      * @param dist Distance
-     * @return NDCoords distance (float)
+     * @return WorldCoords distance (float)
      */
-    public static float distYtoNDC(float dist) {
-        return dist / Window.getScreenHeight() * 2;
+    public static float distToWorldCoords(float dist) {
+        return dist / Window.getScreenHeight();
     }
 
     /**
      * Convert pixel coordinates to normalized device coordinates.
      *
-     * @return The NDCoords equivalent.
+     * @return The WorldCoords equivalent.
      */
-    public NDCoords toNDCoords() {
-        float screenX = this.x / Window.getScreenWidth() * 2 - 1;
-        float screenY = this.y / Window.getScreenHeight() * 2 - 1;
-
-        return new NDCoords(screenX, screenY);
+    public WorldCoords toWorldCoords() {
+        return new WorldCoords(distToWorldCoords(this.x), distToWorldCoords(this.y));
     }
 }

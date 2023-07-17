@@ -1,6 +1,6 @@
 package jangl.shapes;
 
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.graphics.models.TexturedModel;
 
 
@@ -15,7 +15,7 @@ public class TileSheetRect extends Rect {
      * @param tilesWidth The number of tiles on the x-axis of the texture.
      * @param tilesHeight The number of tiles on the y-axis of the texture.
      */
-    public TileSheetRect(NDCoords topLeft, float width, float height, int tilesWidth, int tilesHeight) {
+    public TileSheetRect(WorldCoords topLeft, float width, float height, int tilesWidth, int tilesHeight) {
         super(topLeft, width, height);
 
         this.tilesWidth = tilesWidth;

@@ -1,14 +1,14 @@
 package playerdemo;
 
 import jangl.JANGL;
-import jangl.coords.NDCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.Window;
 
 public class PlayerDemo {
     private final Player player;
 
     public PlayerDemo() {
-        this.player = new Player(new NDCoords(0, 0), 400);
+        this.player = new Player(new WorldCoords(0, 0), 400);
     }
 
     private void draw() {
