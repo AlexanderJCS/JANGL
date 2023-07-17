@@ -59,7 +59,7 @@ public class Transform {
 
     void setCenter(Vector2f center) {
         this.center = new Vector3f(center, 0);
-        this.rotationMatrix.translate(this.center.x(), this.center.y(), 0);
+        this.shift(center.x, center.y);
     }
 
     public WorldCoords getCenter() {
