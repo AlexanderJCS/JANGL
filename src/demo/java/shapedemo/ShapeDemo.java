@@ -38,10 +38,7 @@ public class ShapeDemo {
         JANGL.update();
 
         // Rotate the rectangle and circle 0.01 radians across the center of the screen every second
-        // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
-        // this.circle.getTransform().rotate((float) Clock.getTimeDelta());
         this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
-        // this.rect.getTransform().rotate((float) Clock.getTimeDelta());
 
         System.out.println(this.circle.getTransform().getCenter());
 

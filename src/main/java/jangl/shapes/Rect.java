@@ -12,11 +12,11 @@ public class Rect extends Shape {
     private final float width, height;
 
     /**
-     * @param center the center of the rect
+     * @param topLeft The top left of the rect
      * @param width   The width of the rect, units of normalized device coordinates
      * @param height  The height of the rect, units of normalized device coordinates
      */
-    public Rect(NDCoords center, float width, float height) {
+    public Rect(NDCoords topLeft, float width, float height) {
         this.x1 = -width / 2;
         this.y1 = height / 2;
         this.x2 = width / 2;
@@ -29,7 +29,12 @@ public class Rect extends Shape {
         this.height = height;
 
         this.model = this.toTexturedModel();
-        this.transform.setCenter(center.toVector2f());
+
+        NDCoords realTopLeft = new NDCoords(topLeft.x, topLeft.y);
+        realTopLeft.x += this.x2;
+        realTopLeft.y += this.y2;
+
+        this.transform.setCenter(realTopLeft.toVector2f());
     }
 
     public float getWidth() {
