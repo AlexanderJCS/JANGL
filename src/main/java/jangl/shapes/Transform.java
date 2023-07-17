@@ -83,9 +83,8 @@ public class Transform {
 
     public Matrix4f getMatrix() {
         return new Matrix4f()
-                .set(this.projectionMatrix)
-                .mul(this.transformMatrix)
-                .mul(this.rotationMatrix)
-                .mul(new Matrix4f().translate(new Vector3f(this.center).mul(-1)));
+                .set(this.getProjectionMatrix())
+                .mul(this.getTransformMatrix())
+                .mul(this.getRotationMatrix());
     }
 }

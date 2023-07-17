@@ -118,31 +118,12 @@ public abstract class Shape implements AutoCloseable {
 //            anglesSet.add(Math.round(nonNegativeAngle * 10000000000d) / 10000000000d);
 //        }
 //
-//        float s1BeginningAngle = shape1.getTransform().getOriginRotationAngle();
-//        float s2BeginningAngle = shape2.getTransform().getOriginRotationAngle();
 //
-//        double prevAngle = 0;
 //        for (double angle : anglesSet) {
-//            Window.clear();
-//            shape1.draw();
-//            shape2.draw();
-//            JANGL.update();
-//            try {
-//                Thread.sleep(1000);
-//            } catch (InterruptedException ignored) {
-//                Thread.currentThread().interrupt();
-//            }
-//            // Allows the shape to be rotated once per iteration instead of twice
-//            // Giving a 20% - 25% performance increase
-//            double delta = angle - prevAngle;
-//            prevAngle = angle;
-//
-//            // Rotate the axis of the two shapes so that one side is flat
-//            // This is used as a substitute for projection
-//            shape1.getTransform().rotateOrigin((float) -delta);
 //            float[] s1Vertices = shape1.calculateVerticesMatrix();
-//            shape2.getTransform().rotateOrigin((float) -delta);
+//            rotateAxis(s1Vertices, angle);
 //            float[] s2Vertices = shape2.calculateVerticesMatrix();
+//            rotateAxis(s1Vertices, angle);
 //
 //            float[] s1verticesX = ArrayUtils.getEven(s1Vertices);
 //            float[] s1verticesY = ArrayUtils.getOdd(s1Vertices);
@@ -158,17 +139,9 @@ public abstract class Shape implements AutoCloseable {
 //
 //            // If the ranges do not intersect, the shapes are not colliding
 //            if (!s1RangeX.intersects(s2RangeX) || !s1RangeY.intersects(s2RangeY)) {
-//                // Rotate the axis angles back to what they were at the beginning
-//                shape1.getTransform().setOriginRotation(s1BeginningAngle);
-//                shape2.getTransform().setOriginRotation(s2BeginningAngle);
-//
 //                return false;
 //            }
 //        }
-//
-//        // Rotate the axis angles back to what they were at the beginning
-//        shape1.getTransform().setOriginRotation(s1BeginningAngle);
-//        shape2.getTransform().setOriginRotation(s2BeginningAngle);
 //
 //        return true;
 //    }
