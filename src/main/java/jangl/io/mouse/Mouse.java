@@ -54,7 +54,7 @@ public class Mouse {
      * @param button the mouse button, input is GLFW.GLFW_MOUSE_BUTTON_LEFT or GLFW.GLFW_MOUSE_BUTTON_RIGHT enum.
      * @return returns true if the mouse is down.
      */
-    public static boolean mouseDown(int button) {
+    public static boolean isMouseDown(int button) {
         return glfwGetMouseButton(Window.getWindow(), button) == GLFW_PRESS;
     }
 
