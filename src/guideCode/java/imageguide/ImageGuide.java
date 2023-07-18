@@ -1,4 +1,4 @@
-package guideCode.java.imageguide;
+package imageguide;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
@@ -22,7 +22,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
+                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
                 )
         );
     }

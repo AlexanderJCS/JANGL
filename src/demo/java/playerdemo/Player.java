@@ -21,7 +21,7 @@ public class Player implements AutoCloseable {
 
         this.image = new Image(
                 new Rect(coords, PixelCoords.distToWorldCoords(50), PixelCoords.distToWorldCoords(50)),
-                new Texture(new TextureBuilder().setImagePath("src/demo/demoResources/playerDemo/player.png").setObeyCamera(true))
+                new Texture(new TextureBuilder().setImagePath("src/demo/demoResources/playerDemo/player.png"))
         );
     }
 

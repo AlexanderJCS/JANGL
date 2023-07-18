@@ -25,7 +25,7 @@ public class Font implements AutoCloseable {
         this.texCoordsMap = new HashMap<>();
         this.infoMap = new HashMap<>();
 
-        this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage).setObeyCamera(false));
+        this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage));
         this.fontTexture.useDefaultShader(false);
 
         int glyphImageWidth;
