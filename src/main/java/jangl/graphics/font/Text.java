@@ -9,6 +9,7 @@ import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderFrag;
 import jangl.graphics.shaders.premade.TextureShaderVert;
+import org.joml.Matrix4f;
 
 public class Text implements AutoCloseable {
     private TexturedModel model;
@@ -17,6 +18,11 @@ public class Text implements AutoCloseable {
     private WorldCoords topLeft;
     private Font font;
     private float yHeight;
+
+    /**
+     * Used for the transform and rotation matrices.
+     */
+    private final Matrix4f identityMatrix;
 
     /**
      * @param topLeft The top left coordinate of the text
@@ -32,6 +38,7 @@ public class Text implements AutoCloseable {
 
         this.model = this.getModel();
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new TextureShaderFrag());
+        this.identityMatrix = new Matrix4f().identity();
     }
 
     public String getText() {
@@ -58,10 +65,10 @@ public class Text implements AutoCloseable {
 
     public TexturedModel getModel() {
         int heightPixels = this.font.tallestLetter.height();
-        float heightNDC = PixelCoords.distToWorldCoords(heightPixels);
+        float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
 
-        // desired height = current height * scale -> scale = desired height / current height
-        float scaleFactor = this.yHeight / heightNDC;
+        // desired height = current height * scale. Solving for scale: scale = desired height / current height
+        float scaleFactor = this.yHeight / heightWorldCoords;
 
         // The cursor is where the next char should be drawn
         PixelCoords cursor = this.topLeft.toPixelCoords();
@@ -89,6 +96,7 @@ public class Text implements AutoCloseable {
             cursor.y -= info.yOffset() * scaleFactor;
 
             WorldCoords scCursor = cursor.toWorldCoords();
+
             float x1 = scCursor.x;
             float y1 = scCursor.y;
             float x2 = scCursor.x + PixelCoords.distToWorldCoords(info.width()) * scaleFactor;
@@ -178,6 +186,7 @@ public class Text implements AutoCloseable {
 
     public void draw() {
         this.shaderProgram.bind();
+        this.shaderProgram.getVertexShader().setMatrixUniforms(this.shaderProgram.getProgramID(), this.identityMatrix, this.identityMatrix);
         this.font.fontTexture.bind();
         this.model.render();
         Texture.unbind();
