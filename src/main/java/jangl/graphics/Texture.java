@@ -22,9 +22,9 @@ public class Texture implements AutoCloseable {
     public final int height;
     private boolean useDefaultShader = true;
 
-    public Texture(TextureBuilder builder) throws IllegalArgumentException {
+    public Texture(TextureBuilder builder) throws IllegalStateException {
         if (builder.getImageData() == null) {
-            throw new IllegalArgumentException("The TextureBuilder does not have any image data");
+            throw new IllegalStateException("The TextureBuilder does not have any image data");
         }
 
         this.width = builder.getWidth();
