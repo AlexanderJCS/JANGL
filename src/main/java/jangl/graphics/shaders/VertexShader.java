@@ -1,5 +1,6 @@
 package jangl.graphics.shaders;
 
+import jangl.graphics.Camera;
 import org.joml.Matrix4f;
 
 import java.io.InputStream;
@@ -29,7 +30,8 @@ public class VertexShader extends Shader {
             line = line.replace("\r", "\n");
 
             if (lineAfterVersion) {
-                builder.append("uniform mat4 projectionMatrix;\nuniform mat4 transformMatrix;\nuniform mat4 rotationMatrix;\n");
+                builder.append(Camera.UBO_CODE).append("\n");
+                builder.append("uniform mat4 transformMatrix;\nuniform mat4 rotationMatrix;\n");
                 lineAfterVersion = false;
             }
 
@@ -39,7 +41,7 @@ public class VertexShader extends Shader {
 
             if (line.contains("gl_Position") && line.contains("=")) {
                 line = line.replace(" ", "");
-                line = line.replace("gl_Position=", "gl_Position=projectionMatrix*transformMatrix*rotationMatrix*");
+                line = line.replace("gl_Position=", "gl_Position=projectionMatrix*cameraMatrix*transformMatrix*rotationMatrix*");
             }
 
             builder.append(line).append("\n");
@@ -68,8 +70,7 @@ public class VertexShader extends Shader {
      *
      * @param programID The program ID to the pass the uniform to
      */
-    public void setMatrixUniforms(int programID, Matrix4f projectionMatrix, Matrix4f transformMatrix, Matrix4f rotationMatrix) {
-        this.addMatrixUniform(programID, "projectionMatrix", projectionMatrix);
+    public void setMatrixUniforms(int programID, Matrix4f transformMatrix, Matrix4f rotationMatrix) {
         this.addMatrixUniform(programID, "transformMatrix", transformMatrix);
         this.addMatrixUniform(programID, "rotationMatrix", rotationMatrix);
     }

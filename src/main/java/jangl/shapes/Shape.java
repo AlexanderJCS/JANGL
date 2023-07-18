@@ -1,6 +1,5 @@
 package jangl.shapes;
 
-import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
 import jangl.graphics.Texture;
 import jangl.graphics.models.Model;
@@ -95,7 +94,6 @@ public abstract class Shape implements AutoCloseable {
 
         vertexShader.setMatrixUniforms(
                 boundProgram.getProgramID(),
-                this.transform.getProjectionMatrix(),
                 this.transform.getTransformMatrix(),
                 this.transform.getRotationMatrix()
         );
@@ -128,7 +126,7 @@ public abstract class Shape implements AutoCloseable {
         float[] verticesNoMatrix = this.calculateVertices();
         float[] verticesMatrix = new float[verticesNoMatrix.length];
 
-        Matrix4f matrix = this.transform.getMatrixNoProjection();
+        Matrix4f matrix = this.transform.getMatrix();
 
         for (int i = 0; i < verticesNoMatrix.length; i += 2) {
             Vector4f vertex = new Vector4f(verticesNoMatrix[i], verticesNoMatrix[i + 1], 0, 1);

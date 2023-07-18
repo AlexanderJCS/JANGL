@@ -2,9 +2,11 @@ package texturedemo;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
+import jangl.graphics.Camera;
 import jangl.graphics.Texture;
 import jangl.graphics.TextureBuilder;
 import jangl.io.Window;
+import jangl.io.mouse.Mouse;
 import jangl.shapes.Rect;
 
 public class TextureDemo implements AutoCloseable {
@@ -34,6 +36,8 @@ public class TextureDemo implements AutoCloseable {
     public void run() {
         while (Window.shouldRun()) {
             this.draw();
+
+            Camera.setCameraPos(Mouse.getMousePos());
 
             JANGL.update();
         }

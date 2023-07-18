@@ -1,13 +1,11 @@
 package jangl.shapes;
 
 import jangl.coords.WorldCoords;
-import jangl.io.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Transform {
-    private final Matrix4f projectionMatrix;
     private final Matrix4f transformMatrix;
     private final Matrix4f rotationMatrix;
     private Vector3f center;
@@ -20,7 +18,6 @@ public class Transform {
         this.center = new Vector3f(0, 0, 0);
         this.shift = new Vector2f(0, 0);
 
-        this.projectionMatrix = new Matrix4f().ortho2D(0, (float) Window.getScreenWidth() / Window.getScreenHeight(), 0, 1);
         this.transformMatrix = new Matrix4f().identity();
         this.rotationMatrix = new Matrix4f();
 
@@ -68,10 +65,6 @@ public class Transform {
         return new WorldCoords(center.x, center.y);
     }
 
-    public Matrix4f getProjectionMatrix() {
-        return this.projectionMatrix;
-    }
-
     public Matrix4f getTransformMatrix() {
         return this.transformMatrix;
     }
@@ -88,16 +81,9 @@ public class Transform {
         return originRotationAngle;
     }
 
-    public Matrix4f getMatrixNoProjection() {
-        return new Matrix4f()
-                .set(this.getTransformMatrix())
-                .mul(this.getRotationMatrix());
-    }
-
     public Matrix4f getMatrix() {
         return new Matrix4f()
-                .set(this.getProjectionMatrix())
-                .mul(this.getTransformMatrix())
+                .set(this.getTransformMatrix())
                 .mul(this.getRotationMatrix());
     }
 }
