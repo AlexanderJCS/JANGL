@@ -19,36 +19,6 @@ public class ArrayUtils {
         return vecArr;
     }
 
-    /**
-     * Gets the X component of an array of vectors.
-     * @param vecArr The array of vectors.
-     * @return Only the X values.
-     */
-    public static float[] getX(Vector2f[] vecArr) {
-        float[] xComponent = new float[vecArr.length];
-
-        for (int i = 0; i < xComponent.length; i++) {
-            xComponent[i] = vecArr[i].x;
-        }
-
-        return xComponent;
-    }
-
-    /**
-     * Gets the Y component of an array of vectors.
-     * @param vecArr The array of vectors.
-     * @return Only the X values.
-     */
-    public static float[] getY(Vector2f[] vecArr) {
-        float[] yComponent = new float[vecArr.length];
-
-        for (int i = 0; i < yComponent.length; i++) {
-            yComponent[i] = vecArr[i].y;
-        }
-
-        return yComponent;
-    }
-
     public static float getMax(float[] arr) {
         float max = arr[0];
 
@@ -88,26 +58,6 @@ public class ArrayUtils {
         }
 
         return returnArr;
-    }
-
-    /**
-     * Get the even indices of an array. WARNING: may not work with odd array lengths (it might, I haven't tested it)
-     *
-     * @param arr The array to get the even indices of.
-     * @return The values of the even indices of the array.
-     */
-    public static float[] getEven(float[] arr) {
-        return getEvenOrOdd(arr, 0);
-    }
-
-    /**
-     * Get the odd indices of an array.
-     *
-     * @param arr The array to get the even indices of.
-     * @return The values of the even indices of the array.
-     */
-    public static float[] getOdd(float[] arr) {
-        return getEvenOrOdd(arr, 1);
     }
 
     public static byte[] repeatSequence(byte[] sequence, int times) {
