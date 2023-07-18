@@ -94,6 +94,10 @@ public class Texture implements AutoCloseable {
         this.useDefaultShader = useDefaultShader;
     }
 
+    public ShaderProgram getShaderProgram() {
+        return shaderProgram;
+    }
+
     @Override
     public void close() {
         glDeleteTextures(this.id);
