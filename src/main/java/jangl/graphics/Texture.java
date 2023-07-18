@@ -29,7 +29,10 @@ public class Texture implements AutoCloseable {
 
         this.width = builder.getWidth();
         this.height = builder.getHeight();
+
         this.shaderProgram = createShader();
+        this.shaderProgram.getVertexShader().setObeyCamera(builder.isObeyingCamera());
+
         this.id = this.createImage(builder.getImageData(), this.width, this.height, builder.getFilterMode());
 
         this.bind();

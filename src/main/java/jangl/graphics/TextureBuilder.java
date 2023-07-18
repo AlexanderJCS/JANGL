@@ -20,6 +20,7 @@ public class TextureBuilder {
     private int width;
     private int height;
     private ByteBuffer imageData;
+    private boolean obeyCamera;
 
     public TextureBuilder() {
         this.filterMode = GL46.GL_NEAREST;
@@ -29,6 +30,8 @@ public class TextureBuilder {
         // set to -1 as a "default" value. If it's set as -1 then that means that it should be the max image dimensions
         this.width = -1;
         this.height = -1;
+
+        this.obeyCamera = true;
     }
 
     public int getFilterMode() {
@@ -74,6 +77,14 @@ public class TextureBuilder {
     public TextureBuilder setHeight(int height) {
         this.height = height;
         return this;
+    }
+
+    public boolean isObeyingCamera() {
+        return obeyCamera;
+    }
+
+    public void setObeyCamera(boolean obeyCamera) {
+        this.obeyCamera = obeyCamera;
     }
 
     public ByteBuffer getImageData() {
