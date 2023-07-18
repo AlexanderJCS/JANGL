@@ -14,7 +14,6 @@ import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 
 public class TextureBuilder {
-    private boolean obeyCamera;
     private int filterMode;
     private int x;
     private int y;
@@ -23,7 +22,6 @@ public class TextureBuilder {
     private ByteBuffer imageData;
 
     public TextureBuilder() {
-        this.obeyCamera = false;
         this.filterMode = GL46.GL_NEAREST;
         this.x = 0;
         this.y = 0;
@@ -31,15 +29,6 @@ public class TextureBuilder {
         // set to -1 as a "default" value. If it's set as -1 then that means that it should be the max image dimensions
         this.width = -1;
         this.height = -1;
-    }
-
-    public boolean isObeyingCamera() {
-        return obeyCamera;
-    }
-
-    public TextureBuilder setObeyCamera(boolean obeyCamera) {
-        this.obeyCamera = obeyCamera;
-        return this;
     }
 
     public int getFilterMode() {

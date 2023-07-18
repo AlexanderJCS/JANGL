@@ -17,7 +17,6 @@ public class Text implements AutoCloseable {
     private WorldCoords topLeft;
     private Font font;
     private float yHeight;
-    private final TextureShaderVert texShaderVert;
 
     /**
      * @param topLeft The top left coordinate of the text
@@ -32,12 +31,7 @@ public class Text implements AutoCloseable {
         this.text = this.pruneText(text);
 
         this.model = this.getModel();
-        this.texShaderVert = new TextureShaderVert(true);
-        this.shaderProgram = new ShaderProgram(this.texShaderVert, new TextureShaderFrag());
-    }
-
-    public void obeyCamera(boolean obeyCamera) {
-        this.texShaderVert.obeyCamera(obeyCamera);
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new TextureShaderFrag());
     }
 
     public String getText() {
