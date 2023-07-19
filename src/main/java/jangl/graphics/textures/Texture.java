@@ -39,7 +39,7 @@ public class Texture implements AutoCloseable, Bindable {
         this.bind();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        Texture.unbind();
+        this.unbind();
     }
 
     private static ShaderProgram createShader() {
@@ -61,7 +61,7 @@ public class Texture implements AutoCloseable, Bindable {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-        Texture.unbind();
+        this.unbind();
 
         return imageID;
     }
