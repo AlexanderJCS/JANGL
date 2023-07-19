@@ -8,9 +8,8 @@ import org.joml.Vector3f;
 public class Transform {
     private final Matrix4f transformMatrix;
     private final Matrix4f rotationMatrix;
-    private Vector3f center;
     private final Vector2f shift;
-
+    private Vector3f center;
     private float localRotationAngle;
     private float originRotationAngle;
 
@@ -32,6 +31,7 @@ public class Transform {
 
     /**
      * Changes the object's position by a specified amount.
+     *
      * @param x The x delta to move.
      * @param y The y delta to move.
      */
@@ -42,6 +42,7 @@ public class Transform {
 
     /**
      * Rotates the object counterclockwise by a certain amount of radians.
+     *
      * @param radians The amount, in radians, to rotate the object by.
      */
     public void rotate(float radians) {
@@ -62,6 +63,7 @@ public class Transform {
 
     /**
      * Sets the object's local rotation.
+     *
      * @param radians The amount of radians to be rotated.
      */
     public void setLocalRotation(float radians) {
@@ -78,6 +80,7 @@ public class Transform {
 
     /**
      * Sets the object's rotation across the origin (bottom left of the screen).
+     *
      * @param radians The amount of radians to be rotated.
      */
     public void setOriginRotation(float radians) {
@@ -93,20 +96,21 @@ public class Transform {
     }
 
     /**
-     * Used only right after creating the object to set the center of the object.
-     * @param center The center of the object.
-     */
-    void setCenter(Vector2f center) {
-        this.center = new Vector3f(center, 0);
-        this.rotationMatrix.translate(this.center.x(), this.center.y(), 0);
-    }
-
-    /**
      * @return The center of the object in WorldCoords.
      */
     public WorldCoords getCenter() {
         Vector2f center = new Vector2f(this.center.x(), this.center.y()).add(this.shift);
         return new WorldCoords(center.x, center.y);
+    }
+
+    /**
+     * Used only right after creating the object to set the center of the object.
+     *
+     * @param center The center of the object.
+     */
+    void setCenter(Vector2f center) {
+        this.center = new Vector3f(center, 0);
+        this.rotationMatrix.translate(this.center.x(), this.center.y(), 0);
     }
 
     /**
@@ -129,7 +133,7 @@ public class Transform {
 
     /**
      * @return The multiplied rotation and transformation matrix. Due to matrix multiplications on the CPU potentially
-     *         being slow, it is not recommended to call this method often.
+     * being slow, it is not recommended to call this method often.
      */
     public Matrix4f getMatrix() {
         return new Matrix4f()

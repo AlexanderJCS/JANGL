@@ -15,10 +15,10 @@ import static org.lwjgl.opengl.GL46.*;
  * A ShaderProgram allows you to combine a FragmentShader and VertexShader into a single program.
  */
 public class ShaderProgram implements AutoCloseable, Bindable {
+    private static ShaderProgram boundProgram;
     private final int programID;
     private final List<Integer> shaderIDs;
     private final List<Shader> shaders;
-    private static ShaderProgram boundProgram;
 
     /**
      * WARNING: not including a fragment shader may result in the object being black and appearing to be invisible.
@@ -38,7 +38,7 @@ public class ShaderProgram implements AutoCloseable, Bindable {
     }
 
     /**
-     * @param vs The vertex shader to add to the program.
+     * @param vs              The vertex shader to add to the program.
      * @param attribLocations A list of attribute locations for the shader.
      */
     public ShaderProgram(VertexShader vs, List<AttribLocation> attribLocations) {
@@ -46,7 +46,7 @@ public class ShaderProgram implements AutoCloseable, Bindable {
     }
 
     /**
-     * @param fs The fragment shader to add to the program.
+     * @param fs              The fragment shader to add to the program.
      * @param attribLocations A list of attribute locations for the shader.
      */
     public ShaderProgram(FragmentShader fs, List<AttribLocation> attribLocations) {
@@ -62,8 +62,8 @@ public class ShaderProgram implements AutoCloseable, Bindable {
     }
 
     /**
-     * @param vs The vertex shader to add to the program.
-     * @param fs The fragment shader to add to the program.
+     * @param vs              The vertex shader to add to the program.
+     * @param fs              The fragment shader to add to the program.
      * @param attribLocations A list of attribute locations for the shader.
      * @throws ShaderCompileException Throws if the shaders cannot compile, link, or validate.
      */
@@ -73,7 +73,8 @@ public class ShaderProgram implements AutoCloseable, Bindable {
 
         if (vs != null) {
             this.shaders.add(vs);
-        } if (fs != null) {
+        }
+        if (fs != null) {
             this.shaders.add(fs);
         }
 
@@ -117,7 +118,7 @@ public class ShaderProgram implements AutoCloseable, Bindable {
 
     /**
      * @param program The shader program source code
-     * @param type The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
+     * @param type    The type of shader program (either GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
      * @return The ID of the compiled shader
      */
     private static int compileShader(String program, int type) throws ShaderCompileException {
@@ -134,6 +135,10 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         }
 
         return shaderID;
+    }
+
+    public static ShaderProgram getBoundProgram() {
+        return boundProgram;
     }
 
     /**
@@ -156,10 +161,6 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         for (Shader shader : this.shaders) {
             shader.setUniforms(this.programID);
         }
-    }
-
-    public static ShaderProgram getBoundProgram() {
-        return boundProgram;
     }
 
     /**

@@ -1,11 +1,12 @@
 package jangl.graphics.shaders.premade;
 
-import static org.lwjgl.opengl.GL46.*;
-
 import jangl.graphics.shaders.FragmentShader;
 import jangl.graphics.shaders.Shader;
 
 import java.io.UncheckedIOException;
+
+import static org.lwjgl.opengl.GL46.glGetUniformLocation;
+import static org.lwjgl.opengl.GL46.glUniform1i;
 
 public class TextureShaderFrag extends FragmentShader {
     public TextureShaderFrag() throws UncheckedIOException {

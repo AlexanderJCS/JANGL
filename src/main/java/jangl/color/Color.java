@@ -50,10 +50,10 @@ public class Color {
     }
 
     public float[] getNormRGBA() {
-        return new float[]{ this.getNormRed(), this.getNormGreen(), this.getNormBlue(), this.getNormAlpha() };
+        return new float[]{this.getNormRed(), this.getNormGreen(), this.getNormBlue(), this.getNormAlpha()};
     }
 
     public int[] get255RGBA() {
-        return new int[]{ this.get255Red(), this.get255Green(), this.get255Blue(), this.get255Alpha() };
+        return new int[]{this.get255Red(), this.get255Green(), this.get255Blue(), this.get255Alpha()};
     }
 }

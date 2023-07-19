@@ -11,14 +11,13 @@ import java.util.Map;
 
 public class Font implements AutoCloseable {
     public final Texture fontTexture;
+    public final CharInfo tallestLetter;
     private final Map<Integer, float[]> texCoordsMap;
     private final Map<Integer, CharInfo> infoMap;
-    public final CharInfo tallestLetter;
 
     /**
      * @param fontFile  The .fnt file of your font
      * @param fontImage The associated .png image associated with that .fnt file
-     *
      * @throws UncheckedIOException if the fontFile or fontImage is not found
      */
     public Font(String fontFile, String fontImage) throws UncheckedIOException {
@@ -32,7 +31,7 @@ public class Font implements AutoCloseable {
         int glyphImageHeight;
 
         try {
-             BufferedImage glyphImage = ImageIO.read(new File(fontImage));
+            BufferedImage glyphImage = ImageIO.read(new File(fontImage));
 
             glyphImageWidth = glyphImage.getWidth();
             glyphImageHeight = glyphImage.getHeight();

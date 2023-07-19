@@ -7,9 +7,9 @@ import jangl.graphics.models.TexturedModel;
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
  */
 public class Rect extends Shape {
-    private float texRepeatY, texRepeatX;
     private final float x1, y1, x2, y2;
     private final float width, height;
+    private float texRepeatY, texRepeatX;
 
     /**
      * @param topLeft The top left of the rect
@@ -48,10 +48,10 @@ public class Rect extends Shape {
     @Override
     public float[] calculateVertices() {
         return new float[]{
-            x1, y1,  // Top left
-            x2, y1,  // Top right
-            x2, y2,  // Bottom right
-            x1, y2,  // Bottom left
+                x1, y1,  // Top left
+                x2, y1,  // Top right
+                x2, y2,  // Bottom right
+                x1, y2,  // Bottom left
         };
     }
 
@@ -70,6 +70,10 @@ public class Rect extends Shape {
         };
     }
 
+    public float getTexRepeatY() {
+        return texRepeatY;
+    }
+
     /**
      * @param repeatTimes The amount of times for the texture to repeat over the x-axis.
      */
@@ -79,6 +83,10 @@ public class Rect extends Shape {
         texturedModel.subTexCoords(this.getTexCoords(), 0);
     }
 
+    public float getTexRepeatX() {
+        return texRepeatX;
+    }
+
     /**
      * @param repeatTimes The amount of times for the texture to repeat over the y-axis.
      */
@@ -86,14 +94,6 @@ public class Rect extends Shape {
         this.texRepeatX = repeatTimes;
         TexturedModel texturedModel = (TexturedModel) this.model;
         texturedModel.subTexCoords(this.getTexCoords(), 0);
-    }
-
-    public float getTexRepeatY() {
-        return texRepeatY;
-    }
-
-    public float getTexRepeatX() {
-        return texRepeatX;
     }
 
     protected float[] getTexCoords() {

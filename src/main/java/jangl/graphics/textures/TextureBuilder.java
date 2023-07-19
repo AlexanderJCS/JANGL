@@ -91,11 +91,17 @@ public class TextureBuilder {
         return imageData;
     }
 
+    public TextureBuilder setImageData(ByteBuffer imageData) {
+        this.imageData = imageData;
+
+        return this;
+    }
+
     /**
      * Fills the texture with a certain color, width, and height.
      *
-     * @param color The color of the image to set to
-     * @param width The width of the image
+     * @param color  The color of the image to set to
+     * @param width  The width of the image
      * @param height The height of the image
      */
     public TextureBuilder fill(Color color, int width, int height) {
@@ -111,15 +117,10 @@ public class TextureBuilder {
         return this;
     }
 
-    public TextureBuilder setImageData(ByteBuffer imageData) {
-        this.imageData = imageData;
-
-        return this;
-    }
-
     /**
      * Sets the image via a png filepath. Warning: this will reset image width, height, x, and y. Make sure to set those
      * variables after calling this method.
+     *
      * @param filepath The filepath of the png to read.
      */
     public TextureBuilder setImagePath(String filepath) {

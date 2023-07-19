@@ -5,9 +5,10 @@ import org.joml.Vector2f;
 public class ArrayUtils {
     /**
      * Converts an array of x, y coordinate pairs into a vector array.
+     *
      * @param arr The array of x and y pairs
-     * @throws IndexOutOfBoundsException Throws if the array length is odd
      * @return The new vector array
+     * @throws IndexOutOfBoundsException Throws if the array length is odd
      */
     public static Vector2f[] toVector2fArray(float[] arr) throws IndexOutOfBoundsException {
         Vector2f[] vecArr = new Vector2f[arr.length / 2];
@@ -74,7 +75,7 @@ public class ArrayUtils {
      * Down casts an int array to a byte array. If an int value is over 127, it will overflow to -128.
      *
      * @param ints The int array to downcast.
-     * @return     The byte array.
+     * @return The byte array.
      */
     public static byte[] intsToBytes(int[] ints) {
         byte[] bytes = new byte[ints.length];

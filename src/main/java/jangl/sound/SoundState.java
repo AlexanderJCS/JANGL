@@ -11,6 +11,7 @@ public enum SoundState {
 
     /**
      * Convert an OpenAL source state to a SoundState enum.
+     *
      * @return The SoundState from the OpenAL source state. Null if the source state does not correspond to any SoundState.
      */
     public static SoundState ALStateToSoundState(int sourceState) {

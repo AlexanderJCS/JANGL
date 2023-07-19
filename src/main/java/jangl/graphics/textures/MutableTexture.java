@@ -4,9 +4,9 @@ import jangl.color.Color;
 import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
 
-import static org.lwjgl.opengl.GL46.*;
-
 import java.nio.ByteBuffer;
+
+import static org.lwjgl.opengl.GL46.*;
 
 /**
  * Allows you to set individual pixel values of the texture.

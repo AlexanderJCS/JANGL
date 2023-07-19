@@ -10,35 +10,19 @@ import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
 
-import static org.lwjgl.openal.ALC11.*;
-import static org.lwjgl.openal.AL11.*;
-import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
-
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+import static org.lwjgl.openal.AL11.*;
+import static org.lwjgl.openal.ALC11.*;
+import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
+
 public class Sound implements AutoCloseable {
+    private static boolean initialized = false;
     private final int bufferID;
     private final int sourceID;
-    private static boolean initialized = false;
-
-    public static void init() {
-        if (initialized) {
-            return;
-        }
-
-        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
-        long device = alcOpenDevice(defaultDeviceName);
-        ALCCapabilities deviceCapabilities = ALC.createCapabilities(device);
-        long context = alcCreateContext(device, (IntBuffer) null);
-
-        alcMakeContextCurrent(context);
-        AL.createCapabilities(deviceCapabilities);
-
-        initialized = true;
-    }
 
     /**
      * @param soundFilepath The sound file, in the .wav format, to load.
@@ -54,6 +38,22 @@ public class Sound implements AutoCloseable {
 
         this.bufferID = this.loadSound(soundFilepath);
         alSourcei(sourceID, AL_BUFFER, this.bufferID);
+    }
+
+    public static void init() {
+        if (initialized) {
+            return;
+        }
+
+        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
+        long device = alcOpenDevice(defaultDeviceName);
+        ALCCapabilities deviceCapabilities = ALC.createCapabilities(device);
+        long context = alcCreateContext(device, (IntBuffer) null);
+
+        alcMakeContextCurrent(context);
+        AL.createCapabilities(deviceCapabilities);
+
+        initialized = true;
     }
 
     private int determineFormat(int channels) {
@@ -78,7 +78,7 @@ public class Sound implements AutoCloseable {
         if (rawAudioBuffer == null) {
             throw new UncheckedIOException(new IOException(
                     "Could not load from file: " + soundFilepath + ". Make sure that:\n"
-                    + "1. The file exists.\n2. It has a .ogg file format. JANGL does not support other file formats."
+                            + "1. The file exists.\n2. It has a .ogg file format. JANGL does not support other file formats."
             ));
         }
 

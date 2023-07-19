@@ -1,7 +1,7 @@
 package jangl.io.mouse;
 
-import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
+import jangl.coords.WorldCoords;
 import jangl.io.EventsConfig;
 import jangl.io.Window;
 import org.lwjgl.BufferUtils;

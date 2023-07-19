@@ -15,11 +15,13 @@ public class Window {
     private static boolean initialized = false;
     private static long currentCursor = -1;
 
-    private Window() {}
+    private Window() {
+    }
 
     /**
      * Initialize the window. Vsync is off by default.
-     * @param screenWidth The window width.
+     *
+     * @param screenWidth  The window width.
      * @param screenHeight The window height.
      */
     public static void init(int screenWidth, int screenHeight) {
@@ -63,13 +65,9 @@ public class Window {
     public static long getWindow() {
         return window;
     }
+
     public static void clear() {
         glClear(GL_COLOR_BUFFER_BIT);  // Clear the screen for the next frame
-    }
-
-    public static void setClearColor(Color color) {
-        clearColor = color;
-        glClearColor(color.getNormRed(), color.getNormGreen(), color.getNormBlue(), color.getNormAlpha());
     }
 
     /**
@@ -77,6 +75,11 @@ public class Window {
      */
     public static Color getClearColor() {
         return clearColor;
+    }
+
+    public static void setClearColor(Color color) {
+        clearColor = color;
+        glClearColor(color.getNormRed(), color.getNormGreen(), color.getNormBlue(), color.getNormAlpha());
     }
 
     public static boolean shouldRun() {
@@ -110,6 +113,7 @@ public class Window {
 
     /**
      * Sets the taskbar icon of the application.
+     *
      * @param builder The TextureBuilder of the texture to display
      */
     public static void setIcon(TextureBuilder builder) {

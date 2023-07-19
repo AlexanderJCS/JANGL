@@ -14,7 +14,8 @@ import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 public class JANGL {
     private static boolean initialized = false;
 
-    private JANGL() {}
+    private JANGL() {
+    }
 
     public static void init(int screenWidth, int screenHeight) {
         if (initialized) {

@@ -17,7 +17,6 @@ public class Circle extends Shape {
      * @param center The center of the circle.
      * @param radius The X-radius of the circle (see the above note)
      * @param sides  The number of sides of the shape.
-     *
      * @throws IllegalArgumentException Throws if the number of sides on the circle is less than 3.
      */
     public Circle(WorldCoords center, float radius, int sides) throws IllegalArgumentException {
@@ -31,20 +30,20 @@ public class Circle extends Shape {
         this.transform.setCenter(center.toVector2f());
     }
 
-    /**
-     * @param newRadius The new radius
-     */
-    public void setRadius(float newRadius) {
-        this.radius = newRadius;
-        this.model.subVertices(this.calculateVertices(), 0);
-    }
-
     public int getSides() {
         return this.sides;
     }
 
     public float getRadius() {
         return this.radius;
+    }
+
+    /**
+     * @param newRadius The new radius
+     */
+    public void setRadius(float newRadius) {
+        this.radius = newRadius;
+        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     private Model toModel() {

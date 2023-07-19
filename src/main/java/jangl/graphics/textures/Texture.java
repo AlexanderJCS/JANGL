@@ -17,10 +17,10 @@ import static org.lwjgl.opengl.GL46.*;
  * To use it, run Texture.bind() then render the TexturedModel you want to map it to.
  */
 public class Texture implements AutoCloseable, Bindable {
-    private final int id;
-    private final ShaderProgram shaderProgram;
     public final int width;
     public final int height;
+    private final int id;
+    private final ShaderProgram shaderProgram;
     private boolean useDefaultShader = true;
 
     public Texture(TextureBuilder builder) throws IllegalStateException {

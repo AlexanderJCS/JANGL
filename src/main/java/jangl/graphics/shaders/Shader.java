@@ -9,6 +9,7 @@ public class Shader {
 
     /**
      * Load a shader program.
+     *
      * @param filepath The filepath to the shader program.
      * @throws UncheckedIOException Throws an UncheckedIOException if it cannot find or read the file.
      */
@@ -18,23 +19,12 @@ public class Shader {
 
     /**
      * Load a shader program.
+     *
      * @param shaderStream The stream of the shader program code.
      * @throws UncheckedIOException Throws an UncheckedIOException if it cannot read the stream.
      */
     public Shader(InputStream shaderStream) throws UncheckedIOException {
         this.sourceCode = this.precompile(loadShader(shaderStream));
-    }
-
-    /**
-     * Override this method to pass uniforms to the shader or do any calculation before the shader runs.
-     * To pass a uniform, use:<br>
-     * int location = org.lwjgl.opengl.GL46.glGetUniformLocation(programID, "uniform name");
-     * org.lwjgl.opengl.GL46.glUniform___(location, data);
-     *
-     * @param programID The ID of the program. Used for passing uniform information.
-     */
-    public void setUniforms(int programID) {
-
     }
 
     private static String loadShader(InputStream inputStream) throws UncheckedIOException {
@@ -79,7 +69,20 @@ public class Shader {
     }
 
     /**
+     * Override this method to pass uniforms to the shader or do any calculation before the shader runs.
+     * To pass a uniform, use:<br>
+     * int location = org.lwjgl.opengl.GL46.glGetUniformLocation(programID, "uniform name");
+     * org.lwjgl.opengl.GL46.glUniform___(location, data);
+     *
+     * @param programID The ID of the program. Used for passing uniform information.
+     */
+    public void setUniforms(int programID) {
+
+    }
+
+    /**
      * Precompile the shader. Right now, it just adds #includes.
+     *
      * @param source The source code of the shader.
      * @return The source code of the shader with other #included code added in
      */

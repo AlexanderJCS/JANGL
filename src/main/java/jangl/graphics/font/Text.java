@@ -1,8 +1,7 @@
 package jangl.graphics.font;
 
-import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
-import jangl.graphics.textures.Texture;
+import jangl.coords.WorldCoords;
 import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderFrag;
@@ -10,17 +9,16 @@ import jangl.graphics.shaders.premade.TextureShaderVert;
 import org.joml.Matrix4f;
 
 public class Text implements AutoCloseable {
-    private TexturedModel model;
     private final ShaderProgram shaderProgram;
-    private String text;
-    private WorldCoords topLeft;
-    private Font font;
-    private float yHeight;
-
     /**
      * Used for the transform and rotation matrices.
      */
     private final Matrix4f identityMatrix;
+    private TexturedModel model;
+    private String text;
+    private WorldCoords topLeft;
+    private Font font;
+    private float yHeight;
 
     /**
      * @param topLeft The top left coordinate of the text
@@ -43,8 +41,14 @@ public class Text implements AutoCloseable {
         return this.text;
     }
 
+    public void setText(String newText) {
+        this.text = this.pruneText(newText);
+        this.regenerate();
+    }
+
     /**
      * Removes any chars that cannot be displayed from the string.
+     *
      * @return The pruned text.
      */
     public String pruneText(String text) {
@@ -134,9 +138,23 @@ public class Text implements AutoCloseable {
         this.model = this.getModel();
     }
 
-    public void setText(String newText) {
-        this.text = this.pruneText(newText);
+    /**
+     * @return A copy of the top left coordinates
+     */
+    public WorldCoords getTopLeft() {
+        return new WorldCoords(this.topLeft.x, this.topLeft.y);
+    }
+
+    public void setTopLeft(WorldCoords newTopLeft) {
+        this.topLeft = new WorldCoords(newTopLeft.x, newTopLeft.y);
         this.regenerate();
+    }
+
+    /**
+     * @return The font object being used.
+     */
+    public Font getFont() {
+        return font;
     }
 
     /**
@@ -150,36 +168,17 @@ public class Text implements AutoCloseable {
         this.regenerate();
     }
 
-    public void setYHeight(float newYHeight) {
-        this.yHeight = newYHeight;
-        this.regenerate();
-    }
-
-    public void setTopLeft(WorldCoords newTopLeft) {
-        this.topLeft = new WorldCoords(newTopLeft.x, newTopLeft.y);
-        this.regenerate();
-    }
-
-    /**
-     * @return A copy of the top left coordinates
-     */
-    public WorldCoords getTopLeft() {
-        return new WorldCoords(this.topLeft.x, this.topLeft.y);
-    }
-
-    /**
-     * @return The font object being used.
-     */
-    public Font getFont() {
-        return font;
-    }
-
     /**
      * @return The y height, in normalized device coords, of the tallest letter in the font.
-     *         Other letters are proportional.
+     * Other letters are proportional.
      */
     public float getYHeight() {
         return yHeight;
+    }
+
+    public void setYHeight(float newYHeight) {
+        this.yHeight = newYHeight;
+        this.regenerate();
     }
 
     public void draw() {

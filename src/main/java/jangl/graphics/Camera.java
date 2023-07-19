@@ -1,16 +1,16 @@
 package jangl.graphics;
 
-import static org.lwjgl.opengl.GL46.*;
-
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import static org.lwjgl.opengl.GL46.*;
+
 public class Camera {
-    private static Matrix4f cameraMatrix;
     public static final String UBO_CODE = "layout(binding = 83) uniform CameraPos {mat4 cameraMatrix;mat4 projectionMatrix;};";
     public static final int BINDING_POINT = 83;
+    private static Matrix4f cameraMatrix;
     private static int uboID;
 
     private static boolean initialized = false;

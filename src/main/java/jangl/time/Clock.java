@@ -17,7 +17,8 @@ public final class Clock {
      */
     private static int fpsSampleIndex = 0;
 
-    private Clock() {}
+    private Clock() {
+    }
 
 
     /**
@@ -33,7 +34,7 @@ public final class Clock {
         double interval = 1 / fps;
 
         // Wait until the current time passed interval
-        while (glfwGetTime() - lastTick < interval);
+        while (glfwGetTime() - lastTick < interval) ;
     }
 
     /**
@@ -73,7 +74,7 @@ public final class Clock {
 
         // Busy wait
         double start = glfwGetTime();
-        while (glfwGetTime() - start < seconds);
+        while (glfwGetTime() - start < seconds) ;
     }
 
     /**

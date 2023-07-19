@@ -9,10 +9,10 @@ public class TileSheetRect extends Rect {
     private int tileX, tileY;
 
     /**
-     * @param topLeft the top left coordinate of the rect
-     * @param width   The width of the rect, units of normalized device coordinates
-     * @param height  The height of the rect, units of normalized device coordinates
-     * @param tilesWidth The number of tiles on the x-axis of the texture.
+     * @param topLeft     the top left coordinate of the rect
+     * @param width       The width of the rect, units of normalized device coordinates
+     * @param height      The height of the rect, units of normalized device coordinates
+     * @param tilesWidth  The number of tiles on the x-axis of the texture.
      * @param tilesHeight The number of tiles on the y-axis of the texture.
      */
     public TileSheetRect(WorldCoords topLeft, float width, float height, int tilesWidth, int tilesHeight) {
@@ -26,6 +26,7 @@ public class TileSheetRect extends Rect {
 
     /**
      * Set the tile you want to display within the tile sheet. Provide a zero-indexed x and y coordinate.
+     *
      * @param newX The zero-indexed x coordinate of the tile to display.
      * @param newY The zero-indexed y coordinate of the tile to display.
      */

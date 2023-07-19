@@ -2,7 +2,6 @@ package jangl.shapes;
 
 import jangl.coords.WorldCoords;
 import jangl.graphics.Bindable;
-import jangl.graphics.textures.Texture;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.VertexShader;
@@ -13,11 +12,13 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class Shape implements AutoCloseable {
-    protected final Transform transform;
     private static final ShaderProgram defaultShader = new ShaderProgram(new DefaultVertShader());
+    protected final Transform transform;
     protected Model model;
 
     public Shape() {
@@ -115,6 +116,7 @@ public abstract class Shape implements AutoCloseable {
     /**
      * Calculates the vertices with the matrix applied. This method is not recommended to be called much since matrix
      * multiplication on the CPU is slow.
+     *
      * @return The vertices in normalize device coords. Odd indices are x coords and even indices are y coords.
      */
     public float[] calculateVerticesMatrix() {
