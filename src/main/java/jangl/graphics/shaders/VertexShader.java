@@ -30,12 +30,11 @@ public class VertexShader extends Shader {
 
         boolean lineAfterVersion = false;
         for (String line : source.split("\n")) {
-            // No idea but for some reason it likes to make the end of the line have the escape sequence \r
-            line = line.replace("\r", "\n");
+            line = line.replace("\r", "");
 
             if (lineAfterVersion) {
-                builder.append(Camera.UBO_CODE).append("\n");
-                builder.append("uniform mat4 transformMatrix;\nuniform mat4 rotationMatrix;\nuniform bool obeyCamera;\n");
+                builder.append(Camera.UBO_CODE);
+                builder.append("uniform mat4 transformMatrix;uniform mat4 rotationMatrix;uniform bool obeyCamera;");
                 lineAfterVersion = false;
             }
 
