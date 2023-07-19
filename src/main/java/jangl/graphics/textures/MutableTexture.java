@@ -32,7 +32,7 @@ public class MutableTexture extends Texture {
                 this.pixelBuffer
         );
 
-        Texture.unbind();
+        this.unbind();
     }
 
     public void fillImage(Color color) {
@@ -53,6 +53,6 @@ public class MutableTexture extends Texture {
                 imageBuffer
         );
 
-        Texture.unbind();
+        this.unbind();
     }
 }

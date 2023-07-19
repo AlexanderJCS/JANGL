@@ -1,5 +1,6 @@
 package jangl.graphics.textures;
 
+import jangl.graphics.Bindable;
 import jangl.graphics.shaders.AttribLocation;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderFrag;
@@ -15,7 +16,7 @@ import static org.lwjgl.opengl.GL46.*;
  * This class allows images to be drawn to the screen.
  * To use it, run Texture.bind() then render the TexturedModel you want to map it to.
  */
-public class Texture implements AutoCloseable {
+public class Texture implements AutoCloseable, Bindable {
     private final int id;
     private final ShaderProgram shaderProgram;
     public final int width;
@@ -69,21 +70,26 @@ public class Texture implements AutoCloseable {
      * Run this method before running TexturedModel.draw(). This will overlay the texture
      * on the TexturedModel.
      */
+    @Override
     public void bind() {
         if (this.useDefaultShader) {
             this.shaderProgram.bind();
         }
 
-        glActiveTexture(GL_TEXTURE0);  // TODO: check if this line needs to be here, or if it can be at the start of the program
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, this.id);
     }
 
     /**
      * Unbinds any existing bound texture
      */
-    public static void unbind() {
+    @Override
+    public void unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
-        ShaderProgram.unbind();
+
+        if (this.useDefaultShader) {
+            this.shaderProgram.unbind();
+        }
     }
 
     /**

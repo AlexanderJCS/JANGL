@@ -16,6 +16,8 @@ Before we start, we need to create a base program that will contain our shapes. 
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.io.Window;
 import jangl.time.Clock;
 
@@ -125,6 +127,8 @@ Incorporating this into the code into the constructor of the [base program](#cre
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.textures.Image;
@@ -260,6 +264,8 @@ We can incorporate these two lines at the end of the `run` method:
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.textures.Image;

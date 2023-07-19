@@ -187,8 +187,8 @@ public class Text implements AutoCloseable {
         this.shaderProgram.getVertexShader().setMatrixUniforms(this.shaderProgram.getProgramID(), this.identityMatrix, this.identityMatrix);
         this.font.fontTexture.bind();
         this.model.render();
-        Texture.unbind();
-        ShaderProgram.unbind();
+        this.font.fontTexture.unbind();
+        this.shaderProgram.unbind();
     }
 
     @Override

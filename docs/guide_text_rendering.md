@@ -18,15 +18,17 @@ Now, you can close Hiero.
 ## Loading the font & displaying text
 
 Moving to Java, the next step is to create a class that initializes JANGL as well as  an empty constructor:
+
 ```java
 
 import jangl.JANGL;
+import jangl.Jangl;
 
 public class FontDemo {
     public FontDemo() {
-        
+
     }
-    
+
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
     }
@@ -37,6 +39,7 @@ Then, create a `Font` variable inside the constructor. The `Font` constructor ta
 
 ```java
 import jangl.JANGL;
+import jangl.Jangl;
 import jangl.graphics.font.Font;
 
 public class FontDemo {
@@ -63,6 +66,8 @@ For this example, the text will be a member variable of `FontDemo` so it can be 
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
@@ -94,6 +99,7 @@ Now, this text needs to be drawn to the screen. To do so, a new method called `r
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
@@ -141,6 +147,8 @@ Finally, we need to add a few finishing touches:
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;

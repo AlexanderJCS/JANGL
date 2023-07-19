@@ -31,11 +31,12 @@ If you get an error along the lines of:
 #  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at ...
 ```
 The most common cause for this error is that JANGL is not initialized. This error can also be thrown if you try to access JANGL on a thread it was not initialized on. To fix this error, run:
+
 ```java
-import jangl.JANGL;
+
 
 // Somewhere near the start of your program:
-JANGL.init(screenWidthPixels, screenHeightPixels);
+JANGL.init(screenWidthPixels,screenHeightPixels);
 ```
 where `screenWidthPixels` and `screenHeightPixels` is the screen width and height of your window.
 
@@ -68,12 +69,13 @@ Then, create a constructor which initializes JANGL. The two arguments that are p
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
 
 public class Quickstart {
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
-        
+
         Window.close();
     }
 }
@@ -88,7 +90,7 @@ import jangl.JANGL;
 
 public class Quickstart {
     public Quickstart() {
-        
+
     }
 
     public void run() {
@@ -98,7 +100,7 @@ public class Quickstart {
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
-        
+
         new Quickstart().run();
 
         Window.close();
@@ -120,6 +122,7 @@ With that knowledge, you can make your first rectangle.
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
@@ -149,6 +152,7 @@ One important thing to note is that all shape classes (including `Rect`s) as wel
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
@@ -193,6 +197,7 @@ When those three methods are combined, you get the following code:
 
 ```java
 import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -235,6 +240,8 @@ However, if you run the code in its current state, you might notice that a windo
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -282,6 +289,8 @@ The smart tick method throws an interrupted exception if the program is interrup
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -334,6 +343,8 @@ Another way to limit FPS is to make the window run at VSync, or the maximum fram
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -384,6 +395,7 @@ Now, you can incorporate this into your program:
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
 import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;

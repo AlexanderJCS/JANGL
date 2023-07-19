@@ -1,6 +1,7 @@
 package jangl.shapes;
 
 import jangl.coords.WorldCoords;
+import jangl.graphics.Bindable;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.ShaderProgram;
@@ -99,16 +100,10 @@ public abstract class Shape implements AutoCloseable {
         );
     }
 
-    public void draw(ShaderProgram shader) {
-        shader.bind();
+    public void draw(Bindable bindable) {
+        bindable.bind();
         this.draw();
-        ShaderProgram.unbind();
-    }
-
-    public void draw(Texture texture) {
-        texture.bind();
-        this.draw();
-        ShaderProgram.unbind();
+        bindable.unbind();
     }
 
     public Transform getTransform() {

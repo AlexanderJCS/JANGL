@@ -1,6 +1,7 @@
 package jangl.graphics.shaders;
 
 import jangl.color.ColorFactory;
+import jangl.graphics.Bindable;
 import jangl.graphics.shaders.exceptions.ShaderCompileException;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
@@ -13,7 +14,7 @@ import static org.lwjgl.opengl.GL46.*;
 /**
  * A ShaderProgram allows you to combine a FragmentShader and VertexShader into a single program.
  */
-public class ShaderProgram implements AutoCloseable {
+public class ShaderProgram implements AutoCloseable, Bindable {
     private final int programID;
     private final List<Integer> shaderIDs;
     private final List<Shader> shaders;
@@ -138,7 +139,8 @@ public class ShaderProgram implements AutoCloseable {
     /**
      * Unbind the shader. Run this when you do not want the shader to apply to any more objects that you draw.
      */
-    public static void unbind() {
+    @Override
+    public void unbind() {
         glUseProgram(0);
         boundProgram = null;
     }
@@ -146,8 +148,9 @@ public class ShaderProgram implements AutoCloseable {
     /**
      * Bind the sander. Run this when you want the shader to apply to objects that you draw.
      */
+    @Override
     public void bind() {
-        glUseProgram(programID);
+        glUseProgram(this.programID);
         boundProgram = this;
 
         for (Shader shader : this.shaders) {
@@ -164,7 +167,7 @@ public class ShaderProgram implements AutoCloseable {
      */
     @Override
     public void close() {
-        ShaderProgram.unbind();
+        this.unbind();
 
         for (int shaderID : this.shaderIDs) {
             glDetachShader(this.programID, shaderID);

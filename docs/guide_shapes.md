@@ -67,6 +67,8 @@ The rectangle will have a top left coordinate of (-0.75, 0.75), a width of 0.6, 
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -133,6 +135,8 @@ Going back to the code, let's create a new `Circle` member variable, initialize 
 
 ```java
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
@@ -198,6 +202,8 @@ Incorporating this into the code, the first vertex (bottom left) will be at (0, 
 package shapeguide;
 
 import jangl.JANGL;
+import jangl.JaNGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
