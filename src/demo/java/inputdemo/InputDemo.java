@@ -4,7 +4,7 @@ import jangl.JANGL;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
-import jangl.graphics.font.parser.Font;
+import jangl.graphics.font.Font;
 import jangl.io.Window;
 import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;

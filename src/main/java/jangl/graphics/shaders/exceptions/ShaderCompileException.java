@@ -1,4 +1,4 @@
-package jangl.graphics.shaders;
+package jangl.graphics.shaders.exceptions;
 
 public class ShaderCompileException extends RuntimeException {
     public ShaderCompileException() {

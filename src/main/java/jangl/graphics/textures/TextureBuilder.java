@@ -1,4 +1,4 @@
-package jangl.graphics;
+package jangl.graphics.textures;
 
 import jangl.color.Color;
 import jangl.util.ArrayUtils;

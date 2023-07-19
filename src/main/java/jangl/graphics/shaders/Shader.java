@@ -1,5 +1,7 @@
 package jangl.graphics.shaders;
 
+import jangl.graphics.shaders.exceptions.ShaderPrecompileException;
+
 import java.io.*;
 
 public class Shader {

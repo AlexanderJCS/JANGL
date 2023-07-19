@@ -2,9 +2,7 @@ package jangl.graphics.font;
 
 import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
-import jangl.graphics.Texture;
-import jangl.graphics.font.parser.CharInfo;
-import jangl.graphics.font.parser.Font;
+import jangl.graphics.textures.Texture;
 import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderFrag;

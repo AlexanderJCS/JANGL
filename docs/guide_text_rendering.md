@@ -37,7 +37,7 @@ Then, create a `Font` variable inside the constructor. The `Font` constructor ta
 
 ```java
 import jangl.JANGL;
-import jangl.graphics.font.parser.Font;
+import jangl.graphics.font.Font;
 
 public class FontDemo {
     public FontDemo() {
@@ -46,7 +46,7 @@ public class FontDemo {
                 "path/to/png/file/fontName.png"
         );
     }
-    
+
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
     }
@@ -65,7 +65,7 @@ For this example, the text will be a member variable of `FontDemo` so it can be 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
-import jangl.graphics.font.parser.Font;
+import jangl.graphics.font.Font;
 
 public class FontDemo {
     Text text;
@@ -96,7 +96,7 @@ Now, this text needs to be drawn to the screen. To do so, a new method called `r
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
-import jangl.graphics.font.parser.Font;
+import jangl.graphics.font.Font;
 import jangl.io.Window;
 import jangl.time.Clock;
 import jangl.time.GameClock;
@@ -142,8 +142,8 @@ Finally, we need to add a few finishing touches:
 ```java
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
+import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
-import jangl.graphics.font.parser.Font;
 import jangl.io.Window;
 import jangl.time.Clock;
 import jangl.time.GameClock;

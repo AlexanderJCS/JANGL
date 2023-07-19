@@ -1,4 +1,4 @@
-package jangl.graphics.font.parser;
+package jangl.graphics.font;
 
 /**
  * @param charID   The ASCII ID of the character

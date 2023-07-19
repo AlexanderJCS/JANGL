@@ -1,6 +1,7 @@
 package jangl.graphics.shaders;
 
 import jangl.color.ColorFactory;
+import jangl.graphics.shaders.exceptions.ShaderCompileException;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
 

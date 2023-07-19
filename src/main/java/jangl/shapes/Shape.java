@@ -1,7 +1,7 @@
 package jangl.shapes;
 
 import jangl.coords.WorldCoords;
-import jangl.graphics.Texture;
+import jangl.graphics.textures.Texture;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.VertexShader;

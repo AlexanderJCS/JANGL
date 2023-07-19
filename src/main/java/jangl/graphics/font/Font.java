@@ -1,7 +1,7 @@
-package jangl.graphics.font.parser;
+package jangl.graphics.font;
 
-import jangl.graphics.Texture;
-import jangl.graphics.TextureBuilder;
+import jangl.graphics.textures.Texture;
+import jangl.graphics.textures.TextureBuilder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

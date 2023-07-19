@@ -2,8 +2,8 @@ package texturedemo;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
-import jangl.graphics.Texture;
-import jangl.graphics.TextureBuilder;
+import jangl.graphics.textures.Texture;
+import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 

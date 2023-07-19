@@ -3,7 +3,7 @@ package fontdemo;
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
-import jangl.graphics.font.parser.Font;
+import jangl.graphics.font.Font;
 import jangl.io.Window;
 
 public class FontDemo {

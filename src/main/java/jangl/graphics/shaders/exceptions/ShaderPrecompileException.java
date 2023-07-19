@@ -1,4 +1,4 @@
-package jangl.graphics.shaders;
+package jangl.graphics.shaders.exceptions;
 
 public class ShaderPrecompileException extends ShaderCompileException {
     public ShaderPrecompileException() {

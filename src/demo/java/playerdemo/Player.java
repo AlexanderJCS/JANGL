@@ -2,9 +2,9 @@ package playerdemo;
 
 import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
-import jangl.graphics.Image;
-import jangl.graphics.Texture;
-import jangl.graphics.TextureBuilder;
+import jangl.graphics.textures.Image;
+import jangl.graphics.textures.Texture;
+import jangl.graphics.textures.TextureBuilder;
 import jangl.io.keyboard.Keyboard;
 import jangl.shapes.Rect;
 import jangl.time.Clock;
