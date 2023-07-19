@@ -95,7 +95,7 @@ public class Shader {
             int secondQuoteIndex = line.indexOf('"', firstQuoteIndex + 1);
 
             if (firstQuoteIndex == -1 || secondQuoteIndex == -1) {
-                throw new ShaderCompileException("Precompilation error: Could not parse line\n" + line);
+                throw new ShaderPrecompileException("Could not precompile shader:\nError parsing line:\n (" + (i + 1) + ") " + line);
             }
 
             String fileToImport = line.substring(firstQuoteIndex + 1, secondQuoteIndex);
@@ -103,7 +103,7 @@ public class Shader {
             InputStream stream = Shader.class.getResourceAsStream("/shaderInclude/" + fileToImport);
 
             if (stream == null) {
-                throw new ShaderCompileException("Precompilation error: Could not find file /shaderInclude/" + fileToImport + "\n" + line);
+                throw new ShaderPrecompileException("Could not precompile shader:\nCould not find file /shaderInclude/" + fileToImport + "\n (" + (i + 1) + ") " + line);
             }
 
             String importedFile = loadShader(stream);

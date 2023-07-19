@@ -127,8 +127,7 @@ public class ShaderProgram implements AutoCloseable {
             String shaderTypeString = type == GL_VERTEX_SHADER ? "vertex" : "fragment";
 
             throw new ShaderCompileException(
-                    "Could not compile " + shaderTypeString + " shader.\nError message:\n" +
-                            glGetShaderInfoLog(shaderID, 8192)
+                    shaderTypeString, glGetShaderInfoLog(shaderID, 8192), program
             );
         }
 
