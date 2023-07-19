@@ -30,57 +30,107 @@ public class Transform {
         this.shift(delta.x, delta.y);
     }
 
+    /**
+     * Changes the object's position by a specified amount.
+     * @param x The x delta to move.
+     * @param y The y delta to move.
+     */
     public void shift(float x, float y) {
         this.transformMatrix.translate(x, y, 0);
         this.shift.add(x, y);
     }
 
+    /**
+     * Rotates the object counterclockwise by a certain amount of radians.
+     * @param radians The amount, in radians, to rotate the object by.
+     */
     public void rotate(float radians) {
         this.rotationMatrix.rotateZ(radians);
         this.localRotationAngle += radians;
     }
 
+    /**
+     * Rotates the object counterclockwise across the origin (bottom left of the screen). If you want to rotate the
+     * object across its center instead, use the rotate(float) method.
+     *
+     * @param radians The amount, in radians, to rotate counterclockwise across the axis.
+     */
     public void rotateOrigin(float radians) {
         this.transformMatrix.rotateZ(radians);
         this.originRotationAngle += radians;
     }
 
+    /**
+     * Sets the object's local rotation.
+     * @param radians The amount of radians to be rotated.
+     */
     public void setLocalRotation(float radians) {
         float delta = radians - this.localRotationAngle;
         this.rotate(delta);
     }
 
+    /**
+     * @return The local rotation angle.
+     */
+    public float getLocalRotationAngle() {
+        return localRotationAngle;
+    }
+
+    /**
+     * Sets the object's rotation across the origin (bottom left of the screen).
+     * @param radians The amount of radians to be rotated.
+     */
     public void setOriginRotation(float radians) {
         float delta = radians - this.originRotationAngle;
         this.rotateOrigin(delta);
     }
 
+    /**
+     * @return The angle of rotation across the origin (bottom left of the screen).
+     */
+    public float getOriginRotationAngle() {
+        return originRotationAngle;
+    }
+
+    /**
+     * Used only right after creating the object to set the center of the object.
+     * @param center The center of the object.
+     */
     void setCenter(Vector2f center) {
         this.center = new Vector3f(center, 0);
         this.rotationMatrix.translate(this.center.x(), this.center.y(), 0);
     }
 
+    /**
+     * @return The center of the object in WorldCoords.
+     */
     public WorldCoords getCenter() {
         Vector2f center = new Vector2f(this.center.x(), this.center.y()).add(this.shift);
         return new WorldCoords(center.x, center.y);
     }
 
+    /**
+     * Get a deepcopy of the transformation matrix. Primarily used to pass the matrix as a uniform to the GPU.
+     *
+     * @return The transformation matrix.
+     */
     public Matrix4f getTransformMatrix() {
-        return this.transformMatrix;
+        return new Matrix4f(this.transformMatrix);
     }
 
+    /**
+     * Get a deepcopy of the rotation matrix. Primarily used to pass the matrix as a uniform to the GPU.
+     *
+     * @return The transformation matrix.
+     */
     public Matrix4f getRotationMatrix() {
-        return this.rotationMatrix;
+        return new Matrix4f(this.rotationMatrix);
     }
 
-    public float getLocalRotationAngle() {
-        return localRotationAngle;
-    }
-
-    public float getOriginRotationAngle() {
-        return originRotationAngle;
-    }
-
+    /**
+     * @return The multiplied rotation and transformation matrix. Due to matrix multiplications on the CPU potentially
+     *         being slow, it is not recommended to call this method often.
+     */
     public Matrix4f getMatrix() {
         return new Matrix4f()
                 .set(this.getTransformMatrix())
