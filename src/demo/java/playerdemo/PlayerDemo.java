@@ -8,7 +8,7 @@ public class PlayerDemo {
     private final Player player;
 
     public PlayerDemo() {
-        this.player = new Player(new WorldCoords(0, 0), 400);
+        this.player = new Player(WorldCoords.getMiddle(), 0.6f);
     }
 
     private void draw() {
