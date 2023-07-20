@@ -25,6 +25,6 @@ public class PointingShape {
         center.y -= pixelCoords.y;
 
         double angle = Math.atan2(center.y, center.x);
-        this.shape.getTransform().setLocalRotation((float) (-angle + this.offset));
+        this.shape.getTransform().setLocalRotation((float) (angle + this.offset));
     }
 }
