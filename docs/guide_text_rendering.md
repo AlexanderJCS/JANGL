@@ -22,10 +22,9 @@ Moving to Java, the next step is to create a class that initializes JANGL as wel
 ```java
 
 import jangl.JANGL;
-import jangl.Jangl;
 
-public class FontDemo {
-    public FontDemo() {
+public class FontGuide {
+    public FontGuide() {
 
     }
 
@@ -39,11 +38,10 @@ Then, create a `Font` variable inside the constructor. The `Font` constructor ta
 
 ```java
 import jangl.JANGL;
-import jangl.Jangl;
 import jangl.graphics.font.Font;
 
-public class FontDemo {
-    public FontDemo() {
+public class FontGuide {
+    public FontGuide() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
@@ -52,6 +50,7 @@ public class FontDemo {
 
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Window.setVsync(true);
     }
 }
 ```
@@ -62,27 +61,25 @@ Now, you can create a `Text` class that takes in the following constructor argum
 - The y height of the text, in `NDCoords` (normalized device coordinates)
 - The text you want to display (string)
 
-For this example, the text will be a member variable of `FontDemo` so it can be accessed through a `run` method that will be created later.
+For this example, the text will be a member variable of `FontGuide` so it can be accessed through a `run` method that will be created later.
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
 
-public class FontDemo {
-    Text text;
+public class FontGuide {
+    private final Text text;
 
-    public FontDemo() {
+    public FontGuide() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
 
         this.text = new Text(
-                new WorldCoords(-0.5f, 0),  // the top left coordinate of the text
+                new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
                 myFont,  // the font object
                 0.1f,  // the y height, in normalized device coords, of the text
                 "Hello World!"  // the text to display
@@ -91,6 +88,7 @@ public class FontDemo {
 
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Window.setVsync(true);
     }
 }
 ```
@@ -107,66 +105,62 @@ import jangl.io.Window;
 import jangl.time.Clock;
 import jangl.time.GameClock;
 
-public class FontDemo {
-    Text text;
+public class FontGuide {
+    private final Text text;
 
-    public FontDemo() {
+    public FontGuide() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
 
         this.text = new Text(
-                new WorldCoords(-0.5f, 0),  // the top left coordinate of the text
+                new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
                 myFont,  // the font object
-                0.1f,  // the y height, in normalized device coords, of the text
+                0.1f,  // the y height, in world coords, of the text
                 "Hello World!"  // the text to display
         );
     }
 
     public void run() {
         while (Window.shouldRun()) {
+            Window.clear();
             this.text.draw();
 
             JANGL.update();
-            Clock.busyTick(60);
         }
-
-        Window.close();
     }
 
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Window.setVsync(true);
+        Window.close();
     }
 }
 ```
 
 Finally, we need to add a few finishing touches:
-- Create a new FontDemo class and call the run method
+- Create a new FontGuide class and call the run method
 - Close the font and text after the `run()` method
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
 import jangl.io.Window;
-import jangl.time.Clock;
-import jangl.time.GameClock;
 
-public class FontDemo {
-    Text text;
+public class FontGuide {
+    private final Text text;
 
-    public FontDemo() {
+    public FontGuide() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
 
         this.text = new Text(
-                new WorldCoords(-0.5f, 0),  // the top left coordinate of the text
+                new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
                 myFont,  // the font object
                 0.1f,  // the y height, in normalized device coords, of the text
                 "Hello World!"  // the text to display
@@ -175,14 +169,12 @@ public class FontDemo {
 
     public void run() {
         while (Window.shouldRun()) {
+            Window.clear();
             this.text.draw();
 
             JANGL.update();
-            Clock.busyTick(60);
         }
-
-        Window.close();
-
+        
         // It is important to close the Font object in addition to the text object
         // to avoid a memory leak. To do so, we can call the close() method.
         // It is important to note that text.close() does not close the font.
@@ -192,7 +184,11 @@ public class FontDemo {
 
     public static void main(String[] args) {
         JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
-        new FontDemo().run();  // run a new FontDemo
+        Window.setVsync(true);
+        
+        new FontGuide().run();  // run a new FontGuide
+
+        Window.close();
     }
 }
 ```
