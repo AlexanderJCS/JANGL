@@ -34,7 +34,7 @@ public class VertexShader extends Shader {
 
             if (lineAfterVersion) {
                 builder.append(Camera.UBO_CODE);
-                builder.append("uniform mat4 transformMatrix;uniform mat4 rotationMatrix;uniform bool obeyCamera;");
+                builder.append("uniform mat4 transformMatrix;uniform mat4 rotationMatrix;uniform bool obeyCamera;\n");
                 lineAfterVersion = false;
             }
 
