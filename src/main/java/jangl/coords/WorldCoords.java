@@ -33,4 +33,11 @@ public final class WorldCoords extends Coords {
     public PixelCoords toPixelCoords() {
         return new PixelCoords(distToPixelCoords(this.x), distToPixelCoords(this.y));
     }
+
+    /**
+     * @return The middle of the screen, assuming that the camera is not moved in any direction.
+     */
+    public static WorldCoords getMiddle() {
+        return new WorldCoords((float) Window.getScreenWidth() / Window.getScreenHeight() / 2f, 0.5f);
+    }
 }
