@@ -68,7 +68,6 @@ Then, create a constructor which initializes JANGL. The two arguments that are p
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
 
 public class Quickstart {
     public static void main(String[] args) {
@@ -111,17 +110,13 @@ Inside the run method, you can include your first object to draw to a screen: a 
 
 To initialize a rectangle, you need to pass the `coords`, `width`, and `height`. Now is a good time to talk about how coordinates work.
 
-The top left of the window has the coordinates `(-1, 1)`. The bottom right of has the coordinates `(1, -1)`. The center of the screen has the coordinates `(0, 0)`. What's great about this coordinate system is that your window scales and stretches correctly regardless what your resolution is (the two parameters you passed to `JANGL.init()`).
-
-Here, you can see a diagram of important coordinates to know in the window.
-
-![image](https://github.com/AlexanderJCS/JGLT/assets/98898166/722f8e9c-5c11-4974-bf19-cefe0ac51515)
+The bottom left of the window has the coordinates (0, 0) and the top left of your window has the coordinates (1, 0). The maximum X coordinate on the screen depends on the aspect ratio. The coordinate system is designed to ensure that the window can be scaled seamlessly.
+![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/f06a4d8d-262e-42fa-939f-e9886db49bdd)
 
 With that knowledge, you can make your first rectangle.
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
@@ -129,7 +124,7 @@ public class Quickstart {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -151,7 +146,6 @@ One important thing to note is that all shape classes (including `Rect`s) as wel
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
@@ -159,7 +153,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -184,11 +178,12 @@ public class Quickstart implements AutoCloseable {
 }
 ```
 
-The first argument of the `Rect` constructor is the `NDCoords` (normalized device coordinates) location, which requires an x and y position. For this rectangle, you set the position at `(0, 0)`. The second and third parameter is the `width` and `height` respectively, both in the units of normalized device coordinates. That value is set to 0.5.
+The first argument of the `Rect` constructor is the coordinate of the top left vertex in `WorldCoords`, which requires an x and y position. For this rectangle, you set the position at `(0.5, 0.75)`. The second and third parameter is the `width` and `height` respectively, both in the units of world coordinates. That value is set to 0.5.
 
-Next, you need to draw your shape. First, you need to run `JANGL.update()`. This method will populate events, but more on that later. If this method is not called, the application will not respond.
 
-Then, you run `Window.clear()`. This ensures that the previous frame is cleared from the screen before drawing the next one. This makes sure that a "trail" is not left behind moving objects.
+Next, you need to draw your shape. First, you need to run `JANGL.update()`. If this method is not called, the application will not respond.
+
+Then, you run `Window.clear()`. This ensures that the previous frame is cleared from the screen before drawing the next one. This makes sure that a "trail" is not left behind moving objects. It also ensures that semi-transparent objects do not become non-transparent.
 
 Finally, you can draw your rectangle using `rect.draw()`.
 
@@ -196,7 +191,6 @@ When those three methods are combined, you get the following code:
 
 ```java
 import jangl.JANGL;
-import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -205,16 +199,14 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);
     }
 
     public void run() {
-        try (Rect rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f)) {
-            JANGL.update();
-            Window.clear();
+        JANGL.update();
+        Window.clear();
 
-            rect.draw();
-        }
+        rect.draw();
     }
 
     @Override
@@ -239,8 +231,6 @@ However, if you run the code in its current state, you might notice that a windo
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -249,7 +239,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -288,8 +278,6 @@ The smart tick method throws an interrupted exception if the program is interrup
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -299,7 +287,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -342,8 +330,6 @@ Another way to limit FPS is to make the window run at VSync, or the maximum fram
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -352,7 +338,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0, 0), 0.5f, 0.5f);
+        this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -360,7 +346,7 @@ public class Quickstart implements AutoCloseable {
             JANGL.update();
             Window.clear();
 
-            rect.draw();
+            this.rect.draw();
         }
     }
 
@@ -383,64 +369,4 @@ public class Quickstart implements AutoCloseable {
 }
 ```
 
-One thing you may notice is that the width and height of the rectangle are different, even though the specified the width and height passed to the rectangle are the same. This is a common limitation of the `NDCoords` type. Since the window must be two units in width and two units in height, if the window does not have a 1:1 aspect ratio, one unit on the Y axis will not equal the same distance as one unit on the X axis. To circumvent this, we can specify the width and height of the `Rect` in pixels using the `PixelCoords` class.
-
-We can do this by using the `PixelCoords` type. It allows us to convert a certain number of pixels in the X axis and a certain number of pixels in the Y axis to normalized device coordinates using the `distXtoNDC` and `distYtoNDC` method. For example, if we want our cube to be 400 pixels wide and tall, we can initialize our rect like so:
-```java
-new Rect(new NDCoords(0, 0), PixelCoords.distXtoNDC(400), PixelCoords.distYtoNDC(400));
-```
-
-Now, you can incorporate this into your program:
-
-```java
-import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.coords.PixelCoords;
-import jangl.coords.WorldCoords;
-import jangl.io.Window;
-import jangl.shapes.Rect;
-import jangl.time.Clock;
-
-public class Quickstart implements AutoCloseable {
-    private final Rect rect;
-
-    public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0, 0), PixelCoords.distXtoNDC(400), PixelCoords.distToWorldCoords(400));
-    }
-
-    public void run() {
-        while (Window.shouldRun()) {
-            JANGL.update();
-            Window.clear();
-
-            this.rect.draw();
-
-            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-    }
-
-    @Override
-    public void close() {
-        this.rect.close();
-    }
-
-    public static void main(String[] args) {
-        // Input the width and height of your screen in pixels.
-        JANGL.init(1600, 900);
-
-        Quickstart quickstart = new Quickstart();
-        quickstart.run();
-        quickstart.close();
-
-        Window.close();
-    }
-}
-```
-
-Thanks for following!
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/5e44f87a-f76e-49bf-85cd-ea4a1bb28ce8)
+Now you have a rectangle drawn to the screen. Thanks for following!

@@ -4,13 +4,12 @@ import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
 
 public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f);
+        this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);
     }
 
     public void run() {
@@ -19,13 +18,6 @@ public class Quickstart implements AutoCloseable {
             Window.clear();
 
             this.rect.draw();
-
-            // Run the window at 60 FPS, handling any interrupted exceptions that may occur
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
     }
 
@@ -37,6 +29,7 @@ public class Quickstart implements AutoCloseable {
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
         JANGL.init(1600, 900);
+        Window.setVsync(true);  // turn vsync on
 
         Quickstart quickstart = new Quickstart();
         quickstart.run();
