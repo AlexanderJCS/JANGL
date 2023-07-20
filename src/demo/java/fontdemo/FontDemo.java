@@ -16,7 +16,7 @@ public class FontDemo {
         );
 
         this.text = new Text(
-                new WorldCoords(0, 0.7f), arial, 0.1f,
+                new WorldCoords(0.3f, 0.7f), arial, 0.05f,
                 "abcdefghijklmnopqrstuvwxyz\n0123456789\t<- tab"
         );
     }
