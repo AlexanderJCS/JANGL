@@ -13,11 +13,21 @@ public class ShaderDemo implements AutoCloseable {
 
     public ShaderDemo() {
         this.shaderProgram = new ShaderProgram(
-                new TranslationShader(new WorldCoords(-0.5f, 0.5f)),
+                new TranslationShader(new WorldCoords(0, 0)),
                 new CustomColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
         );
 
-        this.rect = new Rect(new WorldCoords(0, 0), 1, 1);
+        this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);
+    }
+
+    public void update() {
+        // WARNING: this line of code *must* be run in order to pass the projection matrices to the shader.
+        // If this method is not called, whatever you are trying to draw will not appear.
+        this.shaderProgram.getVertexShader().setMatrixUniforms(
+                this.shaderProgram.getProgramID(),
+                this.rect.getTransform().getTransformMatrix(),
+                this.rect.getTransform().getRotationMatrix()
+        );
     }
 
     public void draw() {
@@ -26,6 +36,7 @@ public class ShaderDemo implements AutoCloseable {
 
     public void run() {
         while (Window.shouldRun()) {
+            this.update();
             this.draw();
 
             JANGL.update();
