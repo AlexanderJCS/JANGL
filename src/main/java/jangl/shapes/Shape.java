@@ -51,6 +51,26 @@ public abstract class Shape implements AutoCloseable {
         return true;
     }
 
+    public static boolean collides(Shape shape, WorldCoords point) {
+        Vector2f pointVector = point.toVector2f();
+        Vector2f[] s1Axes = shape.getOutsideVectors();
+        Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape.getExteriorVertices());
+
+        for (Vector2f axis : s1Axes) {
+            axis.perpendicular();
+
+            Range s1Range = projectShapeOntoAxis(s1Vertices, axis);
+            float projectedPoint = pointVector.dot(axis);
+
+            // If the ranges do not intersect, the shapes are not colliding
+            if (!s1Range.intersects(projectedPoint)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private static Range projectShapeOntoAxis(Vector2f[] vertices, Vector2f axis) {
         float[] dotProducts = new float[vertices.length];
 
