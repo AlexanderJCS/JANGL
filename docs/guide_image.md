@@ -40,8 +40,9 @@ public class ImageGuide {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
         JANGL.init(1600, 900);
         Window.setVsync(true);
-        
+
         new ImageGuide().run();
+
         Window.close();
     }
 }
@@ -116,7 +117,6 @@ Incorporating this into the code into the constructor of the [base program](#cre
 ```java
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
-import jangl.coords.PixelCoords;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
@@ -135,7 +135,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
+                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
                 )
         );
     }
@@ -163,7 +163,10 @@ public class ImageGuide {
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
         JANGL.init(1600, 900);
+        Window.setVsync(true);
+
         new ImageGuide().run();
+
         Window.close();
     }
 }
@@ -173,7 +176,6 @@ Then, we need to draw the image within the `draw()` method by calling `this.imag
 
 ```java
 import jangl.JANGL;
-import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
@@ -194,7 +196,7 @@ public class ImageGuide {
                 ),
 
                 new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
+                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
                 )
         );
     }
@@ -225,7 +227,10 @@ public class ImageGuide {
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
         JANGL.init(1600, 900);
+        Window.setVsync(true);
+
         new ImageGuide().run();
+
         Window.close();
     }
 }
@@ -250,7 +255,6 @@ We can incorporate these two lines at the end of the `run` method:
 ```java
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
-import jangl.coords.PixelCoords;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
@@ -263,13 +267,11 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image(
                 new Rect(
-                        new WorldCoords(0, 0),
-                        PixelCoords.distXtoNDC(300),
-                        PixelCoords.distToWorldCoords(300)
+                        new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
                 ),
 
                 new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
+                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
                 )
         );
     }
@@ -287,13 +289,6 @@ public class ImageGuide {
 
             // This is method is required to be called so the window doesn't say "not responding"
             JANGL.update();
-
-            // Run the window at 60 fps
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
 
         this.image.rect().close();
@@ -303,7 +298,10 @@ public class ImageGuide {
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
         JANGL.init(1600, 900);
+        Window.setVsync(true);
+
         new ImageGuide().run();
+
         Window.close();
     }
 }
