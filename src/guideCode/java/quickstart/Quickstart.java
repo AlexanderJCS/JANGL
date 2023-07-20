@@ -1,7 +1,6 @@
 package quickstart;
 
 import jangl.JANGL;
-import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -11,7 +10,7 @@ public class Quickstart implements AutoCloseable {
     private final Rect rect;
 
     public Quickstart() {
-        this.rect = new Rect(new WorldCoords(0.5f, 0.5f), PixelCoords.distToWorldCoords(400), PixelCoords.distToWorldCoords(400));
+        this.rect = new Rect(new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f);
     }
 
     public void run() {

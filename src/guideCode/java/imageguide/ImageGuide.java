@@ -2,13 +2,11 @@ package imageguide;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
-import jangl.coords.PixelCoords;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
 
 public class ImageGuide {
     Image image;
@@ -16,13 +14,11 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image(
                 new Rect(
-                        new WorldCoords(0, 0),
-                        PixelCoords.distToWorldCoords(300),
-                        PixelCoords.distToWorldCoords(300)
+                        new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
                 ),
 
                 new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
+                        new TextureBuilder().setImagePath("src/guideCode/guideResources/imageGuide/image.png")
                 )
         );
     }
@@ -40,13 +36,6 @@ public class ImageGuide {
 
             // This is method is required to be called so the window doesn't say "not responding"
             JANGL.update();
-
-            // Run the window at 60 fps
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
 
         this.image.rect().close();
@@ -56,7 +45,10 @@ public class ImageGuide {
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
         JANGL.init(1600, 900);
+        Window.setVsync(true);
+
         new ImageGuide().run();
+
         Window.close();
     }
 }
