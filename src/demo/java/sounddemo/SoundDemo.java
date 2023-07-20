@@ -19,13 +19,11 @@ public class SoundDemo {
         this.sound.setLooping(true);
 
         this.instructions = new Text(
-                new WorldCoords(-0.9f, 0.9f),
+                new WorldCoords(0.1f, 0.9f),
                 new Font("src/demo/demoResources/font/arial.fnt", "src/demo/demoResources/font/arial.png"),
-                0.2f,
+                0.1f,
                 "Controls:\nSpace: Play\nP: Pause\nS: Stop\nR: Rewind"
         );
-
-        System.out.println(new WorldCoords(0.5f, 0.5f).toPixelCoords().toWorldCoords());
     }
 
     public void draw() {
