@@ -58,7 +58,7 @@ public class FontGuide {
 Now, you can create a `Text` class that takes in the following constructor arguments:
 - The top left position of the text
 - The `Font` class
-- The y height of the text, in `NDCoords` (normalized device coordinates)
+- The y height of the text, in `WorldCoords`
 - The text you want to display (string)
 
 For this example, the text will be a member variable of `FontGuide` so it can be accessed through a `run` method that will be created later.
@@ -81,7 +81,7 @@ public class FontGuide {
         this.text = new Text(
                 new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
                 myFont,  // the font object
-                0.1f,  // the y height, in normalized device coords, of the text
+                0.1f,  // the y height, in world coords, of the text
                 "Hello World!"  // the text to display
         );
     }
@@ -162,7 +162,7 @@ public class FontGuide {
         this.text = new Text(
                 new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
                 myFont,  // the font object
-                0.1f,  // the y height, in normalized device coords, of the text
+                0.1f,  // the y height, in world coords, of the text
                 "Hello World!"  // the text to display
         );
     }

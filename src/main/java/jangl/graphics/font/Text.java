@@ -169,7 +169,7 @@ public class Text implements AutoCloseable {
     }
 
     /**
-     * @return The y height, in normalized device coords, of the tallest letter in the font.
+     * @return The y height, in world coords, of the tallest letter in the font.
      * Other letters are proportional.
      */
     public float getYHeight() {

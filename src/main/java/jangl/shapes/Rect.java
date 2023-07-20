@@ -13,8 +13,8 @@ public class Rect extends Shape {
 
     /**
      * @param topLeft The top left of the rect
-     * @param width   The width of the rect, units of normalized device coordinates
-     * @param height  The height of the rect, units of normalized device coordinates
+     * @param width   The width of the rect, units of world coords
+     * @param height  The height of the rect, units of world coords
      */
     public Rect(WorldCoords topLeft, float width, float height) {
         this.x1 = -width / 2;

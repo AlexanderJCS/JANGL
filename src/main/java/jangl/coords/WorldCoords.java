@@ -16,9 +16,9 @@ public final class WorldCoords extends Coords {
     }
 
     /**
-     * Converts normalized device coords in the y direction to pixel coordinates.
+     * Converts a distance in the units of world coords to pixel coords.
      *
-     * @param dist The NDC distance
+     * @param dist The WorldCoords distance
      * @return The pixel coordinate equivalent
      */
     public static float distToPixelCoords(float dist) {

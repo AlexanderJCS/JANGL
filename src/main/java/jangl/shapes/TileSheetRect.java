@@ -10,8 +10,8 @@ public class TileSheetRect extends Rect {
 
     /**
      * @param topLeft     the top left coordinate of the rect
-     * @param width       The width of the rect, units of normalized device coordinates
-     * @param height      The height of the rect, units of normalized device coordinates
+     * @param width       The width of the rect, units of world coordinates
+     * @param height      The height of the rect, units of world coordinates
      * @param tilesWidth  The number of tiles on the x-axis of the texture.
      * @param tilesHeight The number of tiles on the y-axis of the texture.
      */

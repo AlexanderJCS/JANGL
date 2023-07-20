@@ -18,7 +18,7 @@ public class FontGuide {
         this.text = new Text(
                 new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
                 myFont,  // the font object
-                0.1f,  // the y height, in normalized device coords, of the text
+                0.1f,  // the y height, in world coords, of the text
                 "Hello World!"  // the text to display
         );
     }
