@@ -37,14 +37,18 @@ public class ShapeGuide {
             // This is method is required to be called so the window doesn't say "not responding"
             JANGL.update();
         }
+
+        this.rect.close();
+        this.circle.close();
+        this.triangle.close();
     }
 
     public static void main(String[] args) {
+        // Initialize the window with the width of 1600 pixels and the height of 900 pixels
         JANGL.init(1600, 900);
         Window.setVsync(true);
 
         new ShapeGuide().run();
-
         Window.close();
     }
 }
