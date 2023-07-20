@@ -16,10 +16,7 @@ Before we start, we need to create a base program that will contain our shapes. 
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.Jangl;
 import jangl.io.Window;
-import jangl.time.Clock;
 
 public class ImageGuide {
     public ImageGuide() {
@@ -36,19 +33,14 @@ public class ImageGuide {
 
             // This is method is required to be called so the window doesn't say "not responding"
             JANGL.update();
-
-            // Run the window at 60 fps
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
         JANGL.init(1600, 900);
+        Window.setVsync(true);
+        
         new ImageGuide().run();
         Window.close();
     }
@@ -72,13 +64,11 @@ If you do not understand the code below, it is recommended to read the [quicksta
 
 ```java
 new Rect(
-        new NDCoords(0, 0),
-        PixelCoords.distXtoNDC(300),
-        PixelCoords.distYtoNDC(300)
+        new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
 );
 ```
 
-This code creates a new rectangle whose top left is at the center of the screen (coordinates (0, 0)), has a width of 300 pixels, and has a height of 300 pixels.
+This code creates a new rectangle whose top left coordinate is at (0.5, 0.5) and has a width of (0.3, 0.3). Since its width and height are the same, it is a perfect square.
 
 ### Creating a texture
 
@@ -110,16 +100,14 @@ new Texture(new TextureBuilder().setImagePath("/path/to/your/image/image.png").s
 
 Now that we have a rectangle and texture, we can create an image:
 ```java
-new Image (
-        new Rect(
-            new NDCoords(0, 0),
-            PixelCoords.distXtoNDC(300),
-            PixelCoords.distYtoNDC(300)
-        ),
-
-        new Texture(
-                new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true)
-        )
+new Image(
+    new Rect(
+        new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
+    ),
+        
+    new Texture(
+        new TextureBuilder().setImagePath("src/guideCode/guideResources/imageGuide/image.png")
+    )
 );
 ```
 
@@ -127,8 +115,6 @@ Incorporating this into the code into the constructor of the [base program](#cre
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.textures.Image;
@@ -136,7 +122,6 @@ import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
 
 public class ImageGuide {
     Image image;
@@ -198,7 +183,7 @@ import jangl.shapes.Rect;
 import jangl.time.Clock;
 
 public class ImageGuide {
-    Image image;
+    private final Image image;
 
     public ImageGuide() {
         this.image = new Image(
@@ -264,8 +249,6 @@ We can incorporate these two lines at the end of the `run` method:
 
 ```java
 import jangl.JANGL;
-import jangl.JaNGL;
-import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
 import jangl.graphics.textures.Image;
@@ -273,10 +256,9 @@ import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
 
 public class ImageGuide {
-    Image image;
+    private final Image image;
 
     public ImageGuide() {
         this.image = new Image(
@@ -328,3 +310,5 @@ public class ImageGuide {
 ```
 
 That's it! An image is being displayed to the screen and the resources are being closed properly. Thank you for following this guide.
+
+![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/0187e763-56df-4d8b-abf5-a474084ed8cd)

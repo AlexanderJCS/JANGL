@@ -9,7 +9,7 @@ import jangl.io.Window;
 import jangl.shapes.Rect;
 
 public class ImageGuide {
-    Image image;
+    private final Image image;
 
     public ImageGuide() {
         this.image = new Image(
