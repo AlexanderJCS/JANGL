@@ -30,67 +30,53 @@ public class Font implements AutoCloseable {
     public Font(String fontFile, String fontImage) throws UncheckedIOException {
         this.texCoordsMap = new HashMap<>();
         this.infoMap = new HashMap<>();
-
         this.fontShader = new FontShader(ColorFactory.fromNormalized(1, 1, 1, 1));
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), this.fontShader);
 
         this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage));
         this.fontTexture.useDefaultShader(false);
 
-        int glyphImageWidth;
-        int glyphImageHeight;
+        BufferedImage glyphImage = readGlyphImage(fontImage);
+        int glyphImageWidth = glyphImage.getWidth();
+        int glyphImageHeight = glyphImage.getHeight();
 
-        try {
-            BufferedImage glyphImage = ImageIO.read(new File(fontImage));
-
-            glyphImageWidth = glyphImage.getWidth();
-            glyphImageHeight = glyphImage.getHeight();
-
+        try (BufferedReader reader = new BufferedReader(new FileReader(fontFile))) {
+            processFontFile(reader, glyphImageWidth, glyphImageHeight);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(fontFile))) {
-            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                // The line must start with "char" and must not contain "count"
-                if (!line.startsWith("char") || line.contains("count")) {
-                    continue;
-                }
+        this.tallestLetter = getTallestLetter();
+    }
 
-                CharInfo info = this.parseLine(line);
+    private BufferedImage readGlyphImage(String fontImage) throws UncheckedIOException {
+        try {
+            return ImageIO.read(new File(fontImage));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
 
-                // Calculate the texture coordinates
+    private void processFontFile(BufferedReader reader, int glyphImageWidth, int glyphImageHeight) throws IOException {
+        for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+            if (line.startsWith("char") && !line.contains("count")) {
+                CharInfo info = parseLine(line);
                 float uvTopLeftX = (float) info.x() / glyphImageWidth;
-                float uvTopLeftY = ((float) info.y() / glyphImageHeight);
-
+                float uvTopLeftY = (float) info.y() / glyphImageHeight;
                 float uvWidth = (float) info.width() / glyphImageWidth;
                 float uvHeight = (float) info.height() / glyphImageHeight;
 
-                /*
-                 * Gives texture coordinates in this order: top left, top right, bottom right, bottom left
-                 * AKA clockwise order starting from the bottom left
-                 */
-                this.texCoordsMap.put(
-                        info.charID(),
-                        new float[]{
-                                uvTopLeftX, uvTopLeftY,  // top left
-                                uvTopLeftX + uvWidth, uvTopLeftY,  // top right
-                                uvTopLeftX + uvWidth, uvTopLeftY + uvHeight,  // bottom right
-                                uvTopLeftX, uvTopLeftY + uvHeight,  // bottom left
-                        }
-                );
+                float[] texCoords = new float[]{
+                        uvTopLeftX, uvTopLeftY, // top left
+                        uvTopLeftX + uvWidth, uvTopLeftY, // top right
+                        uvTopLeftX + uvWidth, uvTopLeftY + uvHeight, // bottom right
+                        uvTopLeftX, uvTopLeftY + uvHeight // bottom left
+                };
 
-                // Put metadata in the infoMap
-                this.infoMap.put(
-                        info.charID(), info
-                );
+                this.texCoordsMap.put(info.charID(), texCoords);
+                this.infoMap.put(info.charID(), info);
             }
-
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
         }
-
-        this.tallestLetter = this.getTallestLetter();
     }
 
     /**
