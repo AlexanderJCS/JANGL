@@ -1,5 +1,10 @@
 package jangl.graphics.font;
 
+import jangl.color.Color;
+import jangl.color.ColorFactory;
+import jangl.graphics.shaders.ShaderProgram;
+import jangl.graphics.shaders.premade.FontShader;
+import jangl.graphics.shaders.premade.TextureShaderVert;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 
@@ -14,6 +19,8 @@ public class Font implements AutoCloseable {
     public final CharInfo tallestLetter;
     private final Map<Integer, float[]> texCoordsMap;
     private final Map<Integer, CharInfo> infoMap;
+    private final ShaderProgram shaderProgram;
+    private final FontShader fontShader;
 
     /**
      * @param fontFile  The .fnt file of your font
@@ -23,6 +30,9 @@ public class Font implements AutoCloseable {
     public Font(String fontFile, String fontImage) throws UncheckedIOException {
         this.texCoordsMap = new HashMap<>();
         this.infoMap = new HashMap<>();
+
+        this.fontShader = new FontShader(ColorFactory.fromNormalized(1, 1, 1, 1));
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), this.fontShader);
 
         this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage));
         this.fontTexture.useDefaultShader(false);
@@ -160,9 +170,21 @@ public class Font implements AutoCloseable {
         return this.getInfo((int) ch);
     }
 
+    ShaderProgram getShaderProgram() {
+        return this.shaderProgram;
+    }
+
+    public void setFontColor(Color color) {
+        this.fontShader.setColor(color);
+    }
+
+    public Color getFontColor() {
+        return this.fontShader.getColor();
+    }
 
     @Override
     public void close() {
         this.fontTexture.close();
+        this.shaderProgram.close();
     }
 }

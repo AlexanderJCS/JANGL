@@ -4,12 +4,9 @@ import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
 import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
-import jangl.graphics.shaders.premade.TextureShaderFrag;
-import jangl.graphics.shaders.premade.TextureShaderVert;
 import org.joml.Matrix4f;
 
 public class Text implements AutoCloseable {
-    private final ShaderProgram shaderProgram;
     /**
      * Used for the transform and rotation matrices.
      */
@@ -33,7 +30,6 @@ public class Text implements AutoCloseable {
         this.text = this.pruneText(text);
 
         this.model = this.getModel();
-        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), new TextureShaderFrag());
         this.identityMatrix = new Matrix4f().identity();
     }
 
@@ -182,17 +178,18 @@ public class Text implements AutoCloseable {
     }
 
     public void draw() {
-        this.shaderProgram.bind();
-        this.shaderProgram.getVertexShader().setMatrixUniforms(this.shaderProgram.getProgramID(), this.identityMatrix, this.identityMatrix);
+        ShaderProgram shaderProgram = this.font.getShaderProgram();
+
+        shaderProgram.bind();
+        shaderProgram.getVertexShader().setMatrixUniforms(shaderProgram.getProgramID(), this.identityMatrix, this.identityMatrix);
         this.font.fontTexture.bind();
         this.model.render();
         this.font.fontTexture.unbind();
-        this.shaderProgram.unbind();
+        shaderProgram.unbind();
     }
 
     @Override
     public void close() {
         this.model.close();
-        this.shaderProgram.close();
     }
 }

@@ -1,6 +1,7 @@
 package fontdemo;
 
 import jangl.JANGL;
+import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
@@ -14,6 +15,8 @@ public class FontDemo {
                 "src/demo/demoResources/font/arial.fnt",
                 "src/demo/demoResources/font/arial.png"
         );
+
+        arial.setFontColor(ColorFactory.fromNormalized(1, 0, 1, 0.5f));
 
         this.text = new Text(
                 new WorldCoords(0.3f, 0.7f), arial, 0.05f,
