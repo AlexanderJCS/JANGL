@@ -18,15 +18,28 @@ public class Transform {
         this.shift = new Vector2f(0, 0);
 
         this.transformMatrix = new Matrix4f().identity();
-        this.rotationMatrix = new Matrix4f();
+        this.rotationMatrix = new Matrix4f().identity();
 
         this.localRotationAngle = 0;
         this.originRotationAngle = 0;
     }
 
+    /**
+     * Sets the center of the object to the specific value.
+     * @param x The x coordinate of the new center.
+     * @param y The y coordinate of the new center.
+     */
     public void setPos(float x, float y) {
         Vector2f delta = new Vector2f(this.shift).sub(x, y).add(this.center.x(), this.center.y()).mul(-1);
         this.shift(delta.x, delta.y);
+    }
+
+    /**
+     * Sets the center of the object to the specific value.
+     * @param pos The new position.
+     */
+    public void setPos(WorldCoords pos) {
+        this.setPos(pos.x, pos.y);
     }
 
     /**
@@ -38,6 +51,15 @@ public class Transform {
     public void shift(float x, float y) {
         this.transformMatrix.translate(x, y, 0);
         this.shift.add(x, y);
+    }
+
+    /**
+     * Changes the object's position by a specified amount.
+     *
+     * @param shiftCoords The amount to shift the object by.
+     */
+    public void shift(WorldCoords shiftCoords) {
+        this.shift(shiftCoords.x, shiftCoords.y);
     }
 
     /**
