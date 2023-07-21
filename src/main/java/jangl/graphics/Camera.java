@@ -49,12 +49,42 @@ public class Camera {
         return array;
     }
 
+    /**
+     * Sets the bottom left coordinate of the camera view.
+     *
+     * @param bottomLeft The bottom left coordinate of the camera view.
+     */
     public static void setCameraPos(WorldCoords bottomLeft) {
         cameraMatrix.setTranslation(new Vector3f(bottomLeft.toVector2f(), 0).mul(-1));
 
         glBindBuffer(GL_UNIFORM_BUFFER, uboID);
         glBufferSubData(GL_UNIFORM_BUFFER, 0, matrixToArray(cameraMatrix));
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    }
+
+    /**
+     * @return The bottom left coordinate of the camera view
+     */
+    public static WorldCoords getCameraPos() {
+        Vector3f transform = new Vector3f();
+        cameraMatrix.getTranslation(transform);
+
+        return new WorldCoords(-1 * transform.x, -1 * transform.y);
+    }
+
+    /**
+     * @return The center coordinate of the camera view
+     */
+    public static WorldCoords getCenter() {
+        WorldCoords bottomLeft = getCameraPos();
+        WorldCoords middle = WorldCoords.getMiddle();
+
+        return new WorldCoords(bottomLeft.x + middle.x, bottomLeft.y + middle.y);
+    }
+
+    public static void setCenter(WorldCoords center) {
+        WorldCoords screenCenter = WorldCoords.getMiddle();
+        setCameraPos(new WorldCoords(center.x - screenCenter.x, center.y - screenCenter.y));
     }
 
     public boolean getInit() {
