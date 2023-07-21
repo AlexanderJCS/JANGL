@@ -3,6 +3,7 @@ package jangl.graphics.textures;
 import jangl.color.Color;
 import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
 
@@ -36,23 +37,25 @@ public class MutableTexture extends Texture {
     }
 
     public void fillImage(Color color) {
-        ByteBuffer imageBuffer = BufferUtils.createByteBuffer(this.width * this.height * 4);
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            ByteBuffer imageBuffer = stack.malloc(this.width * this.height * 4);
 
-        for (int i = 0; i < this.width * this.height; i++) {
-            imageBuffer.put(ArrayUtils.intsToBytes(color.get255RGBA()));
+            for (int i = 0; i < this.width * this.height; i++) {
+                imageBuffer.put(ArrayUtils.intsToBytes(color.get255RGBA()));
+            }
+
+            imageBuffer.flip();
+            this.bind();
+
+            glTexSubImage2D(
+                    GL_TEXTURE_2D,
+                    0, 0, 0,
+                    this.width, this.height,
+                    GL_RGBA, GL_UNSIGNED_BYTE,
+                    imageBuffer
+            );
+
+            this.unbind();
         }
-
-        imageBuffer.flip();
-        this.bind();
-
-        glTexSubImage2D(
-                GL_TEXTURE_2D,
-                0, 0, 0,
-                this.width, this.height,
-                GL_RGBA, GL_UNSIGNED_BYTE,
-                imageBuffer
-        );
-
-        this.unbind();
     }
 }
