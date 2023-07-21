@@ -13,6 +13,7 @@ import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -69,6 +70,37 @@ public abstract class Shape implements AutoCloseable {
         }
 
         return true;
+    }
+
+    public static boolean collides(Shape shape, Circle circle) {
+        Vector2f circleCenterVector = circle.getTransform().getCenter().toVector2f();
+        Vector2f[] s1Axes = shape.getOutsideVectors();
+
+        List<Vector2f> combined = new ArrayList<>(Arrays.stream(s1Axes).toList());
+
+        // The perpendicular axis between the shape's center and the circle's center
+        combined.add(shape.getTransform().getCenter().toVector2f().sub(circleCenterVector).normalize().perpendicular());
+
+        Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape.getExteriorVertices());
+
+        for (Vector2f axis : combined) {
+            axis.perpendicular();
+
+            Range s1Range = projectShapeOntoAxis(s1Vertices, axis);
+            float projectedCenter = circleCenterVector.dot(axis);
+            Range circleRange = new Range(projectedCenter - circle.getRadius(), projectedCenter + circle.getRadius());
+
+            // If the ranges do not intersect, the shapes are not colliding
+            if (!s1Range.intersects(circleRange)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean collides(Circle circle, Shape shape) {
+        return collides(shape, circle);
     }
 
     private static Range projectShapeOntoAxis(Vector2f[] vertices, Vector2f axis) {
