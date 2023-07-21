@@ -1,14 +1,10 @@
-/*
- * I used this resource when programming the Sound class:
- * https://www.youtube.com/watch?v=dLrqBTeipwg&ab_channel=GamesWithGabe
- */
-
 package jangl.sound;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.system.MemoryStack;
+import org.lwjgl.system.MemoryUtil;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -19,6 +15,10 @@ import static org.lwjgl.openal.AL11.*;
 import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 
+/*
+ * I used this resource when programming the Sound class:
+ * https://www.youtube.com/watch?v=dLrqBTeipwg&ab_channel=GamesWithGabe
+ */
 public class Sound implements AutoCloseable {
     private static boolean initialized = false;
     private final int bufferID;
@@ -70,27 +70,31 @@ public class Sound implements AutoCloseable {
      * @throws UncheckedIOException If the soundFile could not be found
      */
     private int loadSound(String soundFilepath) throws UncheckedIOException {
-        IntBuffer channelsBuffer = BufferUtils.createIntBuffer(1);
-        IntBuffer sampleRateBuffer = BufferUtils.createIntBuffer(1);
+        try (MemoryStack stack = MemoryStack.stackPush()){
+            IntBuffer channelsBuffer = stack.mallocInt(1);
+            IntBuffer sampleRateBuffer = stack.mallocInt(1);
 
-        ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(soundFilepath, channelsBuffer, sampleRateBuffer);
+            ShortBuffer rawAudioBuffer = stb_vorbis_decode_filename(soundFilepath, channelsBuffer, sampleRateBuffer);
 
-        if (rawAudioBuffer == null) {
-            throw new UncheckedIOException(new IOException(
-                    "Could not load from file: " + soundFilepath + ". Make sure that:\n"
-                            + "1. The file exists.\n2. It has a .ogg file format. JANGL does not support other file formats."
-            ));
+            if (rawAudioBuffer == null) {
+                throw new UncheckedIOException(new IOException(
+                        "Could not load from file: " + soundFilepath + ". Make sure that:\n"
+                                + "1. The file exists.\n2. It has a .ogg file format. JANGL does not support other file formats."
+                ));
+            }
+
+            int channels = channelsBuffer.get();
+            int sampleRate = sampleRateBuffer.get();
+
+            int format = this.determineFormat(channels);
+
+            int bufferID = alGenBuffers();
+            alBufferData(bufferID, format, rawAudioBuffer, sampleRate);
+
+            MemoryUtil.memFree(rawAudioBuffer);
+
+            return bufferID;
         }
-
-        int channels = channelsBuffer.get();
-        int sampleRate = sampleRateBuffer.get();
-
-        int format = this.determineFormat(channels);
-
-        int bufferID = alGenBuffers();
-        alBufferData(bufferID, format, rawAudioBuffer, sampleRate);
-
-        return bufferID;
     }
 
     /**
