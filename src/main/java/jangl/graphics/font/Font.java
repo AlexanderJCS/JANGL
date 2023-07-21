@@ -182,6 +182,14 @@ public class Font implements AutoCloseable {
         return this.fontShader.getColor();
     }
 
+    public void setObeyCamera(boolean obeyCamera) {
+        this.shaderProgram.getVertexShader().setObeyCamera(obeyCamera);
+    }
+
+    public boolean isObeyingCamera() {
+        return this.shaderProgram.getVertexShader().isObeyingCamera();
+    }
+
     @Override
     public void close() {
         this.fontTexture.close();
