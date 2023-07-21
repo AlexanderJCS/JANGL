@@ -4,13 +4,14 @@ import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
 import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
+import jangl.shapes.Transform;
 import org.joml.Matrix4f;
 
 public class Text implements AutoCloseable {
     /**
      * Used for the transform and rotation matrices.
      */
-    private final Matrix4f identityMatrix;
+    private final Transform transform;
     private TexturedModel model;
     private String text;
     private WorldCoords topLeft;
@@ -30,7 +31,7 @@ public class Text implements AutoCloseable {
         this.text = this.pruneText(text);
 
         this.model = this.getModel();
-        this.identityMatrix = new Matrix4f().identity();
+        this.transform = new Transform();
     }
 
     public String getText() {
@@ -177,11 +178,35 @@ public class Text implements AutoCloseable {
         this.regenerate();
     }
 
+    /**
+     * Changes the text's position by a specified amount.
+     *
+     * @param x The x delta to move.
+     * @param y The y delta to move.
+     */
+    public void shift(float x, float y) {
+        this.transform.shift(x, y);
+    }
+
+    /**
+     * Changes the text's position by a specified amount.
+     *
+     * @param shiftCoords The amount to shift the object by.
+     */
+    public void shift(WorldCoords shiftCoords) {
+        this.transform.shift(shiftCoords);
+    }
+
     public void draw() {
         ShaderProgram shaderProgram = this.font.getShaderProgram();
 
         shaderProgram.bind();
-        shaderProgram.getVertexShader().setMatrixUniforms(shaderProgram.getProgramID(), this.identityMatrix, this.identityMatrix);
+        shaderProgram.getVertexShader().setMatrixUniforms(
+                shaderProgram.getProgramID(),
+                this.transform.getTransformMatrix(),
+                this.transform.getRotationMatrix()
+        );
+
         this.font.fontTexture.bind();
         this.model.render();
         this.font.fontTexture.unbind();
