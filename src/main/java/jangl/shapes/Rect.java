@@ -99,9 +99,9 @@ public class Rect extends Shape {
     protected float[] getTexCoords() {
         return new float[]{
                 0, 0,
-                this.texRepeatY, 0,
-                this.texRepeatY, this.texRepeatX,
-                0, this.texRepeatX,
+                this.texRepeatX, 0,
+                this.texRepeatX, this.texRepeatY,
+                0, this.texRepeatY,
         };
     }
 
