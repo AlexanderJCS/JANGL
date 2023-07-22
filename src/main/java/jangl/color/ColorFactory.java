@@ -53,4 +53,29 @@ public class ColorFactory {
 
         return fromNormalized(rgba[0], rgba[1], rgba[2], rgba[3]);
     }
+
+    /**
+     * Converts HSVA (hue, saturation, value, alpha) to a Color object.
+     *
+     * @param hue        The hue value. Can be any floating-point value, but 0 = min and 1 = max.
+     * @param saturation The normalized saturation of the color
+     * @param value      The normalized value (brightness) of the color
+     * @param alpha      The normalized alpha of the color
+     * @return A new JANGL color object.
+     * @throws IllegalArgumentException If any of the four arguments are not between 0 and 1
+     */
+    public static Color fromNormalizedHSVA(float hue, float saturation, float value, float alpha) throws IllegalArgumentException {
+        if (saturation > 1 || saturation < 0) {
+            throw new IllegalArgumentException("Normalized saturation colors should be between 0 and 1");
+        } else if (value > 1 || value < 0) {
+            throw new IllegalArgumentException("Normalized value colors should be between 0 and 1");
+        } else if (alpha > 1 || alpha < 0) {
+            throw new IllegalArgumentException("Normalized alpha colors should be between 0 and 1");
+        }
+
+        java.awt.Color rgb = new java.awt.Color(java.awt.Color.HSBtoRGB(hue, saturation, value));
+
+        // return a JANGL color instead of java.awt.Color color
+        return new Color(rgb.getRed() / 255f, rgb.getGreen() / 255f, rgb.getBlue() / 255f, alpha);
+    }
 }
