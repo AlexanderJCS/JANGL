@@ -83,8 +83,10 @@ public class TextureBuilder {
         return obeyCamera;
     }
 
-    public void setObeyCamera(boolean obeyCamera) {
+    public TextureBuilder setObeyCamera(boolean obeyCamera) {
         this.obeyCamera = obeyCamera;
+
+        return this;
     }
 
     public ByteBuffer getImageData() {
