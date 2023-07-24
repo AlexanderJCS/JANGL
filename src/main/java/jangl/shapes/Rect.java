@@ -7,8 +7,8 @@ import jangl.graphics.models.TexturedModel;
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
  */
 public class Rect extends Shape {
-    private final float x1, y1, x2, y2;
-    private final float width, height;
+    private float x1, y1, x2, y2;
+    private float width, height;
     private float texRepeatY, texRepeatX;
 
     /**
@@ -17,16 +17,14 @@ public class Rect extends Shape {
      * @param height  The height of the rect, units of world coords
      */
     public Rect(WorldCoords topLeft, float width, float height) {
-        this.x1 = -width / 2;
-        this.y1 = height / 2;
-        this.x2 = width / 2;
-        this.y2 = -height / 2;
 
         this.texRepeatY = 1;
         this.texRepeatX = 1;
 
         this.width = width;
         this.height = height;
+
+        this.refreshCorners();
 
         this.model = this.toTexturedModel();
 
@@ -103,6 +101,42 @@ public class Rect extends Shape {
                 this.texRepeatX, this.texRepeatY,
                 0, this.texRepeatY,
         };
+    }
+
+
+    /**
+     * Sets the width of the rectangle.
+     * <br>
+     * WARNING: This method may be slow, since it needs to resend all the vertices from the CPU to GPU. It is
+     *          highly recommended not to call this method many times per frame.
+     *
+     * @param newWidth The new width.
+     */
+    public void setWidth(float newWidth) {
+        this.width = newWidth;
+        this.refreshCorners();
+        this.model.subVertices(calculateVertices(), 0);
+    }
+
+    /**
+     * Sets the height of the rectangle.
+     * <br>
+     * WARNING: This method may be slow, since it needs to resend all the vertices from the CPU to GPU. It is
+     *          highly recommended not to call this method many times per frame.
+     *
+     * @param newHeight The new height.
+     */
+    public void setHeight(float newHeight) {
+        this.height = newHeight;
+        this.refreshCorners();
+        this.calculateVertices();
+    }
+
+    private void refreshCorners() {
+        this.x1 = -width / 2;
+        this.y1 = height / 2;
+        this.x2 = width / 2;
+        this.y2 = -height / 2;
     }
 
     /**
