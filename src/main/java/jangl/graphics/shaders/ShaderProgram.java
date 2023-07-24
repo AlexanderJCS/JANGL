@@ -102,7 +102,9 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         if (glGetProgrami(this.programID, GL_LINK_STATUS) == GL_FALSE) {
             throw new ShaderCompileException(
                     "Could not link shader program.\nError message:\n" +
-                            glGetShaderInfoLog(this.programID, 8192)
+                            glGetProgramInfoLog(this.programID, 8192) +
+                            "\n\nVertex shader source code:\n\n" + this.getVertexShader().sourceCode +
+                            "\n\nFragment shader source code:\n\n" + this.getFragmentShader().sourceCode
             );
         }
 
@@ -111,7 +113,9 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         if (glGetProgrami(this.programID, GL_VALIDATE_STATUS) == GL_FALSE) {
             throw new ShaderCompileException(
                     "Could not validate shader program.\nError message:\n" +
-                            glGetShaderInfoLog(this.programID, 8192)
+                            glGetProgramInfoLog(this.programID, 8192) +
+                            "\nVertex shader source code:\n" + this.getVertexShader().sourceCode +
+                            "\nFragment shader source code:\n" + this.getFragmentShader().sourceCode
             );
         }
     }
