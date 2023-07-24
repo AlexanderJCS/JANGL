@@ -6,7 +6,7 @@
 
     <groupId>io.github.alexanderjcs</groupId>
     <artifactId>jangl</artifactId>
-    <version>2.2.0</version>
+    <version>4.1.1</version>
 
     <name>JANGL</name>
     <description>A Java 2D graphics library built on top of LWJGL.</description>
