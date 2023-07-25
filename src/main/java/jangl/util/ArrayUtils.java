@@ -45,6 +45,29 @@ public class ArrayUtils {
     }
 
     /**
+     * Used for collision optimization.
+     *
+     * @param points    The points to find the farthest point from.
+     * @param distPoint The point to compare all the other points to.
+     * @return The farthest point from distPoint.
+     */
+    public static Vector2f getFarthestPointFrom(Vector2f[] points, Vector2f distPoint) {
+        Vector2f farthest = points[0];
+        float farthestDistanceSquared = -1;  // this is valid since distance cannot be negative
+
+        for (Vector2f vertex : points) {
+            float distSquared = vertex.distanceSquared(distPoint);
+
+            if (distSquared > farthestDistanceSquared) {
+                farthest = vertex;
+                farthestDistanceSquared = distSquared;
+            }
+        }
+
+        return farthest;
+    }
+
+    /**
      * Used for collision.
      *
      * @param arr    The array to get the even or odd indices of

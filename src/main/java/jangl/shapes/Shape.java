@@ -27,6 +27,26 @@ public abstract class Shape implements AutoCloseable {
     }
 
     public static boolean collides(Shape shape1, Shape shape2) {
+        Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.getExteriorVertices());
+        Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.getExteriorVertices());
+
+        // Optimization that can have HUGE performance improvements when the two objects are not near each other
+        // Act like the two objects are perfect spheres, where their radii are the farthest point from the center of
+        // the object. If the two spheres are not colliding, there's no way that the two objects can be colliding
+        // using more sophisticated collision detection methods.
+        Vector2f s1CenterVec = shape1.getTransform().getCenter().toVector2f();
+        Vector2f s2CenterVec = shape2.getTransform().getCenter().toVector2f();
+
+        Vector2f s1FarthestPoint = ArrayUtils.getFarthestPointFrom(s1Vertices, s1CenterVec);
+        Vector2f s2FarthestPoint = ArrayUtils.getFarthestPointFrom(s2Vertices, s2CenterVec);
+
+        float s1Radius = s1FarthestPoint.distance(s1CenterVec);
+        float s2Radius = s2FarthestPoint.distance(s2CenterVec);
+
+        if (!collides(shape1.getTransform().getCenter(), s1Radius, shape2.getTransform().getCenter(), s2Radius)) {
+            return false;
+        }
+
         Vector2f[] s1Axes = shape1.getOutsideVectors();
         Vector2f[] s2Axes = shape2.getOutsideVectors();
 
@@ -34,8 +54,6 @@ public abstract class Shape implements AutoCloseable {
         Collections.addAll(combined, s1Axes);
         Collections.addAll(combined, s2Axes);
 
-        Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.getExteriorVertices());
-        Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.getExteriorVertices());
 
         for (Vector2f axis : combined) {
             axis.perpendicular();
@@ -77,7 +95,6 @@ public abstract class Shape implements AutoCloseable {
         Vector2f[] s1Axes = shape.getOutsideVectors();
 
         List<Vector2f> combined = new ArrayList<>(Arrays.stream(s1Axes).toList());
-
         // The perpendicular axis between the shape's center and the circle's center
         combined.add(shape.getTransform().getCenter().toVector2f().sub(circleCenterVector).normalize().perpendicular());
 
@@ -113,14 +130,35 @@ public abstract class Shape implements AutoCloseable {
         return new Range(ArrayUtils.getMin(dotProducts), ArrayUtils.getMax(dotProducts));
     }
 
+    /**
+     * Checks if two circles collide.
+     * @param circle1 The first circle.
+     * @param circle2 The second circle.
+     * @return If they collide.
+     */
     public static boolean collides(Circle circle1, Circle circle2) {
-        WorldCoords circle1Center = circle1.getTransform().getCenter();
-        WorldCoords circle2Center = circle2.getTransform().getCenter();
+        return collides(
+                circle1.getTransform().getCenter(), circle1.getRadius(),
+                circle2.getTransform().getCenter(), circle2.getRadius()
+        );
+    }
 
-        double distSquared = Math.pow(circle1Center.x - circle2Center.x, 2) +
-                Math.pow(circle1Center.y - circle2Center.y, 2);
+    /**
+     * Checks collision between two points with a designated radius. This is used for culling objects out of screen
+     * and for optimizations with collision. If you want to check collision between two circles,
+     * use Shape.collides(Circle, Circle).
+     *
+     * @param point1  The middle coordinate of the first shape
+     * @param radius1 The radius of the first shape.
+     * @param point2  The middle coordinate of the second shape.
+     * @param radius2 The radius of the second shape.
+     * @return If they collide.
+     */
+    public static boolean collides(WorldCoords point1, float radius1, WorldCoords point2, float radius2) {
+        double distSquared = Math.pow(point1.x - point2.x, 2) +
+                Math.pow(point1.y - point2.y, 2);
 
-        double combinedRadiiSquared = Math.pow(circle1.getRadius() + circle2.getRadius(), 2);
+        double combinedRadiiSquared = Math.pow(radius1 + radius2, 2);
 
         return distSquared <= combinedRadiiSquared;
     }

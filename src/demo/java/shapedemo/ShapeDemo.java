@@ -37,8 +37,6 @@ public class ShapeDemo {
         // Update JANGL so events can be received and the screen doesn't say "not responding"
         JANGL.update();
 
-        this.rect.setWidth(this.rect.getWidth() + (float) (Clock.getTimeDelta() * 0.2));
-
         this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
         this.rect.getTransform().setPos(Mouse.getMousePos().x, Mouse.getMousePos().y);
 
