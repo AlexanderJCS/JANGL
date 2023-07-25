@@ -1,7 +1,7 @@
 # IDE things
 .idea
 .vscode
-target
+out/
 jangl.iml
 
 # Compiled class file
@@ -17,7 +17,6 @@ jangl.iml
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
