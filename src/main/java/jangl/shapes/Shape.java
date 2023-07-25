@@ -28,25 +28,26 @@ public abstract class Shape implements AutoCloseable {
     }
 
     public static boolean collides(Shape shape1, Shape shape2) {
-        Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.getExteriorVertices());
-        Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.getExteriorVertices());
-
         // Optimization that can have HUGE performance improvements when the two objects are not near each other
         // Act like the two objects are perfect spheres, where their radii are the farthest point from the center of
         // the object. If the two spheres are not colliding, there's no way that the two objects can be colliding
         // using more sophisticated collision detection methods.
-        Vector2f s1CenterVec = shape1.getTransform().getCenter().toVector2f();
-        Vector2f s2CenterVec = shape2.getTransform().getCenter().toVector2f();
+        Vector2f[] s1VerticesNoMatrix = ArrayUtils.toVector2fArray(shape1.calculateVertices());
+        Vector2f[] s2VerticesNoMatrix = ArrayUtils.toVector2fArray(shape2.calculateVertices());
 
-        Vector2f s1FarthestPoint = ArrayUtils.getFarthestPointFrom(s1Vertices, s1CenterVec);
-        Vector2f s2FarthestPoint = ArrayUtils.getFarthestPointFrom(s2Vertices, s2CenterVec);
+        Vector2f s1FarthestPoint = ArrayUtils.getFarthestPointFrom(s1VerticesNoMatrix, new Vector2f().zero());
+        Vector2f s2FarthestPoint = ArrayUtils.getFarthestPointFrom(s2VerticesNoMatrix, new Vector2f().zero());
 
-        float s1Radius = s1FarthestPoint.distance(s1CenterVec);
-        float s2Radius = s2FarthestPoint.distance(s2CenterVec);
+        float s1Radius = s1FarthestPoint.distance(new Vector2f().zero());
+        float s2Radius = s2FarthestPoint.distance(new Vector2f().zero());
 
         if (!collides(shape1.getTransform().getCenter(), s1Radius, shape2.getTransform().getCenter(), s2Radius)) {
             return false;
         }
+
+        // Proceed with normal collision detection
+        Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.calculateVerticesMatrix());
+        Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.calculateVerticesMatrix());
 
         Vector2f[] s1Axes = shape1.getOutsideVectors();
         Vector2f[] s2Axes = shape2.getOutsideVectors();
