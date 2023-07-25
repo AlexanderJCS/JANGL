@@ -11,6 +11,7 @@ import static org.lwjgl.opengl.GL46.*;
  */
 public class Model implements AutoCloseable {
     protected static final int DIMENSIONS = 2;
+    protected static int drawCallCounter = 0;
     protected int drawCount;
     protected int vID;
 
@@ -30,6 +31,7 @@ public class Model implements AutoCloseable {
      * Renders the model as a white box.
      */
     public void render() {
+        drawCallCounter++;
         glEnableClientState(GL_VERTEX_ARRAY);
 
         glBindBuffer(GL_ARRAY_BUFFER, this.vID);
@@ -54,6 +56,14 @@ public class Model implements AutoCloseable {
         glBindBuffer(GL_ARRAY_BUFFER, this.vID);
         glBufferSubData(GL_ARRAY_BUFFER, offset, vertices);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
+
+    public static int getDrawCallCount() {
+        return drawCallCounter;
+    }
+
+    public static void resetDrawCallCounter() {
+        drawCallCounter = 0;
     }
 
     /**

@@ -12,6 +12,7 @@ public class TriangleFanModel extends Model {
 
     @Override
     public void render() {
+        drawCallCounter++;
         glEnableClientState(GL_VERTEX_ARRAY);
 
         glBindBuffer(GL_ARRAY_BUFFER, this.vID);

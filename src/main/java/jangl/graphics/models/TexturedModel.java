@@ -28,6 +28,7 @@ public class TexturedModel extends IndicesModel {
      */
     @Override
     public void render() {
+        drawCallCounter++;
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
