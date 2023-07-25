@@ -2,6 +2,7 @@ package jangl.shapes;
 
 import jangl.coords.WorldCoords;
 import jangl.graphics.Bindable;
+import jangl.graphics.Camera;
 import jangl.graphics.models.Model;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.VertexShader;
@@ -176,7 +177,21 @@ public abstract class Shape implements AutoCloseable {
         return collides(circle, point);
     }
 
+    protected boolean shouldDraw() {
+        // Check if the shape is off-screen. If it is, then it's best not to waste a draw call on it
+        Vector2f farthestCoordinate = ArrayUtils.getFarthestPointFrom(
+                ArrayUtils.toVector2fArray(this.getExteriorVertices()),
+                this.getTransform().getCenter().toVector2f()
+        );
+
+        float radius = farthestCoordinate.distance(this.getTransform().getCenter().toVector2f());
+        float windowRadius = (float) (Math.pow(WorldCoords.getMiddle().x, 2) + Math.pow(WorldCoords.getMiddle().y, 2));
+
+        return collides(Camera.getCenter(), windowRadius, this.getTransform().getCenter(), radius);
+    }
+
     public void draw() {
+        // Proceed with drawing the shape
         if (ShaderProgram.getBoundProgram() == null) {
             defaultShader.bind();
         }

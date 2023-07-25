@@ -273,7 +273,7 @@ public class ShapeGuide {
             // This is method is required to be called so the window doesn't say "not responding"
             JANGL.update();
         }
-        
+
         this.rect.close();
         this.circle.close();
         this.triangle.close();

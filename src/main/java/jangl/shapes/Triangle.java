@@ -43,8 +43,10 @@ public class Triangle extends Shape {
 
     @Override
     public void draw() {
-        super.draw();
-        this.model.render();
+        if (super.shouldDraw()) {
+            super.draw();
+            this.model.render();
+        }
     }
 
     @Override
