@@ -39,7 +39,14 @@ public class Text implements AutoCloseable {
     }
 
     public void setText(String newText) {
-        this.text = this.pruneText(newText);
+        String pruned = this.pruneText(newText);
+
+        // Don't regenerate if the text is the same
+        if (pruned.equals(this.text)) {
+            return;
+        }
+
+        this.text = pruned;
         this.regenerate();
     }
 
