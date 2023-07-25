@@ -145,6 +145,8 @@ public class Rect extends Shape {
      */
     @Override
     public void draw() {
+        super.bindShader();
+
         if (super.shouldDraw()) {
             super.draw();
             this.model.render();

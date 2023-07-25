@@ -179,6 +179,15 @@ public abstract class Shape implements AutoCloseable {
 
     protected boolean shouldDraw() {
         // Check if the shape is off-screen. If it is, then it's best not to waste a draw call on it
+
+        // Adjust for the edge case if the shape doesn't obey the camera
+        WorldCoords center;
+        if (ShaderProgram.getBoundProgram().getVertexShader().isObeyingCamera()) {
+            center = Camera.getCenter();
+        } else {
+            center = WorldCoords.getMiddle();
+        }
+
         Vector2f farthestCoordinate = ArrayUtils.getFarthestPointFrom(
                 ArrayUtils.toVector2fArray(this.getExteriorVertices()),
                 this.getTransform().getCenter().toVector2f()
@@ -187,15 +196,19 @@ public abstract class Shape implements AutoCloseable {
         float radius = farthestCoordinate.distance(this.getTransform().getCenter().toVector2f());
         float windowRadius = (float) (Math.pow(WorldCoords.getMiddle().x, 2) + Math.pow(WorldCoords.getMiddle().y, 2));
 
-        return collides(Camera.getCenter(), windowRadius, this.getTransform().getCenter(), radius);
+        return collides(center, windowRadius, this.getTransform().getCenter(), radius);
     }
 
-    public void draw() {
-        // Proceed with drawing the shape
+    /**
+     * Binds a shader if none is already active.
+     */
+    protected void bindShader() {
         if (ShaderProgram.getBoundProgram() == null) {
             defaultShader.bind();
         }
+    }
 
+    public void draw() {
         ShaderProgram boundProgram = ShaderProgram.getBoundProgram();
         VertexShader vertexShader = boundProgram.getVertexShader();
 
