@@ -49,19 +49,18 @@ public abstract class Shape implements AutoCloseable {
         Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape1.calculateVerticesMatrix());
         Vector2f[] s2Vertices = ArrayUtils.toVector2fArray(shape2.calculateVerticesMatrix());
 
-        Vector2f[] s1Axes = shape1.getOutsideVectors();
-        Vector2f[] s2Axes = shape2.getOutsideVectors();
+        Vector2f[] s1Axes = Shape.getOutsideVectors(s1Vertices);
+        Vector2f[] s2Axes = Shape.getOutsideVectors(s2Vertices);
 
         List<Vector2f> combined = new ArrayList<>(s1Axes.length + s2Axes.length);
         Collections.addAll(combined, s1Axes);
         Collections.addAll(combined, s2Axes);
 
-
         for (Vector2f axis : combined) {
             axis.perpendicular();
 
-            Range s1Range = projectShapeOntoAxis(s1Vertices, axis);
-            Range s2Range = projectShapeOntoAxis(s2Vertices, axis);
+            Range s1Range = Shape.projectShapeOntoAxis(s1Vertices, axis);
+            Range s2Range = Shape.projectShapeOntoAxis(s2Vertices, axis);
 
             // If the ranges do not intersect, the shapes are not colliding
             if (!s1Range.intersects(s2Range)) {
@@ -261,8 +260,7 @@ public abstract class Shape implements AutoCloseable {
      */
     public abstract float[] getExteriorVertices();
 
-    public Vector2f[] getOutsideVectors() {
-        Vector2f[] exteriorVertices = ArrayUtils.toVector2fArray(this.getExteriorVertices());
+    public static Vector2f[] getOutsideVectors(Vector2f[] exteriorVertices) {
         Vector2f[] outsideVectors = new Vector2f[exteriorVertices.length];
 
         for (int i = 0; i < exteriorVertices.length; i++) {
@@ -277,5 +275,10 @@ public abstract class Shape implements AutoCloseable {
         }
 
         return outsideVectors;
+    }
+
+    public Vector2f[] getOutsideVectors() {
+        Vector2f[] exteriorVertices = ArrayUtils.toVector2fArray(this.getExteriorVertices());
+        return getOutsideVectors(exteriorVertices);
     }
 }
