@@ -43,12 +43,7 @@ public class Texture implements AutoCloseable, Bindable {
     }
 
     private static ShaderProgram createShader() {
-        List<AttribLocation> attribLocations = Arrays.asList(
-                new AttribLocation(0, "vertices"),
-                new AttribLocation(1, "textures")
-        );
-
-        return new ShaderProgram(new TextureShaderVert(), new TextureShaderFrag(), attribLocations);
+        return new ShaderProgram(new TextureShaderVert(), new TextureShaderFrag(), TextureShaderVert.getAttribLocations());
     }
 
     /**

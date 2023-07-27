@@ -31,7 +31,7 @@ public class Font implements AutoCloseable {
         this.texCoordsMap = new HashMap<>();
         this.infoMap = new HashMap<>();
         this.fontShader = new FontShader(ColorFactory.fromNormalized(1, 1, 1, 1));
-        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), this.fontShader);
+        this.shaderProgram = new ShaderProgram(new TextureShaderVert(), this.fontShader, TextureShaderVert.getAttribLocations());
 
         this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage));
         this.fontTexture.useDefaultShader(false);

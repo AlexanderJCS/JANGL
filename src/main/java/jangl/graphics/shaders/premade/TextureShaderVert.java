@@ -1,9 +1,12 @@
 package jangl.graphics.shaders.premade;
 
+import jangl.graphics.shaders.AttribLocation;
 import jangl.graphics.shaders.Shader;
 import jangl.graphics.shaders.VertexShader;
 
 import java.io.UncheckedIOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class TextureShaderVert extends VertexShader {
 
@@ -13,5 +16,12 @@ public class TextureShaderVert extends VertexShader {
      */
     public TextureShaderVert() throws UncheckedIOException {
         super(Shader.class.getResourceAsStream("/shaders/textureShader/textureShader.vert"));
+    }
+
+    public static List<AttribLocation> getAttribLocations() {
+        return Arrays.asList(
+                new AttribLocation(0, "vertices"),
+                new AttribLocation(1, "textures")
+        );
     }
 }
