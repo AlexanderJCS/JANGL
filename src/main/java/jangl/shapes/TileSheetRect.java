@@ -31,7 +31,7 @@ public class TileSheetRect extends Rect {
      * @param newY The zero-indexed y coordinate of the tile to display.
      */
     public void setTilePos(int newX, int newY) {
-        if (newX < 0 || newX >= this.tilesWidth || newY < 0 || newY >= this.tilesHeight) {
+        if (newX < 0 || newX > this.tilesWidth || newY < 0 || newY > this.tilesHeight) {
             throw new IllegalArgumentException(
                     "The new x or new y tile coordinate is out of bounds. The x must be between the range [0, tilesWidth)" +
                             " and the y must be between the range [0, tilesHeight)"
