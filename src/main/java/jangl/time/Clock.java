@@ -34,7 +34,7 @@ public final class Clock {
         double interval = 1 / fps;
 
         // Wait until the current time passed interval
-        while (glfwGetTime() - lastTick < interval) ;
+        while (getTime() - lastTick < interval) ;
     }
 
     /**
@@ -47,7 +47,7 @@ public final class Clock {
      * @throws InterruptedException Throws if the thread is interrupted while sleeping.
      */
     public static void smartTick(double fps) throws InterruptedException {
-        double seconds = 1 / fps - (glfwGetTime() - lastTick);
+        double seconds = 1 / fps - (getTime() - lastTick);
 
         double estimate = 5e-3;
         double mean = 5e-3;
@@ -55,9 +55,9 @@ public final class Clock {
         long count = 1;
 
         while (seconds > estimate) {
-            double start = glfwGetTime();
+            double start = getTime();
             Thread.sleep(1);
-            double end = glfwGetTime();
+            double end = getTime();
 
             double observed = end - start;
             seconds -= observed;
@@ -73,8 +73,8 @@ public final class Clock {
         }
 
         // Busy wait
-        double start = glfwGetTime();
-        while (glfwGetTime() - start < seconds) ;
+        double start = getTime();
+        while (getTime() - start < seconds);
     }
 
     /**
@@ -82,7 +82,7 @@ public final class Clock {
      */
     private static void updateDeltaTime() {
         secondToLastTick = lastTick;
-        lastTick = glfwGetTime();
+        lastTick = getTime();
     }
 
     /**
@@ -152,5 +152,12 @@ public final class Clock {
 
     public static double getNonSmoothedFPS() {
         return 1 / Clock.getTimeDelta();
+    }
+
+    /**
+     * @return The seconds since the window initialized
+     */
+    public static double getTime() {
+        return glfwGetTime();
     }
 }
