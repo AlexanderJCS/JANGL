@@ -32,44 +32,18 @@ public class Transform {
         // currentScale * ? = factor
         // ? = factor / currentScale
 
-        float deltaX = factor / this.getScaleX();
-        float deltaY = factor / this.getScaleY();
+        float deltaX = factor / this.getScale();
+        float deltaY = factor / this.getScale();
 
         WorldCoords center = this.getCenter();
         this.modelMatrix.scaleAroundLocal(deltaX, deltaY, 0, center.x, center.y, 0);
     }
 
-    public void setScaleX(float factor) {
-        float deltaX = factor / this.getScaleX();
-        WorldCoords center = this.getCenter();
-        this.modelMatrix.scaleAroundLocal(deltaX, 1, 0, center.x, center.y, 0);
-    }
-
-    public void setScaleY(float factor) {
-        float deltaY = factor / this.getScaleY();
-        WorldCoords center = this.getCenter();
-        this.modelMatrix.scaleAroundLocal(1, deltaY, 0, center.x, center.y, 0);
-    }
-
-    public Vector2f getScale() {
-        Vector3f scale = new Vector3f();
-        this.modelMatrix.getScale(scale);
-
-        return new Vector2f(scale.x, scale.y);
-    }
-
-    public float getScaleX() {
+    public float getScale() {
         Vector3f scale = new Vector3f();
         this.modelMatrix.getScale(scale);
 
         return scale.x;
-    }
-
-    public float getScaleY() {
-        Vector3f scale = new Vector3f();
-        this.modelMatrix.getScale(scale);
-
-        return scale.y;
     }
 
     /**
@@ -124,7 +98,12 @@ public class Transform {
     public void rotateAround(float radians, WorldCoords origin) {
         WorldCoords centerNoRotation = this.getCenterNoRotation();
 
-        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x - centerNoRotation.x, origin.y - centerNoRotation.y, 0);
+        this.modelMatrix.rotateAround(
+                new Quaternionf().rotateZ(radians),
+                (origin.x - centerNoRotation.x) / this.getScale(),
+                (origin.y - centerNoRotation.y) / this.getScale(),
+                0
+        );
     }
 
     /**

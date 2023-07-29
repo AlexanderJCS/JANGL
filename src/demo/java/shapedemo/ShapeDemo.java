@@ -20,6 +20,7 @@ public class ShapeDemo {
         this.rect = new Rect(new WorldCoords(0.8f, 0.6f), 0.25f, 0.25f);
         this.circle = new Circle(new WorldCoords(1.3f, 0.5f), 0.1f, 70);
         this.triangle = new Triangle(new WorldCoords(0.5f, 0.3f), new WorldCoords(0.8f, 0.3f), new WorldCoords(0.5f, 0.6f));
+        this.triangle.getTransform().setScale(0.5f);
     }
 
     public void draw() {
