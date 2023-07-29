@@ -108,7 +108,7 @@ public class Transform {
      * @param radians The amount, in radians, to rotate the object by.
      */
     public void rotate(float radians) {
-        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), this.getCenter().x, this.getCenter().y, 0);
+        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), 0, 0, 0);
         this.localRotationAngle += radians;
     }
 
@@ -121,7 +121,7 @@ public class Transform {
      * @param origin  The origin of the point to rotate across.
      */
     public void rotateAround(float radians, WorldCoords origin) {
-        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x, origin.y, 0);
+        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x - this.getCenter().x, origin.y - this.getCenter().y, 0);
     }
 
     /**
@@ -131,7 +131,7 @@ public class Transform {
      * @param radians The amount, in radians, to rotate counterclockwise across the axis.
      */
     public void rotateOrigin(float radians) {
-        this.modelMatrix.rotateZ(radians);
+        this.rotateAround(radians, new WorldCoords(0, 0));
         this.originRotationAngle += radians;
     }
 
