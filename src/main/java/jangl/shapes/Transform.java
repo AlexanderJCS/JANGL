@@ -61,7 +61,7 @@ public class Transform {
      * @param y The y delta to move.
      */
     public void shift(float x, float y) {
-        this.modelMatrix.translate(x, y, 0);
+        this.modelMatrix.translateLocal(x, y, 0);
         this.shift.add(x, y);
     }
 
