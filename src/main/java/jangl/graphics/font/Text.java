@@ -210,8 +210,7 @@ public class Text implements AutoCloseable {
         shaderProgram.bind();
         shaderProgram.getVertexShader().setMatrixUniforms(
                 shaderProgram.getProgramID(),
-                this.transform.getTransformMatrix(),
-                this.transform.getRotationMatrix()
+                this.transform.getMatrix()
         );
 
         this.font.fontTexture.bind();

@@ -214,8 +214,7 @@ public abstract class Shape implements AutoCloseable {
 
         vertexShader.setMatrixUniforms(
                 boundProgram.getProgramID(),
-                this.transform.getTransformMatrix(),
-                this.transform.getRotationMatrix()
+                this.transform.getMatrix()
         );
     }
 

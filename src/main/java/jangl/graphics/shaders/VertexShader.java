@@ -34,7 +34,7 @@ public class VertexShader extends Shader {
 
             if (lineAfterVersion) {
                 builder.append(Camera.UBO_CODE);
-                builder.append("uniform mat4 transformMatrix;uniform mat4 rotationMatrix;uniform bool obeyCamera;\n");
+                builder.append("uniform mat4 transformMatrix;uniform bool obeyCamera;\n");
                 lineAfterVersion = false;
             }
 
@@ -46,7 +46,7 @@ public class VertexShader extends Shader {
                 line = line.replace(" ", "");
                 String lineWithoutGlPosition = line.replace("gl_Position=", "");
 
-                line = "if (obeyCamera) {gl_Position=projectionMatrix*cameraMatrix*transformMatrix*rotationMatrix*" + lineWithoutGlPosition + "} else {gl_Position=projectionMatrix*transformMatrix*rotationMatrix*" + lineWithoutGlPosition + "}";
+                line = "if (obeyCamera) {gl_Position=projectionMatrix*cameraMatrix*transformMatrix*" + lineWithoutGlPosition + "} else {gl_Position=projectionMatrix*transformMatrix*" + lineWithoutGlPosition + "}";
             }
 
             builder.append(line).append("\n");
@@ -75,9 +75,8 @@ public class VertexShader extends Shader {
      *
      * @param programID The program ID to the pass the uniform to
      */
-    public void setMatrixUniforms(int programID, Matrix4f transformMatrix, Matrix4f rotationMatrix) {
+    public void setMatrixUniforms(int programID, Matrix4f transformMatrix) {
         this.addMatrixUniform(programID, "transformMatrix", transformMatrix);
-        this.addMatrixUniform(programID, "rotationMatrix", rotationMatrix);
 
         int obeyCameraUniformLocation = glGetUniformLocation(programID, "obeyCamera");
         glUniform1i(obeyCameraUniformLocation, this.obeyCamera ? 1 : 0);

@@ -8,7 +8,6 @@ import org.joml.Vector3f;
 
 public class Transform {
     private final Matrix4f transformMatrix;
-    private final Matrix4f rotationMatrix;
     private final Vector2f shift;
     private Vector3f center;
     private float localRotationAngle;
@@ -19,7 +18,6 @@ public class Transform {
         this.shift = new Vector2f(0, 0);
 
         this.transformMatrix = new Matrix4f().identity();
-        this.rotationMatrix = new Matrix4f().identity();
 
         this.localRotationAngle = 0;
         this.originRotationAngle = 0;
@@ -42,36 +40,36 @@ public class Transform {
         float deltaX = factor / this.getScaleX();
         float deltaY = factor / this.getScaleY();
 
-        this.rotationMatrix.scaleAroundLocal(deltaX, deltaY, 0, this.center.x, this.center.y, 0);
+        this.transformMatrix.scaleAroundLocal(deltaX, deltaY, 0, this.center.x, this.center.y, 0);
     }
 
     public void setScaleX(float factor) {
         float deltaX = factor / this.getScaleX();
-        this.rotationMatrix.scaleAroundLocal(deltaX, 1, 0, this.center.x, this.center.y, 0);
+        this.transformMatrix.scaleAroundLocal(deltaX, 1, 0, this.center.x, this.center.y, 0);
     }
 
     public void setScaleY(float factor) {
         float deltaY = factor / this.getScaleY();
-        this.rotationMatrix.scaleAroundLocal(1, deltaY, 0, this.center.x, this.center.y, 0);
+        this.transformMatrix.scaleAroundLocal(1, deltaY, 0, this.center.x, this.center.y, 0);
     }
 
     public Vector2f getScale() {
         Vector3f scale = new Vector3f();
-        this.rotationMatrix.getScale(scale);
+        this.transformMatrix.getScale(scale);
 
         return new Vector2f(scale.x, scale.y);
     }
 
     public float getScaleX() {
         Vector3f scale = new Vector3f();
-        this.rotationMatrix.getScale(scale);
+        this.transformMatrix.getScale(scale);
 
         return scale.x;
     }
 
     public float getScaleY() {
         Vector3f scale = new Vector3f();
-        this.rotationMatrix.getScale(scale);
+        this.transformMatrix.getScale(scale);
 
         return scale.y;
     }
@@ -114,6 +112,14 @@ public class Transform {
         this.localRotationAngle += radians;
     }
 
+    /**
+     * Rotate around the given point. If you want to rotate around the local center of the shape, it is better to use
+     * the rotate() method. If you want to rotate around (0, 0), it is better to use rotateOrigin(). This is because
+     * you can use the getLocalRotationAngle() and getOriginRotationAngle(), but you can't if you rotate from those points here.
+     *
+     * @param radians The amount of radians to rotate.
+     * @param origin  The origin of the point to rotate across.
+     */
     public void rotateAround(float radians, WorldCoords origin) {
         this.transformMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x, origin.y, 0);
     }
@@ -178,14 +184,16 @@ public class Transform {
      */
     void setCenter(Vector2f center) {
         this.center = new Vector3f(center, 0);
-        this.rotationMatrix.translate(this.center.x(), this.center.y(), 0);
+        this.transformMatrix.translate(center.x, center.y, 0);
     }
 
     /**
      * Get a deepcopy of the transformation matrix. Primarily used to pass the matrix as a uniform to the GPU.
      *
      * @return The transformation matrix.
+     * @deprecated Since the rotation matrix is removed, use this.getMatrix() instead of this method.
      */
+    @Deprecated
     public Matrix4f getTransformMatrix() {
         return new Matrix4f(this.transformMatrix);
     }
@@ -193,10 +201,12 @@ public class Transform {
     /**
      * Get a deepcopy of the rotation matrix. Primarily used to pass the matrix as a uniform to the GPU.
      *
-     * @return The transformation matrix.
+     * @return An identity matrix, since the rotation matrix is removed.
+     * @deprecated The rotation matrix is removed.
      */
+    @Deprecated
     public Matrix4f getRotationMatrix() {
-        return new Matrix4f(this.rotationMatrix);
+        return new Matrix4f().identity();
     }
 
     /**
@@ -204,8 +214,6 @@ public class Transform {
      * being slow, it is not recommended to call this method often.
      */
     public Matrix4f getMatrix() {
-        return new Matrix4f()
-                .set(this.getTransformMatrix())
-                .mul(this.getRotationMatrix());
+        return new Matrix4f(this.transformMatrix);
     }
 }

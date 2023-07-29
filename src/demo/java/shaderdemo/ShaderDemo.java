@@ -25,8 +25,7 @@ public class ShaderDemo implements AutoCloseable {
         // If this method is not called, whatever you are trying to draw will not appear.
         this.shaderProgram.getVertexShader().setMatrixUniforms(
                 this.shaderProgram.getProgramID(),
-                this.rect.getTransform().getTransformMatrix(),
-                this.rect.getTransform().getRotationMatrix()
+                this.rect.getTransform().getMatrix()
         );
     }
 
