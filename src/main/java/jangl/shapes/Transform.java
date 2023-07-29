@@ -7,7 +7,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 public class Transform {
-    private final Matrix4f transformMatrix;
+    private final Matrix4f modelMatrix;
     private final Vector2f shift;
     private Vector3f center;
     private float localRotationAngle;
@@ -17,7 +17,7 @@ public class Transform {
         this.center = new Vector3f(0, 0, 0);
         this.shift = new Vector2f(0, 0);
 
-        this.transformMatrix = new Matrix4f().identity();
+        this.modelMatrix = new Matrix4f().identity();
 
         this.localRotationAngle = 0;
         this.originRotationAngle = 0;
@@ -40,36 +40,36 @@ public class Transform {
         float deltaX = factor / this.getScaleX();
         float deltaY = factor / this.getScaleY();
 
-        this.transformMatrix.scaleAroundLocal(deltaX, deltaY, 0, this.center.x, this.center.y, 0);
+        this.modelMatrix.scaleAroundLocal(deltaX, deltaY, 0, this.center.x, this.center.y, 0);
     }
 
     public void setScaleX(float factor) {
         float deltaX = factor / this.getScaleX();
-        this.transformMatrix.scaleAroundLocal(deltaX, 1, 0, this.center.x, this.center.y, 0);
+        this.modelMatrix.scaleAroundLocal(deltaX, 1, 0, this.center.x, this.center.y, 0);
     }
 
     public void setScaleY(float factor) {
         float deltaY = factor / this.getScaleY();
-        this.transformMatrix.scaleAroundLocal(1, deltaY, 0, this.center.x, this.center.y, 0);
+        this.modelMatrix.scaleAroundLocal(1, deltaY, 0, this.center.x, this.center.y, 0);
     }
 
     public Vector2f getScale() {
         Vector3f scale = new Vector3f();
-        this.transformMatrix.getScale(scale);
+        this.modelMatrix.getScale(scale);
 
         return new Vector2f(scale.x, scale.y);
     }
 
     public float getScaleX() {
         Vector3f scale = new Vector3f();
-        this.transformMatrix.getScale(scale);
+        this.modelMatrix.getScale(scale);
 
         return scale.x;
     }
 
     public float getScaleY() {
         Vector3f scale = new Vector3f();
-        this.transformMatrix.getScale(scale);
+        this.modelMatrix.getScale(scale);
 
         return scale.y;
     }
@@ -89,7 +89,7 @@ public class Transform {
      * @param y The y delta to move.
      */
     public void shift(float x, float y) {
-        this.transformMatrix.translate(x, y, 0);
+        this.modelMatrix.translate(x, y, 0);
         this.shift.add(x, y);
     }
 
@@ -108,7 +108,7 @@ public class Transform {
      * @param radians The amount, in radians, to rotate the object by.
      */
     public void rotate(float radians) {
-        this.transformMatrix.rotateAround(new Quaternionf().rotateZ(radians), this.getCenter().x, this.getCenter().y, 0);
+        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), this.getCenter().x, this.getCenter().y, 0);
         this.localRotationAngle += radians;
     }
 
@@ -121,7 +121,7 @@ public class Transform {
      * @param origin  The origin of the point to rotate across.
      */
     public void rotateAround(float radians, WorldCoords origin) {
-        this.transformMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x, origin.y, 0);
+        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x, origin.y, 0);
     }
 
     /**
@@ -131,7 +131,7 @@ public class Transform {
      * @param radians The amount, in radians, to rotate counterclockwise across the axis.
      */
     public void rotateOrigin(float radians) {
-        this.transformMatrix.rotateZ(radians);
+        this.modelMatrix.rotateZ(radians);
         this.originRotationAngle += radians;
     }
 
@@ -184,7 +184,7 @@ public class Transform {
      */
     void setCenter(Vector2f center) {
         this.center = new Vector3f(center, 0);
-        this.transformMatrix.translate(center.x, center.y, 0);
+        this.modelMatrix.translate(center.x, center.y, 0);
     }
 
     /**
@@ -195,7 +195,7 @@ public class Transform {
      */
     @Deprecated
     public Matrix4f getTransformMatrix() {
-        return new Matrix4f(this.transformMatrix);
+        return new Matrix4f(this.modelMatrix);
     }
 
     /**
@@ -214,6 +214,6 @@ public class Transform {
      * being slow, it is not recommended to call this method often.
      */
     public Matrix4f getMatrix() {
-        return new Matrix4f(this.transformMatrix);
+        return new Matrix4f(this.modelMatrix);
     }
 }
