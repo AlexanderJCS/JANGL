@@ -2,6 +2,7 @@ package jangl.shapes;
 
 import jangl.coords.WorldCoords;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -109,8 +110,12 @@ public class Transform {
      * @param radians The amount, in radians, to rotate the object by.
      */
     public void rotate(float radians) {
-        this.rotationMatrix.rotateZ(radians);
+        this.transformMatrix.rotateAround(new Quaternionf().rotateZ(radians), this.getCenter().x, this.getCenter().y, 0);
         this.localRotationAngle += radians;
+    }
+
+    public void rotateAround(float radians, WorldCoords origin) {
+        this.transformMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x, origin.y, 0);
     }
 
     /**
