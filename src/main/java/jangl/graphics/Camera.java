@@ -49,6 +49,12 @@ public class Camera {
         return array;
     }
 
+    private static void resetCameraMatrixUBO() {
+        glBindBuffer(GL_UNIFORM_BUFFER, uboID);
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, matrixToArray(cameraMatrix));
+        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    }
+
     /**
      * Sets the bottom left coordinate of the camera view.
      *
@@ -56,10 +62,7 @@ public class Camera {
      */
     public static void setCameraPos(WorldCoords bottomLeft) {
         cameraMatrix.setTranslation(new Vector3f(bottomLeft.toVector2f(), 0).mul(-1));
-
-        glBindBuffer(GL_UNIFORM_BUFFER, uboID);
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, matrixToArray(cameraMatrix));
-        glBindBuffer(GL_UNIFORM_BUFFER, 0);
+        resetCameraMatrixUBO();
     }
 
     /**

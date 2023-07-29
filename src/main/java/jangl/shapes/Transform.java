@@ -32,11 +32,10 @@ public class Transform {
         // currentScale * ? = factor
         // ? = factor / currentScale
 
-        float deltaX = factor / this.getScale();
-        float deltaY = factor / this.getScale();
+        float delta = factor / this.getScale();
 
         WorldCoords center = this.getCenter();
-        this.modelMatrix.scaleAroundLocal(deltaX, deltaY, 0, center.x, center.y, 0);
+        this.modelMatrix.scaleAroundLocal(delta, delta, 0, center.x, center.y, 0);
     }
 
     public float getScale() {
