@@ -1,20 +1,15 @@
 package jangl.shapes;
 
 import jangl.coords.WorldCoords;
-import org.joml.Matrix4f;
-import org.joml.Quaternionf;
-import org.joml.Vector2f;
-import org.joml.Vector3f;
+import org.joml.*;
 
 public class Transform {
     private final Matrix4f modelMatrix;
     private final Vector2f shift;
-    private Vector3f center;
     private float localRotationAngle;
     private float originRotationAngle;
 
     public Transform() {
-        this.center = new Vector3f(0, 0, 0);
         this.shift = new Vector2f(0, 0);
 
         this.modelMatrix = new Matrix4f().identity();
@@ -29,7 +24,7 @@ public class Transform {
      * @param y The y coordinate of the new center.
      */
     public void setPos(float x, float y) {
-        Vector2f delta = new Vector2f(this.shift).sub(x, y).add(this.center.x(), this.center.y()).mul(-1);
+        Vector2f delta = this.getCenter().toVector2f().sub(x, y);
         this.shift(delta.x, delta.y);
     }
 
@@ -40,17 +35,20 @@ public class Transform {
         float deltaX = factor / this.getScaleX();
         float deltaY = factor / this.getScaleY();
 
-        this.modelMatrix.scaleAroundLocal(deltaX, deltaY, 0, this.center.x, this.center.y, 0);
+        WorldCoords center = this.getCenter();
+        this.modelMatrix.scaleAroundLocal(deltaX, deltaY, 0, center.x, center.y, 0);
     }
 
     public void setScaleX(float factor) {
         float deltaX = factor / this.getScaleX();
-        this.modelMatrix.scaleAroundLocal(deltaX, 1, 0, this.center.x, this.center.y, 0);
+        WorldCoords center = this.getCenter();
+        this.modelMatrix.scaleAroundLocal(deltaX, 1, 0, center.x, center.y, 0);
     }
 
     public void setScaleY(float factor) {
         float deltaY = factor / this.getScaleY();
-        this.modelMatrix.scaleAroundLocal(1, deltaY, 0, this.center.x, this.center.y, 0);
+        WorldCoords center = this.getCenter();
+        this.modelMatrix.scaleAroundLocal(1, deltaY, 0, center.x, center.y, 0);
     }
 
     public Vector2f getScale() {
@@ -116,12 +114,17 @@ public class Transform {
      * Rotate around the given point. If you want to rotate around the local center of the shape, it is better to use
      * the rotate() method. If you want to rotate around (0, 0), it is better to use rotateOrigin(). This is because
      * you can use the getLocalRotationAngle() and getOriginRotationAngle(), but you can't if you rotate from those points here.
+     * <br>
+     * WARNING: if you are rotating around multiple points at the same time, it is likely that you will come across
+     * unintended effects. Make sure to only rotate around one point at a time.
      *
      * @param radians The amount of radians to rotate.
      * @param origin  The origin of the point to rotate across.
      */
     public void rotateAround(float radians, WorldCoords origin) {
-        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x - this.getCenter().x, origin.y - this.getCenter().y, 0);
+        WorldCoords centerNoRotation = this.getCenterNoRotation();
+
+        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), origin.x - centerNoRotation.x, origin.y - centerNoRotation.y, 0);
     }
 
     /**
@@ -173,8 +176,13 @@ public class Transform {
      * @return The center of the object in WorldCoords.
      */
     public WorldCoords getCenter() {
-        Vector2f center = new Vector2f(this.center.x(), this.center.y()).add(this.shift);
+        Vector3f center = new Vector3f();
+        this.modelMatrix.transformPosition(center);
         return new WorldCoords(center.x, center.y);
+    }
+
+    public WorldCoords getCenterNoRotation() {
+        return new WorldCoords(this.shift.x, this.shift.y);
     }
 
     /**
@@ -183,8 +191,7 @@ public class Transform {
      * @param center The center of the object.
      */
     void setCenter(Vector2f center) {
-        this.center = new Vector3f(center, 0);
-        this.modelMatrix.translate(center.x, center.y, 0);
+        this.shift(center.x(), center.y());
     }
 
     /**
