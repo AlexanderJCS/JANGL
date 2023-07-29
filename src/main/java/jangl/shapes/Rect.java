@@ -31,7 +31,7 @@ public class Rect extends Shape {
         realTopLeft.x += this.x2;
         realTopLeft.y += this.y2;
 
-        this.transform.setCenter(realTopLeft.toVector2f());
+        this.transform.shift(realTopLeft);
 
         // Check the comments in setTexRepeatY to see why I'm re-doing this
         this.setTexRepeatX(1);

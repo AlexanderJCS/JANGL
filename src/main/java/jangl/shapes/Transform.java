@@ -164,15 +164,6 @@ public class Transform {
     }
 
     /**
-     * Used only right after creating the object to set the center of the object.
-     *
-     * @param center The center of the object.
-     */
-    void setCenter(Vector2f center) {
-        this.shift(center.x(), center.y());
-    }
-
-    /**
      * Get a deepcopy of the transformation matrix. Primarily used to pass the matrix as a uniform to the GPU.
      *
      * @return The transformation matrix.

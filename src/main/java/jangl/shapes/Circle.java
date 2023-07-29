@@ -27,7 +27,7 @@ public class Circle extends Shape {
         this.sides = sides;
         this.radius = radius;
         this.model = this.toModel();
-        this.transform.setCenter(center.toVector2f());
+        this.transform.shift(center);
     }
 
     public int getSides() {

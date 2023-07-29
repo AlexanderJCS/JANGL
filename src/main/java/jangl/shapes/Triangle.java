@@ -20,7 +20,7 @@ public class Triangle extends Shape {
         this.point2.y -= center.y;
         this.point3.x -= center.x;
         this.point3.y -= center.y;
-        this.transform.setCenter(center.toVector2f());
+        this.transform.shift(center);
 
         this.model = this.toModel();
     }
