@@ -24,8 +24,8 @@ public class Transform {
      * @param y The y coordinate of the new center.
      */
     public void setPos(float x, float y) {
-        Vector2f delta = this.getCenter().toVector2f().sub(x, y);
-        this.shift(delta.x, delta.y);
+        WorldCoords center = this.getCenter();
+        this.shift(x - center.x, y - center.y);
     }
 
     public void setScale(float factor) {
