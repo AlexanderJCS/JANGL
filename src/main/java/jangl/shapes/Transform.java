@@ -34,6 +34,47 @@ public class Transform {
         this.shift(delta.x, delta.y);
     }
 
+    public void setScale(float factor) {
+        // currentScale * ? = factor
+        // ? = factor / currentScale
+
+        float deltaX = factor / this.getScaleX();
+        float deltaY = factor / this.getScaleY();
+
+        this.rotationMatrix.scaleAroundLocal(deltaX, deltaY, 0, this.center.x, this.center.y, 0);
+    }
+
+    public void setScaleX(float factor) {
+        float deltaX = factor / this.getScaleX();
+        this.rotationMatrix.scaleAroundLocal(deltaX, 1, 0, this.center.x, this.center.y, 0);
+    }
+
+    public void setScaleY(float factor) {
+        float deltaY = factor / this.getScaleY();
+        this.rotationMatrix.scaleAroundLocal(1, deltaY, 0, this.center.x, this.center.y, 0);
+    }
+
+    public Vector2f getScale() {
+        Vector3f scale = new Vector3f();
+        this.rotationMatrix.getScale(scale);
+
+        return new Vector2f(scale.x, scale.y);
+    }
+
+    public float getScaleX() {
+        Vector3f scale = new Vector3f();
+        this.rotationMatrix.getScale(scale);
+
+        return scale.x;
+    }
+
+    public float getScaleY() {
+        Vector3f scale = new Vector3f();
+        this.rotationMatrix.getScale(scale);
+
+        return scale.y;
+    }
+
     /**
      * Sets the center of the object to the specific value.
      * @param pos The new position.

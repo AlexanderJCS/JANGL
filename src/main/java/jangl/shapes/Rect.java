@@ -122,7 +122,9 @@ public class Rect extends Shape {
      *          highly recommended not to call this method many times per frame.
      *
      * @param newWidth The new width.
+     * @deprecated Instead of using this, it is recommended to use rect.getTransform().setScaleX().
      */
+    @Deprecated
     public void setWidth(float newWidth) {
         this.width = newWidth;
         this.refreshCorners();
@@ -136,7 +138,9 @@ public class Rect extends Shape {
      *          highly recommended not to call this method many times per frame.
      *
      * @param newHeight The new height.
+     * @deprecated Instead of using this, it is recommended to use rect.getTransform().setScaleY().
      */
+    @Deprecated
     public void setHeight(float newHeight) {
         this.height = newHeight;
         this.refreshCorners();
