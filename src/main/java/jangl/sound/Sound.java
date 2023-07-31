@@ -1,8 +1,6 @@
 package jangl.sound;
 
-import org.lwjgl.openal.AL;
-import org.lwjgl.openal.ALC;
-import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.*;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
@@ -13,6 +11,7 @@ import java.nio.ShortBuffer;
 
 import static org.lwjgl.openal.AL11.*;
 import static org.lwjgl.openal.ALC11.*;
+import static org.lwjgl.openal.SOFTGainClampEx.AL_GAIN_LIMIT_SOFT;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 
 /*
@@ -130,11 +129,34 @@ public class Sound implements AutoCloseable {
      * @throws IllegalArgumentException Throws if the given volume is outside the range of [0, 1].
      */
     public void setVolume(float volume) throws IllegalArgumentException {
-        if (volume > 1 || volume < 0) {
-            throw new IllegalArgumentException("The volume of a sound must be a float within the range [0, 1]");
+        if (volume > this.getMaxVolume() || volume < 0) {
+            throw new IllegalArgumentException(
+                    "The volume of a sound must be a float within the range [0, this.getMaxVolume()]\n" +
+                            "WARNING: 0 = 0% volume and 1 = 100% volume. Using this.setMaxVolume() to set the volume" +
+                            "higher than 100% may make the sound too loud and (in extreme cases) cause hearing damage."
+            );
         }
 
         alSourcef(this.sourceID, AL_GAIN, volume);
+    }
+
+    /**
+     * Set the max volume. Used to set the max volume beyond 100%.<br>
+     * WARNING: 0 = 0% volume and 1 = 100% volume. Using this.setMaxVolume() to set the volume
+     *          higher than 100% may make the sound too loud and (in extreme cases) cause hearing damage.
+     *
+     * @param volume The new maximum volume.
+     */
+    public void setMaxVolume(float volume) {
+        if (volume < 0) {
+            throw new IllegalArgumentException("The max volume of a sound must be a float within the range [0, infinity)");
+        }
+
+        alSourcef(this.sourceID, AL_MAX_GAIN, volume);
+    }
+
+    public float getMaxVolume() {
+        return alGetSourcef(this.sourceID, AL_MAX_GAIN);
     }
 
     /**
