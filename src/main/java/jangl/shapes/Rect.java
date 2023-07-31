@@ -64,7 +64,7 @@ public class Rect extends Shape {
     /**
      * @return The vertex indices that are passed to OpenGL.
      */
-    protected int[] getIndices() {
+    public int[] getIndices() {
         return new int[]{
                 0, 1, 2,
                 2, 3, 0
@@ -105,7 +105,7 @@ public class Rect extends Shape {
         texturedModel.subTexCoords(this.getTexCoords(), 0);
     }
 
-    protected float[] getTexCoords() {
+    public float[] getTexCoords() {
         return new float[]{
                 0, 0,
                 this.texRepeatX, 0,
