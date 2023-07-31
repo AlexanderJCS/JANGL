@@ -192,7 +192,7 @@ public class Text implements AutoCloseable {
      * @param y The y delta to move.
      */
     public void shift(float x, float y) {
-        this.transform.shift(x, y);
+        this.batch.getTransform().shift(x, y);
     }
 
     /**
@@ -201,18 +201,17 @@ public class Text implements AutoCloseable {
      * @param shiftCoords The amount to shift the object by.
      */
     public void shift(WorldCoords shiftCoords) {
-        this.transform.shift(shiftCoords);
+        this.batch.getTransform().shift(shiftCoords);
+    }
+
+    public Transform getTransform() {
+        return this.batch.getTransform();
     }
 
     public void draw() {
         ShaderProgram shaderProgram = this.font.getShaderProgram();
 
         shaderProgram.bind();
-        shaderProgram.getVertexShader().setMatrixUniforms(
-                shaderProgram.getProgramID(),
-                this.transform.getMatrix()
-        );
-
         this.font.fontTexture.bind();
         this.batch.draw();
         this.font.fontTexture.unbind();

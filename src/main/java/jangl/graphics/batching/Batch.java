@@ -5,18 +5,22 @@ import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.VertexShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
-import org.joml.Matrix4f;
+import jangl.shapes.Transform;
 
 public class Batch implements AutoCloseable {
     private static final ShaderProgram defaultShader = new ShaderProgram(new DefaultVertShader());
     private final TexturedModel model;
+    private final Transform transform;
 
     public Batch(BatchBuilder builder) {
         this.model = new TexturedModel(
-                builder.getVertices(),
+                builder.getVerticesLocal(),
                 builder.getIndices(),
                 builder.getTexCoords()
         );
+
+        this.transform = new Transform();
+        this.transform.shift(builder.getMiddle());
     }
 
     public void draw() {
@@ -34,7 +38,7 @@ public class Batch implements AutoCloseable {
 
         vertexShader.setMatrixUniforms(
                 boundProgram.getProgramID(),
-                new Matrix4f().identity()
+                this.transform.getMatrix()
         );
 
         this.model.render();
@@ -48,6 +52,10 @@ public class Batch implements AutoCloseable {
         bindable.bind();
         this.draw();
         bindable.unbind();
+    }
+
+    public Transform getTransform() {
+        return this.transform;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package jangl.graphics.batching;
 
+import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
 import java.util.ArrayList;
@@ -100,6 +101,26 @@ public class BatchBuilder {
         return vertices;
     }
 
+    /**
+     * Get the vertices where (0, 0) is the center of all the objects.
+     * @return The vertices where (0, 0) is the center of all the objects.
+     */
+    public float[] getVerticesLocal() {
+        WorldCoords middle = this.getMiddle();
+        float[] vertices = this.getVertices();
+
+        for (int i = 0; i < vertices.length; i++) {
+            // If the index is even the vertex is an x coordinate
+            if (i % 2 == 0) {
+                vertices[i] -= middle.x;
+            } else {
+                vertices[i] -= middle.y;
+            }
+        }
+
+        return vertices;
+    }
+
     public int[] getIndices() {
         int[] indices = new int[this.indices.size()];
 
@@ -118,5 +139,28 @@ public class BatchBuilder {
         }
 
         return texCoords;
+    }
+
+    /**
+     * Calculates the middle point of the vertices.
+     * @return The middle point of the vertices.
+     */
+    public WorldCoords getMiddle() {
+        float sumX = 0;
+        float sumY = 0;
+
+        for (int i = 0; i < this.vertices.size(); i++) {
+            // If the index is even it must be an x coordinate
+            if (i % 2 == 0) {
+                sumX += this.vertices.get(i);
+            } else {
+                sumY += this.vertices.get(i);
+            }
+        }
+
+        return new WorldCoords(
+                sumX / this.vertices.size() * 2,
+                sumY / this.vertices.size() * 2
+        );
     }
 }
