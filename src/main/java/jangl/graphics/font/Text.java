@@ -2,17 +2,18 @@ package jangl.graphics.font;
 
 import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
+import jangl.graphics.batching.Batch;
+import jangl.graphics.batching.BatchBuilder;
 import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.shapes.Transform;
-import org.joml.Matrix4f;
 
 public class Text implements AutoCloseable {
     /**
      * Used for the transform and rotation matrices.
      */
     private final Transform transform;
-    private TexturedModel model;
+    private Batch batch;
     private String text;
     private WorldCoords topLeft;
     private Font font;
@@ -30,7 +31,7 @@ public class Text implements AutoCloseable {
         this.font = font;
         this.text = this.pruneText(text);
 
-        this.model = this.getModel();
+        this.batch = this.getBatch();
         this.transform = new Transform();
     }
 
@@ -69,7 +70,7 @@ public class Text implements AutoCloseable {
         return builder.toString();
     }
 
-    public TexturedModel getModel() {
+    public Batch getBatch() {
         int heightPixels = this.font.tallestLetter.height();
         float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
 
@@ -79,9 +80,12 @@ public class Text implements AutoCloseable {
         // The cursor is where the next char should be drawn
         PixelCoords cursor = this.topLeft.toPixelCoords();
 
-        float[] vertices = new float[this.text.length() * 8];
-        float[] texCoords = new float[this.text.length() * 8];
-        int[] indices = new int[this.text.length() * 6];
+        BatchBuilder builder = new BatchBuilder();
+
+        int[] charIndices = new int[]{
+                0, 1, 2,
+                2, 3, 0
+        };
 
         for (int i = 0; i < this.text.length(); i++) {
             char ch = this.text.charAt(i);
@@ -103,6 +107,8 @@ public class Text implements AutoCloseable {
 
             WorldCoords scCursor = cursor.toWorldCoords();
 
+            // x1 = left, x2 = right
+            // y1 = top, y2 = bottom
             float x1 = scCursor.x;
             float y1 = scCursor.y;
             float x2 = scCursor.x + PixelCoords.distToWorldCoords(info.width()) * scaleFactor;
@@ -114,16 +120,10 @@ public class Text implements AutoCloseable {
                     x2, y2,
                     x1, y2
             };
-            System.arraycopy(charVertices, 0, vertices, i * 8, charVertices.length);
-
-            int[] charIndices = new int[]{
-                    i * 4, i * 4 + 1, i * 4 + 2,
-                    i * 4 + 2, i * 4 + 3, i * 4
-            };
-            System.arraycopy(charIndices, 0, indices, i * 6, charIndices.length);
 
             float[] charTexCoords = this.font.getTexCoords(ch);
-            System.arraycopy(charTexCoords, 0, texCoords, i * 8, charTexCoords.length);
+
+            builder.addObject(charVertices, charIndices, charTexCoords);
 
             cursor.x -= info.xOffset() * scaleFactor;
             cursor.y += info.yOffset() * scaleFactor;
@@ -131,15 +131,15 @@ public class Text implements AutoCloseable {
             cursor.x += info.xAdvance() * scaleFactor;
         }
 
-        return new TexturedModel(vertices, indices, texCoords);
+        return new Batch(builder);
     }
 
     /**
      * Regenerate the new model with any changes that may have been made since the last time it was generated
      */
     protected void regenerate() {
-        this.model.close();  // close the old model before generating the new one
-        this.model = this.getModel();
+        this.batch.close();  // close the old model before generating the new one
+        this.batch = this.getBatch();
     }
 
     /**
@@ -214,13 +214,13 @@ public class Text implements AutoCloseable {
         );
 
         this.font.fontTexture.bind();
-        this.model.render();
+        this.batch.draw();
         this.font.fontTexture.unbind();
         shaderProgram.unbind();
     }
 
     @Override
     public void close() {
-        this.model.close();
+        this.batch.close();
     }
 }
