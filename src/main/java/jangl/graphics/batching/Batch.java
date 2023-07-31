@@ -7,9 +7,7 @@ import jangl.graphics.shaders.VertexShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
 import org.joml.Matrix4f;
 
-import java.util.Arrays;
-
-public class Batch {
+public class Batch implements AutoCloseable {
     private static final ShaderProgram defaultShader = new ShaderProgram(new DefaultVertShader());
     private final TexturedModel model;
 
@@ -50,5 +48,10 @@ public class Batch {
         bindable.bind();
         this.draw();
         bindable.unbind();
+    }
+
+    @Override
+    public void close() {
+        this.model.close();
     }
 }
