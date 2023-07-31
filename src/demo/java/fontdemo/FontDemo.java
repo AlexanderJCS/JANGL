@@ -1,7 +1,6 @@
 package fontdemo;
 
 import jangl.JANGL;
-import jangl.color.Color;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
@@ -36,7 +35,7 @@ public class FontDemo {
         while (Window.shouldRun()) {
             this.draw();
 
-            this.hue += Clock.getTimeDelta();
+            this.hue += Clock.getTimeDelta() * 0.2f;
             this.text.getFont().setFontColor(ColorFactory.fromNormalizedHSVA(this.hue, 1, 1, 1));
 
             JANGL.update();
