@@ -140,6 +140,13 @@ public class Sound implements AutoCloseable {
         alSourcef(this.sourceID, AL_GAIN, volume);
     }
 
+    public float getVolume() {
+        return alGetSourcef(
+                this.sourceID,
+                AL_GAIN
+        );
+    }
+
     /**
      * Set the max volume. Used to set the max volume beyond 100%.<br>
      * WARNING: 0 = 0% volume and 1 = 100% volume. Using this.setMaxVolume() to set the volume
