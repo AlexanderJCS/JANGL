@@ -41,18 +41,12 @@ public class TextureDemo implements AutoCloseable {
     }
 
     public void draw() {
-        glBindFramebuffer(GL_FRAMEBUFFER, this.postProcessing.getFramebufferID());
-
+        this.postProcessing.start();
         Window.clear();
 
         this.rect1.draw(this.texture);
         this.rect2.draw(this.texture);
-
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        glBindTexture(GL_TEXTURE_2D, this.postProcessing.getFramebufferTextureID());
-        this.textureShader.bind();
-        this.postProcessing.draw();
+        this.postProcessing.end();
     }
 
     public void run() {
