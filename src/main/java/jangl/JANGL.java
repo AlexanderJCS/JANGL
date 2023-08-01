@@ -39,5 +39,8 @@ public class JANGL {
         glfwSwapBuffers(Window.getWindow());
 
         Clock.update();
+
+        PostProcessing.end();
+        PostProcessing.start();
     }
 }

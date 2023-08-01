@@ -34,12 +34,10 @@ public class TextureDemo implements AutoCloseable {
     }
 
     public void draw() {
-        PostProcessing.start();
         Window.clear();
 
         this.rect1.draw(this.texture);
         this.rect2.draw(this.texture);
-        PostProcessing.end();
     }
 
     public void run() {
