@@ -52,7 +52,8 @@ public class PostProcessing {
 
         shaderProgram = new ShaderProgram(
                 vertShader,
-                new TextureShaderFrag()
+                new TextureShaderFrag(),
+                TextureShaderVert.getAttribLocations()
         );
     }
 
