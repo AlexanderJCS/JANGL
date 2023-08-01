@@ -39,6 +39,8 @@ public class Window {
         initialized = true;
 
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);  // make the window non-resizeable
+        glfwWindowHint(GLFW_SAMPLES, 8);
+
         window = glfwCreateWindow(screenWidth, screenHeight, "JANGL", 0, 0);
         glfwShowWindow(window);
 
@@ -46,6 +48,7 @@ public class Window {
         GL.createCapabilities();
 
         glEnable(GL_TEXTURE_2D);
+        glEnable(GL_MULTISAMPLE);
 
         Window.setVsync(false);
     }
