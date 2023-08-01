@@ -17,6 +17,8 @@ public class SoundDemo {
     public SoundDemo() {
         this.sound = new Sound("src/demo/demoResources/soundDemo/cMajScale.ogg");
         this.sound.setLooping(true);
+        this.sound.setMaxVolume(2);
+        this.sound.setVolume(2);
 
         this.instructions = new Text(
                 new WorldCoords(0.1f, 0.9f),
