@@ -17,41 +17,50 @@ import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
 import static org.lwjgl.opengl.GL46.*;
 
 public class PostProcessing {
-    private final int framebuffer;
-    private final int renderBuffer;
-    private final int framebufferTexture;
-    private final Rect rect;
-    private ShaderProgram shaderProgram;
+    private static int framebuffer;
+    private static int renderBuffer;
+    private static int framebufferTexture;
+    private static Rect rect;
+    private static ShaderProgram shaderProgram;
+    private static boolean initialized;
 
-    public PostProcessing() {
-        this.framebuffer = glGenFramebuffers();
-        glBindFramebuffer(GL_FRAMEBUFFER, this.framebuffer);
+    private PostProcessing() {
+        
+    }
+    
+    public static void init() {
+        if (initialized) {
+            return;
+        }
+        
+        framebuffer = glGenFramebuffers();
+        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
 
-        this.framebufferTexture = genFramebufferTexture();
-        this.renderBuffer = genRenderBuffer();
+        framebufferTexture = genFramebufferTexture();
+        renderBuffer = genRenderBuffer();
 
-        this.errorCheck();
+        errorCheck();
 
         // For some reason the top left needs to be at 0, 0 (the bottom left of the screen) and
         // the height needs to be negative. No idea why, but if I don't do this the image appears flipped.
-        this.rect = new Rect(
+        rect = new Rect(
                 new WorldCoords(0, 0), WorldCoords.getTopRight().x, -WorldCoords.getTopRight().y
         );
 
         VertexShader vertShader = new TextureShaderVert();
         vertShader.setObeyCamera(false);
 
-        this.shaderProgram = new ShaderProgram(
+        shaderProgram = new ShaderProgram(
                 vertShader,
                 new TextureShaderFrag()
         );
     }
 
-    private int genFrameBuffer() {
+    private static int genFrameBuffer() {
         return glGenFramebuffers();
     }
 
-    private int genFramebufferTexture() {
+    private static int genFramebufferTexture() {
         int framebufferTexture = glGenTextures();
 
         glBindTexture(GL_TEXTURE_2D, framebufferTexture);
@@ -66,7 +75,7 @@ public class PostProcessing {
         return framebufferTexture;
     }
 
-    private int genRenderBuffer() {
+    private static int genRenderBuffer() {
         int rbo = glGenRenderbuffers();
         glBindRenderbuffer(GL_RENDERBUFFER, rbo);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, Window.getScreenWidth(), Window.getScreenHeight());
@@ -75,7 +84,7 @@ public class PostProcessing {
         return rbo;
     }
 
-    private void errorCheck() {
+    private static void errorCheck() {
         int fboStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
         if (fboStatus != GL_FRAMEBUFFER_COMPLETE) {
@@ -85,37 +94,37 @@ public class PostProcessing {
         }
     }
 
-    public int getFramebufferID() {
-        return this.framebuffer;
+    public static int getFramebufferID() {
+        return framebuffer;
     }
 
-    public int getFramebufferTextureID() {
-        return this.framebufferTexture;
+    public static int getFramebufferTextureID() {
+        return framebufferTexture;
     }
 
     /**
      * Set the post-processing shader.
      * WARNING: to avoid errors in rendering, make sure that the vertex shader does not obey the camera.
      */
-    public void setShaderProgram(ShaderProgram shaderProgram) {
-        this.shaderProgram = shaderProgram;
+    public static void setShaderProgram(ShaderProgram shaderProgram) {
+        PostProcessing.shaderProgram = shaderProgram;
     }
 
-    public ShaderProgram getShaderProgram() {
-        return this.shaderProgram;
+    public static ShaderProgram getShaderProgram() {
+        return shaderProgram;
     }
 
-    public void start() {
-        glBindFramebuffer(GL_FRAMEBUFFER, this.getFramebufferID());
+    public static void start() {
+        glBindFramebuffer(GL_FRAMEBUFFER, getFramebufferID());
     }
 
-    public void end() {
+    public static void end() {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        glBindTexture(GL_TEXTURE_2D, this.getFramebufferTextureID());
-        this.shaderProgram.bind();
-        this.rect.draw();
-        this.shaderProgram.unbind();
+        glBindTexture(GL_TEXTURE_2D, getFramebufferTextureID());
+        shaderProgram.bind();
+        rect.draw();
+        shaderProgram.unbind();
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 }
