@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 
+import static org.lwjgl.opengl.GL11C.GL_REPEAT;
+
 public class TextureBuilder {
     private int filterMode;
     private int x;
@@ -21,6 +23,7 @@ public class TextureBuilder {
     private int height;
     private ByteBuffer imageData;
     private boolean obeyCamera;
+    private int wrapMode;
 
     public TextureBuilder() {
         this.filterMode = GL46.GL_NEAREST;
@@ -32,6 +35,8 @@ public class TextureBuilder {
         this.height = -1;
 
         this.obeyCamera = true;
+
+        this.wrapMode = GL_REPEAT;
     }
 
     public int getFilterMode() {
@@ -143,6 +148,19 @@ public class TextureBuilder {
         this.imageData = this.calculateImageData(rawData);
 
         return this;
+    }
+
+    /**
+     * @param wrapMode The OpenGL wrap mode to use. E.g., GL_CLAMP_TO_EDGE, GL_REPEAT, etc
+     * @return This object, to allow method chaining
+     */
+    public TextureBuilder wrapMode(int wrapMode) {
+        this.wrapMode = wrapMode;
+        return this;
+    }
+
+    public int getWrapMode() {
+        return this.wrapMode;
     }
 
     protected void putPixel(ByteBuffer buffer, int pixelData) {

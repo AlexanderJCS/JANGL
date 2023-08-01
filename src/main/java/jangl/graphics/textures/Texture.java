@@ -37,8 +37,8 @@ public class Texture implements AutoCloseable, Bindable {
         this.id = this.createImage(builder.getImageData(), this.width, this.height, builder.getFilterMode());
 
         this.bind();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, builder.getWrapMode());
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, builder.getWrapMode());
         this.unbind();
     }
 
