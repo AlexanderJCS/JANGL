@@ -40,4 +40,11 @@ public final class WorldCoords extends Coords {
     public static WorldCoords getMiddle() {
         return new WorldCoords((float) Window.getScreenWidth() / Window.getScreenHeight() / 2f, 0.5f);
     }
+
+    /**
+     * @return The top right coordinates of the screen.
+     */
+    public static WorldCoords getTopRight() {
+        return new WorldCoords((float) Window.getScreenWidth() / Window.getScreenHeight(), 1);
+    }
 }
