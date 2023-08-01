@@ -154,7 +154,7 @@ public class TextureBuilder {
      * @param wrapMode The OpenGL wrap mode to use. E.g., GL_CLAMP_TO_EDGE, GL_REPEAT, etc
      * @return This object, to allow method chaining
      */
-    public TextureBuilder wrapMode(int wrapMode) {
+    public TextureBuilder setWrapMode(int wrapMode) {
         this.wrapMode = wrapMode;
         return this;
     }
