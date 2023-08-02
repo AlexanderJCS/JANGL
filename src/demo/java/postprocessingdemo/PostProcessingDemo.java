@@ -59,7 +59,7 @@ public class PostProcessingDemo implements AutoCloseable {
                         new ShaderProgram(
                                 vertexShader,
                                 new InvertColorsFrag(),
-                                // attribute locations are VERY important in order to work with every GPU
+                                // attribute locations are important in order to work with every GPU
                                 TextureShaderVert.getAttribLocations()
                         )
                 )
