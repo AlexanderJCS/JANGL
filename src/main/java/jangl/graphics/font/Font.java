@@ -178,6 +178,8 @@ public class Font implements AutoCloseable {
 
     /**
      * Set if the default colors of the font should be kept, or if it should be replaced with the current font color.
+     * This is useful if the font has an outline or some other special color information that you want to display.
+     *
      * @param keepDefaultColors True to keep the default colors of the font, false to use the current font color.
      */
     public void setKeepDefaultColors(boolean keepDefaultColors) {
