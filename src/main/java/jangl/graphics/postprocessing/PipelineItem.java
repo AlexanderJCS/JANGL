@@ -8,18 +8,12 @@ import jangl.shapes.Rect;
 
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11C.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11C.glBindTexture;
-import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
+import static org.lwjgl.opengl.GL46.*;
 
 /**
  * WARNING: Make sure to close the shader program using this.getShaderProgram().close() before deleting this object.
  */
-public class PipelineItem implements Bindable {
+public class PipelineItem implements Bindable, AutoCloseable {
     // For some reason the top left needs to be at 0, 0 (the bottom left of the screen) and
     // the height needs to be negative. No idea why, but if I don't do this the image appears flipped.
     private static final Rect SCREEN_RECT = new Rect(
@@ -104,5 +98,15 @@ public class PipelineItem implements Bindable {
         SCREEN_RECT.draw();
         shaderProgram.unbind();
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    /**
+     * Warning: this doesn't close the shader program associated with the pipeline item since it is not created
+     *          by the PipelineItem itself. Make sure to do this.getShaderProgram().close() before running this
+     */
+    @Override
+    public void close() {
+        glDeleteFramebuffers(this.framebuffer);
+        glDeleteTextures(this.framebufferTexture);
     }
 }
