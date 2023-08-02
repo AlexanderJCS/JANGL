@@ -12,11 +12,13 @@ import static org.lwjgl.opengl.GL20.*;
  */
 public class FontShader extends FragmentShader {
     private Color color;
+    private boolean keepDefaultColors;
 
     public FontShader(Color color) throws UncheckedIOException {
         super(FontShader.class.getResourceAsStream("/shaders/fontShader/fontShader.frag"));
 
         this.color = color;
+        this.keepDefaultColors = false;
     }
 
     public Color getColor() {
@@ -27,6 +29,14 @@ public class FontShader extends FragmentShader {
         this.color = color;
     }
 
+    public boolean isKeepingDefaultColors() {
+        return this.keepDefaultColors;
+    }
+
+    public void setKeepDefaultColors(boolean keepDefaultColors) {
+        this.keepDefaultColors = keepDefaultColors;
+    }
+
     @Override
     public void setUniforms(int programID) {
         int colorLocation = glGetUniformLocation(programID, "color");
@@ -34,5 +44,8 @@ public class FontShader extends FragmentShader {
 
         int samplerLocation = glGetUniformLocation(programID, "texSampler");
         glUniform1i(samplerLocation, 0);
+
+        int defaultColorLocation = glGetUniformLocation(programID, "keepDefaultColors");
+        glUniform1i(defaultColorLocation, this.keepDefaultColors ? 1 : 0);
     }
 }

@@ -176,6 +176,21 @@ public class Font implements AutoCloseable {
         return this.shaderProgram.getVertexShader().isObeyingCamera();
     }
 
+    /**
+     * Set if the default colors of the font should be kept, or if it should be replaced with the current font color.
+     * @param keepDefaultColors True to keep the default colors of the font, false to use the current font color.
+     */
+    public void setKeepDefaultColors(boolean keepDefaultColors) {
+        this.fontShader.setKeepDefaultColors(keepDefaultColors);
+    }
+
+    /**
+     * @return True if the font's default color is being displayed. False if a custom color is being displayed.
+     */
+    public boolean isKeepingDefaultColors() {
+        return this.fontShader.isKeepingDefaultColors();
+    }
+
     @Override
     public void close() {
         this.fontTexture.close();

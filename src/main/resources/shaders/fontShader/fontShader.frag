@@ -6,9 +6,16 @@
 
 uniform sampler2D texSampler;
 uniform vec4 color;
+uniform bool keepDefaultColors;
 in vec2 tex_coords;
 out vec4 fragColor;
 
 void main() {
-    fragColor = vec4(color.x, color.y, color.z, texture(texSampler, tex_coords).w * color.w);
+    vec4 originalColor = texture(texSampler, tex_coords);
+
+    if (!keepDefaultColors) {
+        originalColor = vec4(color.x, color.y, color.z, originalColor.w * color.w);
+    }
+    
+    fragColor = originalColor;
 }
