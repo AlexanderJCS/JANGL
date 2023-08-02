@@ -2,19 +2,10 @@ package texturedemo;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
-import jangl.graphics.postprocessing.PostProcessing;
-import jangl.graphics.shaders.ShaderProgram;
-import jangl.graphics.shaders.premade.TextureShaderFrag;
-import jangl.graphics.shaders.premade.TextureShaderVert;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-
-import static org.lwjgl.opengl.GL11.glDisable;
-import static org.lwjgl.opengl.GL11C.*;
-import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER;
-import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
 
 public class TextureDemo implements AutoCloseable {
     private final Rect rect1;
