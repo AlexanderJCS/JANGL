@@ -13,6 +13,7 @@ import jangl.coords.WorldCoords;
 import jangl.graphics.postprocessing.PipelineItem;
 import jangl.graphics.postprocessing.PostProcessing;
 import jangl.graphics.shaders.ShaderProgram;
+import jangl.graphics.shaders.VertexShader;
 import jangl.graphics.shaders.premade.TextureShaderVert;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -49,11 +50,14 @@ public class PostProcessingDemo implements AutoCloseable {
         JANGL.init(1600, 900);
         Window.setVsync(true);
 
+        VertexShader vertexShader = new TextureShaderVert();
+        vertexShader.setObeyCamera(false);  // it is very important that it does not obey the camera
+
         // Add the invert colors post-processing shader
         PostProcessing.addToPipeline(
                 new PipelineItem(
                         new ShaderProgram(
-                                new TextureShaderVert(),
+                                vertexShader,
                                 new InvertColorsFrag(),
                                 // attribute locations are VERY important in order to work with every GPU
                                 TextureShaderVert.getAttribLocations()
