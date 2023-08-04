@@ -2,8 +2,7 @@ package jangl.graphics;
 
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
+import org.joml.*;
 
 import static org.lwjgl.opengl.GL46.*;
 
@@ -66,7 +65,7 @@ public class Camera {
     }
 
     /**
-     * @return The bottom left coordinate of the camera view
+     * @return The bottom left coordinate of the camera view if the camera were not rotated.
      */
     public static WorldCoords getCameraPos() {
         Vector3f transform = new Vector3f();
@@ -79,16 +78,50 @@ public class Camera {
      * @return The center coordinate of the camera view
      */
     public static WorldCoords getCenter() {
-        WorldCoords bottomLeft = getCameraPos();
-        WorldCoords middle = WorldCoords.getMiddle();
+        Vector4f middle = new Vector4f(WorldCoords.getMiddle().toVector2f(), 0, 1);
 
-        return new WorldCoords(bottomLeft.x + middle.x, bottomLeft.y + middle.y);
+        middle.mul(cameraMatrix);
+
+        return new WorldCoords(middle.x, middle.y);
     }
 
     public static void setCenter(WorldCoords center) {
         WorldCoords screenCenter = WorldCoords.getMiddle();
         setCameraPos(new WorldCoords(center.x - screenCenter.x, center.y - screenCenter.y));
     }
+
+    public static float getRotation() {
+        // Extract the rotation from the camera matrix
+        AxisAngle4f rotationVec = new AxisAngle4f();
+        cameraMatrix.getRotation(rotationVec);
+
+        return rotationVec.angle;
+    }
+
+    /**
+     * Rotate counterclockwise by a certain number of radians.
+     * @param radians The delta to rotate counterclockwise by.
+     */
+    public static void rotate(float radians) {
+        WorldCoords pos = getCenter();
+
+        // Perform local rotation around the camera's bottom-left position
+        cameraMatrix.translate(pos.x, pos.y, 0)
+                .rotateZ(radians)
+                .translate(-pos.x, -pos.y, 0);
+
+        resetCameraMatrixUBO();
+    }
+
+    /**
+     * Set the rotation to a certain amount.
+     * @param radians The amount, in radians, to set the rotation to.
+     */
+    public static void setRotation(float radians) {
+        float delta = radians - getRotation();
+        rotate(delta);
+    }
+
 
     public boolean getInit() {
         return initialized;
