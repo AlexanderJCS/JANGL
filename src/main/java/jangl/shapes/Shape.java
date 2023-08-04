@@ -177,9 +177,12 @@ public abstract class Shape implements AutoCloseable {
         return collides(circle, point);
     }
 
+    /**
+     * Check if the shape is off-screen. If it is, then it's best not to waste a draw call on it
+     *
+     * @return If this object should be culled
+     */
     protected boolean shouldDraw() {
-        // Check if the shape is off-screen. If it is, then it's best not to waste a draw call on it
-
         // Adjust for the edge case if the shape doesn't obey the camera
         WorldCoords center;
         if (ShaderProgram.getBoundProgram().getVertexShader().isObeyingCamera()) {
@@ -187,6 +190,10 @@ public abstract class Shape implements AutoCloseable {
         } else {
             center = WorldCoords.getMiddle();
         }
+
+        // Adjust for the camera's zoom
+        center.x /= Camera.getZoom();
+        center.y /= Camera.getZoom();
 
         Vector2f farthestCoordinate = ArrayUtils.getFarthestPointFrom(
                 ArrayUtils.toVector2fArray(this.getExteriorVertices()),

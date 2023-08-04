@@ -11,6 +11,7 @@ public class Camera {
     public static final int BINDING_POINT = 83;
     private static Matrix4f cameraMatrix;
     private static int uboID;
+    private static float zoom = 1;
 
     private static boolean initialized = false;
 
@@ -105,12 +106,33 @@ public class Camera {
     public static void rotate(float radians) {
         WorldCoords pos = getCenter();
 
-        // Perform local rotation around the camera's bottom-left position
         cameraMatrix.translate(pos.x, pos.y, 0)
                 .rotateZ(radians)
                 .translate(-pos.x, -pos.y, 0);
 
         resetCameraMatrixUBO();
+    }
+
+    /**
+     * Set the zoom to a new zoom multiplier.
+     * @param newZoom The new zoom.
+     */
+    public static void setZoom(float newZoom) {
+        float delta = newZoom / getZoom();
+        zoom = newZoom;
+
+        WorldCoords center = getCenter();
+
+        cameraMatrix.scaleAroundLocal(delta, center.x, center.y, 0);
+        resetCameraMatrixUBO();
+    }
+
+    /**
+     * Gets the current zoom multiplier. 1 = normal zoom, 2 = double zoom, 0.5 = 50% zoom, etc.
+     * @return The current zoom factor.
+     */
+    public static float getZoom() {
+        return zoom;
     }
 
     /**
