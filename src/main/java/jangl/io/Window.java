@@ -5,7 +5,7 @@ import jangl.graphics.textures.TextureBuilder;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL46.*;
+import static org.lwjgl.opengl.GL41.*;
 
 public class Window {
     public static int screenWidth;

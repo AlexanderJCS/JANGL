@@ -1,6 +1,6 @@
 package jangl.graphics.models;
 
-import static org.lwjgl.opengl.GL46.*;
+import static org.lwjgl.opengl.GL41.*;
 
 /**
  * Allows you to pass the vertex and index information of a shape into OpenGL. Passing indices reduces video memory,

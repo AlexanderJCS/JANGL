@@ -2,7 +2,7 @@
  * This file is designed for the Font class, and will allow text to be set to any color.
  */
 
-#version 460
+#version 410
 
 uniform sampler2D texSampler;
 uniform vec4 color;

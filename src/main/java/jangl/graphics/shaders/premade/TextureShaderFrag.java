@@ -5,7 +5,7 @@ import jangl.graphics.shaders.Shader;
 
 import java.io.UncheckedIOException;
 
-import static org.lwjgl.opengl.GL46.glGetUniformLocation;
+import static org.lwjgl.opengl.GL41.glGetUniformLocation;
 import static org.lwjgl.opengl.GL46.glUniform1i;
 
 public class TextureShaderFrag extends FragmentShader {

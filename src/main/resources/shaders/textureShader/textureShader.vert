@@ -1,4 +1,4 @@
-#version 460
+#version 410
 
 in vec3 vertices;
 in vec2 textures;

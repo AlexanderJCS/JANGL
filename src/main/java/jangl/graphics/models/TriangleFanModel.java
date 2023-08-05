@@ -1,6 +1,6 @@
 package jangl.graphics.models;
 
-import static org.lwjgl.opengl.GL46.*;
+import static org.lwjgl.opengl.GL41.*;
 
 /**
  * Takes in the vertices for a triangle fan to draw. Used for the Circle class.

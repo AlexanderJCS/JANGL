@@ -5,7 +5,7 @@ import jangl.graphics.shaders.UBO;
 import jangl.io.Window;
 import org.joml.*;
 
-import static org.lwjgl.opengl.GL46.*;
+import static org.lwjgl.opengl.GL41.*;
 
 public class Camera {
     public static final String UBO_CODE = "layout(std140) uniform Matrices {mat4 cameraMatrix;mat4 projectionMatrix;};";

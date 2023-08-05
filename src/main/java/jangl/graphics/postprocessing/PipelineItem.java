@@ -8,7 +8,7 @@ import jangl.shapes.Rect;
 
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL46.*;
+import static org.lwjgl.opengl.GL41.*;
 
 /**
  * WARNING: Make sure to close the shader program using this.getShaderProgram().close() before deleting this object.

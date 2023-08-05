@@ -10,7 +10,7 @@ import jangl.graphics.shaders.premade.DefaultVertShader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.lwjgl.opengl.GL46.*;
+import static org.lwjgl.opengl.GL41.*;
 
 /**
  * A ShaderProgram allows you to combine a FragmentShader and VertexShader into a single program.
