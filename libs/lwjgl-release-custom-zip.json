@@ -8,6 +8,8 @@
     "linux",
     "linux-arm64",
     "linux-arm32",
+    "macos",
+    "macos-arm64",
     "windows",
     "windows-x86",
     "windows-arm64"
@@ -15,7 +17,7 @@
   "descriptions": true,
   "compact": false,
   "hardcoded": false,
-  "javadoc": true,
+  "javadoc": false,
   "includeJSON": true,
   "source": true,
   "osgi": false,
