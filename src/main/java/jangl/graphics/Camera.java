@@ -99,6 +99,15 @@ public class Camera {
     }
 
     /**
+     * Set the rotation to a certain amount.
+     * @param radians The amount, in radians, to set the rotation to.
+     */
+    public static void setRotation(float radians) {
+        float delta = radians - getRotation();
+        rotate(delta);
+    }
+
+    /**
      * Rotate counterclockwise by a certain number of radians.
      * @param radians The delta to rotate counterclockwise by.
      */
@@ -133,16 +142,6 @@ public class Camera {
     public static float getZoom() {
         return zoom;
     }
-
-    /**
-     * Set the rotation to a certain amount.
-     * @param radians The amount, in radians, to set the rotation to.
-     */
-    public static void setRotation(float radians) {
-        float delta = radians - getRotation();
-        rotate(delta);
-    }
-
 
     public boolean getInit() {
         return initialized;
