@@ -2,6 +2,7 @@ package jangl.graphics.shaders;
 
 import jangl.color.ColorFactory;
 import jangl.graphics.Bindable;
+import jangl.graphics.Camera;
 import jangl.graphics.shaders.exceptions.ShaderCompileException;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
@@ -118,6 +119,8 @@ public class ShaderProgram implements AutoCloseable, Bindable {
                             "\nFragment shader source code:\n" + this.getFragmentShader().sourceCode
             );
         }
+
+        this.addUBO(Camera.getUbo(), "Matrices");
     }
 
     /**
@@ -139,6 +142,22 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         }
 
         return shaderID;
+    }
+
+    /**
+     * @param ubo The UBO to add
+     * @param uboName The name of the UBO in the shader
+     * @throws RuntimeException If the uniformBlockIndex cannot be found
+     */
+    public void addUBO(UBO ubo, String uboName) throws RuntimeException {
+        int uniformBlockIndex = glGetUniformBlockIndex(this.getProgramID(), uboName);
+
+        if (uniformBlockIndex == -1) {
+            System.out.println(this.getVertexShader().sourceCode);
+            throw new RuntimeException("Could not find uniform block index " + uboName);
+        }
+
+        glUniformBlockBinding(this.getProgramID(), uniformBlockIndex, ubo.getBindingPoint());
     }
 
     public static ShaderProgram getBoundProgram() {
