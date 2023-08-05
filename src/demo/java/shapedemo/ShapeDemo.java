@@ -3,7 +3,6 @@ package shapedemo;
 import jangl.JANGL;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
-import jangl.graphics.Camera;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
@@ -49,9 +48,6 @@ public class ShapeDemo {
         } else {
             Window.setClearColor(ColorFactory.fromNormalized(0.8f, 0, 0, 1));
         }
-
-        Camera.setZoom(0.5f);
-        // Camera.setRotation((float) Clock.getTime() * 0.1f);
     }
 
     public void run() {
