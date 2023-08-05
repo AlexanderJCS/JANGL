@@ -33,7 +33,6 @@ public class Camera {
         System.arraycopy(matrixToArray(cameraMatrix), 0, combinedMatrix, 0, 16);
         System.arraycopy(matrixToArray(projectionMatrix), 0, combinedMatrix, 16, 16);
         ubo = new UBO(combinedMatrix, BINDING_POINT);
-        ubo = new UBO(combinedMatrix, BINDING_POINT);
 
         initialized = true;
     }
