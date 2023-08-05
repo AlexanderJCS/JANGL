@@ -5,9 +5,7 @@ This library is built on top of LWJGL, an OpenGL wrapper. JANGL abstracts a lot 
 
 ## Compatibility
 
-Due to Apple not supporting OpenGL versions beyond 4.1, JANGL is not compatible with macOS.
-
-This library is tested on Windows, and is therefore guaranteed to work on Windows. It should work on Linux, but it may not since it is not tested on the platform. If you receive an error on Linux, please [create an issue](https://github.com/AlexanderJCS/JANGL/issues/new).
+This library is tested on Windows, and is therefore guaranteed to work on Windows. It should work on Linux and macOS, but it may not since it is not tested on the platform. If you receive an error on the other operating systems, please [create an issue](https://github.com/AlexanderJCS/JANGL/issues/new).
 
 ## Installing JANGL
 
@@ -20,6 +18,13 @@ After this, JANGL should be set up in your project. You can test it out by follo
 ## Errors
 
 If an error you are experiencing is not listed below, please [create an issue](https://github.com/AlexanderJCS/JANGL/issues/new).
+
+### MacOS Thread Error
+If you receive an error on macOS when running JANGL, make sure to add the following VM option:
+```
+-XstartOnFirstThread
+```
+This will start the program on the first thread, which will allow GLFW, a dependency of JANGL, to initialize.
 
 ### Access Violation Error
 If you get an error along the lines of:
