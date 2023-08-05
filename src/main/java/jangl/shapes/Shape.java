@@ -191,17 +191,18 @@ public abstract class Shape implements AutoCloseable {
             center = WorldCoords.getMiddle();
         }
 
-        // Adjust for the camera's zoom
-        center.x /= Camera.getZoom();
-        center.y /= Camera.getZoom();
-
         Vector2f farthestCoordinate = ArrayUtils.getFarthestPointFrom(
                 ArrayUtils.toVector2fArray(this.getExteriorVertices()),
                 this.getTransform().getCenter().toVector2f()
         );
 
         float radius = farthestCoordinate.distance(this.getTransform().getCenter().toVector2f());
-        float windowRadius = (float) (Math.pow(WorldCoords.getMiddle().x, 2) + Math.pow(WorldCoords.getMiddle().y, 2));
+
+        WorldCoords middle = WorldCoords.getMiddle();
+        float windowRadius = (float) (Math.pow(middle.x, 2) + Math.pow(middle.y, 2));
+
+        // Adjust for camera zoom
+        windowRadius /= Camera.getZoom();
 
         return collides(center, windowRadius, this.getTransform().getCenter(), radius);
     }
