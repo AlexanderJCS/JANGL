@@ -63,6 +63,9 @@ public class PostProcessing {
         for (int i = 1; i < pipeline.size(); i++) {
             PipelineItem item = pipeline.get(i);
             item.bind();
+
+            // I have no idea why it needs to be i - 1 but when I say item.draw() it just does not work in the
+            // slightest. So just don't modify this line
             pipeline.get(i - 1).draw();
         }
 
