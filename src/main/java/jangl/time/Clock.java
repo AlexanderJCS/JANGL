@@ -114,6 +114,27 @@ public final class Clock {
     }
 
     /**
+     * @return Clock.getTimeDelta() casted to a float. Useful as to provide less-verbose code.
+     */
+    public static float getTimeDeltaf() {
+        return (float) Clock.getTimeDelta();
+    }
+
+    /**
+     * @return The seconds since the window initialized
+     */
+    public static double getTime() {
+        return glfwGetTime();
+    }
+
+    /**
+     * @return Clock.getTime() casted to a float. Useful as to provide less-verbose code.
+     */
+    public static float getTimef() {
+        return (float) getTime();
+    }
+
+    /**
      * @return The number of smoothed FPS samples
      */
     public static int getNumFpsSamples() {
@@ -152,12 +173,5 @@ public final class Clock {
 
     public static double getNonSmoothedFPS() {
         return 1 / Clock.getTimeDelta();
-    }
-
-    /**
-     * @return The seconds since the window initialized
-     */
-    public static double getTime() {
-        return glfwGetTime();
     }
 }
