@@ -10,7 +10,7 @@ import static org.lwjgl.opengl.GL41.*;
 /**
  * A way to interface with OpenGL uniform buffer objects.
  */
-public class UBO implements Bindable {
+public class UBO implements Bindable, AutoCloseable {
     private final int id;
     private final int bindingPoint;
     private static final Set<Integer> bindingPoints = new HashSet<>();
@@ -57,5 +57,10 @@ public class UBO implements Bindable {
     @Override
     public void unbind() {
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
+    }
+
+    @Override
+    public void close() {
+        glDeleteBuffers(this.id);
     }
 }
