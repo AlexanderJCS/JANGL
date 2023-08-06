@@ -42,11 +42,11 @@ public class Triangle extends Shape {
         };
     }
 
-    protected int[] getIndices() {
+    public int[] getIndices() {
         return new int[]{0, 1, 2};
     }
 
-    protected float[] getTexCoords() {
+    public float[] getTexCoords() {
         float xMin = Math.min(this.point1.x, Math.min(this.point2.x, this.point3.x));
         float xMax = Math.max(this.point1.x, Math.max(this.point2.x, this.point3.x));
         float yMin = Math.min(this.point1.y, Math.min(this.point2.y, this.point3.y));
