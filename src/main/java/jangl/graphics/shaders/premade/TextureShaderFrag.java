@@ -8,6 +8,9 @@ import java.io.UncheckedIOException;
 import static org.lwjgl.opengl.GL41.glGetUniformLocation;
 import static org.lwjgl.opengl.GL46.glUniform1i;
 
+/**
+ * A fragment shader to apply textures to objects
+ */
 public class TextureShaderFrag extends FragmentShader {
     public TextureShaderFrag() throws UncheckedIOException {
         super(Shader.class.getResourceAsStream("/shaders/textureShader/textureShader.frag"));

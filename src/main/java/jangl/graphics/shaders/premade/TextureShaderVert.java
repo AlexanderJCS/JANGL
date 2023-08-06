@@ -8,6 +8,9 @@ import java.io.UncheckedIOException;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A shader to pass texture coords to a fragment shader.
+ */
 public class TextureShaderVert extends VertexShader {
 
     /**
