@@ -5,15 +5,17 @@ import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
+import jangl.shapes.Circle;
 import jangl.shapes.Rect;
+import jangl.shapes.Triangle;
 
 public class TextureDemo implements AutoCloseable {
-    private final Rect rect1;
+    private final Triangle rect1;
     private final Rect rect2;
     private final Texture texture;
 
     public TextureDemo() {
-        this.rect1 = new Rect(new WorldCoords(0, 0.5f), 0.5f, 0.5f);
+        this.rect1 = new Triangle(new WorldCoords(0.5f, 0.5f), new WorldCoords(0, 0), new WorldCoords(1, 0));
         this.rect2 = new Rect(new WorldCoords(0.7f, 0.5f), 0.5f, 0.5f);
 
         this.rect1.setTexRepeatX(2);
