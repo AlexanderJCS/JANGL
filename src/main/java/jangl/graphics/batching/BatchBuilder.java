@@ -2,6 +2,7 @@ package jangl.graphics.batching;
 
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
+import jangl.shapes.Shape;
 import jangl.shapes.Triangle;
 
 import java.util.ArrayList;
@@ -19,60 +20,29 @@ public class BatchBuilder {
     }
 
     /**
-     * Add a rectangle to the batch.
-     * @param rect The rectangle to add.
+     * Adds a shape to the batch.
+     * @param shape The shape to add.
      * @return this object, allowing for method chaining
      */
-    public BatchBuilder addObject(Rect rect) {
+    public BatchBuilder addObject(Shape shape) {
         this.addObject(
-                rect,
-                rect.getTexCoords()
+                shape,
+                shape.getTexCoords()
         );
 
         return this;
     }
 
     /**
-     * Add a triangle to the batch.
-     * @param triangle The triangle to add to the batch.
-     * @param texCoords The texture coords.
-     * @return this object, to allow for method chaining.
-     */
-    public BatchBuilder addObject(Triangle triangle) {
-        this.addObject(
-                triangle,
-                triangle.getTexCoords()
-        );
-
-        return this;
-    }
-
-    /**
-     * Add a triangle with custom texture coords.
-     * @param triangle The triangle to add to the batch.
-     * @param texCoords The texture coords.
-     * @return this object, to allow for method chaining.
-     */
-    public BatchBuilder addObject(Triangle triangle, float[] texCoords) {
-        this.addObject(
-                triangle.calculateVerticesMatrix(),
-                triangle.getIndices(),
-                texCoords
-        );
-
-        return this;
-    }
-
-    /**
-     * Add a rectangle to the batch with custom texture coords.
-     * @param rect The rectangle to add.
+     * Add a shape to the batch with custom texture coords.
+     * @param shape The shape to add.
      * @param texCoords The custom texture coords.
      * @return this object, allowing for method chaining
      */
-    public BatchBuilder addObject(Rect rect, float[] texCoords) {
+    public BatchBuilder addObject(Shape shape, float[] texCoords) {
         this.addObject(
-                rect.calculateVerticesMatrix(),
-                rect.getIndices(),
+                shape.calculateVerticesMatrix(),
+                shape.getIndices(),
                 texCoords
         );
 
