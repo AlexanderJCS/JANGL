@@ -238,6 +238,37 @@ public abstract class Shape implements AutoCloseable {
 
     public abstract float[] calculateVertices();
 
+    public abstract int[] getIndices();
+
+    public float[] getTexCoords() {
+        float[] vertices = this.calculateVertices();
+
+        float xMin = ArrayUtils.getMin(ArrayUtils.getEvenIndices(vertices));
+        float xMax = ArrayUtils.getMax(ArrayUtils.getEvenIndices(vertices));
+        float yMin = ArrayUtils.getMin(ArrayUtils.getOddIndices(vertices));
+        float yMax = ArrayUtils.getMax(ArrayUtils.getEvenIndices(vertices));
+
+        float[] texCoords = new float[vertices.length];
+
+        for (int i = 0; i < vertices.length; i++) {
+            float min;
+            float max;
+            // even = this is an x value, odd = this is a y value
+            if (i % 2 == 0) {
+                min = xMin;
+                max = xMax;
+            } else {
+                min = yMin;
+                max = yMax;
+            }
+
+            // uv = (value - min) / (max - min)
+            texCoords[i] = (vertices[i] - min) / (max - min);
+        }
+
+        return texCoords;
+    }
+
     /**
      * Calculates the vertices with the matrix applied. This method is not recommended to be called much since matrix
      * multiplication on the CPU is slow.
