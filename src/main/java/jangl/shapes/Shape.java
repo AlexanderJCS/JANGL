@@ -4,6 +4,7 @@ import jangl.coords.WorldCoords;
 import jangl.graphics.Bindable;
 import jangl.graphics.Camera;
 import jangl.graphics.models.Model;
+import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.VertexShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
@@ -23,8 +24,13 @@ public abstract class Shape implements AutoCloseable {
     protected final Transform transform;
     protected Model model;
 
+    private float texRepeatX, texRepeatY;
+
     public Shape() {
         this.transform = new Transform();
+
+        this.setTexRepeatX(1);
+        this.setTexRepeatY(1);
     }
 
     public static boolean collides(Shape shape1, Shape shape2) {
@@ -253,17 +259,22 @@ public abstract class Shape implements AutoCloseable {
         for (int i = 0; i < vertices.length; i++) {
             float min;
             float max;
+            float texRepeat;
+
             // even = this is an x value, odd = this is a y value
             if (i % 2 == 0) {
                 min = xMin;
                 max = xMax;
+                texRepeat = this.texRepeatX;
+
             } else {
                 min = yMin;
                 max = yMax;
+                texRepeat = this.texRepeatY;
             }
 
             // uv = (value - min) / (max - min)
-            texCoords[i] = (vertices[i] - min) / (max - min);
+            texCoords[i] = (vertices[i] - min) / (max - min) * texRepeat;
 
             // Since the y-axis is flipped for some reason
             if (i % 2 != 0) {
@@ -323,5 +334,48 @@ public abstract class Shape implements AutoCloseable {
     public Vector2f[] getOutsideVectors() {
         Vector2f[] exteriorVertices = ArrayUtils.toVector2fArray(this.getExteriorVertices());
         return getOutsideVectors(exteriorVertices);
+    }
+
+    /**
+     * @param repeatTimes The amount of times for the texture to repeat over the y-axis.
+     */
+    public void setTexRepeatX(float repeatTimes) {
+        // If you're wondering why I subtract by 0.0000001f, read the comments in setTexRepeatY().
+        this.texRepeatX = repeatTimes - 0.0000001f;
+
+        // This case happens when the shape isn't fully initialized yet
+        if (this.model == null) {
+            return;
+        }
+
+        TexturedModel texturedModel = (TexturedModel) this.model;
+        texturedModel.subTexCoords(this.getTexCoords(), 0);
+    }
+
+    /**
+     * @param repeatTimes The amount of times for the texture to repeat over the x-axis.
+     */
+    public void setTexRepeatY(float repeatTimes) {
+        // Subtract by 0.0000001 because sometimes the top pixel of the image transfers to the
+        // bottom pixel. That bug is really weird and I don't know exactly what causes it (my guess is that the tex
+        // coords are actually set to 1.000000015 or something because of floating point math) but this is the only
+        // fix I found. Same goes with setTexRepeatX().
+        this.texRepeatY = repeatTimes - 0.0000001f;
+
+        // This case happens when the shape isn't fully initialized yet
+        if (this.model == null) {
+            return;
+        }
+
+        TexturedModel texturedModel = (TexturedModel) this.model;
+        texturedModel.subTexCoords(this.getTexCoords(), 0);
+    }
+
+    public float getTexRepeatX() {
+        return this.texRepeatX;
+    }
+
+    public float getTexRepeatY() {
+        return this.texRepeatY;
     }
 }

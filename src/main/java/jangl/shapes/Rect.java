@@ -9,7 +9,6 @@ import jangl.graphics.models.TexturedModel;
 public class Rect extends Shape {
     private float x1, y1, x2, y2;
     private float width, height;
-    private float texRepeatY, texRepeatX;
 
     /**
      * @param topLeft The top left of the rect
@@ -17,9 +16,6 @@ public class Rect extends Shape {
      * @param height  The height of the rect, units of world coords
      */
     public Rect(WorldCoords topLeft, float width, float height) {
-        this.texRepeatX = 1;
-        this.texRepeatY = 1;
-
         this.width = width;
         this.height = height;
 
@@ -32,10 +28,6 @@ public class Rect extends Shape {
         realTopLeft.y += this.y2;
 
         this.transform.shift(realTopLeft);
-
-        // Check the comments in setTexRepeatY to see why I'm re-doing this
-        this.setTexRepeatX(1);
-        this.setTexRepeatY(1);
     }
 
     public float getWidth() {
@@ -71,46 +63,12 @@ public class Rect extends Shape {
         };
     }
 
-    public float getTexRepeatY() {
-        return this.texRepeatY;
-    }
-
-    /**
-     * @param repeatTimes The amount of times for the texture to repeat over the x-axis.
-     */
-    public void setTexRepeatY(float repeatTimes) {
-        // Subtract by 0.0000001 because sometimes the top pixel of the image transfers to the
-        // bottom pixel. That bug is really weird and I don't know exactly what causes it (my guess is that the tex
-        // coords are actually set to 1.000000015 or something because of floating point math) but it's really
-        // frustrating and this is the only fix I found.
-        // Same goes with setTexRepeatX().
-
-        this.texRepeatY = repeatTimes - 0.0000001f;
-        TexturedModel texturedModel = (TexturedModel) this.model;
-        texturedModel.subTexCoords(this.getTexCoords(), 0);
-    }
-
-    public float getTexRepeatX() {
-        return this.texRepeatX;
-    }
-
-    /**
-     * @param repeatTimes The amount of times for the texture to repeat over the y-axis.
-     */
-    public void setTexRepeatX(float repeatTimes) {
-        // If you're wondering why I subtract by 0.0000001f, read the comments in setTexRepeatY().
-
-        this.texRepeatX = repeatTimes - 0.0000001f;
-        TexturedModel texturedModel = (TexturedModel) this.model;
-        texturedModel.subTexCoords(this.getTexCoords(), 0);
-    }
-
     public float[] getTexCoords() {
         return new float[]{
                 0, 0,
-                this.texRepeatX, 0,
-                this.texRepeatX, this.texRepeatY,
-                0, this.texRepeatY,
+                this.getTexRepeatX(), 0,
+                this.getTexRepeatX(), this.getTexRepeatY(),
+                0, this.getTexRepeatY(),
         };
     }
 
