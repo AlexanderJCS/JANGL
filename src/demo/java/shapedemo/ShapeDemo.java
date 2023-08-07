@@ -13,7 +13,7 @@ import jangl.shapes.Shape;
 import jangl.shapes.Triangle;
 import jangl.time.Clock;
 
-public class ShapeDemo {
+public class ShapeDemo implements AutoCloseable {
     private final Rect rect;
     private final Circle circle;
     private final Triangle triangle;
@@ -59,11 +59,10 @@ public class ShapeDemo {
             this.update();
             this.draw();
         }
+    }
 
-        // Close the window when the program is done running
-        Window.close();
-
-        // Close all shapes and textures the program used. This is important in order to prevent memory leaks
+    @Override
+    public void close() {
         this.rect.close();
         this.circle.close();
         this.triangle.close();
@@ -74,6 +73,10 @@ public class ShapeDemo {
         JANGL.init(1600, 900);
         Window.setVsync(true);
 
-        new ShapeDemo().run();
+        ShapeDemo shapeDemo = new ShapeDemo();
+        shapeDemo.run();
+        shapeDemo.close();
+
+        Window.close();
     }
 }
