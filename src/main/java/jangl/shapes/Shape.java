@@ -262,8 +262,8 @@ public abstract class Shape implements AutoCloseable {
                 max = yMax;
             }
 
-            // uv = (value - min) / (max - min)
-            texCoords[i] = (vertices[i] - min) / (max - min);
+            // uv = (value - min) / (min - max)
+            texCoords[i] = (vertices[i] - min) / (min - max);
         }
 
         return texCoords;

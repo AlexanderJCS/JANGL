@@ -1,8 +1,11 @@
 package jangl.shapes;
 
 import jangl.coords.WorldCoords;
+import jangl.graphics.models.IndicesModel;
 import jangl.graphics.models.Model;
+import jangl.graphics.models.TexturedModel;
 import jangl.graphics.models.TriangleFanModel;
+import jangl.util.ArrayUtils;
 
 import java.util.Arrays;
 
@@ -26,7 +29,7 @@ public class Circle extends Shape {
 
         this.sides = sides;
         this.radius = radius;
-        this.model = this.toModel();
+        this.model = this.toTexturedModel();
         this.transform.shift(center);
     }
 
@@ -46,8 +49,8 @@ public class Circle extends Shape {
         this.model.subVertices(this.calculateVertices(), 0);
     }
 
-    private Model toModel() {
-        return new TriangleFanModel(this.calculateVertices());
+    private Model toTexturedModel() {
+        return new TexturedModel(this.calculateVertices(), this.getIndices(), this.getTexCoords());
     }
 
     @Override
@@ -72,6 +75,28 @@ public class Circle extends Shape {
         }
 
         return vertices;
+    }
+
+    @Override
+    public int[] getIndices() {
+        int[] indices = new int[this.sides * 3 + 3];  // 3 indices per triangle
+
+        // Follow the pattern of: 0, 1, 2, 0, 2, 3, 0, 3, 4, etc...
+        // 0 is the center point of the circle
+        int indexNotIncludingZero = 1;
+
+        for (int i = 0; i < indices.length; i++) {
+            if (i % 3 == 0) {
+                indices[i] = 0;
+                indexNotIncludingZero--;
+                continue;
+            }
+
+            indices[i] = indexNotIncludingZero;
+            indexNotIncludingZero++;
+        }
+
+        return indices;
     }
 
     @Override

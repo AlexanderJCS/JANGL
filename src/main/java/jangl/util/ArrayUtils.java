@@ -3,6 +3,10 @@ package jangl.util;
 import org.joml.Vector2f;
 
 public class ArrayUtils {
+    private ArrayUtils() {
+
+    }
+
     /**
      * Converts an array of x, y coordinate pairs into a vector array.
      *
@@ -68,8 +72,6 @@ public class ArrayUtils {
     }
 
     /**
-     * Used for collision.
-     *
      * @param arr    The array to get the even or odd indices of
      * @param offset 0 to get even indices, 1 to get odd indices
      * @return a float arr of even or odd indices
@@ -82,6 +84,26 @@ public class ArrayUtils {
         }
 
         return returnArr;
+    }
+
+    /**
+     * Returns the value of all even indices. This is only tested for arrays of even size, so an index out of bounds
+     * error may occur if an odd-length array is entered.
+     *
+     * @return The values of all even indices
+     */
+    public static float[] getEvenIndices(float[] arr) {
+        return getEvenOrOdd(arr, 0);
+    }
+
+    /**
+     * Returns the value of all odd indices. This is only tested for arrays of even size, so an index out of bounds
+     * error may occur if an odd-length array is entered.
+     *
+     * @return The values of all odd indices
+     */
+    public static float[] getOddIndices(float[] arr) {
+        return getEvenOrOdd(arr, 1);
     }
 
     public static byte[] repeatSequence(byte[] sequence, int times) {

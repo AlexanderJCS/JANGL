@@ -46,36 +46,6 @@ public class Triangle extends Shape {
         return new int[]{0, 1, 2};
     }
 
-    public float[] getTexCoords() {
-        float xMin = Math.min(this.point1.x, Math.min(this.point2.x, this.point3.x));
-        float xMax = Math.max(this.point1.x, Math.max(this.point2.x, this.point3.x));
-        float yMin = Math.min(this.point1.y, Math.min(this.point2.y, this.point3.y));
-        float yMax = Math.max(this.point1.y, Math.max(this.point2.y, this.point3.y));
-
-        float[] vertices = this.calculateVertices();
-        float[] texCoords = new float[vertices.length];
-
-        for (int i = 0; i < vertices.length; i++) {
-            float x = vertices[i];
-
-            float min;
-            float max;
-            // even = this is an x value, odd = this is a y value
-            if (i % 2 == 0) {
-                min = xMin;
-                max = xMax;
-            } else {
-                min = yMin;
-                max = yMax;
-            }
-
-            // uv = (value - min) / (max - min)
-            texCoords[i] = (vertices[i] - min) / (max - min);
-        }
-
-        return texCoords;
-    }
-
     @Override
     public void draw() {
         super.bindShader();
