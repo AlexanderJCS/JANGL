@@ -252,7 +252,7 @@ public abstract class Shape implements AutoCloseable {
         float xMin = ArrayUtils.getMin(ArrayUtils.getEvenIndices(vertices));
         float xMax = ArrayUtils.getMax(ArrayUtils.getEvenIndices(vertices));
         float yMin = ArrayUtils.getMin(ArrayUtils.getOddIndices(vertices));
-        float yMax = ArrayUtils.getMax(ArrayUtils.getEvenIndices(vertices));
+        float yMax = ArrayUtils.getMax(ArrayUtils.getOddIndices(vertices));
 
         float[] texCoords = new float[vertices.length];
 
