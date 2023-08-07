@@ -17,7 +17,6 @@ public class ShapeDemo implements AutoCloseable {
     private final Rect rect;
     private final Circle circle;
     private final Triangle triangle;
-    private final Texture texture = new Texture(new TextureBuilder().setImagePath("src/demo/demoResources/playerDemo/player.png"));
 
     public ShapeDemo() {
         this.rect = new Rect(new WorldCoords(0.8f, 0.6f), 0.25f, 0.25f);
@@ -32,9 +31,9 @@ public class ShapeDemo implements AutoCloseable {
 
         // Draw the rectangle and circle
         // These draw calls need to be after the background so the background doesn't overlap the shapes
-        this.rect.draw(texture);
-        this.circle.draw(texture);
-        this.triangle.draw(texture);
+        this.rect.draw();
+        this.circle.draw();
+        this.triangle.draw();
     }
 
     public void update() {
