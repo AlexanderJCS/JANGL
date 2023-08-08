@@ -71,6 +71,7 @@ public class PostProcessing implements AutoCloseable {
     @Override
     public void close() {
         // Close the default pipeline item
+        this.pipeline.get(0).getShaderProgram().close();
         this.pipeline.get(0).close();
     }
 }
