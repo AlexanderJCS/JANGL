@@ -20,6 +20,7 @@ import jangl.shapes.Rect;
 
 public class PostProcessingDemo implements AutoCloseable {
     private final Rect rect;
+    private final PostProcessing postProcessing;
 
     public PostProcessingDemo() {
         // Create a rect with a width/height of half the screen width/height
@@ -27,10 +28,29 @@ public class PostProcessingDemo implements AutoCloseable {
 
         // Set the rect's center to the middle of the screen
         this.rect.getTransform().setPos(WorldCoords.getMiddle());
+
+        VertexShader vertexShader = new TextureShaderVert();
+        vertexShader.setObeyCamera(false);  // it is very important that it does not obey the camera
+
+        this.postProcessing = new PostProcessing();
+
+        System.out.println(this.postProcessing.getPipeline());
+
+        this.postProcessing.addToPipeline(new PipelineItem(
+                new ShaderProgram(
+                        vertexShader,
+                        new InvertColorsFrag(),
+                        // attribute locations are important in order to work with every GPU
+                        TextureShaderVert.getAttribLocations()
+                )
+            )
+        );
     }
 
     public void draw() {
+        this.postProcessing.start();
         this.rect.draw();
+        this.postProcessing.end();
     }
 
     public void run() {
@@ -38,32 +58,28 @@ public class PostProcessingDemo implements AutoCloseable {
             this.draw();
 
             JANGL.update();
+
+            new PostProcessing().close();
+            System.gc();
         }
     }
 
     @Override
     public void close() {
         this.rect.close();
+
+        // Make sure to close all pipeline items that you added manually. The post-processing class will not close them for you.
+        for (PipelineItem item : this.postProcessing.getPipeline()) {
+            item.getShaderProgram().close();
+            item.close();
+        }
+
+        this.postProcessing.close();
     }
 
     public static void main(String[] args) {
         JANGL.init(1600, 900);
         Window.setVsync(true);
-
-        VertexShader vertexShader = new TextureShaderVert();
-        vertexShader.setObeyCamera(false);  // it is very important that it does not obey the camera
-
-        // Add the invert colors post-processing shader
-        PostProcessing.addToPipeline(
-                new PipelineItem(
-                        new ShaderProgram(
-                                vertexShader,
-                                new InvertColorsFrag(),
-                                // attribute locations are important in order to work with every GPU
-                                TextureShaderVert.getAttribLocations()
-                        )
-                )
-        );
 
         PostProcessingDemo postProcessingDemo = new PostProcessingDemo();
         postProcessingDemo.run();

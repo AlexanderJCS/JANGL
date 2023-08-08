@@ -29,7 +29,6 @@ public class JANGL {
         Scroll.init();
         Keyboard.init();
         Sound.init();
-        PostProcessing.init();
 
         initialized = true;
     }
@@ -39,8 +38,5 @@ public class JANGL {
         glfwSwapBuffers(Window.getWindow());
 
         Clock.update();
-
-        PostProcessing.end();
-        PostProcessing.start();
     }
 }
