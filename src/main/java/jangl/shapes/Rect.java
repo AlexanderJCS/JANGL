@@ -63,16 +63,6 @@ public class Rect extends Shape {
         };
     }
 
-    public float[] getTexCoords() {
-        return new float[]{
-                0, 0,
-                this.getTexRepeatX(), 0,
-                this.getTexRepeatX(), this.getTexRepeatY(),
-                0, this.getTexRepeatY(),
-        };
-    }
-
-
     /**
      * Sets the width of the rectangle.
      * <br>
