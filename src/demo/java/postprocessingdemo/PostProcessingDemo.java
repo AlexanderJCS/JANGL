@@ -46,6 +46,10 @@ public class PostProcessingDemo implements AutoCloseable {
     }
 
     public void draw() {
+        Window.clear();
+
+        // Any draw calls within postProcessing.start(), including Window.clear(), will include the post-processing
+        // effect with it.
         this.postProcessing.start();
         this.rect.draw();
         this.postProcessing.end();
