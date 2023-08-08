@@ -34,8 +34,6 @@ public class PostProcessingDemo implements AutoCloseable {
 
         this.postProcessing = new PostProcessing();
 
-        System.out.println(this.postProcessing.getPipeline());
-
         this.postProcessing.addToPipeline(new PipelineItem(
                 new ShaderProgram(
                         vertexShader,
@@ -58,9 +56,6 @@ public class PostProcessingDemo implements AutoCloseable {
             this.draw();
 
             JANGL.update();
-
-            new PostProcessing().close();
-            System.gc();
         }
     }
 
