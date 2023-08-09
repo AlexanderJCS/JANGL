@@ -311,6 +311,8 @@ Now we have an image being displayed on the screen.
 
 ![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/0187e763-56df-4d8b-abf5-a474084ed8cd)
 
+## Repeating the Texture
+
 If you want to repeat the image on the rectangle, you can use the `rect.setTexRepeatX()` and `rect.setTexRepeatY()` methods.
 
 ```
