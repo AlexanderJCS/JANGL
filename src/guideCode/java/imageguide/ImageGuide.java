@@ -1,5 +1,3 @@
-package imageguide;
-
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Image;
@@ -21,6 +19,9 @@ public class ImageGuide {
                         new TextureBuilder().setImagePath("src/guideCode/guideResources/imageGuide/image.png")
                 )
         );
+
+        this.image.rect().setTexRepeatX(2);
+        this.image.rect().setTexRepeatY(2);
     }
 
     public void draw() {
