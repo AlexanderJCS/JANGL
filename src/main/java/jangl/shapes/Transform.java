@@ -79,7 +79,7 @@ public class Transform {
      * @param radians The amount, in radians, to rotate the object by.
      */
     public void rotate(float radians) {
-        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), 0, 0, 0);
+        this.rotateRelative(radians, new WorldCoords(0, 0));
         this.localRotationAngle += radians;
     }
 
@@ -89,7 +89,8 @@ public class Transform {
      * you can use the getLocalRotationAngle() and getOriginRotationAngle(), but you can't if you rotate from those points here.
      * <br>
      * WARNING: if you are rotating around multiple points at the same time, it is likely that you will come across
-     * unintended effects. Make sure to only rotate around one point at a time.
+     * unintended effects. Make sure to only rotate around one point at a time. If you want to rotate around a point
+     * relative to the object, use this.rotateRelative().
      *
      * @param radians The amount of radians to rotate.
      * @param origin  The origin of the point to rotate across.
@@ -103,6 +104,18 @@ public class Transform {
                 (origin.y - centerNoRotation.y) / this.getScale(),
                 0
         );
+    }
+
+    /**
+     * Rotates relative to the point. Useful compared to rotateAround() if the object is constantly moving.
+     * <br>
+     * WARNING: changing the relative location may give unintended side effects.
+     *
+     * @param radians The amount to rotate counter-clockwise. Negative to rotate clockwise.
+     * @param relativeLocation The relative location to rotate around. This is relative to the center of the object.
+     */
+    public void rotateRelative(float radians, WorldCoords relativeLocation) {
+        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), relativeLocation.x, relativeLocation.y, 0);
     }
 
     /**
