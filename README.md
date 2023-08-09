@@ -5,6 +5,8 @@ This library is built on top of LWJGL, an OpenGL wrapper. JANGL abstracts a lot 
 
 ## Compatibility
 
+JANGL is compatible with Java 17 and up.
+
 This library is tested on Windows, and is therefore guaranteed to work on Windows. It should work on Linux and macOS, but it may not since it is not tested on the platform. If you receive an error on the other operating systems, please [create an issue](https://github.com/AlexanderJCS/JANGL/issues/new).
 
 ## Installing JANGL
