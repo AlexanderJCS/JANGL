@@ -57,6 +57,7 @@ For simple code examples, see [src/demo/java](src/demo/java).
 For more detailed code examples (things that make an actual application, not just some demos), see:
 - [Conway's Game of Life](https://github.com/AlexanderJCS/jangl-conways-game-of-life)
 - [A falling sand game](https://github.com/AlexanderJCS/jangl-falling-sand)
+- [A top-down shooter game](https://github.com/AlexanderJCS/JANGL-alien-shooter)
 
 You can also see [the quickstart guide](#quickstart-guide) or more guides within [the docs directory](/docs)
 
