@@ -43,6 +43,17 @@ public class Keyboard extends EventsConfig {
         return glfwGetKey(Window.getWindow(), glfwKey) == 1;
     }
 
+    /**
+     * Checks if a certain character is being pressed on the keyboard. If you want to check a key that doesn't have
+     * a character, like shift or an arrow key, use org.lwjgl.glfw.GLFW.GLFW_KEY_(key)
+     *
+     * @param key The character to get down.
+     * @return True if the key is down. False otherwise.
+     */
+    public static boolean getKeyDown(char key) {
+        return getKeyDown((int) Character.toUpperCase(key));
+    }
+
     static void addEvent(KeyEvent event) {
         EVENTS.add(event);
 
