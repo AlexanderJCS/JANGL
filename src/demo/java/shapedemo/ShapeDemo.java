@@ -3,8 +3,6 @@ package shapedemo;
 import jangl.JANGL;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
-import jangl.graphics.textures.Texture;
-import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
