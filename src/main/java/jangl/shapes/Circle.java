@@ -1,11 +1,8 @@
 package jangl.shapes;
 
 import jangl.coords.WorldCoords;
-import jangl.graphics.models.IndicesModel;
 import jangl.graphics.models.Model;
 import jangl.graphics.models.TexturedModel;
-import jangl.graphics.models.TriangleFanModel;
-import jangl.util.ArrayUtils;
 
 import java.util.Arrays;
 
