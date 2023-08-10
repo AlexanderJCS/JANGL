@@ -1,7 +1,6 @@
 package jangl;
 
 import jangl.graphics.Camera;
-import jangl.graphics.postprocessing.PostProcessing;
 import jangl.io.Window;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
