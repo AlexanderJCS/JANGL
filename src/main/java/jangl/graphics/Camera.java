@@ -78,10 +78,11 @@ public class Camera {
      * @return The center coordinate of the camera view
      */
     public static WorldCoords getCenter() {
-        WorldCoords screenMiddle = WorldCoords.getMiddle();
-        WorldCoords cameraPos = getCameraPos();
+        Vector4f middle = new Vector4f(WorldCoords.getMiddle().toVector2f(), 0, 1);
 
-        return new WorldCoords(cameraPos.x + screenMiddle.x, cameraPos.y + screenMiddle.y);
+        middle.mul(cameraMatrix);
+
+        return new WorldCoords(middle.x, middle.y);
     }
 
     public static void setCenter(WorldCoords center) {
@@ -111,11 +112,7 @@ public class Camera {
      * @param radians The delta to rotate counterclockwise by.
      */
     public static void rotate(float radians) {
-        WorldCoords pos = getCenter();
-
-        cameraMatrix.translate(pos.x, pos.y, 0)
-                .rotateZ(radians)
-                .translate(-pos.x, -pos.y, 0);
+        cameraMatrix.rotateAround(new Quaternionf().rotateZ(radians), Camera.getCenter().x, Camera.getCenter().y, 0);
 
         resetCameraMatrixUBO();
     }
