@@ -1,4 +1,4 @@
-package fontdemo;
+package demos.fontdemo;
 
 import jangl.JANGL;
 import jangl.color.ColorFactory;

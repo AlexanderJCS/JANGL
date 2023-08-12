@@ -1,4 +1,4 @@
-package rotationdemo;
+package demos.rotationdemo;
 
 import jangl.JANGL;
 import jangl.color.ColorFactory;

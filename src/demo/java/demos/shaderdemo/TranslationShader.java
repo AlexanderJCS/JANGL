@@ -1,4 +1,4 @@
-package shaderdemo;
+package demos.shaderdemo;
 
 import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.VertexShader;
@@ -10,7 +10,7 @@ public class TranslationShader extends VertexShader {
     private final WorldCoords offset;
 
     public TranslationShader(WorldCoords offset) throws UncheckedIOException {
-        super("src/demo/java/shaderdemo/transformShader.vert");
+        super("src/demo/java/demos.shaderdemo/transformShader.vert");
 
         this.offset = offset;
     }

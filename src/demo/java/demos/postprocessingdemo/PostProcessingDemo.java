@@ -6,7 +6,7 @@
  * that inverts the colors in the image. Without the post-processing shader, it would look like a white square inside a black background.
  */
 
-package postprocessingdemo;
+package demos.postprocessingdemo;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;

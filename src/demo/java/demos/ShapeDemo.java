@@ -1,4 +1,4 @@
-package shapedemo;
+package demos.shapedemo;
 
 import jangl.JANGL;
 import jangl.color.ColorFactory;

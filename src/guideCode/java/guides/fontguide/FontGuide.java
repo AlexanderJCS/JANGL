@@ -1,4 +1,4 @@
-package fontguide;
+package guides.fontguide;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;

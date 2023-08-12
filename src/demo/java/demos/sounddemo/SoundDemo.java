@@ -1,4 +1,4 @@
-package sounddemo;
+package demos.sounddemo;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;

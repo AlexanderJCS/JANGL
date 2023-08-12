@@ -1,4 +1,4 @@
-package texturedemo;
+package demos.texturedemo;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;

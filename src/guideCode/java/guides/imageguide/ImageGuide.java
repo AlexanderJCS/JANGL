@@ -1,3 +1,5 @@
+package guides.imageguide;
+
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Image;

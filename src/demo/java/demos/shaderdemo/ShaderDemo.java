@@ -1,4 +1,4 @@
-package shaderdemo;
+package demos.shaderdemo;
 
 import jangl.JANGL;
 import jangl.color.ColorFactory;

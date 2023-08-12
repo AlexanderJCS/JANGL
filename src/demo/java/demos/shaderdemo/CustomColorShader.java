@@ -1,4 +1,4 @@
-package shaderdemo;
+package demos.shaderdemo;
 
 import jangl.color.Color;
 import jangl.graphics.shaders.FragmentShader;
@@ -10,7 +10,7 @@ public class CustomColorShader extends FragmentShader {
     private final Color color;
 
     public CustomColorShader(Color color) throws UncheckedIOException {
-        super("src/demo/java/shaderdemo/colorShader.frag");
+        super("src/demo/java/demos.shaderdemo/colorShader.frag");
         this.color = color;
     }
 

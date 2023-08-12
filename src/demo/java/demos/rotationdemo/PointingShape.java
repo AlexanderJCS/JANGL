@@ -1,4 +1,4 @@
-package rotationdemo;
+package demos.rotationdemo;
 
 import jangl.coords.WorldCoords;
 import jangl.coords.PixelCoords;
