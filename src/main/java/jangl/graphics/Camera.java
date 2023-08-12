@@ -78,11 +78,10 @@ public class Camera {
      * @return The center coordinate of the camera view
      */
     public static WorldCoords getCenter() {
-        Vector4f middle = new Vector4f(WorldCoords.getMiddle().toVector2f(), 0, 1);
+        WorldCoords screenMiddle = WorldCoords.getMiddle();
+        WorldCoords cameraPos = getCameraPos();
 
-        middle.mul(cameraMatrix);
-
-        return new WorldCoords(middle.x, middle.y);
+        return new WorldCoords(cameraPos.x + screenMiddle.x, cameraPos.y + screenMiddle.y);
     }
 
     public static void setCenter(WorldCoords center) {
