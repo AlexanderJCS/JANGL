@@ -4,7 +4,7 @@ import jangl.color.Color;
 import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWImage;
-import org.lwjgl.opengl.GL46;
+import static org.lwjgl.opengl.GL41.GL_NEAREST;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,7 +26,7 @@ public class TextureBuilder {
     private int wrapMode;
 
     public TextureBuilder() {
-        this.filterMode = GL46.GL_NEAREST;
+        this.filterMode = GL_NEAREST;
         this.x = 0;
         this.y = 0;
 

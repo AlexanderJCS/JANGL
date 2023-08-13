@@ -6,7 +6,7 @@ import jangl.graphics.shaders.Shader;
 import java.io.UncheckedIOException;
 
 import static org.lwjgl.opengl.GL41.glGetUniformLocation;
-import static org.lwjgl.opengl.GL46.glUniform1i;
+import static org.lwjgl.opengl.GL41.glUniform1i;
 
 /**
  * A fragment shader to apply textures to objects
