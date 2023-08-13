@@ -3,6 +3,8 @@ package jangl.io;
 import jangl.color.Color;
 import jangl.graphics.textures.TextureBuilder;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GLCapabilities;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL41.*;
@@ -38,7 +40,11 @@ public class Window {
 
         initialized = true;
 
-        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);  // make the window non-resizeable
+        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+        // JANGL supports OpenGL v4.1
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
         window = glfwCreateWindow(screenWidth, screenHeight, "JANGL", 0, 0);
         glfwShowWindow(window);
