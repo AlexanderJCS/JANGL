@@ -2,7 +2,7 @@ package demos.shaderdemo;
 
 import jangl.color.Color;
 import jangl.graphics.shaders.FragmentShader;
-import org.lwjgl.opengl.GL46;
+import org.lwjgl.opengl.GL41;
 
 import java.io.UncheckedIOException;
 
@@ -16,7 +16,7 @@ public class CustomColorShader extends FragmentShader {
 
     @Override
     public void setUniforms(int programID) {
-        int location = GL46.glGetUniformLocation(programID, "color");
-        GL46.glUniform4fv(location, color.getNormRGBA());
+        int location = GL41.glGetUniformLocation(programID, "color");
+        GL41.glUniform4fv(location, color.getNormRGBA());
     }
 }

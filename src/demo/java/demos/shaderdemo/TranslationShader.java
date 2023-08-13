@@ -2,7 +2,7 @@ package demos.shaderdemo;
 
 import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.VertexShader;
-import org.lwjgl.opengl.GL46;
+import org.lwjgl.opengl.GL41;
 
 import java.io.UncheckedIOException;
 
@@ -17,7 +17,7 @@ public class TranslationShader extends VertexShader {
 
     @Override
     public void setUniforms(int programID) {
-        int location = GL46.glGetUniformLocation(programID, "offset");
-        GL46.glUniform2f(location, this.offset.x, this.offset.y);
+        int location = GL41.glGetUniformLocation(programID, "offset");
+        GL41.glUniform2f(location, this.offset.x, this.offset.y);
     }
 }
