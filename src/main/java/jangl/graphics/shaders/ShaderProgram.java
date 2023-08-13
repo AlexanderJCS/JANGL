@@ -3,6 +3,7 @@ package jangl.graphics.shaders;
 import jangl.color.ColorFactory;
 import jangl.graphics.Bindable;
 import jangl.graphics.Camera;
+import jangl.graphics.models.Model;
 import jangl.graphics.shaders.exceptions.ShaderCompileException;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
@@ -16,6 +17,13 @@ import static org.lwjgl.opengl.GL41.*;
  * A ShaderProgram allows you to combine a FragmentShader and VertexShader into a single program.
  */
 public class ShaderProgram implements AutoCloseable, Bindable {
+    /**
+     * A model that is bound when validating the shader program to avoid errors on macOS. Must be initialized through
+     * the static init() method.
+     */
+    private static Model validationModel;
+    private static boolean initialized;
+
     private static ShaderProgram boundProgram;
     private final int programID;
     private final List<Integer> shaderIDs;
@@ -109,7 +117,9 @@ public class ShaderProgram implements AutoCloseable, Bindable {
             );
         }
 
+        validationModel.bind();
         glValidateProgram(this.programID);
+        validationModel.unbind();
 
         if (glGetProgrami(this.programID, GL_VALIDATE_STATUS) == GL_FALSE) {
             throw new ShaderCompileException(
@@ -142,6 +152,10 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         }
 
         return shaderID;
+    }
+
+    public static void init() {
+        validationModel = new Model(new float[]{0, 0, 1, 0, 1, 1});
     }
 
     /**

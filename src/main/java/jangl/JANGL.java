@@ -1,6 +1,7 @@
 package jangl;
 
 import jangl.graphics.Camera;
+import jangl.graphics.shaders.ShaderProgram;
 import jangl.io.Window;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
@@ -28,6 +29,7 @@ public class JANGL {
         Scroll.init();
         Keyboard.init();
         Sound.init();
+        ShaderProgram.init();
 
         initialized = true;
     }
