@@ -54,6 +54,10 @@ public class Window {
 
         glEnable(GL_TEXTURE_2D);
 
+        // This must be enabled to make transparency work properly
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         Window.setVsync(false);
     }
 
