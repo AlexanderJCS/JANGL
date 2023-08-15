@@ -56,6 +56,14 @@ public class UBO implements Bindable, AutoCloseable {
         return this.bindingPoint;
     }
 
+    /**
+     * Returns the maximum possible binding point for a UBO.
+     * @return The maximum possible binding point for a UBO.
+     */
+    public static int getMaxBindingPoint() {
+        return glGetInteger(GL_MAX_UNIFORM_BUFFER_BINDINGS) - 1;
+    }
+
     @Override
     public void bind() {
         glBindBuffer(GL_UNIFORM_BUFFER, this.id);
