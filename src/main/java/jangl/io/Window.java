@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLCapabilities;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11C.glGetError;
 import static org.lwjgl.opengl.GL41.*;
 
 public class Window {
@@ -51,8 +52,6 @@ public class Window {
 
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
-
-        glEnable(GL_TEXTURE_2D);
 
         // This must be enabled to make transparency work properly
         glEnable(GL_BLEND);
