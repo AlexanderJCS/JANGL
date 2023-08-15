@@ -42,9 +42,9 @@ public class Window {
         glfwIsInitialized = true;
 
         float windowHeight = heightRatio * getMonitorHeight();
-        float windowWidth = windowHeight / aspectRatio;
+        float windowWidth = windowHeight * aspectRatio;
 
-        init((int) windowHeight, (int) windowWidth);
+        init((int) windowWidth, (int) windowHeight);
     }
 
     /**
