@@ -34,8 +34,6 @@ public class TexturedModel extends IndicesModel {
 
 
     public void subTexCoords(float[] texCoords, int offset) {
-        // TODO: check if this works
-
         glBindBuffer(GL_TEXTURE_BUFFER, this.TBO);
         glBufferSubData(GL_TEXTURE_BUFFER, offset, texCoords);
         glBindBuffer(GL_TEXTURE_BUFFER, 0);

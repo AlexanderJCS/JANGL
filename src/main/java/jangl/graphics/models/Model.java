@@ -69,7 +69,6 @@ public class Model implements AutoCloseable, Bindable {
     }
 
     public void subVertices(float[] vertices, int offset) {
-        // TODO: check if this works
         glBindBuffer(GL_ARRAY_BUFFER, this.VBO);
         glBufferSubData(GL_ARRAY_BUFFER, offset, vertices);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
