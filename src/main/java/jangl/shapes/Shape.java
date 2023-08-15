@@ -197,6 +197,7 @@ public abstract class Shape implements AutoCloseable {
             center = WorldCoords.getMiddle();
         }
 
+        // The farthest coordinate of the shape
         Vector2f farthestCoordinate = ArrayUtils.getFarthestPointFrom(
                 ArrayUtils.toVector2fArray(this.getExteriorVertices()),
                 this.getTransform().getCenter().toVector2f()
@@ -205,7 +206,8 @@ public abstract class Shape implements AutoCloseable {
         float radius = farthestCoordinate.distance(this.getTransform().getCenter().toVector2f());
 
         WorldCoords middle = WorldCoords.getMiddle();
-        float windowRadius = (float) (Math.pow(middle.x, 2) + Math.pow(middle.y, 2));
+
+        float windowRadius = (float) Math.sqrt(Math.pow(middle.x, 2) + Math.pow(middle.y, 2));
 
         // Adjust for camera zoom
         windowRadius /= Camera.getZoom();
