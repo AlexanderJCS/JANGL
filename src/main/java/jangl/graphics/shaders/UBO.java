@@ -36,7 +36,7 @@ public class UBO implements Bindable, AutoCloseable {
         glBufferData(GL_UNIFORM_BUFFER, data, GL_DYNAMIC_DRAW);
         this.unbind();
 
-        glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, this.getID(), 0, data.length * 4L);
+        glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, this.getID(), 0, (long) data.length * Float.SIZE / 8);
 
         bindingPoints.add(bindingPoint);
     }
