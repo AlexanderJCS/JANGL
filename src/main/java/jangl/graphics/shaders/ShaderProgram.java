@@ -167,7 +167,6 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         int uniformBlockIndex = glGetUniformBlockIndex(this.getProgramID(), uboName);
 
         if (uniformBlockIndex == -1) {
-            System.out.println(this.getVertexShader().sourceCode);
             throw new RuntimeException("Could not find uniform block index " + uboName);
         }
 
