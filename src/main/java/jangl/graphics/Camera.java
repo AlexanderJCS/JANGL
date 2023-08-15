@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL41.*;
 
 public class Camera {
     public static final String UBO_CODE = "layout(std140) uniform Matrices {mat4 cameraMatrix;mat4 projectionMatrix;};";
-    public static final int BINDING_POINT = 83;
+    public static final int BINDING_POINT = 74;
     private static Matrix4f cameraMatrix;
     private static UBO ubo;
     private static float zoom = 1;
