@@ -18,12 +18,39 @@ public class JANGL {
     private JANGL() {
     }
 
+    /**
+     * Initializes JANGL using two ratios:
+     * a. the ratio of the window height to the primary monitor height
+     * b. the aspect ratio of the window
+     *
+     * @param heightRatio The ratio of the height of the window to the height of the primary monitor
+     * @param aspectRatio The aspect ratio of the window
+     */
+    public static void init(float heightRatio, float aspectRatio) {
+        if (initialized) {
+            return;
+        }
+
+        Window.init(heightRatio, aspectRatio);
+        init();
+    }
+
+    /**
+     * Initialize the window.
+     *
+     * @param screenWidth  The window width in pixels.
+     * @param screenHeight The window height in pixels.
+     */
     public static void init(int screenWidth, int screenHeight) {
         if (initialized) {
             return;
         }
 
         Window.init(screenWidth, screenHeight);
+        init();
+    }
+
+    private static void init() {
         Camera.init();
         Mouse.init();
         Scroll.init();
@@ -33,6 +60,7 @@ public class JANGL {
 
         initialized = true;
     }
+
 
     public static void update() {
         glfwPollEvents();
