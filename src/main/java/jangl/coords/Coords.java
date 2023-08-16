@@ -84,7 +84,7 @@ public sealed abstract class Coords permits PixelCoords, WorldCoords {
      *
      * @param coords The coordinates to subtract
      */
-    public void sub(WorldCoords coords) {
+    public void sub(Coords coords) {
         this.x -= coords.x;
         this.y -= coords.y;
     }
@@ -126,7 +126,7 @@ public sealed abstract class Coords permits PixelCoords, WorldCoords {
      *
      * @param coords The amount to divide
      */
-    public void div(WorldCoords coords) {
+    public void div(Coords coords) {
         this.x /= coords.x;
         this.y /= coords.y;
     }
