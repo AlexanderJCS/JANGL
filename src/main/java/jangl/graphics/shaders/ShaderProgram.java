@@ -155,7 +155,12 @@ public class ShaderProgram implements AutoCloseable, Bindable {
     }
 
     public static void init() {
+        if (initialized) {
+            return;
+        }
+
         validationModel = new Model(new float[]{0, 0, 1, 0, 1, 1});
+        initialized = true;
     }
 
     /**
