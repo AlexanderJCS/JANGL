@@ -77,12 +77,40 @@ public class Text implements AutoCloseable {
         return builder.toString();
     }
 
-    private void generateLineLeftJustify(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) {
+    private void addCharacter(BatchBuilder builder, PixelCoords cursor, CharInfo info, float scaleFactor) {
         final int[] charIndices = new int[]{
                 0, 1, 2,
                 2, 3, 0
         };
 
+        cursor.x += info.xOffset() * scaleFactor;
+        cursor.y -= info.yOffset() * scaleFactor;
+
+        WorldCoords scCursor = cursor.toWorldCoords();
+
+        // x1 = left, x2 = right
+        // y1 = top, y2 = bottom
+        float x1 = scCursor.x;
+        float y1 = scCursor.y;
+        float x2 = scCursor.x + PixelCoords.distToWorldCoords(info.width()) * scaleFactor;
+        float y2 = scCursor.y - PixelCoords.distToWorldCoords(info.height()) * scaleFactor;
+
+        float[] charVertices = new float[]{
+                x1, y1,
+                x2, y1,
+                x2, y2,
+                x1, y2
+        };
+
+        float[] charTexCoords = this.font.getTexCoords((char) info.charID());
+
+        builder.addObject(charVertices, charIndices, charTexCoords);
+
+        cursor.x -= info.xOffset() * scaleFactor;
+        cursor.y += info.yOffset() * scaleFactor;
+    }
+
+    private void generateLineLeftJustify(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) {
         for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);
 
@@ -92,31 +120,7 @@ public class Text implements AutoCloseable {
                 continue;
             }
 
-            cursor.x += info.xOffset() * scaleFactor;
-            cursor.y -= info.yOffset() * scaleFactor;
-
-            WorldCoords scCursor = cursor.toWorldCoords();
-
-            // x1 = left, x2 = right
-            // y1 = top, y2 = bottom
-            float x1 = scCursor.x;
-            float y1 = scCursor.y;
-            float x2 = scCursor.x + PixelCoords.distToWorldCoords(info.width()) * scaleFactor;
-            float y2 = scCursor.y - PixelCoords.distToWorldCoords(info.height()) * scaleFactor;
-
-            float[] charVertices = new float[]{
-                    x1, y1,
-                    x2, y1,
-                    x2, y2,
-                    x1, y2
-            };
-
-            float[] charTexCoords = this.font.getTexCoords(ch);
-
-            builder.addObject(charVertices, charIndices, charTexCoords);
-
-            cursor.x -= info.xOffset() * scaleFactor;
-            cursor.y += info.yOffset() * scaleFactor;
+            this.addCharacter(builder, cursor, info, scaleFactor);
 
             cursor.x += info.xAdvance() * scaleFactor;
         }
