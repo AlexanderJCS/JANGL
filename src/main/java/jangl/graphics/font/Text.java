@@ -4,7 +4,6 @@ import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
 import jangl.graphics.batching.Batch;
 import jangl.graphics.batching.BatchBuilder;
-import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.shapes.Transform;
 
@@ -14,6 +13,24 @@ public class Text implements AutoCloseable {
     private WorldCoords topLeft;
     private Font font;
     private float yHeight;
+    private final Justify justification;
+
+    /**
+     * @param topLeft The top left coordinate of the text
+     * @param font The font to use
+     * @param yHeight How high, in WorldCoords, each letter should be
+     * @param text The text to display
+     * @param justification If the text should be center-justified, left-justified, or right-justified
+     */
+    public Text(WorldCoords topLeft, Font font, float yHeight, String text, Justify justification) {
+        this.topLeft = topLeft;
+        this.yHeight = yHeight;
+        this.font = font;
+        this.text = this.pruneText(text);
+        this.justification = justification;
+
+        this.batch = this.getBatch();
+    }
 
     /**
      * @param topLeft The top left coordinate of the text
@@ -22,12 +39,7 @@ public class Text implements AutoCloseable {
      * @param text    The text to display
      */
     public Text(WorldCoords topLeft, Font font, float yHeight, String text) {
-        this.topLeft = topLeft;
-        this.yHeight = yHeight;
-        this.font = font;
-        this.text = this.pruneText(text);
-
-        this.batch = this.getBatch();
+        this(topLeft, font, yHeight, text, Justify.LEFT);
     }
 
     public String getText() {
@@ -65,31 +77,14 @@ public class Text implements AutoCloseable {
         return builder.toString();
     }
 
-    public Batch getBatch() {
-        int heightPixels = this.font.tallestLetter.height();
-        float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
-
-        // desired height = current height * scale. Solving for scale: scale = desired height / current height
-        float scaleFactor = this.yHeight / heightWorldCoords;
-
-        // The cursor is where the next char should be drawn
-        PixelCoords cursor = this.topLeft.toPixelCoords();
-
-        BatchBuilder builder = new BatchBuilder();
-
-        int[] charIndices = new int[]{
+    private void generateLineLeftJustify(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) {
+        final int[] charIndices = new int[]{
                 0, 1, 2,
                 2, 3, 0
         };
 
-        for (int i = 0; i < this.text.length(); i++) {
-            char ch = this.text.charAt(i);
-
-            if (ch == '\n') {
-                cursor.x = this.topLeft.toPixelCoords().x;
-                cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * 1.2;
-                continue;
-            }
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
 
             CharInfo info = this.font.getInfo(ch);
 
@@ -124,6 +119,37 @@ public class Text implements AutoCloseable {
             cursor.y += info.yOffset() * scaleFactor;
 
             cursor.x += info.xAdvance() * scaleFactor;
+        }
+    }
+
+    private void generateNextLine(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) {
+        if (this.justification == Justify.LEFT) {
+            this.generateLineLeftJustify(builder, cursor, text, scaleFactor);
+        } else if (this.justification == Justify.RIGHT) {
+
+        } else {
+
+        }
+    }
+
+    public Batch getBatch() {
+        int heightPixels = this.font.tallestLetter.height();
+        float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
+
+        // desired height = current height * scale. Solving for scale: scale = desired height / current height
+        float scaleFactor = this.yHeight / heightWorldCoords;
+
+        // The cursor is where the next char should be drawn
+        PixelCoords cursor = this.topLeft.toPixelCoords();
+
+        BatchBuilder builder = new BatchBuilder();
+
+        for (String line : this.text.split("\n")) {
+            this.generateNextLine(builder, cursor, line, scaleFactor);
+
+            // Reset cursor position
+            cursor.x = this.topLeft.toPixelCoords().x;
+            cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * 1.2;
         }
 
         return new Batch(builder);
