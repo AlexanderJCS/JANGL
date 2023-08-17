@@ -12,6 +12,7 @@ import jangl.time.Clock;
 public class FontDemo {
     private final Text rightJustify;
     private final Text leftJustify;
+    private final Text centerJustify;
     private float hue;
 
     public FontDemo() {
@@ -32,6 +33,12 @@ public class FontDemo {
                 Justify.RIGHT
         );
 
+        this.centerJustify = new Text(
+                new WorldCoords(WorldCoords.getMiddle().x, 0.1f), arial, 0.05f,
+                "Center justification!",
+                Justify.CENTER
+        );
+
         this.hue = 0;
     }
 
@@ -40,6 +47,7 @@ public class FontDemo {
 
         this.leftJustify.draw();
         this.rightJustify.draw();
+        this.centerJustify.draw();
     }
 
     public void run() {

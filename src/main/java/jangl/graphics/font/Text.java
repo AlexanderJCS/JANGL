@@ -125,10 +125,29 @@ public class Text implements AutoCloseable {
         }
     }
 
+    private void generateLineCenterJustify(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) {
+        int lineLength = 0;
+
+        for (int i = 0; i < text.length(); i++) {
+            char ch = text.charAt(i);
+            CharInfo info = this.font.getInfo(ch);
+
+            if (info == null) {
+                continue;
+            }
+
+            lineLength += info.xAdvance() * scaleFactor;
+        }
+
+        float halfLength = lineLength / 2f;
+        cursor.x -= halfLength;
+
+        generateLineLeftJustify(builder, cursor, text, scaleFactor);
+    }
+
     private void generateLineLeftJustify(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) {
         for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);
-
             CharInfo info = this.font.getInfo(ch);
 
             if (info == null) {
@@ -153,7 +172,7 @@ public class Text implements AutoCloseable {
         } else if (this.justification == Justify.RIGHT) {
             this.generateLineRightJustify(builder, cursor, text, scaleFactor);
         } else {
-
+            generateLineCenterJustify(builder, cursor, text, scaleFactor);
         }
     }
 
