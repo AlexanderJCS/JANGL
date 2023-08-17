@@ -9,10 +9,6 @@ import jangl.graphics.shaders.ShaderProgram;
 import jangl.shapes.Transform;
 
 public class Text implements AutoCloseable {
-    /**
-     * Used for the transform and rotation matrices.
-     */
-    private final Transform transform;
     private Batch batch;
     private String text;
     private WorldCoords topLeft;
@@ -32,7 +28,6 @@ public class Text implements AutoCloseable {
         this.text = this.pruneText(text);
 
         this.batch = this.getBatch();
-        this.transform = new Transform();
     }
 
     public String getText() {
