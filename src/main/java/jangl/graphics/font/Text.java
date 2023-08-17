@@ -16,14 +16,14 @@ public class Text implements AutoCloseable {
     private final Justify justification;
 
     /**
-     * @param topLeft The top left coordinate of the text
+     * @param coords The top left, top middle, or top right coordinate for left-justification, center-justification, and right-justification respectively.
      * @param font The font to use
      * @param yHeight How high, in WorldCoords, each letter should be
      * @param text The text to display
      * @param justification If the text should be center-justified, left-justified, or right-justified
      */
-    public Text(WorldCoords topLeft, Font font, float yHeight, String text, Justify justification) {
-        this.topLeft = topLeft;
+    public Text(WorldCoords coords, Font font, float yHeight, String text, Justify justification) {
+        this.topLeft = coords;
         this.yHeight = yHeight;
         this.font = font;
         this.text = this.pruneText(text);
