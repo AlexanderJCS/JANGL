@@ -83,9 +83,6 @@ public class Text implements AutoCloseable {
                 2, 3, 0
         };
 
-        cursor.x += info.xOffset() * scaleFactor;
-        cursor.y -= info.yOffset() * scaleFactor;
-
         WorldCoords scCursor = cursor.toWorldCoords();
 
         // x1 = left, x2 = right
@@ -105,9 +102,6 @@ public class Text implements AutoCloseable {
         float[] charTexCoords = this.font.getTexCoords((char) info.charID());
 
         builder.addObject(charVertices, charIndices, charTexCoords);
-
-        cursor.x -= info.xOffset() * scaleFactor;
-        cursor.y += info.yOffset() * scaleFactor;
     }
 
     private void generateLineLeftJustify(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) {
@@ -120,7 +114,13 @@ public class Text implements AutoCloseable {
                 continue;
             }
 
+            cursor.x += info.xOffset() * scaleFactor;
+            cursor.y -= info.yOffset() * scaleFactor;
+
             this.addCharacter(builder, cursor, info, scaleFactor);
+
+            cursor.x -= info.xOffset() * scaleFactor;
+            cursor.y += info.yOffset() * scaleFactor;
 
             cursor.x += info.xAdvance() * scaleFactor;
         }
