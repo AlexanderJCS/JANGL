@@ -78,6 +78,12 @@ public class Window {
         window = glfwCreateWindow(screenWidth, screenHeight, "JANGL", 0, 0);
         glfwShowWindow(window);
 
+        glfwSetWindowPos(
+                window,
+                (getMonitorWidth() - getScreenWidth()) / 2,
+                (getMonitorHeight() - getScreenHeight()) / 2
+        );
+
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
 
