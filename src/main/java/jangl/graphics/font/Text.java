@@ -26,8 +26,6 @@ public class Text implements AutoCloseable {
      * @throws NullPointerException if justification is null
      */
     public Text(WorldCoords coords, Font font, float yHeight, String text, Justify justification) throws NullPointerException {
-        Objects.requireNonNull(justification, "Justification must not be null");
-
         this.topLeft = coords;
         this.yHeight = yHeight;
         this.font = font;
@@ -175,8 +173,7 @@ public class Text implements AutoCloseable {
      * @throws NullPointerException If this.justification is null
      */
     private void generateNextLine(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) throws NullPointerException {
-        // This case should never happen, but just in case it does
-        Objects.requireNonNull(this.justification, "this.justification must not be null");
+        Objects.requireNonNull(this.justification, "Justification must not be null");
 
         if (this.justification == Justify.LEFT) {
             this.generateLineLeftJustify(builder, cursor, text, scaleFactor);
@@ -238,8 +235,6 @@ public class Text implements AutoCloseable {
     }
 
     public void setJustification(Justify newJustification) {
-        Objects.requireNonNull(newJustification);
-
         this.justification = newJustification;
         this.regenerate();
     }
