@@ -34,7 +34,7 @@ public class FontDemo {
         );
 
         this.centerJustify = new Text(
-                new WorldCoords(WorldCoords.getMiddle().x, 0.1f), arial, 0.05f,
+                new WorldCoords(WorldCoords.getMiddle().x, 0.3f), arial, 0.05f,
                 "Center justification!",
                 Justify.CENTER
         );
