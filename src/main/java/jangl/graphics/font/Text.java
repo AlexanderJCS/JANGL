@@ -13,7 +13,7 @@ public class Text implements AutoCloseable {
     private WorldCoords topLeft;
     private Font font;
     private float yHeight;
-    private final Justify justification;
+    private Justify justification;
 
     /**
      * @param coords The top left, top middle, or top right coordinate for left-justification, center-justification, and right-justification respectively.
@@ -21,8 +21,9 @@ public class Text implements AutoCloseable {
      * @param yHeight How high, in WorldCoords, each letter should be
      * @param text The text to display
      * @param justification If the text should be center-justified, left-justified, or right-justified
+     * @throws NullPointerException if justification is null
      */
-    public Text(WorldCoords coords, Font font, float yHeight, String text, Justify justification) {
+    public Text(WorldCoords coords, Font font, float yHeight, String text, Justify justification) throws NullPointerException {
         this.topLeft = coords;
         this.yHeight = yHeight;
         this.font = font;
@@ -166,17 +167,25 @@ public class Text implements AutoCloseable {
         }
     }
 
-    private void generateNextLine(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) {
+    /**
+     * @throws NullPointerException If this.justification is null
+     */
+    private void generateNextLine(BatchBuilder builder, PixelCoords cursor, String text, float scaleFactor) throws NullPointerException {
         if (this.justification == Justify.LEFT) {
             this.generateLineLeftJustify(builder, cursor, text, scaleFactor);
         } else if (this.justification == Justify.RIGHT) {
             this.generateLineRightJustify(builder, cursor, text, scaleFactor);
-        } else {
+        } else if (this.justification == Justify.CENTER) {
             generateLineCenterJustify(builder, cursor, text, scaleFactor);
+        } else if (this.justification == null) {
+            throw new IllegalStateException("Justification must not be null");
         }
     }
 
-    public Batch getBatch() {
+    /**
+     * @throws NullPointerException If this.justification is null
+     */
+    public Batch getBatch() throws NullPointerException {
         int heightPixels = this.font.tallestLetter.height();
         float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
 
@@ -216,6 +225,15 @@ public class Text implements AutoCloseable {
 
     public void setTopLeft(WorldCoords newTopLeft) {
         this.topLeft = new WorldCoords(newTopLeft.x, newTopLeft.y);
+        this.regenerate();
+    }
+
+    public Justify getJustification() {
+        return this.justification;
+    }
+
+    public void setJustification(Justify newJustification) {
+        this.justification = newJustification;
         this.regenerate();
     }
 
