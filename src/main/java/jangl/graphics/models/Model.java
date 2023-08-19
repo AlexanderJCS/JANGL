@@ -88,6 +88,6 @@ public class Model implements AutoCloseable, Bindable {
     @Override
     public void close() {
         glDeleteVertexArrays(this.VAO);
-        glDeleteBuffers(this.VAO);
+        glDeleteBuffers(this.VBO);
     }
 }
