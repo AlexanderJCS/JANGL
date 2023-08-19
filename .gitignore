@@ -4,6 +4,9 @@
 out/
 jangl.iml
 
+# Gradle things
+build
+
 # Compiled class file
 *.class
 
