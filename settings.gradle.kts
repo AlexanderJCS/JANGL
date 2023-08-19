@@ -1,2 +1,2 @@
-rootProject.name = "jangl"
+rootProject.name = "JANGL"
 
