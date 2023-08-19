@@ -61,7 +61,6 @@ public class JANGL {
         initialized = true;
     }
 
-
     public static void update() {
         glfwPollEvents();
         glfwSwapBuffers(Window.getWindow());
