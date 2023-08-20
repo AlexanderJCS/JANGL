@@ -6,6 +6,7 @@ jangl.iml
 
 # Gradle things
 build
+.gradle
 
 # Compiled class file
 *.class
