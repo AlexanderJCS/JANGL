@@ -342,8 +342,7 @@ public abstract class Shape implements AutoCloseable {
      * @param repeatTimes The amount of times for the texture to repeat over the y-axis.
      */
     public void setTexRepeatX(float repeatTimes) {
-        // If you're wondering why I subtract by 0.0000001f, read the comments in setTexRepeatY().
-        this.texRepeatX = repeatTimes - 0.0000001f;
+        this.texRepeatX = repeatTimes;
 
         // This case happens when the shape isn't fully initialized yet
         if (this.model == null) {
@@ -358,11 +357,7 @@ public abstract class Shape implements AutoCloseable {
      * @param repeatTimes The amount of times for the texture to repeat over the x-axis.
      */
     public void setTexRepeatY(float repeatTimes) {
-        // Subtract by 0.0000001 because sometimes the top pixel of the image transfers to the
-        // bottom pixel. That bug is really weird and I don't know exactly what causes it (my guess is that the tex
-        // coords are actually set to 1.000000015 or something because of floating point math) but this is the only
-        // fix I found. Same goes with setTexRepeatX().
-        this.texRepeatY = repeatTimes - 0.0000001f;
+        this.texRepeatY = repeatTimes;
 
         // This case happens when the shape isn't fully initialized yet
         if (this.model == null) {
