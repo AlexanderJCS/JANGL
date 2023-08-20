@@ -8,7 +8,7 @@ This guide will demonstrate how to get user input. It covers:
 - Mouse events
 - Scroll events
 
-An example of some of these features can be found in the [input demo](/src/demo/java/inputdemo/InputDemo.java).
+An example of some of these features can be found in the [input demo](/src/test/java/demos/inputdemo).
 
 ## What are Events?
 

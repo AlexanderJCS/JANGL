@@ -1,4 +1,4 @@
-package guideCode.guides.fontguide;
+package guides.fontguide;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
@@ -11,9 +11,9 @@ public class FontGuide {
 
     public FontGuide() {
         Font myFont = new Font(
-                "src/guideCode/guideResources/fontGuide/arial.fnt",
-                "src/guideCode/guideResources/fontGuide/arial.png"
-        );
+                "src/test/resources/guide/fontGuide/arial.fnt",
+                "src/test/resources/guide/fontGuide/arial.png"
+                );
 
         this.text = new Text(
                 new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text

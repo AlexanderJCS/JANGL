@@ -1,4 +1,4 @@
-package guideCode.guides.shapeguide;
+package guides.shapeguide;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;

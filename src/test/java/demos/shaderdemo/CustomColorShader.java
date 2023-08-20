@@ -10,7 +10,7 @@ public class CustomColorShader extends FragmentShader {
     private final Color color;
 
     public CustomColorShader(Color color) throws UncheckedIOException {
-        super("src/demo/java/demos.shaderdemo/colorShader.frag");
+        super("src/test/java/demos/shaderdemo/colorShader.frag");
         this.color = color;
     }
 

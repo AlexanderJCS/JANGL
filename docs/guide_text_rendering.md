@@ -3,7 +3,7 @@
 Creating and displaying text to the screen is easy.
 
 ## Hiero
-The first step is to [download the Hiero software](https://libgdx.com/wiki/tools/hiero). This application will be used to create font files. If you do not want to use Hiero, you can also download the Arial font files [here](/src/demo/demoResources/font).
+The first step is to [download the Hiero software](https://libgdx.com/wiki/tools/hiero). This application will be used to create font files. If you do not want to use Hiero, you can also download the Arial font files [here](/src/test/resources/demo/font).
 
 1. Select which font to use on the top left. Either select a file or use a system font.
 2. On the left, select if you want your text to be bold or italic.

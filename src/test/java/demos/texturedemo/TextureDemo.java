@@ -24,7 +24,7 @@ public class TextureDemo implements AutoCloseable {
         this.rect.setTexRepeatY(2);
 
         this.texture = new Texture(
-                new TextureBuilder().setImagePath("src/demo/demoResources/textureDemo/image.png")
+                new TextureBuilder().setImagePath("src/test/resources/demo/textureDemo/image.png")
         );
     }
 

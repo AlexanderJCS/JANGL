@@ -15,14 +15,14 @@ public class SoundDemo {
     private final Text instructions;
 
     public SoundDemo() {
-        this.sound = new Sound("src/demo/demoResources/soundDemo/cMajScale.ogg");
+        this.sound = new Sound("src/test/resources/demo/soundDemo/cMajScale.ogg");
         this.sound.setLooping(true);
         this.sound.setMaxVolume(2);
         this.sound.setVolume(2);
 
         this.instructions = new Text(
                 new WorldCoords(0.1f, 0.9f),
-                new Font("src/demo/demoResources/font/arial.fnt", "src/demo/demoResources/font/arial.png"),
+                new Font("src/test/resources/demo/font/arial.fnt", "src/test/resources/demo/font/arial.png"),
                 0.1f,
                 "Controls:\nSpace: Play\nP: Pause\nS: Stop\nR: Rewind"
         );

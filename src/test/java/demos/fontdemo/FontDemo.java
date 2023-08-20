@@ -17,8 +17,8 @@ public class FontDemo {
 
     public FontDemo() {
         Font arial = new Font(
-                "src/demo/demoResources/font/arial.fnt",
-                "src/demo/demoResources/font/arial.png"
+                "src/test/resources/demo/font/arial.fnt",
+                "src/test/resources/demo/font/arial.png"
         );
 
         this.leftJustify = new Text(

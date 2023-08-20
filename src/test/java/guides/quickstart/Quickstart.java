@@ -1,4 +1,4 @@
-package guideCode.guides.quickstart;
+package guides.quickstart;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;

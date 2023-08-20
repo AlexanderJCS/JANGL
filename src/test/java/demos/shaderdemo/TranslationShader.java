@@ -10,7 +10,7 @@ public class TranslationShader extends VertexShader {
     private final WorldCoords offset;
 
     public TranslationShader(WorldCoords offset) throws UncheckedIOException {
-        super("src/demo/java/demos.shaderdemo/transformShader.vert");
+        super("src/test/java/demos/shaderdemo/transformShader.vert");
 
         this.offset = offset;
     }

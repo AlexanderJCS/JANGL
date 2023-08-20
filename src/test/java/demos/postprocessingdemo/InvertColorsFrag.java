@@ -9,7 +9,7 @@ import static org.lwjgl.opengl.GL20.glUniform1i;
 
 public class InvertColorsFrag extends FragmentShader {
     public InvertColorsFrag() throws UncheckedIOException {
-        super("src/demo/java/demos.postprocessingdemo/invertColors.frag");
+        super("src/test/java/demos/postprocessingdemo/invertColors.frag");
     }
 
     @Override

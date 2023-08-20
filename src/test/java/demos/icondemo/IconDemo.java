@@ -17,11 +17,11 @@ public class IconDemo implements AutoCloseable {
     private final Text text;
 
     public IconDemo() {
-        this.texture = new TextureBuilder().setImagePath("src/demo/demoResources/iconDemo/circle.png");
+        this.texture = new TextureBuilder().setImagePath("src/test/resources/demo/iconDemo/circle.png");
 
         Font arial = new Font(
-                "src/demo/demoResources/font/arial.fnt",
-                "src/demo/demoResources/font/arial.png"
+                "src/test/resources/demo/font/arial.fnt",
+                "src/test/resources/demo/font/arial.png"
         );
 
         this.text = new Text(
@@ -54,7 +54,9 @@ public class IconDemo implements AutoCloseable {
         JANGL.init(0.75f, 16f/9);
         Window.setVsync(true);
 
-        new IconDemo().run();
+        IconDemo iconDemo = new IconDemo();
+        iconDemo.run();
+        iconDemo.close();
 
         Window.close();
     }

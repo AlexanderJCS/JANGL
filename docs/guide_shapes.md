@@ -5,7 +5,7 @@ There are a few types of shapes you can make using JANGL:
 - Circles
 - Triangles
 
-In this guide, you will learn how to create the shapes listed above. You can see the final source code for this guide [here](../src/guideCode/java/guides/shapeguide/ShapeGuide.java).
+In this guide, you will learn how to create the shapes listed above. You can see the final source code for this guide [here](/src/test/java/guides/shapeguide).
 
 It is also recommended to see the [quickstart guide](/README.md#quickstart-guide) before continuing this tutorial.
 
