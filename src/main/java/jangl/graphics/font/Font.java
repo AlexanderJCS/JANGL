@@ -1,5 +1,6 @@
 package jangl.graphics.font;
 
+import io.github.pixee.security.BoundedLineReader;
 import jangl.color.Color;
 import jangl.color.ColorFactory;
 import jangl.graphics.shaders.ShaderProgram;
@@ -58,7 +59,7 @@ public class Font implements AutoCloseable {
     }
 
     private void processFontFile(BufferedReader reader, int glyphImageWidth, int glyphImageHeight) throws IOException {
-        for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+        for (String line = BoundedLineReader.readLine(reader, 1000000); line != null; line = BoundedLineReader.readLine(reader, 1000000)) {
             if (line.startsWith("char") && !line.contains("count")) {
                 CharInfo info = parseLine(line);
                 float uvTopLeftX = (float) info.x() / glyphImageWidth;
