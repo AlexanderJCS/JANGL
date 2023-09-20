@@ -12,8 +12,8 @@ import static org.lwjgl.opengl.GL11C.glGetError;
 import static org.lwjgl.opengl.GL41.*;
 
 public class Window {
-    public static int screenWidth;
-    public static int screenHeight;
+    private static int screenWidth;
+    private static int screenHeight;
     private static Color clearColor;
     private static long window;
     private static boolean initialized = false;
@@ -64,9 +64,6 @@ public class Window {
 
         glfwIsInitialized = true;
 
-        Window.screenWidth = screenWidth;
-        Window.screenHeight = screenHeight;
-
         initialized = true;
 
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
@@ -90,6 +87,15 @@ public class Window {
         // This must be enabled to make transparency work properly
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        // Define window width and height
+        int[] width = new int[1];
+        int[] height = new int[1];
+
+        glfwGetWindowSize(window, width, height);
+
+        Window.screenWidth = width[0];
+        Window.screenHeight = height[0];
 
         Window.setVsync(false);
     }
