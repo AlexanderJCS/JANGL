@@ -34,7 +34,7 @@ public class PipelineItem implements Bindable, AutoCloseable {
     public PipelineItem(ShaderProgram shaderProgram) {
         this.shaderProgram = shaderProgram;
 
-        this.framebuffer = genFrameBuffer();
+        this.framebuffer = genFramebuffer();
         this.bind();
         this.framebufferTexture = genFramebufferTexture();
 
@@ -43,7 +43,7 @@ public class PipelineItem implements Bindable, AutoCloseable {
         this.unbind();
     }
 
-    private static int genFrameBuffer() {
+    private static int genFramebuffer() {
         return glGenFramebuffers();
     }
 
