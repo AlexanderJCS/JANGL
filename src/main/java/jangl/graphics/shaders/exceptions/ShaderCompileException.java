@@ -6,7 +6,7 @@ public class ShaderCompileException extends RuntimeException {
     }
 
     public ShaderCompileException(String shaderType, String compileError, String sourceCode) {
-        super("Could not precompile " + shaderType + " shader.\nError message:\n" + compileError + "\nSource code:\n" + sourceCode);
+        super("Could not compile " + shaderType + " shader.\nError message:\n" + compileError + "\nSource code:\n" + sourceCode);
     }
 
     public ShaderCompileException(String message) {
