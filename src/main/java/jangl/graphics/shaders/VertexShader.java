@@ -2,7 +2,6 @@ package jangl.graphics.shaders;
 
 import jangl.graphics.Camera;
 import org.joml.Matrix4f;
-import org.joml.Vector2i;
 
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -27,6 +26,46 @@ public class VertexShader extends Shader {
     public VertexShader(InputStream shaderStream) throws UncheckedIOException {
         super(shaderStream);
         this.obeyCamera = true;
+    }
+
+    @Override
+    protected String precompile(String source) {
+        source = this.removeMultiLineComments(source);
+
+        // Now move on to line-by-line precompilation
+        StringBuilder builder = new StringBuilder();
+
+        boolean lineAfterVersion = false;
+
+        for (String line : source.split("\n")) {
+            // sometimes there's carriage return characters for some reason -- no idea why, but we don't need them
+            line = line.replace("\r", "");
+
+            if (lineAfterVersion) {
+                builder.append(Camera.UBO_CODE);
+                builder.append("uniform mat4 modelMatrix;uniform bool obeyCamera;\n");
+                lineAfterVersion = false;
+            }
+
+            if (line.contains("#version")) {
+                lineAfterVersion = true;
+            }
+
+            // Remove comments from the code to prevent } characters that are commented out affecting precompilation
+            if (line.contains("//")) {
+                line = line.substring(0, line.indexOf("//"));
+            }
+
+            builder.append(line).append("\n");
+        }
+
+        // Add the projection/view/model matrices to the gl_Position at the end of the main method
+        builder.insert(
+                builder.lastIndexOf("}"),
+                "if (obeyCamera) { gl_Position = projectionMatrix * cameraMatrix * modelMatrix * gl_Position; } else { gl_Position = projectionMatrix * modelMatrix * gl_Position; }"
+        );
+
+        return super.precompile(builder.toString());
     }
 
     /**
@@ -101,47 +140,14 @@ public class VertexShader extends Shader {
         return noComments.toString();
     }
 
-    @Override
-    protected String precompile(String source) {
-        source = this.removeMultiLineComments(source);
-
-        // Now move on to line-by-line precompilation
-        StringBuilder builder = new StringBuilder();
-
-        boolean lineAfterVersion = false;
-
-        for (String line : source.split("\n")) {
-            // sometimes there's carriage return characters for some reason -- no idea why, but we don't need them
-            line = line.replace("\r", "");
-
-            if (lineAfterVersion) {
-                builder.append(Camera.UBO_CODE);
-                builder.append("uniform mat4 modelMatrix;uniform bool obeyCamera;\n");
-                lineAfterVersion = false;
-            }
-
-            if (line.contains("#version")) {
-                lineAfterVersion = true;
-            }
-
-            // Remove comments from the code to prevent } characters that are commented out affecting precompilation
-            if (line.contains("//")) {
-                line = line.substring(0, line.indexOf("//"));
-            }
-
-            builder.append(line).append("\n");
-        }
-
-        builder.insert(
-                builder.lastIndexOf("}"),
-                "if (obeyCamera) { gl_Position = projectionMatrix * cameraMatrix * modelMatrix * gl_Position; } else { gl_Position = projectionMatrix * modelMatrix * gl_Position; }"
-        );
-
-        return super.precompile(builder.toString());
-    }
-
-    private void addMatrixUniform(int programID, String matrixName, Matrix4f matrix) {
-        int uniformLocation = glGetUniformLocation(programID, matrixName);
+    /**
+     * Sets the model matrix and obey camera uniform of the shader program.
+     *
+     * @param programID The program ID to the pass the uniform to
+     */
+    public void setMatrixUniforms(int programID, Matrix4f modelMatrix) {
+        // Add the model matrix
+        int uniformLocation = glGetUniformLocation(programID, "modelMatrix");
 
         // If there's no projection matrix uniform, leave silently
         if (uniformLocation == -1) {
@@ -149,20 +155,11 @@ public class VertexShader extends Shader {
         }
 
         float[] matrixArr = new float[16];
-        matrix.get(matrixArr);
+        modelMatrix.get(matrixArr);
 
         glUniformMatrix4fv(uniformLocation, false, matrixArr);
-    }
 
-    /**
-     * Sets the projection uniform of the shader program. If there is no projection matrix uniform, the method will
-     * return without doing anything.
-     *
-     * @param programID The program ID to the pass the uniform to
-     */
-    public void setMatrixUniforms(int programID, Matrix4f modelMatrix) {
-        this.addMatrixUniform(programID, "modelMatrix", modelMatrix);
-
+        // Add the obey camera uniform
         int obeyCameraUniformLocation = glGetUniformLocation(programID, "obeyCamera");
         glUniform1i(obeyCameraUniformLocation, this.obeyCamera ? 1 : 0);
     }
