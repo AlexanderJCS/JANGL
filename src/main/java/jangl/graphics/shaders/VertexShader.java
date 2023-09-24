@@ -2,9 +2,14 @@ package jangl.graphics.shaders;
 
 import jangl.graphics.Camera;
 import org.joml.Matrix4f;
+import org.joml.Vector2i;
 
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -24,11 +29,52 @@ public class VertexShader extends Shader {
         this.obeyCamera = true;
     }
 
+    private String removeMultiLineComments(String source) {
+        Matcher matcher = Pattern.compile("/\\*|\\*/").matcher(source);
+
+        // A list of commented indices. Items with even indices in the list are beginnings of comments,
+        // and odd indices are endings of comments
+        List<Integer> commentedIndices = new ArrayList<>();
+
+        while (matcher.find()) {
+            if (commentedIndices.size() % 2 == 0 && matcher.group().equals("/*")) {
+                commentedIndices.add(matcher.start());
+
+            } else if (matcher.group().equals("*/")) {
+                commentedIndices.add(matcher.end());
+            }
+        }
+
+        if (commentedIndices.size() % 2 != 0) {
+            commentedIndices.add(source.length());
+        }
+
+        if (commentedIndices.size() == 0) {
+            return source;
+        }
+
+        StringBuilder sourceBuilder = new StringBuilder(source.substring(0, commentedIndices.get(0)));
+
+        for (int i = 1; i < commentedIndices.size(); i += 2) {
+            if (i + 1 < commentedIndices.size()) {
+                sourceBuilder.append(source, commentedIndices.get(i), commentedIndices.get(i + 1));
+            } else {
+                sourceBuilder.append(source, commentedIndices.get(i), source.length());
+            }
+        }
+
+        return sourceBuilder.toString();
+    }
+
     @Override
     protected String precompile(String source) {
+        source = this.removeMultiLineComments(source);
+
+        // Now move on to line-by-line precompilation
         StringBuilder builder = new StringBuilder();
 
         boolean lineAfterVersion = false;
+
         for (String line : source.split("\n")) {
             line = line.replace("\r", "");
 
@@ -40,6 +86,11 @@ public class VertexShader extends Shader {
 
             if (line.contains("#version")) {
                 lineAfterVersion = true;
+            }
+
+            // Remove comments from the code to prevent } characters that are commented out affecting precompilation
+            if (line.contains("//")) {
+                line = line.substring(0, line.indexOf("//"));
             }
 
             if (line.contains("gl_Position") && line.contains("=")) {
