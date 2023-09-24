@@ -111,6 +111,7 @@ public class VertexShader extends Shader {
         boolean lineAfterVersion = false;
 
         for (String line : source.split("\n")) {
+            // sometimes there's carriage return characters for some reason -- no idea why, but we don't need them
             line = line.replace("\r", "");
 
             if (lineAfterVersion) {
@@ -128,15 +129,13 @@ public class VertexShader extends Shader {
                 line = line.substring(0, line.indexOf("//"));
             }
 
-            if (line.contains("gl_Position") && line.contains("=")) {
-                line = line.replace(" ", "");
-                String lineWithoutGlPosition = line.replace("gl_Position=", "");
-
-                line = "if (obeyCamera) {gl_Position=projectionMatrix*cameraMatrix*modelMatrix*" + lineWithoutGlPosition + "} else {gl_Position=projectionMatrix*modelMatrix*" + lineWithoutGlPosition + "}";
-            }
-
             builder.append(line).append("\n");
         }
+
+        builder.insert(
+                builder.lastIndexOf("}"),
+                "if (obeyCamera) { gl_Position = projectionMatrix * cameraMatrix * modelMatrix * gl_Position; } else { gl_Position = projectionMatrix * modelMatrix * gl_Position; }"
+        );
 
         return super.precompile(builder.toString());
     }
