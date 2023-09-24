@@ -29,14 +29,44 @@ public class VertexShader extends Shader {
         this.obeyCamera = true;
     }
 
+    /**
+     * This method removes multi-line comments from the code. This is an important step of precompilation since
+     * precompiling a vertex shader requires that the last closed curly brace is the end of the main function (this is
+     * required since it will add more code before this curly brace).
+     * <br>
+     * Multi-line comments may mess up that step of precompilation if there is a multi-line comment after the main
+     * function that has a closed curly brace. The code will incorrectly be placed in the comment instead of the end of
+     * the main function. This method provides a solution.
+     *
+     * @param source The source code
+     * @return The source code without any multi-line comments
+     */
     private String removeMultiLineComments(String source) {
+        /*
+         * This algorithm works by following the steps below:
+         * 1. Create a Matcher object that searches for open-multi-line (/*) or close-multi-line sequences of characters
+         *
+         * 2. Create a list of integers and iterate through each sequence of characters.
+         *     2a. Even indices of the list will contain the index of the beginning of multi-line comments in the shader source code string.
+         *     2b. Odd indices of the list will contain the index of the end of the multi-line comments in the shader source code string.
+         *
+         * 3. Extract comments from the source code string given the index of the comments found in step 2
+         */
+
+        // --- STEP 1: Create a matcher that searches for /* or */ character sequences ---
         Matcher matcher = Pattern.compile("/\\*|\\*/").matcher(source);
 
+
+        // --- STEP 2: Find the beginning and end indices of the comments ---
         // A list of commented indices. Items with even indices in the list are beginnings of comments,
         // and odd indices are endings of comments
         List<Integer> commentedIndices = new ArrayList<>();
 
         while (matcher.find()) {
+            // The if conditions are important here since you can have a multi-line comment which contains "/*" inside
+            //  the comment itself, e.g.:
+            /* This multi-line comment is an example of the edge case when I include "/*" */
+
             if (commentedIndices.size() % 2 == 0 && matcher.group().equals("/*")) {
                 commentedIndices.add(matcher.start());
 
@@ -45,25 +75,30 @@ public class VertexShader extends Shader {
             }
         }
 
-        if (commentedIndices.size() % 2 != 0) {
-            commentedIndices.add(source.length());
-        }
-
+        // Prevent an IndexOutOfBoundsException by just returning right now if no comments are found
         if (commentedIndices.size() == 0) {
             return source;
         }
 
-        StringBuilder sourceBuilder = new StringBuilder(source.substring(0, commentedIndices.get(0)));
+        // If the comment indices list is odd, that means that there is an unclosed multi-line comment within the source
+        // code. The end index of the comment should be the end of the source code string.
+        if (commentedIndices.size() % 2 != 0) {
+            commentedIndices.add(source.length());
+        }
+
+        // --- PART 3: Exclude the comments from the new source code ---
+        StringBuilder noComments = new StringBuilder(source.substring(0, commentedIndices.get(0)));
 
         for (int i = 1; i < commentedIndices.size(); i += 2) {
             if (i + 1 < commentedIndices.size()) {
-                sourceBuilder.append(source, commentedIndices.get(i), commentedIndices.get(i + 1));
+                noComments.append(source, commentedIndices.get(i), commentedIndices.get(i + 1));
             } else {
-                sourceBuilder.append(source, commentedIndices.get(i), source.length());
+                // Avoid an IndexOutOfBoundsException by accessing an invalid index of commentedIndices
+                noComments.append(source, commentedIndices.get(i), source.length());
             }
         }
 
-        return sourceBuilder.toString();
+        return noComments.toString();
     }
 
     @Override
