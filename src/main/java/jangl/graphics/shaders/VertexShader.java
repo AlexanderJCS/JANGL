@@ -31,9 +31,21 @@ public class VertexShader extends Shader {
 
     @Override
     protected String precompile(String source) {
+        /*
+         * The vertex shader code is precompiled to multiply the model, view, and projection matrix automatically.
+         * The precompilation has several steps:
+         * 1. Remove multi-line comments
+         * 2. Add the code that declares uniform variables and remove inline comments
+         * 3. Find the beginning of the main function in the shader code
+         * 4. Find the end of the main function in the shader code
+         * 5. Add a return statement at the end of the main function where it would otherwise be implicit
+         * 6. Before every return statement, add the matrix multiplications
+         */
+
+        // STEP 1: Remove multi-line comments
         source = this.removeMultiLineComments(source);
 
-        // Now move on to line-by-line precompilation
+        // STEP 2: Add the code that declares uniform variables and remove inline comments
         StringBuilder builder = new StringBuilder();
 
         boolean lineAfterVersion = false;
@@ -60,6 +72,8 @@ public class VertexShader extends Shader {
             builder.append(line).append("\n");
         }
 
+        // STEP 3: Find the beginning of the main function in the shader code
+        // void( |\t)+main is a regex to find the sequence "void main" with any amount of spaces between "void" and "main"
         Matcher mainMatcher = Pattern.compile("void( |\\t)+main").matcher(builder.toString());
 
         if (!mainMatcher.find()) {
@@ -68,12 +82,16 @@ public class VertexShader extends Shader {
 
         int mainFuncStart = mainMatcher.start();
 
+        // STEP 4: Find the end of the main function in the shader code
         int mainFuncEnd = this.findMainFuncEndIndex(builder.toString(), mainFuncStart);
+
+        // STEP 5: Add a return statement at the end of the main function where it would otherwise be implicit
         builder.insert(mainFuncEnd - 1, "\nreturn;\n");
 
         // Update the main function ending after the builder is modified
         mainFuncEnd = this.findMainFuncEndIndex(builder.toString(), mainFuncStart);
 
+        // STEP 6: Before every return statement, add the matrix multiplications
         this.insertMatrixMultiplicationsBeforeReturns(builder, mainFuncStart, mainFuncEnd);
 
         return super.precompile(builder.toString());
