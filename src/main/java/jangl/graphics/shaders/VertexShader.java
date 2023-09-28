@@ -60,12 +60,6 @@ public class VertexShader extends Shader {
             builder.append(line).append("\n");
         }
 
-        // Add the projection/view/model matrices to the gl_Position at the end of the main method
-        builder.insert(
-                builder.lastIndexOf("}"),
-                "return;\n"
-        );
-
         Matcher mainMatcher = Pattern.compile("void( |\\t)+main").matcher(builder.toString());
 
         if (!mainMatcher.find()) {
@@ -73,19 +67,57 @@ public class VertexShader extends Shader {
         }
 
         int mainFuncStart = mainMatcher.start();
-        this.insertMatrixMultiplicationsBeforeReturns(builder, mainFuncStart);
 
-        System.out.println(builder);
+        int mainFuncEnd = this.findMainFuncEndIndex(builder.toString(), mainFuncStart);
+        builder.insert(mainFuncEnd - 1, "\nreturn;\n");
+
+        // Update the main function ending after the builder is modified
+        mainFuncEnd = this.findMainFuncEndIndex(builder.toString(), mainFuncStart);
+
+        this.insertMatrixMultiplicationsBeforeReturns(builder, mainFuncStart, mainFuncEnd);
 
         return super.precompile(builder.toString());
     }
 
-    private void insertMatrixMultiplicationsBeforeReturns(StringBuilder builder, int mainFuncIndex) {
+    private int findMainFuncEndIndex(String code, int mainFuncStart) throws ShaderPrecompileException {
+        int curlyBraceCount = 0;
+        boolean foundACurlyBrace = false;
+
+        for (int i = mainFuncStart; i < code.length(); i++) {
+            char ch = code.charAt(i);
+
+            if (ch == '{') {
+                foundACurlyBrace = true;
+                curlyBraceCount++;
+            } else if (ch == '}') {
+                foundACurlyBrace = true;
+                curlyBraceCount--;
+            }
+
+            if (curlyBraceCount == 0 && foundACurlyBrace) {
+                return i;
+            }
+        }
+
+        throw new ShaderPrecompileException(
+                "Closing curly braces do not match opening curly braces within the main function"
+        );
+    }
+
+    /**
+     * Modifies a StringBuilder to include matrix multiplications before every return statement inside the main function.
+     * This step is important to the process of precompilation since it inserts the code that modifies the vertices to
+     * go from local space to world space.
+     *
+     * @param builder The string builder to modify
+     * @param mainFuncBeginIndex The beginning index of the main function, to know when to start inserting the matrix multiplication code in front of return statements.
+     */
+    private void insertMatrixMultiplicationsBeforeReturns(StringBuilder builder, int mainFuncBeginIndex, int mainFuncEnd) {
         Matcher returnMatcher = Pattern.compile("return").matcher(builder.toString());
         List<Integer> returnLocations = new ArrayList<>();
 
         while (returnMatcher.find()) {
-            if (returnMatcher.start() > mainFuncIndex) {
+            if (returnMatcher.start() > mainFuncBeginIndex && returnMatcher.end() < mainFuncEnd) {
                 returnLocations.add(returnMatcher.start());
             }
         }
