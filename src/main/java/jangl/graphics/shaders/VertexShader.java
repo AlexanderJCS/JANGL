@@ -1,6 +1,7 @@
 package jangl.graphics.shaders;
 
 import jangl.graphics.Camera;
+import jangl.graphics.shaders.exceptions.ShaderPrecompileException;
 import org.joml.Matrix4f;
 
 import java.io.InputStream;
@@ -62,10 +63,36 @@ public class VertexShader extends Shader {
         // Add the projection/view/model matrices to the gl_Position at the end of the main method
         builder.insert(
                 builder.lastIndexOf("}"),
-                "if (obeyCamera) { gl_Position = projectionMatrix * cameraMatrix * modelMatrix * gl_Position; } else { gl_Position = projectionMatrix * modelMatrix * gl_Position; }"
+                "return;\n"
         );
 
+        Matcher mainMatcher = Pattern.compile("void( |\\t)+main").matcher(builder.toString());
+
+        if (!mainMatcher.find()) {
+            throw new ShaderPrecompileException("Could not find main method. Source code:\n\n" + source);
+        }
+
+        int mainFuncStart = mainMatcher.start();
+        this.insertMatrixMultiplicationsBeforeReturns(builder, mainFuncStart);
+
+        System.out.println(builder);
+
         return super.precompile(builder.toString());
+    }
+
+    private void insertMatrixMultiplicationsBeforeReturns(StringBuilder builder, int mainFuncIndex) {
+        Matcher returnMatcher = Pattern.compile("return").matcher(builder.toString());
+        List<Integer> returnLocations = new ArrayList<>();
+
+        while (returnMatcher.find()) {
+            if (returnMatcher.start() > mainFuncIndex) {
+                returnLocations.add(returnMatcher.start());
+            }
+        }
+
+        for (int i = returnLocations.size() - 1; i >= 0; i--) {
+            builder.insert(returnLocations.get(i), "if (obeyCamera) { gl_Position = projectionMatrix * cameraMatrix * modelMatrix * gl_Position; } else { gl_Position = projectionMatrix * modelMatrix * gl_Position; }\n");
+        }
     }
 
     /**
