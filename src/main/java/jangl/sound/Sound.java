@@ -14,10 +14,7 @@ import static org.lwjgl.openal.ALC11.*;
 import static org.lwjgl.openal.SOFTGainClampEx.AL_GAIN_LIMIT_SOFT;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 
-/*
- * I used this resource when programming the Sound class:
- * https://www.youtube.com/watch?v=dLrqBTeipwg&ab_channel=GamesWithGabe
- */
+
 public class Sound implements AutoCloseable {
     private static boolean initialized = false;
     private final int bufferID;

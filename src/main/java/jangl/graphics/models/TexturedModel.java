@@ -7,9 +7,6 @@ import static org.lwjgl.opengl.GL41.*;
  * A Model class that allows textures to be drawn to it.
  */
 public class TexturedModel extends IndicesModel {
-    // Modified (heavily) from this tutorial:
-    // https://www.youtube.com/watch?v=-6P_CkT-FlQ&list=PLILiqflMilIxta2xKk2EftiRHD4nQGW0u&index=5&ab_channel=WarmfulDevelopment
-
     private final int TBO;
 
     /**

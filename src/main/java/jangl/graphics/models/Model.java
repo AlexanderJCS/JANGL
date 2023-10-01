@@ -4,13 +4,7 @@ import jangl.graphics.Bindable;
 
 import static org.lwjgl.opengl.GL41.*;
 
-/**
- * Modified from:
- * <a href="https://www.youtube.com/watch?v=-6P_CkT-FlQ&list=PLILiqflMilIxta2xKk2EftiRHD4nQGW0u&index=5&ab_channel=WarmfulDevelopment">...</a>
- * Model class, which allows a shape to be drawn to the screen.
- * <p>
- * Also see inheritors of this class: TriangleFanModel, IndicesModel, and TexturedModel, which inherits IndicesModel.
- */
+
 public class Model implements AutoCloseable, Bindable {
     protected static final int DIMENSIONS = 2;
     protected static int drawCallCounter = 0;
