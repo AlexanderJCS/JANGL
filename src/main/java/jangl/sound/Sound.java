@@ -154,9 +154,9 @@ public class Sound implements AutoCloseable {
      *
      * @param volume The new maximum volume.
      */
-    public void setMaxVolume(float volume) {
+    public void setMaxVolume(float volume) throws IllegalArgumentException {
         if (volume < 0) {
-            throw new IllegalArgumentException("The max volume of a sound must be a float within the range [0, infinity)");
+            throw new IllegalArgumentException("The max volume of a sound must be greater than or equal to 0");
         }
 
         alSourcef(this.sourceID, AL_MAX_GAIN, volume);
