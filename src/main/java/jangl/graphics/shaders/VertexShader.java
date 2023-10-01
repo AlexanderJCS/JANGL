@@ -74,7 +74,7 @@ public class VertexShader extends Shader {
 
         // STEP 3: Find the beginning of the main function in the shader code
         // void( |\t)+main is a regex to find the sequence "void main" with any amount of spaces between "void" and "main"
-        Matcher mainMatcher = Pattern.compile("void( |\\t)+main").matcher(builder.toString());
+        Matcher mainMatcher = Pattern.compile("void([ \\t])+main").matcher(builder.toString());
 
         if (!mainMatcher.find()) {
             throw new ShaderPrecompileException("Could not find main method. Source code:\n\n" + source);
