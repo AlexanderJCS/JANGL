@@ -11,7 +11,6 @@ import java.nio.ShortBuffer;
 
 import static org.lwjgl.openal.AL11.*;
 import static org.lwjgl.openal.ALC11.*;
-import static org.lwjgl.openal.SOFTGainClampEx.AL_GAIN_LIMIT_SOFT;
 import static org.lwjgl.stb.STBVorbis.stb_vorbis_decode_filename;
 
 
