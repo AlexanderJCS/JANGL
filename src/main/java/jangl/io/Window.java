@@ -77,8 +77,8 @@ public class Window {
 
         glfwSetWindowPos(
                 window,
-                (getMonitorWidth() - getScreenWidth()) / 2,
-                (getMonitorHeight() - getScreenHeight()) / 2
+                (getMonitorWidth() - screenWidth) / 2,
+                (getMonitorHeight() - screenHeight) / 2
         );
 
         glfwMakeContextCurrent(window);
