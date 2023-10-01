@@ -13,7 +13,7 @@ public class ShaderDemo implements AutoCloseable {
 
     public ShaderDemo() {
         this.shaderProgram = new ShaderProgram(
-                new TranslationShader(new WorldCoords(0, 0)),
+                new TranslationShader(new WorldCoords(-0.25f, 0f)),
                 new CustomColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
         );
 
