@@ -131,9 +131,9 @@ public class Sound implements AutoCloseable {
     public void setVolume(float volume) throws IllegalArgumentException {
         if (volume > this.getMaxVolume() || volume < 0) {
             throw new IllegalArgumentException(
-                    "The volume of a sound must be a float within the range [0, this.getMaxVolume()]\n" +
-                            "WARNING: 0 = 0% volume and 1 = 100% volume. Using this.setMaxVolume() to set the volume" +
-                            "higher than 100% may make the sound too loud and (in extreme cases) cause hearing damage."
+                    "The volume of a sound must be a float within the range [0, this.getMaxVolume()]. If you want to " +
+                            "go above 100% volume, set this.setMaxVolume() to your maximum volume, then use this.setVolume()" +
+                            " to set the volume to the desired value."
             );
         }
 
