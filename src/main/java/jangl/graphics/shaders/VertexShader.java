@@ -183,10 +183,10 @@ public class VertexShader extends Shader {
             //  the comment itself, e.g.:
             /* This multi-line comment is an example of the edge case when I include "/*" */
 
-            if (commentedIndices.size() % 2 == 0 && matcher.group().equals("/*")) {
+            if (commentedIndices.size() % 2 == 0 && "/*".equals(matcher.group())) {
                 commentedIndices.add(matcher.start());
 
-            } else if (matcher.group().equals("*/")) {
+            } else if ("*/".equals(matcher.group())) {
                 commentedIndices.add(matcher.end());
             }
         }
