@@ -95,6 +95,7 @@ public class PipelineItem implements Bindable, AutoCloseable {
         int targetHeight = (int) (aspectRatio * targetWidth);
 
         int x = 0;
+        // I have no idea why I need to multiply by 2 here, but I do
         int xJump = Window.getScreenWidth() / targetWidth * 2;
 
         int y = 0;
