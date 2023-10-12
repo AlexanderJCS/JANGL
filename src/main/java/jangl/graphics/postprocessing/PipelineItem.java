@@ -5,6 +5,7 @@ import jangl.graphics.Bindable;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.io.Window;
 import jangl.shapes.Rect;
+import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
 
@@ -80,6 +81,35 @@ public class PipelineItem implements Bindable, AutoCloseable {
 
     public ShaderProgram getShaderProgram() {
         return this.shaderProgram;
+    }
+
+    /**
+     * @return The byte data, in RGBA format, of the framebuffer. The first byte is the R channel, the next byte is the G channel, etc.
+     */
+    public byte[] read() {
+        try (MemoryStack stack = MemoryStack.stackPush()) {
+            glBindBuffer(GL_READ_FRAMEBUFFER, this.getFramebufferID());
+
+            // Create a ByteBuffer that the framebuffer data will be written to
+            int bufferSize = Window.getScreenWidth() * Window.getScreenHeight() * 4;
+            ByteBuffer framebufferContents = stack.malloc(bufferSize);
+
+            glReadPixels(
+                    0, 0,
+                    Window.getScreenWidth(), Window.getScreenHeight(),
+                    GL_RGBA, GL_BYTE,
+                    framebufferContents
+            );
+
+            // Unbind the read framebuffer
+            glBindBuffer(GL_READ_FRAMEBUFFER, 0);
+
+            // Transfer the ByteBuffer to a byte array
+            byte[] byteArray = new byte[bufferSize];
+            framebufferContents.get(byteArray);
+
+            return byteArray;
+        }
     }
 
     @Override
