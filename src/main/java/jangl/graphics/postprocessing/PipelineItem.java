@@ -5,7 +5,7 @@ import jangl.graphics.Bindable;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import org.lwjgl.system.MemoryStack;
+import org.lwjgl.BufferUtils;
 
 import java.nio.ByteBuffer;
 
@@ -83,33 +83,98 @@ public class PipelineItem implements Bindable, AutoCloseable {
         return this.shaderProgram;
     }
 
+    public String convertToString(int targetWidth) {
+        byte[] framebufferData = this.read();  // the length of this arr should be a multiple of 4 since it's RGBA data
+        byte[] grayscaleData = this.convertRGBAtoGrayscale(framebufferData);
+
+        return grayscaleDataToString(grayscaleData, targetWidth);
+    }
+
+    private String grayscaleDataToString(byte[] grayscaleData, int targetWidth) {
+        float aspectRatio = (float) Window.getScreenHeight() / Window.getScreenWidth();
+        int targetHeight = (int) (aspectRatio * targetWidth);
+
+        int x = 0;
+        int xJump = Window.getScreenWidth() / targetWidth * 2;
+
+        int y = 0;
+        int yJump = Window.getScreenHeight() / targetHeight * 2;
+
+        String darkestToLightest = ".'`^\",:;Il!i><~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$";
+        StringBuilder consoleOutput = new StringBuilder();
+
+        while (y < Window.getScreenHeight()) {
+            byte pixelAtCoord = grayscaleData[y * Window.getScreenWidth() + x];
+
+            // brightness value ranging from 0-1
+            float brightness = pixelAtCoord / 127f;
+
+            // Prevent off-by-one index out of bounds errors by clamping the max to 67
+            int darkestToLightestIndex = Math.min(67, Math.round(brightness * darkestToLightest.length()));
+            char brightnessChar = darkestToLightest.charAt(darkestToLightestIndex);
+
+            consoleOutput.append(brightnessChar);
+            // repeat the line to double the char, since chars are 1/2 width than height
+            consoleOutput.append(brightnessChar);
+
+            x += xJump;
+            if (x > Window.getScreenWidth()) {
+                x = 0;
+                y += yJump;
+
+                consoleOutput.append("\n");
+            }
+        }
+
+        return consoleOutput.toString();
+    }
+
+    private byte[] convertRGBAtoGrayscale(byte[] rgbaData) {
+        byte[] grayscaleData = new byte[rgbaData.length / 4];
+
+        for (int i = 0; i < grayscaleData.length; i++) {
+            // average the RGBA data to
+            float average = (
+                    rgbaData[i * 4]        // red
+                            + rgbaData[i * 4 + 1]  // green
+                            + rgbaData[i * 4 + 2]  // blue
+
+            ) / 3f;
+
+            // Multiply by alpha and convert the average to type byte.
+            byte byteAverage = (byte) (average * ((int) (rgbaData[i * 4 + 3]) + 128) / 255);
+
+            grayscaleData[i] = byteAverage;
+        }
+
+        return grayscaleData;
+    }
+
     /**
      * @return The byte data, in RGBA format, of the framebuffer. The first byte is the R channel, the next byte is the G channel, etc.
      */
     public byte[] read() {
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            glBindBuffer(GL_READ_FRAMEBUFFER, this.getFramebufferID());
+        glBindBuffer(GL_READ_FRAMEBUFFER, this.getFramebufferID());
 
-            // Create a ByteBuffer that the framebuffer data will be written to
-            int bufferSize = Window.getScreenWidth() * Window.getScreenHeight() * 4;
-            ByteBuffer framebufferContents = stack.malloc(bufferSize);
+        // Create a ByteBuffer that the framebuffer data will be written to
+        int bufferSize = Window.getScreenWidth() * Window.getScreenHeight() * 4;
+        ByteBuffer framebufferContents = BufferUtils.createByteBuffer(bufferSize);
 
-            glReadPixels(
-                    0, 0,
-                    Window.getScreenWidth(), Window.getScreenHeight(),
-                    GL_RGBA, GL_BYTE,
-                    framebufferContents
-            );
+        glReadPixels(
+                0, 0,
+                Window.getScreenWidth(), Window.getScreenHeight(),
+                GL_RGBA, GL_BYTE,
+                framebufferContents
+        );
 
-            // Unbind the read framebuffer
-            glBindBuffer(GL_READ_FRAMEBUFFER, 0);
+        // Unbind the read framebuffer
+        glBindBuffer(GL_READ_FRAMEBUFFER, 0);
 
-            // Transfer the ByteBuffer to a byte array
-            byte[] byteArray = new byte[bufferSize];
-            framebufferContents.get(byteArray);
+        // Transfer the ByteBuffer to a byte array
+        byte[] byteArray = new byte[bufferSize];
+        framebufferContents.get(byteArray);
 
-            return byteArray;
-        }
+        return byteArray;
     }
 
     @Override

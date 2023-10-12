@@ -21,6 +21,7 @@ import jangl.shapes.Rect;
 public class PostProcessingDemo implements AutoCloseable {
     private final Rect rect;
     private final PostProcessing postProcessing;
+    private boolean renderToConsole;
 
     public PostProcessingDemo() {
         // Create a rect with a width/height of half the screen width/height
@@ -43,6 +44,8 @@ public class PostProcessingDemo implements AutoCloseable {
                 )
             )
         );
+
+        this.renderToConsole = true;
     }
 
     public void draw() {
@@ -53,6 +56,14 @@ public class PostProcessingDemo implements AutoCloseable {
         this.postProcessing.start();
         this.rect.draw();
         this.postProcessing.end();
+
+        if (this.renderToConsole) {
+            this.renderToConsole = false;
+
+            PipelineItem lastItem = this.postProcessing.getPipeline().get(0);
+            String stringVersion = lastItem.convertToString(80);
+            System.out.println(stringVersion);
+        }
     }
 
     public void run() {
