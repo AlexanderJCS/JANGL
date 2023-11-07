@@ -74,7 +74,7 @@ public class Rect extends Shape {
     public void setWidth(float newWidth) {
         this.width = newWidth;
         this.refreshCorners();
-        this.model.subVertices(calculateVertices(), 0);
+        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     /**
@@ -88,7 +88,7 @@ public class Rect extends Shape {
     public void setHeight(float newHeight) {
         this.height = newHeight;
         this.refreshCorners();
-        this.calculateVertices();
+        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     private void refreshCorners() {
