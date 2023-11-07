@@ -92,10 +92,10 @@ public class Rect extends Shape {
     }
 
     private void refreshCorners() {
-        this.x1 = -width / 2;
-        this.y1 = height / 2;
-        this.x2 = width / 2;
-        this.y2 = -height / 2;
+        this.x1 = -this.width / 2;
+        this.y1 = this.height / 2;
+        this.x2 = this.width / 2;
+        this.y2 = -this.height / 2;
     }
 
     /**
