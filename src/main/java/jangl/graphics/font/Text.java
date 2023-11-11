@@ -204,7 +204,7 @@ public class Text implements AutoCloseable {
 
             // Reset cursor position
             cursor.x = this.topLeft.toPixelCoords().x;
-            cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * 1.2;
+            cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * 1.2f;
         }
 
         return new Batch(builder);
