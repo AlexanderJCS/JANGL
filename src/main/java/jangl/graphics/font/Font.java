@@ -14,6 +14,9 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_NEAREST;
+
 public class Font implements AutoCloseable {
     public final Texture fontTexture;
     public final CharInfo tallestLetter;
@@ -33,7 +36,7 @@ public class Font implements AutoCloseable {
         this.fontShader = new FontShader(ColorFactory.fromNormalized(1, 1, 1, 1));
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), this.fontShader, TextureShaderVert.getAttribLocations());
 
-        this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage));
+        this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage).setSmoothScaling());
         this.fontTexture.useDefaultShader(false);
 
         BufferedImage glyphImage = readGlyphImage(fontImage);
@@ -122,6 +125,31 @@ public class Font implements AutoCloseable {
                 charInfo.get("width"),
                 charInfo.get("height")
         );
+    }
+
+    public void setFilterMode(int filterMode) {
+        this.fontTexture.setFilterMode(filterMode);
+    }
+
+    /**
+     * The default option for fonts. When scaling, the font texture is optimized for scaling higher-resolution fonts,
+     * but may make low-resolution fonts, such as retro-style fonts, blurry.
+     * On a higher resolution font, it will make the text look smoother and more seamless.
+     * <br>
+     * Under the hood, this method changes the filter mode to GL_LINEAR.
+     */
+    public void setSmoothScaling() {
+        this.setFilterMode(GL_LINEAR);
+    }
+
+    /**
+     * When scaling, the texture is optimized for scaling pixelated fonts, such as retro-fonts. It will not make the
+     * text blurry when scaling, but may make higher-resolution fonts look rough or pixelated.
+     * <br>
+     * Under the hood, this method changes the filter mode to GL_NEAREST.
+     */
+    public void setPixelatedScaling() {
+        this.setFilterMode(GL_NEAREST);
     }
 
     /**
