@@ -61,6 +61,33 @@ public class Texture implements AutoCloseable, Bindable {
         return imageID;
     }
 
+    public void setFilterMode(int filterMode) {
+        this.bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
+        this.unbind();
+    }
+
+    /**
+     * When scaling, the texture is optimized for scaling higher-resolution images, but may make low-resolution images
+     * such as pixel art blurry. On a higher resolution texture, it will make the image look smoother and more seamless.
+     * <br>
+     * Under the hood, this method changes the filter mode to GL_LINEAR.
+     */
+    public void setSmoothScaling() {
+        this.setFilterMode(GL_LINEAR);
+    }
+
+    /**
+     * When scaling, the texture is optimized for scaling pixelated images, such as pixel art. It will not make the
+     * image blurry when scaling, but may make higher-resolution images look rough.
+     * <br>
+     * Under the hood, this method changes the filter mode to GL_NEAREST.
+     */
+    public void setPixelatedScaling() {
+        this.setFilterMode(GL_NEAREST);
+    }
+
     /**
      * Run this method before running TexturedModel.draw(). This will overlay the texture
      * on the TexturedModel.
