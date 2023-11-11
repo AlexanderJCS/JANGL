@@ -4,6 +4,8 @@ import jangl.color.Color;
 import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWImage;
+
+import static org.lwjgl.opengl.GL11.GL_LINEAR;
 import static org.lwjgl.opengl.GL41.GL_NEAREST;
 
 import javax.imageio.ImageIO;
@@ -45,6 +47,33 @@ public class TextureBuilder {
 
     public TextureBuilder setFilterMode(int filterMode) {
         this.filterMode = filterMode;
+        return this;
+    }
+
+    /**
+     * When scaling, the texture is optimized for scaling higher-resolution images, but may make low-resolution images
+     * such as pixel art blurry. On a higher resolution texture, it will make the image look smoother and more seamless.
+     * <br>
+     * Under the hood, this method changes the filter mode to GL_LINEAR.
+     * @return This object, to allow for method chaining
+     */
+    public TextureBuilder setSmoothScaling() {
+        this.setFilterMode(GL_LINEAR);
+
+        return this;
+    }
+
+    /**
+     * The default option for TextureBuilder. When scaling, the texture is optimized for scaling pixelated images, such
+     * as pixel art. It will not make the image blurry when scaling, but may make higher-resolution images look rough.
+     * <br>
+     * Under the hood, this method changes the filter mode to GL_NEAREST.
+     *
+     * @return This object, to allow for method chaining
+     */
+    public TextureBuilder setPixelatedScaling() {
+        this.setFilterMode(GL_NEAREST);
+
         return this;
     }
 
