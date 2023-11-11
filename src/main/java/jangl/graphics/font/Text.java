@@ -139,7 +139,7 @@ public class Text implements AutoCloseable {
                 continue;
             }
 
-            lineLength += info.xAdvance() * scaleFactor;
+            lineLength += (int) (info.xAdvance() * scaleFactor);
         }
 
         float halfLength = lineLength / 2f;
