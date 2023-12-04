@@ -98,19 +98,43 @@ public class TextureBuilder {
     }
 
     public int getWidth() {
-        return width;
+        return this.width;
     }
 
-    public TextureBuilder setWidth(int width) {
+    /**
+     * Sets the width of the image. This method does not change the image data, but instead only changes the dimensions
+     * given to OpenGL, so this method should only be called if you are manually specifying the image data.
+     *
+     * @param width The width of the image.
+     * @return This object, to allow for method chaining.
+     * @throws IllegalArgumentException Throws when the width value given is less than or equal to 0
+     */
+    public TextureBuilder setWidth(int width) throws IllegalArgumentException {
+        if (width <= 0) {
+            throw new IllegalArgumentException("Width value must be greater than 0");
+        }
+
         this.width = width;
         return this;
     }
 
     public int getHeight() {
-        return height;
+        return this.height;
     }
 
+    /**
+     * Sets the height of the image. This method does not change the image data, but instead only changes the dimensions
+     * given to OpenGL, so this method should only be called if you are manually specifying the image data.
+     *
+     * @param height The height of the image.
+     * @return This object, to allow for method chaining.
+     * @throws IllegalArgumentException Throws when the height value given is less than or equal to 0
+     */
     public TextureBuilder setHeight(int height) {
+        if (height <= 0) {
+            throw new IllegalArgumentException("Height value must be greater than 0");
+        }
+
         this.height = height;
         return this;
     }
@@ -126,7 +150,7 @@ public class TextureBuilder {
     }
 
     public ByteBuffer getImageData() {
-        return imageData;
+        return this.imageData;
     }
 
     public TextureBuilder setImageData(ByteBuffer imageData) {
