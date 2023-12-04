@@ -116,7 +116,7 @@ public class TextureBuilder {
     }
 
     public boolean isObeyingCamera() {
-        return obeyCamera;
+        return this.obeyCamera;
     }
 
     public TextureBuilder setObeyCamera(boolean obeyCamera) {
