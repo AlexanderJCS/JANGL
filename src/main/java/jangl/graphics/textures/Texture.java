@@ -132,6 +132,9 @@ public class Texture implements AutoCloseable, Bindable {
         this.useDefaultShader = useDefaultShader;
     }
 
+    /**
+     * @return the ShaderProgram that the Texture uses by default.
+     */
     public ShaderProgram getShaderProgram() {
         return this.shaderProgram;
     }
