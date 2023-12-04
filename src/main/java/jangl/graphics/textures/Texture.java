@@ -133,7 +133,7 @@ public class Texture implements AutoCloseable, Bindable {
     }
 
     public ShaderProgram getShaderProgram() {
-        return shaderProgram;
+        return this.shaderProgram;
     }
 
     @Override
