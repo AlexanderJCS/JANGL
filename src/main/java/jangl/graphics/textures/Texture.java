@@ -34,6 +34,11 @@ public class Texture implements AutoCloseable, Bindable {
         this.shaderProgram = createShader();
         this.shaderProgram.getVertexShader().setObeyCamera(builder.isObeyingCamera());
 
+        builder.getImageData().flip();
+        if (builder.getImageData().limit() != builder.getWidth() * builder.getHeight()) {
+            throw new IllegalStateException("The image buffer size must be equal to the width * height.");
+        }
+
         this.id = this.createImage(builder.getImageData(), this.width, this.height);
         this.setFilterMode(builder.getFilterMode());
 
