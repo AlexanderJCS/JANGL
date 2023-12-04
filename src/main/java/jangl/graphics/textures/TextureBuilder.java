@@ -28,7 +28,6 @@ public class TextureBuilder {
     private int wrapMode;
 
     public TextureBuilder() {
-        this.filterMode = GL_NEAREST;
         this.x = 0;
         this.y = 0;
 
@@ -38,7 +37,8 @@ public class TextureBuilder {
 
         this.obeyCamera = true;
 
-        this.wrapMode = GL_REPEAT;
+        this.setSmoothScaling();
+        this.setWrapMode(GL_REPEAT);
     }
 
     public int getFilterMode() {
@@ -51,10 +51,12 @@ public class TextureBuilder {
     }
 
     /**
-     * When scaling, the texture is optimized for scaling higher-resolution images, but may make low-resolution images
-     * such as pixel art blurry. On a higher resolution texture, it will make the image look smoother and more seamless.
+     * The default option for TextureBuilder. When scaling, the texture is optimized for scaling higher-resolution
+     * images, but may make low-resolution images such as pixel art blurry. On a higher resolution texture,
+     * it will make the image look smoother and more seamless.
      * <br>
      * Under the hood, this method changes the filter mode to GL_LINEAR.
+     *
      * @return This object, to allow for method chaining
      */
     public TextureBuilder setSmoothScaling() {
@@ -64,7 +66,7 @@ public class TextureBuilder {
     }
 
     /**
-     * The default option for TextureBuilder. When scaling, the texture is optimized for scaling pixelated images, such
+     * When scaling, the texture is optimized for scaling pixelated images, such
      * as pixel art. It will not make the image blurry when scaling, but may make higher-resolution images look rough.
      * <br>
      * Under the hood, this method changes the filter mode to GL_NEAREST.
