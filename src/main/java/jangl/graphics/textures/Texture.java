@@ -34,18 +34,10 @@ public class Texture implements AutoCloseable, Bindable {
         this.shaderProgram = createShader();
         this.shaderProgram.getVertexShader().setObeyCamera(builder.isObeyingCamera());
 
-        builder.getImageData().flip();
-        if (builder.getImageData().limit() != builder.getWidth() * builder.getHeight()) {
-            throw new IllegalStateException("The image buffer size must be equal to the width * height.");
-        }
-
         this.id = this.createImage(builder.getImageData(), this.width, this.height);
-        this.setFilterMode(builder.getFilterMode());
 
-        this.bind();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, builder.getWrapMode());
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, builder.getWrapMode());
-        this.unbind();
+        this.setFilterMode(builder.getFilterMode());
+        this.setWrapMode(builder.getWrapMode());
     }
 
     private static ShaderProgram createShader() {
@@ -67,6 +59,10 @@ public class Texture implements AutoCloseable, Bindable {
         return imageID;
     }
 
+    /**
+     * Sets the OpenGL filter mode.
+     * @param filterMode The OpenGL filter mode.
+     */
     public void setFilterMode(int filterMode) {
         if (filterMode == GL_LINEAR) {
             filterMode = GL_LINEAR_MIPMAP_NEAREST;
@@ -77,6 +73,17 @@ public class Texture implements AutoCloseable, Bindable {
         this.bind();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
+        this.unbind();
+    }
+
+    /**
+     * Sets the OpenGL wrap mode.
+     * @param wrapMode The OpenGL wrap mode.
+     */
+    public void setWrapMode(int wrapMode) {
+        this.bind();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
         this.unbind();
     }
 

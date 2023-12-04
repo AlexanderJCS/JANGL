@@ -45,6 +45,11 @@ public class TextureBuilder {
         return filterMode;
     }
 
+    /**
+     * Sets the OpenGL filter mode.
+     * @param filterMode The OpenGL filter mode.
+     * @return This object, to allow for method chaining.
+     */
     public TextureBuilder setFilterMode(int filterMode) {
         this.filterMode = filterMode;
         return this;
