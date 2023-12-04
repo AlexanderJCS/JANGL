@@ -165,4 +165,14 @@ public class BatchBuilder {
                 sumY / this.vertices.size() * 2
         );
     }
+
+    /**
+     * Creates a new batch with the given characteristics of this BatchBuilder.
+     * This method is the same thing as new Batch(this).
+     *
+     * @return The batch with the characteristics of this BatchBuilder
+     */
+    public Batch toBatch() {
+        return new Batch(this);
+    }
 }
