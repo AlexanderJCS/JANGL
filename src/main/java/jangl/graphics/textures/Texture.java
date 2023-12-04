@@ -34,7 +34,8 @@ public class Texture implements AutoCloseable, Bindable {
         this.shaderProgram = createShader();
         this.shaderProgram.getVertexShader().setObeyCamera(builder.isObeyingCamera());
 
-        this.id = this.createImage(builder.getImageData(), this.width, this.height, builder.getFilterMode());
+        this.id = this.createImage(builder.getImageData(), this.width, this.height);
+        this.setFilterMode(builder.getFilterMode());
 
         this.bind();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, builder.getWrapMode());
@@ -49,19 +50,25 @@ public class Texture implements AutoCloseable, Bindable {
     /**
      * @return the ID of the created image
      */
-    private int createImage(ByteBuffer imageData, int width, int height, int filterMode) {
+    private int createImage(ByteBuffer imageData, int width, int height) {
         int imageID = glGenTextures();
 
         glBindTexture(GL_TEXTURE_2D, imageID);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
         this.unbind();
 
         return imageID;
     }
 
     public void setFilterMode(int filterMode) {
+        if (filterMode == GL_LINEAR) {
+            filterMode = GL_LINEAR_MIPMAP_NEAREST;
+        } else if (filterMode == GL_NEAREST) {
+            filterMode = GL_NEAREST_MIPMAP_NEAREST;
+        }
+
         this.bind();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
