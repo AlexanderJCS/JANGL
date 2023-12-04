@@ -54,7 +54,7 @@ public class FontDemo {
         while (Window.shouldRun()) {
             this.draw();
 
-            this.hue += Clock.getTimeDelta() * 0.2f;
+            this.hue += Clock.getTimeDeltaf() * 0.2f;
             this.leftJustify.getFont().setFontColor(ColorFactory.fromNormalizedHSVA(this.hue, 1, 1, 1));
 
             JANGL.update();
