@@ -1,10 +1,6 @@
 package jangl.graphics.shaders;
 
 import jangl.graphics.Bindable;
-import org.lwjgl.BufferUtils;
-
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.util.HashSet;
 import java.util.Set;
 
