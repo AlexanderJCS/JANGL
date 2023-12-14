@@ -3,6 +3,14 @@ package jangl.coords;
 import jangl.io.Window;
 
 public final class WorldCoords extends Coords {
+    /**
+     * WorldCoords copy constructor.
+     * @param coords The WorldCoords object to deepcopy.
+     */
+    public WorldCoords(WorldCoords coords) {
+        super(coords.x, coords.y);
+    }
+
     public WorldCoords(float x, float y) {
         super(x, y);
     }

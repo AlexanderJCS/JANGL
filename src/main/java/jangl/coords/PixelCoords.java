@@ -7,6 +7,14 @@ import jangl.io.Window;
  * Pixel coordinates with the origin (0, 0) at the bottom left.
  */
 public final class PixelCoords extends Coords {
+    /**
+     * PixelCoords copy constructor.
+     * @param coords The PixelCoords object to deepcopy.
+     */
+    public PixelCoords(PixelCoords coords) {
+        super(coords.x, coords.y);
+    }
+
     public PixelCoords(float x, float y) {
         super(x, y);
     }
