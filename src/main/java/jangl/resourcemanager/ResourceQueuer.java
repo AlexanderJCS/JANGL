@@ -25,11 +25,9 @@ public class ResourceQueuer implements Runnable {
     public void run() {
         // Do not queue the resource if it's already closed
         if (this.isClosed.get()) {
-            System.out.println("Resource already closed");
             return;
         }
 
-        System.out.println("Queuing resource");
         ResourceManager.queue(this.resource);
     }
 }
