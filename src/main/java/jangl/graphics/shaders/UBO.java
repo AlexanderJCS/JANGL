@@ -1,6 +1,11 @@
 package jangl.graphics.shaders;
 
 import jangl.graphics.Bindable;
+import jangl.memorymanager.Resource;
+import jangl.memorymanager.ResourceManager;
+import jangl.memorymanager.ResourceQueuer;
+import jangl.memorymanager.ResourceType;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +45,8 @@ public class UBO implements Bindable, AutoCloseable {
         glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, this.getID(), 0, (long) data.length * Float.BYTES);
 
         bindingPoints.add(bindingPoint);
+
+        ResourceManager.add(this, new ResourceQueuer(new Resource(this.id, ResourceType.BUFFER)));
     }
 
     public int getID() {
