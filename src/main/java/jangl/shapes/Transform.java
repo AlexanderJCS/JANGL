@@ -109,7 +109,7 @@ public class Transform {
     /**
      * Rotates relative to the point. Useful compared to rotateAround() if the object is constantly moving.
      * <br>
-     * WARNING: changing the relative location may give unintended side effects.
+     * WARNING: rotating around multiple relative locations may give unintended side effects.
      *
      * @param radians The amount to rotate counter-clockwise. Negative to rotate clockwise.
      * @param relativeLocation The relative location to rotate around. This is relative to the center of the object.
