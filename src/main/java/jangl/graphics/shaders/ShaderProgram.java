@@ -7,6 +7,10 @@ import jangl.graphics.models.Model;
 import jangl.graphics.shaders.exceptions.ShaderCompileException;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
+import jangl.memorymanager.Resource;
+import jangl.memorymanager.ResourceManager;
+import jangl.memorymanager.ResourceQueuer;
+import jangl.memorymanager.ResourceType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,6 +135,8 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         }
 
         this.addUBO(Camera.getUbo(), "Matrices");
+
+        ResourceManager.add(this, new ResourceQueuer(new Resource(this.programID, ResourceType.SHADER)));
     }
 
     /**
@@ -246,6 +252,6 @@ public class ShaderProgram implements AutoCloseable, Bindable {
     }
 
     public int getProgramID() {
-        return programID;
+        return this.programID;
     }
 }
