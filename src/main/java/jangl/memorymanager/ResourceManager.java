@@ -1,24 +1,16 @@
 package jangl.memorymanager;
 
 import static org.lwjgl.opengl.GL41.*;
+import static org.lwjgl.openal.AL11.*;
 
 import java.lang.ref.Cleaner;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ResourceManager {
-    private static boolean initialized = false;
     private static final ConcurrentLinkedQueue<Resource> resourceQueue = new ConcurrentLinkedQueue<>();
     private static final Cleaner cleaner = Cleaner.create();
 
     private ResourceManager() {}
-
-    public static void init() {
-        if (initialized) {
-            return;
-        }
-
-        initialized = true;
-    }
 
     public static void add(Object resource, ResourceQueuer queuer) {
         cleaner.register(resource, queuer);
@@ -58,6 +50,14 @@ public class ResourceManager {
 
             else if (resource.getType() == ResourceType.FRAMEBUFFER) {
                 glDeleteFramebuffers(resource.getResource());
+            }
+
+            else if (resource.getType() == ResourceType.AL_SOURCE) {
+                alDeleteSources(resource.getResource());
+            }
+
+            else if (resource.getType() == ResourceType.AL_BUFFER) {
+                alDeleteBuffers(resource.getResource());
             }
         }
     }

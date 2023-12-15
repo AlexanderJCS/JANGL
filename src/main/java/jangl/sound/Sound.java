@@ -1,5 +1,9 @@
 package jangl.sound;
 
+import jangl.memorymanager.Resource;
+import jangl.memorymanager.ResourceManager;
+import jangl.memorymanager.ResourceQueuer;
+import jangl.memorymanager.ResourceType;
 import org.lwjgl.openal.*;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
@@ -8,6 +12,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.lwjgl.openal.AL11.*;
 import static org.lwjgl.openal.ALC11.*;
@@ -18,6 +23,7 @@ public class Sound implements AutoCloseable {
     private static boolean initialized = false;
     private final int bufferID;
     private final int sourceID;
+    private final AtomicBoolean closed;
 
     /**
      * @param soundFilepath The sound file, in the .wav format, to load.
@@ -33,6 +39,10 @@ public class Sound implements AutoCloseable {
 
         this.bufferID = this.loadSound(soundFilepath);
         alSourcei(sourceID, AL_BUFFER, this.bufferID);
+
+        this.closed = new AtomicBoolean(false);
+        ResourceManager.add(this, new ResourceQueuer(this.closed, new Resource(this.bufferID, ResourceType.AL_BUFFER)));
+        ResourceManager.add(this, new ResourceQueuer(this.closed, new Resource(this.sourceID, ResourceType.AL_SOURCE)));
     }
 
     public static void init() {
@@ -181,6 +191,10 @@ public class Sound implements AutoCloseable {
 
     @Override
     public void close() {
+        if (this.closed.getAndSet(true)) {
+            return;
+        }
+
         alDeleteSources(this.sourceID);
         alDeleteBuffers(this.bufferID);
     }

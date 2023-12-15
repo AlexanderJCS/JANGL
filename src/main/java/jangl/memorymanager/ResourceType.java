@@ -5,5 +5,7 @@ public enum ResourceType {
     VAO,
     SHADER,
     TEXTURE,
-    FRAMEBUFFER
+    FRAMEBUFFER,
+    AL_SOURCE,
+    AL_BUFFER
 }
