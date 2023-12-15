@@ -177,28 +177,6 @@ public class Transform {
     }
 
     /**
-     * Get a deepcopy of the transformation matrix. Primarily used to pass the matrix as a uniform to the GPU.
-     *
-     * @return The transformation matrix.
-     * @deprecated Since the rotation matrix is removed, use this.getMatrix() instead of this method.
-     */
-    @Deprecated
-    public Matrix4f getTransformMatrix() {
-        return new Matrix4f(this.modelMatrix);
-    }
-
-    /**
-     * Get a deepcopy of the rotation matrix. Primarily used to pass the matrix as a uniform to the GPU.
-     *
-     * @return An identity matrix, since the rotation matrix is removed.
-     * @deprecated The rotation matrix is removed.
-     */
-    @Deprecated
-    public Matrix4f getRotationMatrix() {
-        return new Matrix4f().identity();
-    }
-
-    /**
      * @return The multiplied rotation and transformation matrix. Due to matrix multiplications on the CPU potentially
      * being slow, it is not recommended to call this method often.
      */
