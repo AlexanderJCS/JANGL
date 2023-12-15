@@ -1,4 +1,4 @@
-package jangl.memorymanager;
+package jangl.resourcemanager;
 
 public class Resource {
     private final int[] resource;

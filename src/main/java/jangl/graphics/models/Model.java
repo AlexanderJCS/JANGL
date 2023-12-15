@@ -1,7 +1,7 @@
 package jangl.graphics.models;
 
 import jangl.graphics.Bindable;
-import jangl.memorymanager.*;
+import jangl.resourcemanager.*;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

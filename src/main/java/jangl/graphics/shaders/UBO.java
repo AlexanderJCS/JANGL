@@ -1,10 +1,10 @@
 package jangl.graphics.shaders;
 
 import jangl.graphics.Bindable;
-import jangl.memorymanager.Resource;
-import jangl.memorymanager.ResourceManager;
-import jangl.memorymanager.ResourceQueuer;
-import jangl.memorymanager.ResourceType;
+import jangl.resourcemanager.Resource;
+import jangl.resourcemanager.ResourceManager;
+import jangl.resourcemanager.ResourceQueuer;
+import jangl.resourcemanager.ResourceType;
 
 import java.util.HashSet;
 import java.util.Set;

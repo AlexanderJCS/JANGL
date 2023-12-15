@@ -1,4 +1,4 @@
-package jangl.memorymanager;
+package jangl.resourcemanager;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

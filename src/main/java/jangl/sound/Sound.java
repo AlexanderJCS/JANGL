@@ -1,9 +1,9 @@
 package jangl.sound;
 
-import jangl.memorymanager.Resource;
-import jangl.memorymanager.ResourceManager;
-import jangl.memorymanager.ResourceQueuer;
-import jangl.memorymanager.ResourceType;
+import jangl.resourcemanager.Resource;
+import jangl.resourcemanager.ResourceManager;
+import jangl.resourcemanager.ResourceQueuer;
+import jangl.resourcemanager.ResourceType;
 import org.lwjgl.openal.*;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;

@@ -7,10 +7,10 @@ import jangl.graphics.models.Model;
 import jangl.graphics.shaders.exceptions.ShaderCompileException;
 import jangl.graphics.shaders.premade.ColorShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
-import jangl.memorymanager.Resource;
-import jangl.memorymanager.ResourceManager;
-import jangl.memorymanager.ResourceQueuer;
-import jangl.memorymanager.ResourceType;
+import jangl.resourcemanager.Resource;
+import jangl.resourcemanager.ResourceManager;
+import jangl.resourcemanager.ResourceQueuer;
+import jangl.resourcemanager.ResourceType;
 
 import java.util.ArrayList;
 import java.util.List;

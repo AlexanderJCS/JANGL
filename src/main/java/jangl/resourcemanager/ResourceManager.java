@@ -1,4 +1,4 @@
-package jangl.memorymanager;
+package jangl.resourcemanager;
 
 import static org.lwjgl.opengl.GL41.*;
 import static org.lwjgl.openal.AL11.*;
