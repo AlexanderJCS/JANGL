@@ -85,8 +85,7 @@ public class Model implements AutoCloseable, Bindable {
     /**
      * Changes the vertices to the ones given.
      */
-    private void setVertices(float[] vertices) {
-        // TODO: check if this works
+    public void setVertices(float[] vertices) {
         glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
