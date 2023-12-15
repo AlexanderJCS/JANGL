@@ -52,7 +52,6 @@ public class Texture implements AutoCloseable, Bindable {
 
         glBindTexture(GL_TEXTURE_2D, imageID);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-        glGenerateMipmap(GL_TEXTURE_2D);
 
         this.unbind();
 
@@ -64,12 +63,6 @@ public class Texture implements AutoCloseable, Bindable {
      * @param filterMode The OpenGL filter mode.
      */
     public void setFilterMode(int filterMode) {
-        if (filterMode == GL_LINEAR) {
-            filterMode = GL_LINEAR_MIPMAP_NEAREST;
-        } else if (filterMode == GL_NEAREST) {
-            filterMode = GL_NEAREST_MIPMAP_NEAREST;
-        }
-
         this.bind();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
