@@ -51,6 +51,14 @@ public class ResourceManager {
             else if (resource.getType() == ResourceType.VAO) {
                 glDeleteVertexArrays(resource.getResource());
             }
+
+            else if (resource.getType() == ResourceType.TEXTURE) {
+                glDeleteTextures(resource.getResource());
+            }
+
+            else if (resource.getType() == ResourceType.FRAMEBUFFER) {
+                glDeleteFramebuffers(resource.getResource());
+            }
         }
     }
 }

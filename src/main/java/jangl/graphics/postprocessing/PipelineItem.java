@@ -4,6 +4,10 @@ import jangl.coords.WorldCoords;
 import jangl.graphics.Bindable;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.io.Window;
+import jangl.memorymanager.Resource;
+import jangl.memorymanager.ResourceManager;
+import jangl.memorymanager.ResourceQueuer;
+import jangl.memorymanager.ResourceType;
 import jangl.shapes.Rect;
 
 import java.nio.ByteBuffer;
@@ -41,6 +45,9 @@ public class PipelineItem implements Bindable, AutoCloseable {
         errorCheck();
 
         this.unbind();
+
+        ResourceManager.add(this, new ResourceQueuer(new Resource(this.framebuffer, ResourceType.FRAMEBUFFER)));
+        ResourceManager.add(this, new ResourceQueuer(new Resource(this.framebufferTexture, ResourceType.TEXTURE)));
     }
 
     private static int genFramebuffer() {

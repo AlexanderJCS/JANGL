@@ -55,6 +55,8 @@ public class ShapeDemo implements AutoCloseable {
         while (Window.shouldRun()) {
             this.update();
             this.draw();
+
+            new Rect(new WorldCoords(0.8f, 0.6f), 0.25f, 0.25f).close();
         }
     }
 
