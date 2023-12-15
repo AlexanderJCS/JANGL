@@ -172,6 +172,9 @@ public class Transform {
         return new WorldCoords(center.x, center.y);
     }
 
+    /**
+     * @return The center of the object in WorldCoords if no rotation is applied.
+     */
     public WorldCoords getCenterNoRotation() {
         return new WorldCoords(this.shift.x, this.shift.y);
     }
