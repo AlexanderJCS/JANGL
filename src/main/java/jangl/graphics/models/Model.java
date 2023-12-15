@@ -12,8 +12,8 @@ public class Model implements AutoCloseable, Bindable {
     protected static final int DIMENSIONS = 2;
     protected static int drawCallCounter = 0;
     protected int drawCount;
-    protected int VAO;
-    protected int VBO;
+    protected int vao;
+    protected int vbo;
     protected AtomicBoolean closed;
 
 
@@ -25,11 +25,11 @@ public class Model implements AutoCloseable, Bindable {
     public Model(float[] vertices) {
         this.drawCount = vertices.length / DIMENSIONS;
 
-        this.VAO = glGenVertexArrays();
-        this.VBO = glGenBuffers();
+        this.vao = glGenVertexArrays();
+        this.vbo = glGenBuffers();
 
-        glBindVertexArray(this.VAO);
-        glBindBuffer(GL_ARRAY_BUFFER, this.VBO);
+        glBindVertexArray(this.vao);
+        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW);
 
         // stride = 0 means a tightly-packed array
@@ -51,7 +51,7 @@ public class Model implements AutoCloseable, Bindable {
                 this,
                 new ResourceQueuer(
                         this.closed,
-                        new Resource(this.VAO, ResourceType.VAO)
+                        new Resource(this.vao, ResourceType.VAO)
                 )
         );
     }
@@ -60,7 +60,7 @@ public class Model implements AutoCloseable, Bindable {
      * @return An array of all the buffer IDs, used for memory management.
      */
     protected int[] getBuffers() {
-        return new int[]{ this.VBO };
+        return new int[]{ this.vbo};
     }
 
     /**
@@ -74,7 +74,7 @@ public class Model implements AutoCloseable, Bindable {
 
     @Override
     public void bind() {
-        glBindVertexArray(this.VAO);
+        glBindVertexArray(this.vao);
     }
 
     @Override
@@ -87,13 +87,13 @@ public class Model implements AutoCloseable, Bindable {
      */
     private void setVertices(float[] vertices) {
         // TODO: check if this works
-        glBindBuffer(GL_ARRAY_BUFFER, this.VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     public void subVertices(float[] vertices, int offset) {
-        glBindBuffer(GL_ARRAY_BUFFER, this.VBO);
+        glBindBuffer(GL_ARRAY_BUFFER, this.vbo);
         glBufferSubData(GL_ARRAY_BUFFER, offset, vertices);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
@@ -115,7 +115,7 @@ public class Model implements AutoCloseable, Bindable {
             return;
         }
 
-        glDeleteVertexArrays(this.VAO);
+        glDeleteVertexArrays(this.vao);
         glDeleteBuffers(this.getBuffers());
     }
 }

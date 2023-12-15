@@ -7,7 +7,7 @@ import static org.lwjgl.opengl.GL41.*;
  * A Model class that allows textures to be drawn to it.
  */
 public class TexturedModel extends IndicesModel {
-    private final int TBO;
+    protected final int tbo;
 
     /**
      * @param vertices  The vertices.
@@ -16,10 +16,10 @@ public class TexturedModel extends IndicesModel {
     public TexturedModel(float[] vertices, int[] indices, float[] texCoords) {
         super(vertices, indices);
 
-        glBindVertexArray(this.VAO);
+        glBindVertexArray(this.vao);
 
-        this.TBO = glGenBuffers();
-        glBindBuffer(GL_ARRAY_BUFFER, this.TBO);
+        this.tbo = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, this.tbo);
         glBufferData(GL_ARRAY_BUFFER, texCoords, GL_STATIC_DRAW);
 
         // Set up the attribute pointer for the texture coordinates
@@ -31,11 +31,11 @@ public class TexturedModel extends IndicesModel {
 
     @Override
     protected int[] getBuffers() {
-        return new int[]{ this.VBO, this.EBO, this.TBO };
+        return new int[]{ this.vbo, this.ebo, this.tbo};
     }
 
     public void subTexCoords(float[] texCoords, int offset) {
-        glBindBuffer(GL_TEXTURE_BUFFER, this.TBO);
+        glBindBuffer(GL_TEXTURE_BUFFER, this.tbo);
         glBufferSubData(GL_TEXTURE_BUFFER, offset, texCoords);
         glBindBuffer(GL_TEXTURE_BUFFER, 0);
     }

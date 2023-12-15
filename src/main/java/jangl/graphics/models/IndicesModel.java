@@ -7,15 +7,15 @@ import static org.lwjgl.opengl.GL41.*;
  * so it is recommended compared to the base Model class.
  */
 public class IndicesModel extends Model {
-    protected int EBO;
+    protected int ebo;
 
     public IndicesModel(float[] vertices, int[] indices) {
         super(vertices);
 
-        glBindVertexArray(this.VAO);
+        glBindVertexArray(this.vao);
         this.drawCount = indices.length;
-        this.EBO = glGenBuffers();
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.EBO);
+        this.ebo = glGenBuffers();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.ebo);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW);
 
         glBindVertexArray(0);
@@ -23,7 +23,7 @@ public class IndicesModel extends Model {
 
     @Override
     protected int[] getBuffers() {
-        return new int[]{ this.VBO, this.EBO };
+        return new int[]{ this.vbo, this.ebo};
     }
 
     @Override
@@ -34,7 +34,7 @@ public class IndicesModel extends Model {
     }
 
     public void subIndices(int[] indices, int offset) {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.EBO);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.ebo);
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, indices);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
