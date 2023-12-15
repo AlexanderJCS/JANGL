@@ -22,6 +22,11 @@ public class IndicesModel extends Model {
     }
 
     @Override
+    protected int[] getBuffers() {
+        return new int[]{ this.VBO, this.EBO };
+    }
+
+    @Override
     public void render() {
         this.bind();
         glDrawElements(GL_TRIANGLES, this.drawCount, GL_UNSIGNED_INT, 0);
@@ -32,11 +37,5 @@ public class IndicesModel extends Model {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this.EBO);
         glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, offset, indices);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-
-    @Override
-    public void close() {
-        glDeleteBuffers(this.EBO);
-        super.close();
     }
 }

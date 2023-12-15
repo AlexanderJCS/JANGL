@@ -1,6 +1,7 @@
 package jangl.graphics.models;
 
 import jangl.graphics.Bindable;
+import jangl.memorymanager.*;
 
 import static org.lwjgl.opengl.GL41.*;
 
@@ -11,6 +12,8 @@ public class Model implements AutoCloseable, Bindable {
     protected int drawCount;
     protected int VAO;
     protected int VBO;
+    protected boolean closed;
+
 
     /**
      * Create a new model with the given vertices.
@@ -31,6 +34,29 @@ public class Model implements AutoCloseable, Bindable {
         glVertexAttribPointer(0, DIMENSIONS, GL_FLOAT, false, 0, 0);
         glEnableVertexAttribArray(0);
         glBindVertexArray(0);
+
+        this.closed = false;
+
+        ResourceManager.add(
+                this,
+                new ResourceQueuer(
+                        new Resource(this.getBuffers(), ResourceType.BUFFER)
+                )
+        );
+
+        ResourceManager.add(
+                this,
+                new ResourceQueuer(
+                        new Resource(this.VAO, ResourceType.VAO)
+                )
+        );
+    }
+
+    /**
+     * @return An array of all the buffer IDs, used for memory management.
+     */
+    protected int[] getBuffers() {
+        return new int[]{ this.VBO };
     }
 
     /**
@@ -77,11 +103,17 @@ public class Model implements AutoCloseable, Bindable {
     }
 
     /**
-     * Close method needs to be called at the end of a Model's lifespan to prevent memory leaks.
+     * Close method can to be called at the end of a Model's lifespan to prevent memory leaks.
      */
     @Override
     public void close() {
+        if (this.closed) {
+            return;
+        }
+
+        this.closed = true;
+
         glDeleteVertexArrays(this.VAO);
-        glDeleteBuffers(this.VBO);
+        glDeleteBuffers(this.getBuffers());
     }
 }

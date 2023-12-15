@@ -29,16 +29,14 @@ public class TexturedModel extends IndicesModel {
         glBindVertexArray(0);
     }
 
+    @Override
+    protected int[] getBuffers() {
+        return new int[]{ this.VBO, this.EBO, this.TBO };
+    }
 
     public void subTexCoords(float[] texCoords, int offset) {
         glBindBuffer(GL_TEXTURE_BUFFER, this.TBO);
         glBufferSubData(GL_TEXTURE_BUFFER, offset, texCoords);
         glBindBuffer(GL_TEXTURE_BUFFER, 0);
-    }
-
-    @Override
-    public void close() {
-        super.close();
-        glDeleteBuffers(TBO);
     }
 }

@@ -6,6 +6,7 @@ import jangl.io.Window;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.mouse.Mouse;
 import jangl.io.mouse.Scroll;
+import jangl.memorymanager.ResourceManager;
 import jangl.sound.Sound;
 import jangl.time.Clock;
 
@@ -65,6 +66,7 @@ public class JANGL {
         glfwPollEvents();
         glfwSwapBuffers(Window.getWindow());
 
+        ResourceManager.freeResources();
         Clock.update();
     }
 }
