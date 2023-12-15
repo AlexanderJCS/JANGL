@@ -3,6 +3,8 @@ package jangl.graphics.models;
 import jangl.graphics.Bindable;
 import jangl.memorymanager.*;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import static org.lwjgl.opengl.GL41.*;
 
 
@@ -12,7 +14,7 @@ public class Model implements AutoCloseable, Bindable {
     protected int drawCount;
     protected int VAO;
     protected int VBO;
-    protected boolean closed;
+    protected AtomicBoolean closed;
 
 
     /**
@@ -35,11 +37,12 @@ public class Model implements AutoCloseable, Bindable {
         glEnableVertexAttribArray(0);
         glBindVertexArray(0);
 
-        this.closed = false;
+        this.closed = new AtomicBoolean(false);
 
         ResourceManager.add(
                 this,
                 new ResourceQueuer(
+                        this.closed,
                         new Resource(this.getBuffers(), ResourceType.BUFFER)
                 )
         );
@@ -47,6 +50,7 @@ public class Model implements AutoCloseable, Bindable {
         ResourceManager.add(
                 this,
                 new ResourceQueuer(
+                        this.closed,
                         new Resource(this.VAO, ResourceType.VAO)
                 )
         );
@@ -107,11 +111,9 @@ public class Model implements AutoCloseable, Bindable {
      */
     @Override
     public void close() {
-        if (this.closed) {
+        if (this.closed.getAndSet(true)) {
             return;
         }
-
-        this.closed = true;
 
         glDeleteVertexArrays(this.VAO);
         glDeleteBuffers(this.getBuffers());
