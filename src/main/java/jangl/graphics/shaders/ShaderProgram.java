@@ -14,6 +14,7 @@ import jangl.memorymanager.ResourceType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.lwjgl.opengl.GL41.*;
 
@@ -32,6 +33,7 @@ public class ShaderProgram implements AutoCloseable, Bindable {
     private final int programID;
     private final List<Integer> shaderIDs;
     private final List<Shader> shaders;
+    private final AtomicBoolean closed;
 
     /**
      * WARNING: not including a fragment shader may result in the object being black and appearing to be invisible.
@@ -136,7 +138,9 @@ public class ShaderProgram implements AutoCloseable, Bindable {
 
         this.addUBO(Camera.getUbo(), "Matrices");
 
-        ResourceManager.add(this, new ResourceQueuer(new Resource(this.programID, ResourceType.SHADER)));
+        // Add the shader program to the resource manager
+        this.closed = new AtomicBoolean(false);
+        ResourceManager.add(this, new ResourceQueuer(this.closed, new Resource(this.programID, ResourceType.SHADER)));
     }
 
     /**
@@ -211,21 +215,6 @@ public class ShaderProgram implements AutoCloseable, Bindable {
     }
 
     /**
-     * Delete all information relating to the shader to avoid memory leaks.
-     */
-    @Override
-    public void close() {
-        this.unbind();
-
-        for (int shaderID : this.shaderIDs) {
-            glDetachShader(this.programID, shaderID);
-            glDeleteShader(shaderID);
-        }
-
-        glDeleteProgram(this.programID);
-    }
-
-    /**
      * @return The shader program's vertex shader if one exists. Otherwise, it returns null.
      */
     public VertexShader getVertexShader() {
@@ -253,5 +242,24 @@ public class ShaderProgram implements AutoCloseable, Bindable {
 
     public int getProgramID() {
         return this.programID;
+    }
+
+    /**
+     * Delete all information relating to the shader to avoid memory leaks.
+     */
+    @Override
+    public void close() {
+        if (this.closed.getAndSet(true)) {
+            return;
+        }
+
+        this.unbind();
+
+        for (int shaderID : this.shaderIDs) {
+            glDetachShader(this.programID, shaderID);
+            glDeleteShader(shaderID);
+        }
+
+        glDeleteProgram(this.programID);
     }
 }

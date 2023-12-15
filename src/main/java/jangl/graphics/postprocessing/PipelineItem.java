@@ -11,6 +11,7 @@ import jangl.memorymanager.ResourceType;
 import jangl.shapes.Rect;
 
 import java.nio.ByteBuffer;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.lwjgl.opengl.GL41.*;
 
@@ -29,6 +30,7 @@ public class PipelineItem implements Bindable, AutoCloseable {
     private final int framebuffer;
     private final int framebufferTexture;
     private final ShaderProgram shaderProgram;
+    private final AtomicBoolean closed;
 
     /**
      * Creates a pipeline item to be used in post-processing.
@@ -46,8 +48,10 @@ public class PipelineItem implements Bindable, AutoCloseable {
 
         this.unbind();
 
-        ResourceManager.add(this, new ResourceQueuer(new Resource(this.framebuffer, ResourceType.FRAMEBUFFER)));
-        ResourceManager.add(this, new ResourceQueuer(new Resource(this.framebufferTexture, ResourceType.TEXTURE)));
+        this.closed = new AtomicBoolean(false);
+
+        ResourceManager.add(this, new ResourceQueuer(this.closed, new Resource(this.framebuffer, ResourceType.FRAMEBUFFER)));
+        ResourceManager.add(this, new ResourceQueuer(this.closed, new Resource(this.framebufferTexture, ResourceType.TEXTURE)));
     }
 
     private static int genFramebuffer() {
@@ -113,6 +117,10 @@ public class PipelineItem implements Bindable, AutoCloseable {
      */
     @Override
     public void close() {
+        if (this.closed.getAndSet(true)) {
+            return;
+        }
+
         glDeleteFramebuffers(this.framebuffer);
         glDeleteTextures(this.framebufferTexture);
     }

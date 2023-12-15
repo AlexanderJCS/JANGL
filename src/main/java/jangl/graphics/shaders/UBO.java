@@ -8,6 +8,7 @@ import jangl.memorymanager.ResourceType;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.lwjgl.opengl.GL41.*;
 
@@ -18,6 +19,7 @@ public class UBO implements Bindable, AutoCloseable {
     private final int id;
     private final int bindingPoint;
     private static final Set<Integer> bindingPoints = new HashSet<>();
+    private final AtomicBoolean closed;
 
     /**
      * @param data The data in the UBO
@@ -46,7 +48,8 @@ public class UBO implements Bindable, AutoCloseable {
 
         bindingPoints.add(bindingPoint);
 
-        ResourceManager.add(this, new ResourceQueuer(new Resource(this.id, ResourceType.BUFFER)));
+        this.closed = new AtomicBoolean(false);
+        ResourceManager.add(this, new ResourceQueuer(this.closed, new Resource(this.id, ResourceType.BUFFER)));
     }
 
     public int getID() {
@@ -77,6 +80,10 @@ public class UBO implements Bindable, AutoCloseable {
 
     @Override
     public void close() {
+        if (this.closed.getAndSet(true)) {
+            return;
+        }
+
         glDeleteBuffers(this.id);
     }
 }

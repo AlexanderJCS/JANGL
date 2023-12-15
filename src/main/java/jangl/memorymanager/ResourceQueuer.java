@@ -1,16 +1,21 @@
 package jangl.memorymanager;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Queues resources to be freed when appropriate.
  */
 public class ResourceQueuer implements Runnable {
     private final Resource resource;
+    private final AtomicBoolean isClosed;
 
     /**
+     * @param isClosed If the resource is already closed.
      * @param resource The resource to be freed
      */
-    public ResourceQueuer(Resource resource) {
+    public ResourceQueuer(AtomicBoolean isClosed, Resource resource) {
         this.resource = resource;
+        this.isClosed = isClosed;
     }
 
     /**
@@ -18,6 +23,13 @@ public class ResourceQueuer implements Runnable {
      */
     @Override
     public void run() {
+        // Do not queue the resource if it's already closed
+        if (this.isClosed.get()) {
+            System.out.println("Resource already closed");
+            return;
+        }
+
+        System.out.println("Queuing resource");
         ResourceManager.queue(this.resource);
     }
 }
