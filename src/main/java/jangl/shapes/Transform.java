@@ -4,20 +4,52 @@ import jangl.coords.WorldCoords;
 import org.joml.*;
 
 public class Transform {
-    private final Matrix4f modelMatrix;
-    private final Matrix4f rotationMatrix;
-    private final Vector2f shift;
-    private float localRotationAngle;
-    private float originRotationAngle;
+   private final WorldCoords transform;
+   private float rotation;
+   private final Vector2f scale;
+   private final Matrix4f modelMatrix;
 
     public Transform() {
-        this.shift = new Vector2f(0, 0);
-
+        this.transform = new WorldCoords(0, 0);
         this.modelMatrix = new Matrix4f().identity();
-        this.rotationMatrix = new Matrix4f().identity();
+        this.rotation = 0;
+        this.scale = new Vector2f(1, 1);
+    }
 
-        this.localRotationAngle = 0;
-        this.originRotationAngle = 0;
+    /**
+     * Sets the X and Y scale of the object to the given value.
+     * @param factor The scale factor.
+     */
+    public void setScale(float factor) {
+        this.scale.set(factor, factor);
+    }
+
+    /**
+     * Sets the X scale of the object to the given value.
+     * @param scaleX The X scale factor.
+     */
+    public void setScaleX(float scaleX) {
+        this.scale.x = scaleX;
+    }
+
+    /**
+     * Sets the Y scale of the object to the given value.
+     * @param scaleY The Y scale factor.
+     */
+    public void setScaleY(float scaleY) {
+        this.scale.y = scaleY;
+    }
+
+    public float getScaleX() {
+        return this.scale.x;
+    }
+
+    public float getScaleY() {
+        return this.scale.y;
+    }
+
+    public Vector2f getScale() {
+        return new Vector2f(this.scale);
     }
 
     /**
@@ -28,23 +60,6 @@ public class Transform {
     public void setPos(float x, float y) {
         WorldCoords center = this.getCenter();
         this.shift(x - center.x, y - center.y);
-    }
-
-    public void setScale(float factor) {
-        // currentScale * ? = factor
-        // ? = factor / currentScale
-
-        float delta = factor / this.getScale();
-
-        WorldCoords center = this.getCenter();
-        this.modelMatrix.scaleAroundLocal(delta, 1, 0, center.x, center.y, 0);
-    }
-
-    public float getScale() {
-        Vector3f scale = new Vector3f();
-        this.modelMatrix.getScale(scale);
-
-        return scale.x;
     }
 
     /**
@@ -62,8 +77,7 @@ public class Transform {
      * @param y The y delta to move.
      */
     public void shift(float x, float y) {
-        this.modelMatrix.translateLocal(x, y, 0);
-        this.shift.add(x, y);
+        this.transform.add(x, y);
     }
 
     /**
@@ -81,55 +95,7 @@ public class Transform {
      * @param radians The amount, in radians, to rotate the object by.
      */
     public void rotate(float radians) {
-        this.rotateRelative(radians, new WorldCoords(0, 0));
-        this.localRotationAngle += radians;
-    }
-
-    /**
-     * Rotate around the given point. If you want to rotate around the local center of the shape, it is better to use
-     * the rotate() method. If you want to rotate around (0, 0), it is better to use rotateOrigin(). This is because
-     * you can use the getLocalRotationAngle() and getOriginRotationAngle(), but you can't if you rotate from those points here.
-     * <br>
-     * WARNING: if you are rotating around multiple points at the same time, it is likely that you will come across
-     * unintended effects. Make sure to only rotate around one point at a time. If you want to rotate around a point
-     * relative to the object, use this.rotateRelative().
-     *
-     * @param radians The amount of radians to rotate.
-     * @param origin  The origin of the point to rotate across.
-     */
-    public void rotateAround(float radians, WorldCoords origin) {
-        WorldCoords centerNoRotation = this.getCenterNoRotation();
-
-        this.rotationMatrix.rotateAround(
-                new Quaternionf().rotateZ(radians),
-                (origin.x - centerNoRotation.x) / this.getScale(),
-                (origin.y - centerNoRotation.y) / this.getScale(),
-                0
-        );
-    }
-
-    /**
-     * Rotates relative to the point. Useful compared to rotateAround() if the object is constantly moving.
-     * <br>
-     * WARNING: rotating around multiple relative locations may give unintended side effects.
-     *
-     * @param radians The amount to rotate counter-clockwise. Negative to rotate clockwise.
-     * @param relativeLocation The relative location to rotate around. This is relative to the center of the object.
-     */
-    public void rotateRelative(float radians, WorldCoords relativeLocation) {
-        Vector2f relLocation = new Vector2f(this.getCenter().toVector2f()).sub(relativeLocation.x, relativeLocation.y);
-        this.rotationMatrix.rotateAround(new Quaternionf().rotateZ(radians), relLocation.x, relLocation.y, 0);
-    }
-
-    /**
-     * Rotates the object counterclockwise across the origin (bottom left of the screen). If you want to rotate the
-     * object across its center instead, use the rotate(float) method.
-     *
-     * @param radians The amount, in radians, to rotate counterclockwise across the axis.
-     */
-    public void rotateOrigin(float radians) {
-        this.rotateAround(radians, new WorldCoords(0, 0));
-        this.originRotationAngle += radians;
+        this.rotation += radians;
     }
 
     /**
@@ -137,33 +103,16 @@ public class Transform {
      *
      * @param radians The amount of radians to be rotated.
      */
-    public void setLocalRotation(float radians) {
-        float delta = radians - this.localRotationAngle;
+    public void setRotation(float radians) {
+        float delta = radians - this.rotation;
         this.rotate(delta);
     }
 
     /**
-     * @return The local rotation angle.
+     * @return The local rotation angle in radians.
      */
-    public float getLocalRotationAngle() {
-        return localRotationAngle;
-    }
-
-    /**
-     * Sets the object's rotation across the origin (bottom left of the screen).
-     *
-     * @param radians The amount of radians to be rotated.
-     */
-    public void setOriginRotation(float radians) {
-        float delta = radians - this.originRotationAngle;
-        this.rotateOrigin(delta);
-    }
-
-    /**
-     * @return The angle of rotation across the origin (bottom left of the screen).
-     */
-    public float getOriginRotationAngle() {
-        return originRotationAngle;
+    public float getRotation() {
+        return this.rotation;
     }
 
     /**
@@ -171,15 +120,15 @@ public class Transform {
      */
     public WorldCoords getCenter() {
         Vector3f center = new Vector3f();
-        this.modelMatrix.transformPosition(center);
+        this.getMatrix().transformPosition(center);
         return new WorldCoords(center.x, center.y);
     }
 
     /**
-     * @return The center of the object in WorldCoords if no rotation is applied.
+     * @return The center of the object if no rotation is applied.
      */
     public WorldCoords getCenterNoRotation() {
-        return new WorldCoords(this.shift.x, this.shift.y);
+        return new WorldCoords(this.transform.x, this.transform.y);
     }
 
     /**
@@ -187,6 +136,9 @@ public class Transform {
      * being slow, it is not recommended to call this method often.
      */
     public Matrix4f getMatrix() {
-        return new Matrix4f(this.rotationMatrix).mul(this.modelMatrix);
+        return this.modelMatrix.identity()
+                .translate(this.transform.x, this.transform.y, 0)
+                .rotateAround(new Quaternionf().rotateZ(this.rotation), 0, 0, 0)
+                .scale(this.scale.x, this.scale.y, 1);
     }
 }

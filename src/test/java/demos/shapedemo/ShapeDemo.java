@@ -21,7 +21,7 @@ public class ShapeDemo implements AutoCloseable {
         this.circle = new Circle(new WorldCoords(0, 0), 0.1f, 70);
         this.circle.getTransform().setScale(2f);
         this.triangle = new Triangle(new WorldCoords(0.5f, 0.3f), new WorldCoords(0.8f, 0.3f), new WorldCoords(0.5f, 0.6f));
-        this.triangle.getTransform().setScale(0.5f);
+        this.triangle.getTransform().setScaleX(0.5f);
     }
 
     public void draw() {
