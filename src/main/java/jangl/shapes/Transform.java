@@ -5,6 +5,7 @@ import org.joml.*;
 
 public class Transform {
     private final Matrix4f modelMatrix;
+    private final Matrix4f rotationMatrix;
     private final Vector2f shift;
     private float localRotationAngle;
     private float originRotationAngle;
@@ -13,6 +14,7 @@ public class Transform {
         this.shift = new Vector2f(0, 0);
 
         this.modelMatrix = new Matrix4f().identity();
+        this.rotationMatrix = new Matrix4f().identity();
 
         this.localRotationAngle = 0;
         this.originRotationAngle = 0;
@@ -35,7 +37,7 @@ public class Transform {
         float delta = factor / this.getScale();
 
         WorldCoords center = this.getCenter();
-        this.modelMatrix.scaleAroundLocal(delta, delta, 0, center.x, center.y, 0);
+        this.modelMatrix.scaleAroundLocal(delta, 1, 0, center.x, center.y, 0);
     }
 
     public float getScale() {
@@ -98,7 +100,7 @@ public class Transform {
     public void rotateAround(float radians, WorldCoords origin) {
         WorldCoords centerNoRotation = this.getCenterNoRotation();
 
-        this.modelMatrix.rotateAround(
+        this.rotationMatrix.rotateAround(
                 new Quaternionf().rotateZ(radians),
                 (origin.x - centerNoRotation.x) / this.getScale(),
                 (origin.y - centerNoRotation.y) / this.getScale(),
@@ -115,7 +117,8 @@ public class Transform {
      * @param relativeLocation The relative location to rotate around. This is relative to the center of the object.
      */
     public void rotateRelative(float radians, WorldCoords relativeLocation) {
-        this.modelMatrix.rotateAround(new Quaternionf().rotateZ(radians), relativeLocation.x, relativeLocation.y, 0);
+        Vector2f relLocation = new Vector2f(this.getCenter().toVector2f()).sub(relativeLocation.x, relativeLocation.y);
+        this.rotationMatrix.rotateAround(new Quaternionf().rotateZ(radians), relLocation.x, relLocation.y, 0);
     }
 
     /**
@@ -184,6 +187,6 @@ public class Transform {
      * being slow, it is not recommended to call this method often.
      */
     public Matrix4f getMatrix() {
-        return new Matrix4f(this.modelMatrix);
+        return new Matrix4f(this.rotationMatrix).mul(this.modelMatrix);
     }
 }
