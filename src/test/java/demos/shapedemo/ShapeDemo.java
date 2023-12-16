@@ -18,7 +18,8 @@ public class ShapeDemo implements AutoCloseable {
 
     public ShapeDemo() {
         this.rect = new Rect(new WorldCoords(0.8f, 0.6f), 0.25f, 0.25f);
-        this.circle = new Circle(new WorldCoords(1.3f, 0.5f), 0.1f, 70);
+        this.circle = new Circle(new WorldCoords(0, 0), 0.1f, 70);
+        this.circle.getTransform().setScale(2f);
         this.triangle = new Triangle(new WorldCoords(0.5f, 0.3f), new WorldCoords(0.8f, 0.3f), new WorldCoords(0.5f, 0.6f));
         this.triangle.getTransform().setScale(0.5f);
     }
@@ -44,9 +45,9 @@ public class ShapeDemo implements AutoCloseable {
         // Draw a green background if the rectangle collides with the circle
         // Otherwise draw a red background
         if (Shape.collides(this.rect, this.circle) || Shape.collides(this.rect, this.triangle)) {
-            Window.setClearColor(ColorFactory.fromNormalized(0, 0.8f, 0, 1));
+            Window.setClearColor(ColorFactory.fromNorm(0, 0.8f, 0, 1));
         } else {
-            Window.setClearColor(ColorFactory.fromNormalized(0.8f, 0, 0, 1));
+            Window.setClearColor(ColorFactory.fromNorm(0.8f, 0, 0, 1));
         }
     }
 

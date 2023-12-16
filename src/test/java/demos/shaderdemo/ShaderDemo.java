@@ -14,7 +14,7 @@ public class ShaderDemo implements AutoCloseable {
     public ShaderDemo() {
         this.shaderProgram = new ShaderProgram(
                 new TranslationShader(new WorldCoords(-0.25f, 0f)),
-                new CustomColorShader(ColorFactory.fromNormalized(1, 1, 0, 1))
+                new CustomColorShader(ColorFactory.fromNorm(1, 1, 0, 1))
         );
 
         this.rect = new Rect(new WorldCoords(0.5f, 0.75f), 0.5f, 0.5f);

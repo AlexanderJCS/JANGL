@@ -24,7 +24,7 @@ public class InputDemo implements AutoCloseable {
         this.text = new Text(new WorldCoords(0.2f, 0.5f), this.font, 0.05f, "");
         this.prompt = new Text(new WorldCoords(0.2f, 0.7f), this.font, 0.05f, "Left click and type something");
 
-        Window.setClearColor(ColorFactory.fromNormalized(0.7f, 0, 0, 1));
+        Window.setClearColor(ColorFactory.fromNorm(0.7f, 0, 0, 1));
     }
 
     @Override
@@ -47,9 +47,9 @@ public class InputDemo implements AutoCloseable {
             }
 
             if (event.action == GLFW.GLFW_PRESS) {
-                Window.setClearColor(ColorFactory.fromNormalized(0, 0.7f, 0, 1));
+                Window.setClearColor(ColorFactory.fromNorm(0, 0.7f, 0, 1));
             } else {
-                Window.setClearColor(ColorFactory.fromNormalized(0.7f, 0, 0, 1));
+                Window.setClearColor(ColorFactory.fromNorm(0.7f, 0, 0, 1));
             }
         }
     }

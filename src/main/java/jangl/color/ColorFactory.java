@@ -56,7 +56,7 @@ public class ColorFactory {
      * @return A new JANGL color object.
      * @throws IllegalArgumentException If any of the four arguments are not between 0 and 1, inclusive
      */
-    public static Color fromNormalized(float red, float green, float blue, float alpha) throws IllegalArgumentException {
+    public static Color fromNorm(float red, float green, float blue, float alpha) throws IllegalArgumentException {
         if (red > 1 || red < 0) {
             throw new IllegalArgumentException("Normalized red value should be between 0 and 1, inclusive");
         } else if (green > 1 || green < 0) {
@@ -70,12 +70,12 @@ public class ColorFactory {
         return new Color(red, green, blue, alpha);
     }
 
-    public static Color fromNormalized(float[] rgba) {
+    public static Color fromNorm(float[] rgba) {
         if (rgba.length != 4) {
             throw new IllegalArgumentException("RGBA array must be of length 4");
         }
 
-        return fromNormalized(rgba[0], rgba[1], rgba[2], rgba[3]);
+        return fromNorm(rgba[0], rgba[1], rgba[2], rgba[3]);
     }
 
     /**
@@ -89,7 +89,7 @@ public class ColorFactory {
      * @return A new JANGL color object.
      * @throws IllegalArgumentException If any of the four arguments are not between 0 and 1, inclusive
      */
-    public static Color fromNormalizedHSVA(float hue, float saturation, float value, float alpha) throws IllegalArgumentException {
+    public static Color fromNormHSVA(float hue, float saturation, float value, float alpha) throws IllegalArgumentException {
         if (saturation > 1 || saturation < 0) {
             throw new IllegalArgumentException("Normalized saturation colors should be between 0 and 1");
         } else if (value > 1 || value < 0) {
@@ -124,6 +124,6 @@ public class ColorFactory {
             throw new IllegalArgumentException("Alpha should be between 0 and 255, inclusive");
         }
 
-        return fromNormalizedHSVA(hue / 255f, saturation / 255f, value / 255f, alpha / 255f);
+        return fromNormHSVA(hue / 255f, saturation / 255f, value / 255f, alpha / 255f);
     }
 }

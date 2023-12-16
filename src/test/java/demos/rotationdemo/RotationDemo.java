@@ -20,7 +20,7 @@ public class RotationDemo implements AutoCloseable {
         JANGL.init(1600, 900);
         Window.setVsync(true);
 
-        this.colorShader = new ShaderProgram(new ColorShader(ColorFactory.fromNormalized(0.9f, 0.5f, 0.2f, 1)));
+        this.colorShader = new ShaderProgram(new ColorShader(ColorFactory.fromNorm(0.9f, 0.5f, 0.2f, 1)));
 
         this.pointingShapes = new ArrayList<>();
         this.pointingShapes.add(new PointingShape(new Circle(new WorldCoords(WorldCoords.getMiddle().x, 0.2f), 0.1f, 3), 1.0472));

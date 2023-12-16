@@ -31,7 +31,7 @@ public class Font implements AutoCloseable {
     public Font(String fontFile, String fontImage) throws UncheckedIOException {
         this.texCoordsMap = new HashMap<>();
         this.infoMap = new HashMap<>();
-        this.fontShader = new FontShader(ColorFactory.fromNormalized(1, 1, 1, 1));
+        this.fontShader = new FontShader(ColorFactory.fromNorm(1, 1, 1, 1));
         this.shaderProgram = new ShaderProgram(new TextureShaderVert(), this.fontShader, TextureShaderVert.getAttribLocations());
 
         this.fontTexture = new Texture(new TextureBuilder().setImagePath(fontImage).setSmoothScaling());

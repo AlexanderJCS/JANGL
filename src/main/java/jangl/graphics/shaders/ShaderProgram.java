@@ -42,7 +42,7 @@ public class ShaderProgram implements AutoCloseable, Bindable {
      * @param vs The vertex shader to add to the program.
      */
     public ShaderProgram(VertexShader vs) {
-        this(vs, new ColorShader(ColorFactory.fromNormalized(1, 1, 1, 1)), new ArrayList<>());
+        this(vs, new ColorShader(ColorFactory.fromNorm(1, 1, 1, 1)), new ArrayList<>());
     }
 
     /**
