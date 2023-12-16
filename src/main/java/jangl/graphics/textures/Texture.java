@@ -5,6 +5,7 @@ import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderFrag;
 import jangl.graphics.shaders.premade.TextureShaderVert;
 import jangl.graphics.textures.enums.FilterMode;
+import jangl.graphics.textures.enums.WrapMode;
 import jangl.resourcemanager.Resource;
 import jangl.resourcemanager.ResourceManager;
 import jangl.resourcemanager.ResourceQueuer;
@@ -80,10 +81,10 @@ public class Texture implements AutoCloseable, Bindable {
      * Sets the OpenGL wrap mode.
      * @param wrapMode The OpenGL wrap mode.
      */
-    public void setWrapMode(int wrapMode) {
+    public void setWrapMode(WrapMode wrapMode) {
         this.bind();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode.toInteger());
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode.toInteger());
         this.unbind();
     }
 

@@ -2,6 +2,7 @@ package jangl.graphics.textures;
 
 import jangl.color.Color;
 import jangl.graphics.textures.enums.FilterMode;
+import jangl.graphics.textures.enums.WrapMode;
 import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWImage;
@@ -23,7 +24,7 @@ public class TextureBuilder {
     private int height;
     private ByteBuffer imageData;
     private boolean obeyCamera;
-    private int wrapMode;
+    private WrapMode wrapMode;
 
     public TextureBuilder() {
         this.x = 0;
@@ -36,7 +37,7 @@ public class TextureBuilder {
         this.obeyCamera = true;
 
         this.setSmoothScaling();
-        this.setWrapMode(GL_REPEAT);
+        this.setWrapMode(WrapMode.MIRRORED_REPEAT);
     }
 
     public FilterMode getFilterMode() {
@@ -212,12 +213,12 @@ public class TextureBuilder {
      * @param wrapMode The OpenGL wrap mode to use. E.g., GL_CLAMP_TO_EDGE, GL_REPEAT, etc
      * @return This object, to allow method chaining
      */
-    public TextureBuilder setWrapMode(int wrapMode) {
+    public TextureBuilder setWrapMode(WrapMode wrapMode) {
         this.wrapMode = wrapMode;
         return this;
     }
 
-    public int getWrapMode() {
+    public WrapMode getWrapMode() {
         return this.wrapMode;
     }
 
