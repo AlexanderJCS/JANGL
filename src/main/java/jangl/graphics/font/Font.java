@@ -5,7 +5,7 @@ import jangl.color.ColorFactory;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.FontShader;
 import jangl.graphics.shaders.premade.TextureShaderVert;
-import jangl.graphics.textures.FilterMode;
+import jangl.graphics.textures.enums.FilterMode;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 
@@ -14,9 +14,6 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
 
 public class Font implements AutoCloseable {
     public final Texture fontTexture;

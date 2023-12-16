@@ -1,18 +1,16 @@
 package jangl.graphics.textures;
 
 import jangl.graphics.Bindable;
-import jangl.graphics.shaders.AttribLocation;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderFrag;
 import jangl.graphics.shaders.premade.TextureShaderVert;
+import jangl.graphics.textures.enums.FilterMode;
 import jangl.resourcemanager.Resource;
 import jangl.resourcemanager.ResourceManager;
 import jangl.resourcemanager.ResourceQueuer;
 import jangl.resourcemanager.ResourceType;
 
 import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.lwjgl.opengl.GL41.*;

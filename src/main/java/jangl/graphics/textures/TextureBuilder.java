@@ -1,6 +1,7 @@
 package jangl.graphics.textures;
 
 import jangl.color.Color;
+import jangl.graphics.textures.enums.FilterMode;
 import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWImage;

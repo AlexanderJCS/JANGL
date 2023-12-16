@@ -1,4 +1,4 @@
-package jangl.graphics.textures;
+package jangl.graphics.textures.enums;
 
 import static org.lwjgl.opengl.GL41.*;
 
