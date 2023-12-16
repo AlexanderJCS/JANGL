@@ -5,10 +5,15 @@ import jangl.graphics.shaders.AttribLocation;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.TextureShaderFrag;
 import jangl.graphics.shaders.premade.TextureShaderVert;
+import jangl.resourcemanager.Resource;
+import jangl.resourcemanager.ResourceManager;
+import jangl.resourcemanager.ResourceQueuer;
+import jangl.resourcemanager.ResourceType;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.lwjgl.opengl.GL41.*;
 
@@ -22,6 +27,7 @@ public class Texture implements AutoCloseable, Bindable {
     private final int id;
     private final ShaderProgram shaderProgram;
     private boolean useDefaultShader = true;
+    private final AtomicBoolean closed;
 
     public Texture(TextureBuilder builder) throws IllegalStateException {
         if (builder.getImageData() == null) {
@@ -38,6 +44,9 @@ public class Texture implements AutoCloseable, Bindable {
 
         this.setFilterMode(builder.getFilterMode());
         this.setWrapMode(builder.getWrapMode());
+
+        this.closed = new AtomicBoolean(false);
+        ResourceManager.add(this, new ResourceQueuer(this.closed, new Resource(this.id, ResourceType.TEXTURE)));
     }
 
     private static ShaderProgram createShader() {
@@ -60,12 +69,12 @@ public class Texture implements AutoCloseable, Bindable {
 
     /**
      * Sets the OpenGL filter mode.
-     * @param filterMode The OpenGL filter mode.
+     * @param mode The OpenGL filter mode.
      */
-    public void setFilterMode(int filterMode) {
+    public void setFilterMode(FilterMode mode) {
         this.bind();
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMode);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMode);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mode.toInteger());
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mode.toInteger());
         this.unbind();
     }
 
@@ -87,7 +96,7 @@ public class Texture implements AutoCloseable, Bindable {
      * Under the hood, this method changes the filter mode to GL_LINEAR.
      */
     public void setSmoothScaling() {
-        this.setFilterMode(GL_LINEAR);
+        this.setFilterMode(FilterMode.LINEAR);
     }
 
     /**
@@ -97,7 +106,7 @@ public class Texture implements AutoCloseable, Bindable {
      * Under the hood, this method changes the filter mode to GL_NEAREST.
      */
     public void setPixelatedScaling() {
-        this.setFilterMode(GL_NEAREST);
+        this.setFilterMode(FilterMode.NEAREST);
     }
 
     /**
@@ -146,6 +155,10 @@ public class Texture implements AutoCloseable, Bindable {
 
     @Override
     public void close() {
+        if (this.closed.getAndSet(true)) {
+            return;
+        }
+
         glDeleteTextures(this.id);
         this.shaderProgram.close();
     }

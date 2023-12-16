@@ -5,6 +5,7 @@ import jangl.color.ColorFactory;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.premade.FontShader;
 import jangl.graphics.shaders.premade.TextureShaderVert;
+import jangl.graphics.textures.FilterMode;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 
@@ -127,7 +128,7 @@ public class Font implements AutoCloseable {
         );
     }
 
-    public void setFilterMode(int filterMode) {
+    public void setFilterMode(FilterMode filterMode) {
         this.fontTexture.setFilterMode(filterMode);
     }
 
@@ -139,7 +140,7 @@ public class Font implements AutoCloseable {
      * Under the hood, this method changes the filter mode to GL_LINEAR.
      */
     public void setSmoothScaling() {
-        this.setFilterMode(GL_LINEAR);
+        this.setFilterMode(FilterMode.LINEAR);
     }
 
     /**
@@ -149,7 +150,7 @@ public class Font implements AutoCloseable {
      * Under the hood, this method changes the filter mode to GL_NEAREST.
      */
     public void setPixelatedScaling() {
-        this.setFilterMode(GL_NEAREST);
+        this.setFilterMode(FilterMode.NEAREST);
     }
 
     /**

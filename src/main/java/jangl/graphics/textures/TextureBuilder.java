@@ -5,9 +5,6 @@ import jangl.util.ArrayUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWImage;
 
-import static org.lwjgl.opengl.GL11.GL_LINEAR;
-import static org.lwjgl.opengl.GL41.GL_NEAREST;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,10 +12,10 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL11C.GL_REPEAT;
+import static org.lwjgl.opengl.GL41.*;
 
 public class TextureBuilder {
-    private int filterMode;
+    private FilterMode filterMode;
     private int x;
     private int y;
     private int width;
@@ -41,8 +38,8 @@ public class TextureBuilder {
         this.setWrapMode(GL_REPEAT);
     }
 
-    public int getFilterMode() {
-        return filterMode;
+    public FilterMode getFilterMode() {
+        return this.filterMode;
     }
 
     /**
@@ -50,7 +47,7 @@ public class TextureBuilder {
      * @param filterMode The OpenGL filter mode.
      * @return This object, to allow for method chaining.
      */
-    public TextureBuilder setFilterMode(int filterMode) {
+    public TextureBuilder setFilterMode(FilterMode filterMode) {
         this.filterMode = filterMode;
         return this;
     }
@@ -65,7 +62,7 @@ public class TextureBuilder {
      * @return This object, to allow for method chaining
      */
     public TextureBuilder setSmoothScaling() {
-        this.setFilterMode(GL_LINEAR);
+        this.setFilterMode(FilterMode.LINEAR);
 
         return this;
     }
@@ -79,7 +76,7 @@ public class TextureBuilder {
      * @return This object, to allow for method chaining
      */
     public TextureBuilder setPixelatedScaling() {
-        this.setFilterMode(GL_NEAREST);
+        this.setFilterMode(FilterMode.NEAREST);
 
         return this;
     }
@@ -223,6 +220,22 @@ public class TextureBuilder {
         return this.wrapMode;
     }
 
+    public GLFWImage toGLFWImage() {
+        GLFWImage image = GLFWImage.create();
+        image.width(this.width);
+        image.height(this.height);
+        image.pixels(this.imageData);
+
+        return image;
+    }
+
+    public GLFWImage.Buffer toGLFWImageBuffer() {
+        GLFWImage.Buffer imageBuffer = GLFWImage.create(1);
+        imageBuffer.put(0, this.toGLFWImage());
+
+        return imageBuffer;
+    }
+
     protected void putPixel(ByteBuffer buffer, int pixelData) {
         buffer.put((byte) ((pixelData >> 16) & 0xFF));  // Red
         buffer.put((byte) ((pixelData >> 8) & 0xFF));   // Green
@@ -248,21 +261,5 @@ public class TextureBuilder {
         imageData.flip();
 
         return imageData;
-    }
-
-    public GLFWImage toGLFWImage() {
-        GLFWImage image = GLFWImage.create();
-        image.width(this.width);
-        image.height(this.height);
-        image.pixels(this.imageData);
-
-        return image;
-    }
-
-    public GLFWImage.Buffer toGLFWImageBuffer() {
-        GLFWImage.Buffer imageBuffer = GLFWImage.create(1);
-        imageBuffer.put(0, this.toGLFWImage());
-
-        return imageBuffer;
     }
 }
