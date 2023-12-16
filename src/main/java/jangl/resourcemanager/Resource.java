@@ -13,7 +13,6 @@ public class Resource {
         this.type = type;
     }
 
-
     /**
      * @param resource The OpenGL ID of the resource to be freed.
      * @param type The type of resource to be freed.
