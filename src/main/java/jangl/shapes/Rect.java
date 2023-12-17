@@ -63,34 +63,6 @@ public class Rect extends Shape {
         };
     }
 
-    /**
-     * Sets the width of the rectangle.
-     * <br>
-     * WARNING: This method may be slow, since it needs to resend all the vertices from the CPU to GPU. It is
-     *          highly recommended not to call this method many times per frame.
-     *
-     * @param newWidth The new width.
-     */
-    public void setWidth(float newWidth) {
-        this.width = newWidth;
-        this.refreshCorners();
-        this.model.subVertices(this.calculateVertices(), 0);
-    }
-
-    /**
-     * Sets the height of the rectangle.
-     * <br>
-     * WARNING: This method may be slow, since it needs to resend all the vertices from the CPU to GPU. It is
-     *          highly recommended not to call this method many times per frame.
-     *
-     * @param newHeight The new height.
-     */
-    public void setHeight(float newHeight) {
-        this.height = newHeight;
-        this.refreshCorners();
-        this.model.subVertices(this.calculateVertices(), 0);
-    }
-
     private void refreshCorners() {
         this.x1 = -this.width / 2;
         this.y1 = this.height / 2;
