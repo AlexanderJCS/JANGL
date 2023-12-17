@@ -7,8 +7,8 @@ import jangl.graphics.models.TexturedModel;
  * The "base" of every other rectangular object. Used for collision and conversion to a Model or TexturedModel class.
  */
 public class Rect extends Shape {
-    private float x1, y1, x2, y2;
-    private float width, height;
+    private final float x1, y1, x2, y2;
+    private final float width, height;
 
     /**
      * @param topLeft The top left of the rect
@@ -19,7 +19,10 @@ public class Rect extends Shape {
         this.width = width;
         this.height = height;
 
-        this.refreshCorners();
+        this.x1 = -this.width / 2;
+        this.y1 = this.height / 2;
+        this.x2 = this.width / 2;
+        this.y2 = -this.height / 2;
 
         this.model = this.toTexturedModel();
 
@@ -61,13 +64,6 @@ public class Rect extends Shape {
                 0, 1, 2,
                 2, 3, 0
         };
-    }
-
-    private void refreshCorners() {
-        this.x1 = -this.width / 2;
-        this.y1 = this.height / 2;
-        this.x2 = this.width / 2;
-        this.y2 = -this.height / 2;
     }
 
     /**
