@@ -51,8 +51,8 @@ public abstract class Shape implements AutoCloseable {
         Vector2f s1FarthestPoint = ArrayUtils.getFarthestPointFrom(s1VerticesNoMatrix, new Vector2f().zero()).mul(shape1.getTransform().getScale());
         Vector2f s2FarthestPoint = ArrayUtils.getFarthestPointFrom(s2VerticesNoMatrix, new Vector2f().zero());
 
-        float s1Radius = s1FarthestPoint.distance(new Vector2f().zero());
-        float s2Radius = s2FarthestPoint.distance(new Vector2f().zero());
+        float s1Radius = s1FarthestPoint.distance(new Vector2f().zero()) * Math.max(shape1.getTransform().getScaleX(), shape1.getTransform().getScaleY());
+        float s2Radius = s2FarthestPoint.distance(new Vector2f().zero()) * Math.max(shape2.getTransform().getScaleX(), shape2.getTransform().getScaleY());
 
         if (!collides(shape1.getTransform().getCenter(), s1Radius, shape2.getTransform().getCenter(), s2Radius)) {
             return false;
