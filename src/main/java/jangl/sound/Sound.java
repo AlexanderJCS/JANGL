@@ -146,11 +146,29 @@ public class Sound implements AutoCloseable {
         alSourcef(this.sourceID, AL_GAIN, volume);
     }
 
+    /**
+     * Get the volume of the sound, where 0 = 0% volume and 1 = 100% volume.
+     * @return The volume of the sound.
+     */
     public float getVolume() {
-        return alGetSourcef(
-                this.sourceID,
-                AL_GAIN
-        );
+        return alGetSourcef(this.sourceID, AL_GAIN);
+    }
+
+    /**
+     * Set the pitch of the sound, which changes the speed as a side-effect. The default pitch is 1.0f.
+     * For example, a pitch of 1.2f would make the sound 20% higher pitch, and 20% faster.
+     * @param pitchShift The pitch shift.
+     */
+    public void setPitchAndSpeed(float pitchShift) {
+        alSourcef(this.sourceID, AL_PITCH, pitchShift);
+    }
+
+    /**
+     * Get the pitch of the sound.
+     * @return The pitch of the sound.
+     */
+    public float getPitchAndSpeed() {
+        return alGetSourcef(this.sourceID, AL_PITCH);
     }
 
     /**

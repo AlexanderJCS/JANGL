@@ -9,6 +9,7 @@ import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
 import jangl.sound.Sound;
 import jangl.sound.SoundState;
+import jangl.time.Clock;
 
 public class SoundDemo {
     private final Sound sound;
@@ -24,7 +25,7 @@ public class SoundDemo {
                 new WorldCoords(0.1f, 0.9f),
                 new Font("src/test/resources/demo/font/arial.fnt", "src/test/resources/demo/font/arial.png"),
                 0.1f,
-                "Controls:\nSpace: Play\nP: Pause\nS: Stop\nR: Rewind"
+                "Controls:\nSpace: Play\nP: Pause\nS: Stop\nR: Rewind\nW: Pitch and speed up\nQ: Pitch and speed down"
         );
     }
 
@@ -45,6 +46,10 @@ public class SoundDemo {
             this.sound.stop();
         } else if (key == 'R' && state != SoundState.INITIAL) {
             this.sound.rewind();
+        } else if (key == 'W') {
+            this.sound.setPitchAndSpeed(this.sound.getPitchAndSpeed() + Clock.getTimeDeltaf());
+        } else if (key == 'Q') {
+            this.sound.setPitchAndSpeed(this.sound.getPitchAndSpeed() - Clock.getTimeDeltaf());
         }
     }
 
