@@ -67,6 +67,8 @@ public class Model implements AutoCloseable, Bindable {
      * Renders the model as a white box.
      */
     public void render() {
+        drawCallCounter++;
+
         this.bind();
         glDrawArrays(GL_TRIANGLES, 0, this.drawCount);
         this.unbind();

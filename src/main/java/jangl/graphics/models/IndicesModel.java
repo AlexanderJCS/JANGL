@@ -28,6 +28,8 @@ public class IndicesModel extends Model {
 
     @Override
     public void render() {
+        drawCallCounter++;
+
         this.bind();
         glDrawElements(GL_TRIANGLES, this.drawCount, GL_UNSIGNED_INT, 0);
         this.unbind();
