@@ -33,8 +33,15 @@ public abstract class Shape implements AutoCloseable {
         this.setTexRepeatY(1);
     }
 
+    /**
+     * Checks if two shapes collide.
+     *
+     * @param shape1 The first shape.
+     * @param shape2 The second shape.
+     * @return If they collide.
+     */
     public static boolean collides(Shape shape1, Shape shape2) {
-        // Optimization that can have HUGE performance improvements when the two objects are not near each other
+        // Optimization that can have huge performance improvements when the two objects are not near each other:
         // Act like the two objects are perfect spheres, where their radii are the farthest point from the center of
         // the object. If the two spheres are not colliding, there's no way that the two objects can be colliding
         // using more sophisticated collision detection methods.
@@ -97,6 +104,16 @@ public abstract class Shape implements AutoCloseable {
         return true;
     }
 
+    /**
+     * Checks for collision between a shape and a circle. If the circle object is transformed into an ellipse, this
+     * method will not work correctly, instead assuming that the radius of the circle is equal to the ellipsis's X
+     * radius. If you want to check for collision between a shape and an ellipse, cast the ellipse to a shape and
+     * use the Shape.collides(Shape, Shape) method.
+     *
+     * @param shape The shape object.
+     * @param circle The circle object.
+     * @return If they collide.
+     */
     public static boolean collides(Shape shape, Circle circle) {
         Vector2f circleCenterVector = circle.getTransform().getCenter().toVector2f();
         Vector2f[] s1Axes = shape.getOutsideVectors();
@@ -107,12 +124,14 @@ public abstract class Shape implements AutoCloseable {
 
         Vector2f[] s1Vertices = ArrayUtils.toVector2fArray(shape.getExteriorVertices());
 
+        float circleRadius = circle.getRadius() * circle.getTransform().getScaleX();
+
         for (Vector2f axis : combined) {
             axis.perpendicular();
 
             Range s1Range = projectShapeOntoAxis(s1Vertices, axis);
             float projectedCenter = circleCenterVector.dot(axis);
-            Range circleRange = new Range(projectedCenter - circle.getRadius(), projectedCenter + circle.getRadius());
+            Range circleRange = new Range(projectedCenter - circleRadius, projectedCenter + circleRadius);
 
             // If the ranges do not intersect, the shapes are not colliding
             if (!s1Range.intersects(circleRange)) {
@@ -123,6 +142,16 @@ public abstract class Shape implements AutoCloseable {
         return true;
     }
 
+    /**
+     * Checks for collision between a shape and a circle. If the circle object is transformed into an ellipse, this
+     * method will not work correctly, instead assuming that the radius of the circle is equal to the ellipsis's X
+     * radius. If you want to check for collision between a shape and an ellipse, cast the ellipse to a shape and
+     * use the Shape.collides(Shape, Shape) method.
+     *
+     * @param shape The shape object.
+     * @param circle The circle object.
+     * @return If they collide.
+     */
     public static boolean collides(Circle circle, Shape shape) {
         return collides(shape, circle);
     }
@@ -138,15 +167,18 @@ public abstract class Shape implements AutoCloseable {
     }
 
     /**
-     * Checks if two circles collide.
+     * Checks if collision between two circles. Note that if one or two of the two circles are transformed into ellipses,
+     * this method will not work. Instead, cast the ellipses to shapes and use the Shape.collides(Shape, Shape) or
+     * Shape.collides(Shape, Circle) methods.
+     *
      * @param circle1 The first circle.
      * @param circle2 The second circle.
      * @return If they collide.
      */
     public static boolean collides(Circle circle1, Circle circle2) {
         return collides(
-                circle1.getTransform().getCenter(), circle1.getRadius(),
-                circle2.getTransform().getCenter(), circle2.getRadius()
+                circle1.getTransform().getCenter(), circle1.getRadius() * circle1.getTransform().getScaleX(),
+                circle2.getTransform().getCenter(), circle2.getRadius() * circle2.getTransform().getScaleX()
         );
     }
 
@@ -170,6 +202,14 @@ public abstract class Shape implements AutoCloseable {
         return distSquared <= combinedRadiiSquared;
     }
 
+    /**
+     * Checks collision between a circle and a point. Note that if the circle is transformed into an ellipse, this
+     * method will not work. Instead, cast the ellipse to a shape and use the Shape.collides(Shape, WorldCoords).
+     *
+     * @param circle The circle.
+     * @param point The point to check collision with.
+     * @return If they collide.
+     */
     public static boolean collides(Circle circle, WorldCoords point) {
         WorldCoords circleCenter = circle.getTransform().getCenter();
 
@@ -179,6 +219,14 @@ public abstract class Shape implements AutoCloseable {
         return distSquared <= radiusPixelsSquared;
     }
 
+    /**
+     * Checks collision between a circle and a point. Note that if the circle is transformed into an ellipse, this
+     * method will not work. Instead, cast the ellipse to a shape and use the Shape.collides(Shape, WorldCoords).
+     *
+     * @param circle The circle.
+     * @param point The point to check collision with.
+     * @return If they collide.
+     */
     public static boolean collides(WorldCoords point, Circle circle) {
         return collides(circle, point);
     }

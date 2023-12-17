@@ -18,7 +18,7 @@ public class ShapeDemo implements AutoCloseable {
 
     public ShapeDemo() {
         this.rect = new Rect(new WorldCoords(0.8f, 0.6f), 0.25f, 0.25f);
-        this.circle = new Circle(new WorldCoords(0, 0), 0.1f, 70);
+        this.circle = new Circle(new WorldCoords(1.2f, 0.4f), 0.1f, 70);
         this.circle.getTransform().setScale(2f);
         this.triangle = new Triangle(new WorldCoords(0.5f, 0.3f), new WorldCoords(0.8f, 0.3f), new WorldCoords(0.5f, 0.6f));
         this.triangle.getTransform().setScaleX(0.5f);
@@ -56,6 +56,8 @@ public class ShapeDemo implements AutoCloseable {
         while (Window.shouldRun()) {
             this.update();
             this.draw();
+
+            Window.setTitle("Shape Demo - FPS: " + Clock.getSmoothedFps());
         }
     }
 
