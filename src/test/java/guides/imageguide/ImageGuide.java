@@ -2,35 +2,37 @@ package guides.imageguide;
 
 import jangl.JANGL;
 import jangl.coords.WorldCoords;
-import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
+import jangl.graphics.textures.enums.WrapMode;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
 public class ImageGuide {
-    private final Image image;
+    private final Rect rect;
+    private final Texture texture;
 
     public ImageGuide() {
-        this.image = new Image(
-                new Rect(
+        this.rect = new Rect(
                         new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
-                ),
-
-                new Texture(
-                        new TextureBuilder().setImagePath("src/test/resources/guide/imageGuide/image.png")
-                )
         );
 
-        this.image.rect().setTexRepeatX(2);
-        this.image.rect().setTexRepeatY(2);
+        this.rect.setTexRepeatX(2);
+        this.rect.setTexRepeatY(2);
+
+        this.texture = new Texture(
+                new TextureBuilder()
+                        .setImagePath("src/test/resources/guide/imageGuide/image.png")
+                        .setWrapMode(WrapMode.REPEAT)
+                        .setPixelatedScaling()
+        );
     }
 
     public void draw() {
         Window.clear();
 
         // Draw the image
-        this.image.draw();
+        this.rect.draw(this.texture);
     }
 
     public void run() {
@@ -41,8 +43,8 @@ public class ImageGuide {
             JANGL.update();
         }
 
-        this.image.rect().close();
-        this.image.texture().close();
+        this.rect.close();
+        this.texture.close();
     }
 
     public static void main(String[] args) {
