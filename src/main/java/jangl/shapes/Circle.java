@@ -34,16 +34,11 @@ public class Circle extends Shape {
         return this.sides;
     }
 
+    /**
+     * @return The radius of the circle, not taking into account the scaling of the transform.
+     */
     public float getRadius() {
         return this.radius;
-    }
-
-    /**
-     * @param newRadius The new radius
-     */
-    public void setRadius(float newRadius) {
-        this.radius = newRadius;
-        this.model.subVertices(this.calculateVertices(), 0);
     }
 
     private Model toTexturedModel() {

@@ -33,10 +33,16 @@ public class Rect extends Shape {
         this.transform.shift(realTopLeft);
     }
 
+    /**
+     * @return The width of the rectangle, not taking into account the scaling of the transform.
+     */
     public float getWidth() {
         return width;
     }
 
+    /**
+     * @return The height of the rectangle, not taking into account the scaling of the transform.
+     */
     public float getHeight() {
         return height;
     }
