@@ -4,11 +4,8 @@ import jangl.color.Color;
 import jangl.graphics.textures.TextureBuilder;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLCapabilities;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11C.glGetError;
 import static org.lwjgl.opengl.GL41.*;
 
 public class Window {
@@ -63,7 +60,6 @@ public class Window {
         }
 
         glfwIsInitialized = true;
-
         initialized = true;
 
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
@@ -74,12 +70,6 @@ public class Window {
 
         window = glfwCreateWindow(screenWidth, screenHeight, "Jangl", 0, 0);
         glfwShowWindow(window);
-
-        glfwSetWindowPos(
-                window,
-                (getMonitorWidth() - screenWidth) / 2,
-                (getMonitorHeight() - screenHeight) / 2
-        );
 
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
