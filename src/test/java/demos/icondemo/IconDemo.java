@@ -1,10 +1,10 @@
 package demos.icondemo;
 
 import jangl.JANGL;
-import jangl.coords.WorldCoords;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Justify;
 import jangl.graphics.font.Text;
+import jangl.graphics.font.TextBuilder;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 
@@ -24,12 +24,10 @@ public class IconDemo implements AutoCloseable {
                 "src/test/resources/demo/font/arial.png"
         );
 
-        this.text = new Text(
-                WorldCoords.getMiddle(),
-                arial, 0.05f,
-                "Notice how the cursor and the window icon changed.\nThe window icon does not change on macOS.",
-                Justify.CENTER
-        );
+        this.text = new TextBuilder(arial,"Notice how the cursor and the window icon changed.\nThe window icon does not change on macOS.")
+                .setYHeight(0.05f)
+                .setJustification(Justify.CENTER)
+                .toText();
 
         Window.setIcon(this.texture);
         Window.setCursor(this.texture);

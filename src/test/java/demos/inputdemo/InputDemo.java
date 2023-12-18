@@ -5,6 +5,7 @@ import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
+import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
 import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
@@ -21,8 +22,8 @@ public class InputDemo implements AutoCloseable {
         this.font = new Font("src/test/resources/demo/font/arial.fnt",
                 "src/test/resources/demo/font/arial.png");
 
-        this.text = new Text(new WorldCoords(0.2f, 0.5f), this.font, 0.05f, "");
-        this.prompt = new Text(new WorldCoords(0.2f, 0.7f), this.font, 0.05f, "Left click and type something");
+        this.text = new TextBuilder(this.font, "").setCoords(new WorldCoords(0.2f, 0.5f)).setYHeight(0.05f).toText();
+        this.prompt = new TextBuilder(this.font, "Left click and type something").setCoords(new WorldCoords(0.2f, 0.7f)).toText();
 
         Window.setClearColor(ColorFactory.fromNorm(0.7f, 0, 0, 1));
     }
@@ -63,7 +64,7 @@ public class InputDemo implements AutoCloseable {
             String textString = this.text.getText();
 
             // Remove the last letter if backspace is pressed
-            if (event.key == GLFW.GLFW_KEY_BACKSPACE && textString.length() > 0) {
+            if (event.key == GLFW.GLFW_KEY_BACKSPACE && !textString.isEmpty()) {
                 this.text.setText(textString.substring(0, textString.length() - 1));
             } else {
                 this.text.setText(textString + event.key);

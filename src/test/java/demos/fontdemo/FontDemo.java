@@ -6,6 +6,7 @@ import jangl.coords.WorldCoords;
 import jangl.graphics.font.Justify;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
+import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
 import jangl.time.Clock;
 
@@ -21,23 +22,22 @@ public class FontDemo {
                 "src/test/resources/demo/font/arial.png"
         );
 
-        this.leftJustify = new Text(
-                new WorldCoords(0.3f, 0.7f), arial, 0.05f,
-                "abcdefghijklmnopqrstuvwxyz\n0123456789\t<- tab",
-                Justify.LEFT  // this argument isn't required since it defaults to left justification
-        );
+        this.leftJustify = new TextBuilder(arial, "abcdefghijklmnopqrstuvwxyz\n0123456789\t<- tab")
+                .setCoords(new WorldCoords(0.3f, 0.7f))
+                .setYHeight(0.05f)
+                .toText();
 
-        this.rightJustify = new Text(
-                new WorldCoords(WorldCoords.getTopRight().x - 0.3f, 0.5f), arial, 0.05f,
-                "Right justification!",
-                Justify.RIGHT
-        );
+        this.rightJustify = new TextBuilder(arial, "Right Justification!")
+                .setCoords(new WorldCoords(WorldCoords.getTopRight().x - 0.3f, 0.5f))
+                .setYHeight(0.05f)
+                .setJustification(Justify.RIGHT)
+                .toText();
 
-        this.centerJustify = new Text(
-                new WorldCoords(WorldCoords.getMiddle().x, 0.3f), arial, 0.05f,
-                "Center justification!",
-                Justify.CENTER
-        );
+        this.centerJustify = new TextBuilder(arial, "Center Justification!")
+                .setCoords(new WorldCoords(WorldCoords.getMiddle().x, 0.3f))
+                .setYHeight(0.05f)
+                .setJustification(Justify.CENTER)
+                .toText();
 
         this.hue = 0;
     }

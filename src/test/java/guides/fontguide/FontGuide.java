@@ -4,6 +4,7 @@ import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
+import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
 
 public class FontGuide {
@@ -15,12 +16,10 @@ public class FontGuide {
                 "src/test/resources/guide/fontGuide/arial.png"
                 );
 
-        this.text = new Text(
-                new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
-                myFont,  // the font object
-                0.1f,  // the y height, in world coords, of the text
-                "Hello World!"  // the text to display
-        );
+        this.text = new TextBuilder(myFont, "Hello World!")
+                .setCoords(new WorldCoords(0.1f, 0.9f))
+                .setYHeight(0.1f)
+                .toText();
     }
 
     public void run() {

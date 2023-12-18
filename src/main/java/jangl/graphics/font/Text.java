@@ -12,37 +12,19 @@ import java.util.Objects;
 public class Text implements AutoCloseable {
     private Batch batch;
     private String text;
-    private WorldCoords topLeft;
+    private WorldCoords coords;
     private Font font;
     private float yHeight;
     private Justify justification;
 
-    /**
-     * @param coords The top left, top middle, or top right coordinate for left-justification, center-justification, and right-justification respectively.
-     * @param font The font to use
-     * @param yHeight How high, in WorldCoords, each letter should be
-     * @param text The text to display
-     * @param justification If the text should be center-justified, left-justified, or right-justified
-     * @throws NullPointerException if justification is null
-     */
-    public Text(WorldCoords coords, Font font, float yHeight, String text, Justify justification) throws NullPointerException {
-        this.topLeft = coords;
-        this.yHeight = yHeight;
-        this.font = font;
-        this.text = this.pruneText(text);
-        this.justification = justification;
+    public Text(TextBuilder builder) throws NullPointerException {
+        this.coords = builder.getCoords();
+        this.yHeight = builder.getYHeight();
+        this.font = builder.getFont();
+        this.text = this.pruneText(builder.getText());
+        this.justification = builder.getJustification();
 
         this.batch = this.getBatch();
-    }
-
-    /**
-     * @param topLeft The top left coordinate of the text
-     * @param font    The font to use
-     * @param yHeight How high, in WorldCoords, each letter should be
-     * @param text    The text to display
-     */
-    public Text(WorldCoords topLeft, Font font, float yHeight, String text) {
-        this(topLeft, font, yHeight, text, Justify.LEFT);
     }
 
     public String getText() {
@@ -195,7 +177,7 @@ public class Text implements AutoCloseable {
         float scaleFactor = this.yHeight / heightWorldCoords;
 
         // The cursor is where the next char should be drawn
-        PixelCoords cursor = this.topLeft.toPixelCoords();
+        PixelCoords cursor = this.coords.toPixelCoords();
 
         BatchBuilder builder = new BatchBuilder();
 
@@ -203,7 +185,7 @@ public class Text implements AutoCloseable {
             this.generateNextLine(builder, cursor, line, scaleFactor);
 
             // Reset cursor position
-            cursor.x = this.topLeft.toPixelCoords().x;
+            cursor.x = this.coords.toPixelCoords().x;
             cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * 1.2f;
         }
 
@@ -221,12 +203,12 @@ public class Text implements AutoCloseable {
     /**
      * @return A copy of the top left coordinates
      */
-    public WorldCoords getTopLeft() {
-        return new WorldCoords(this.topLeft.x, this.topLeft.y);
+    public WorldCoords getCoords() {
+        return new WorldCoords(this.coords.x, this.coords.y);
     }
 
-    public void setTopLeft(WorldCoords newTopLeft) {
-        this.topLeft = new WorldCoords(newTopLeft.x, newTopLeft.y);
+    public void setCoords(WorldCoords newCoords) {
+        this.coords = new WorldCoords(newCoords.x, newCoords.y);
         this.regenerate();
     }
 

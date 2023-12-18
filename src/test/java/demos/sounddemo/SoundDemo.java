@@ -4,6 +4,7 @@ import jangl.JANGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
+import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
 import jangl.io.keyboard.KeyEvent;
 import jangl.io.keyboard.Keyboard;
@@ -21,12 +22,12 @@ public class SoundDemo {
         this.sound.setMaxVolume(2);
         this.sound.setVolume(2);
 
-        this.instructions = new Text(
-                new WorldCoords(0.1f, 0.9f),
-                new Font("src/test/resources/demo/font/arial.fnt", "src/test/resources/demo/font/arial.png"),
-                0.1f,
-                "Controls:\nSpace: Play\nP: Pause\nS: Stop\nR: Rewind\nW: Pitch and speed up\nQ: Pitch and speed down"
-        );
+        Font font = new Font("src/test/resources/demo/font/arial.fnt", "src/test/resources/demo/font/arial.png");
+
+        this.instructions = new TextBuilder(font, "Controls:\nSpace: Play\nP: Pause\nS: Stop\nR: Rewind\nW: Pitch and speed up\nQ: Pitch and speed down")
+                .setCoords(new WorldCoords(0.1f, 0.9f))
+                .setYHeight(0.07f)
+                .toText();
     }
 
     public void draw() {
