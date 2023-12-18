@@ -13,6 +13,7 @@ import jangl.resourcemanager.ResourceQueuer;
 import jangl.resourcemanager.ResourceType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -34,6 +35,7 @@ public class ShaderProgram implements AutoCloseable, Bindable {
     private final List<Integer> shaderIDs;
     private final List<Shader> shaders;
     private final AtomicBoolean closed;
+    private final HashSet<Integer> bindingPoints;
 
     /**
      * WARNING: not including a fragment shader may result in the object being black and appearing to be invisible.
@@ -83,6 +85,7 @@ public class ShaderProgram implements AutoCloseable, Bindable {
      * @throws ShaderCompileException Throws if the shaders cannot compile, link, or validate.
      */
     public ShaderProgram(VertexShader vs, FragmentShader fs, List<AttribLocation> attribLocations) throws ShaderCompileException {
+        this.bindingPoints = new HashSet<>();
         this.shaderIDs = new ArrayList<>();
         this.shaders = new ArrayList<>();
 
@@ -179,6 +182,10 @@ public class ShaderProgram implements AutoCloseable, Bindable {
      * @throws RuntimeException If the uniformBlockIndex cannot be found
      */
     public void addUBO(UBO ubo, String uboName) throws RuntimeException {
+        if (this.bindingPoints.contains(ubo.getBindingPoint())) {
+            throw new RuntimeException("Binding point " + ubo.getBindingPoint() + " is already in use.");
+        }
+
         int uniformBlockIndex = glGetUniformBlockIndex(this.getProgramID(), uboName);
 
         if (uniformBlockIndex == -1) {
@@ -186,6 +193,7 @@ public class ShaderProgram implements AutoCloseable, Bindable {
         }
 
         glUniformBlockBinding(this.getProgramID(), uniformBlockIndex, ubo.getBindingPoint());
+        this.bindingPoints.add(ubo.getBindingPoint());
     }
 
     public static ShaderProgram getBoundProgram() {

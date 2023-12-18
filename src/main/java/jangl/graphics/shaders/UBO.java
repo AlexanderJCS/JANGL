@@ -18,7 +18,6 @@ import static org.lwjgl.opengl.GL41.*;
 public class UBO implements Bindable, AutoCloseable {
     private final int id;
     private final int bindingPoint;
-    private static final Set<Integer> bindingPoints = new HashSet<>();
     private final AtomicBoolean closed;
 
     /**
@@ -33,10 +32,6 @@ public class UBO implements Bindable, AutoCloseable {
             );
         }
 
-        if (bindingPoints.contains(bindingPoint)) {
-            throw new IllegalArgumentException("Cannot create a UBO with a binding point that already exists");
-        }
-
         this.bindingPoint = bindingPoint;
         this.id = glGenBuffers();
 
@@ -45,8 +40,6 @@ public class UBO implements Bindable, AutoCloseable {
         this.unbind();
 
         glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, this.getID(), 0, (long) data.length * Float.BYTES);
-
-        bindingPoints.add(bindingPoint);
 
         this.closed = new AtomicBoolean(false);
         ResourceManager.add(this, new ResourceQueuer(this.closed, new Resource(this.id, ResourceType.BUFFER)));
