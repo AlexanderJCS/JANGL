@@ -4,7 +4,7 @@ package jangl.sound;
 import org.lwjgl.openal.AL11;
 
 /**
- * These are the OpenAL source states, but more easily accessible for use with JANGL.
+ * These are the OpenAL source states, but more easily accessible for use with Jangl.
  */
 public enum SoundState {
     INITIAL, PAUSED, PLAYING, STOPPED;

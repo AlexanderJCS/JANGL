@@ -6,13 +6,13 @@ public class ColorFactory {
     }
 
     /**
-     * Takes in a set of RGBA values between 0 and 255, inclusive and creates a JANGL color.
+     * Takes in a set of RGBA values between 0 and 255, inclusive and creates a Jangl color.
      *
      * @param red The red value.
      * @param green The green value.
      * @param blue The blue value.
      * @param alpha The alpha value.
-     * @return A new JANGL color object.
+     * @return A new Jangl color object.
      * @throws IllegalArgumentException If any of the four arguments are not between 0 and 255, inclusive
      */
     public static Color from255(int red, int green, int blue, int alpha) throws IllegalArgumentException {
@@ -36,7 +36,7 @@ public class ColorFactory {
 
     /**
      * @param rgba An array of RGBA values ranging between 0-255, inclusive.
-     * @return The JANGL Color object.
+     * @return The Jangl Color object.
      */
     public static Color from255(int[] rgba) {
         if (rgba.length != 4) {
@@ -47,13 +47,13 @@ public class ColorFactory {
     }
 
     /**
-     * Takes in a set of RGBA values between 0 and 1 and creates a JANGL color.
+     * Takes in a set of RGBA values between 0 and 1 and creates a Jangl color.
      *
      * @param red The normalized red value.
      * @param green The normalized green value.
      * @param blue The normalized blue value.
      * @param alpha The normalized alpha value.
-     * @return A new JANGL color object.
+     * @return A new Jangl color object.
      * @throws IllegalArgumentException If any of the four arguments are not between 0 and 1, inclusive
      */
     public static Color fromNorm(float red, float green, float blue, float alpha) throws IllegalArgumentException {
@@ -86,7 +86,7 @@ public class ColorFactory {
      * @param saturation The normalized saturation of the color
      * @param value      The normalized value (brightness) of the color
      * @param alpha      The normalized alpha of the color
-     * @return A new JANGL color object.
+     * @return A new Jangl color object.
      * @throws IllegalArgumentException If any of the four arguments are not between 0 and 1, inclusive
      */
     public static Color fromNormHSVA(float hue, float saturation, float value, float alpha) throws IllegalArgumentException {
@@ -100,7 +100,7 @@ public class ColorFactory {
 
         java.awt.Color rgb = new java.awt.Color(java.awt.Color.HSBtoRGB(hue, saturation, value));
 
-        // return a JANGL color instead of java.awt.Color color
+        // return a Jangl color instead of java.awt.Color color
         return new Color(rgb.getRed() / 255f, rgb.getGreen() / 255f, rgb.getBlue() / 255f, alpha);
     }
 
@@ -112,7 +112,7 @@ public class ColorFactory {
      * @param saturation The normalized saturation of the color
      * @param value      The normalized value (brightness) of the color
      * @param alpha      The normalized alpha of the color
-     * @return A new JANGL color object.
+     * @return A new Jangl color object.
      * @throws IllegalArgumentException If any of the four arguments are not between 0 and 255
      */
     public static Color from255HSVA(int hue, int saturation, int value, int alpha) {

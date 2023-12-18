@@ -1,6 +1,6 @@
 package guides.quickstart;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -14,7 +14,7 @@ public class Quickstart implements AutoCloseable {
 
     public void run() {
         while (Window.shouldRun()) {
-            JANGL.update();
+            Jangl.update();
             Window.clear();
 
             this.rect.draw();
@@ -28,7 +28,7 @@ public class Quickstart implements AutoCloseable {
 
     public static void main(String[] args) {
         // Input the width and height of your screen in pixels.
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);  // turn vsync on
 
         Quickstart quickstart = new Quickstart();

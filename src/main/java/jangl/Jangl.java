@@ -13,14 +13,14 @@ import jangl.time.Clock;
 import static org.lwjgl.glfw.GLFW.glfwPollEvents;
 import static org.lwjgl.glfw.GLFW.glfwSwapBuffers;
 
-public class JANGL {
+public class Jangl {
     private static boolean initialized = false;
 
-    private JANGL() {
+    private Jangl() {
     }
 
     /**
-     * Initializes JANGL using two ratios:
+     * Initializes Jangl using two ratios:
      * a. the ratio of the window height to the primary monitor height
      * b. the aspect ratio of the window
      *

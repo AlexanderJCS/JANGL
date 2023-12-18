@@ -27,7 +27,7 @@ public class Sound implements AutoCloseable {
 
     /**
      * @param soundFilepath The sound file, in the .wav format, to load.
-     * @throws IllegalStateException Throws if Sound.init() has not been called. Since JANGL.init() initializes sound
+     * @throws IllegalStateException Throws if Sound.init() has not been called. Since Jangl.init() initializes sound
      *                               under the hood, you usually do not encounter this issue.
      */
     public Sound(String soundFilepath) throws IllegalStateException {
@@ -84,7 +84,7 @@ public class Sound implements AutoCloseable {
             if (rawAudioBuffer == null) {
                 throw new UncheckedIOException(new IOException(
                         "Could not load from file: " + soundFilepath + ". Make sure that:\n"
-                                + "1. The file exists.\n2. It has a .ogg file format. JANGL does not support other file formats."
+                                + "1. The file exists.\n2. It has a .ogg file format. Jangl does not support other file formats."
                 ));
             }
 

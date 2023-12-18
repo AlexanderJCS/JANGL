@@ -21,7 +21,7 @@ Moving to Java, the next step is to create a class that initializes JANGL as wel
 
 ```java
 
-import jangl.JANGL;
+import jangl.Jangl;
 
 public class FontGuide {
     public FontGuide() {
@@ -37,7 +37,7 @@ public class FontGuide {
 Then, create a `Font` variable inside the constructor. The `Font` constructor takes in two arguments: the path to the `.fnt` file and the path to the `.png` file associated with the font file.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.graphics.font.Font;
 
 public class FontGuide {
@@ -64,7 +64,7 @@ Now, you can create a `Text` class that takes in the following constructor argum
 For this example, the text will be a member variable of `FontGuide` so it can be accessed through a `run` method that will be created later.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
@@ -96,7 +96,7 @@ public class FontGuide {
 Now, this text needs to be drawn to the screen. To do so, a new method called `run` is created. Inside the method, the text is drawn at 60 FPS. If you are unclear about anything else in the run method, the [quickstart guide](/README.md#quickstart-guide) explains that more clearly.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.JaNGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
@@ -144,7 +144,7 @@ Finally, we need to add a few finishing touches:
 - Close the font and text after the `run()` method
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;

@@ -15,7 +15,7 @@ If you do not want to create an image, you can use the one below:
 Before we start, we need to create a base program that will contain our shapes. This code is largely explained within the [quickstart guide](/README.md#quickstart-guide), and therefore will not be explained in great detail. This code will be used later.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.io.Window;
 
 public class ImageGuide {
@@ -115,7 +115,7 @@ new Image(
 Incorporating this into the code into the constructor of the [base program](#creating-a-base-program), we get:
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
@@ -175,7 +175,7 @@ public class ImageGuide {
 Then, we need to draw the image within the `draw()` method by calling `this.image.draw()`:
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
@@ -253,7 +253,7 @@ image.texture().close();
 We can incorporate these two lines at the end of the `run` method:
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;
@@ -322,7 +322,7 @@ NOTICE: setTexRepeatX() and setTexRepeatY() do not work for the TileSheetRect cl
 We can set the repeat values so in the constructor.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Image;
 import jangl.graphics.textures.Texture;

@@ -1,6 +1,6 @@
 package guides.fontguide;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Text;
@@ -27,7 +27,7 @@ public class FontGuide {
             Window.clear();
             this.text.draw();
 
-            JANGL.update();
+            Jangl.update();
         }
 
         // It is important to close the Font object in addition to the text object
@@ -38,7 +38,7 @@ public class FontGuide {
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
 
         new FontGuide().run();  // run a new FontGuide

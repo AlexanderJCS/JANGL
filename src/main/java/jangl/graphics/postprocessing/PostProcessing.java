@@ -41,14 +41,14 @@ public class PostProcessing implements AutoCloseable {
     }
 
     /**
-     * Run this before rendering the first frame of the pipeline. This should be done automatically within JANGL.update()
+     * Run this before rendering the first frame of the pipeline. This should be done automatically within Jangl.update()
      */
     public void start() {
         this.pipeline.get(0).bind();
     }
 
     /**
-     * Run this at the end of the frame. This should be done automatically within JANGL.update().
+     * Run this at the end of the frame. This should be done automatically within Jangl.update().
      */
     public void end() {
         for (int i = 1; i < this.pipeline.size(); i++) {

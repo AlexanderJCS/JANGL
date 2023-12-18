@@ -1,6 +1,6 @@
 package demos.shaderdemo;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.ShaderProgram;
@@ -38,7 +38,7 @@ public class ShaderDemo implements AutoCloseable {
             this.update();
             this.draw();
 
-            JANGL.update();
+            Jangl.update();
         }
     }
 
@@ -49,7 +49,7 @@ public class ShaderDemo implements AutoCloseable {
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         ShaderDemo shaderDemo = new ShaderDemo();

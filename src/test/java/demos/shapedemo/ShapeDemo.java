@@ -1,6 +1,6 @@
 package demos.shapedemo;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
@@ -36,8 +36,8 @@ public class ShapeDemo implements AutoCloseable {
     }
 
     public void update() {
-        // Update JANGL so events can be received and the screen doesn't say "not responding"
-        JANGL.update();
+        // Update Jangl so events can be received and the screen doesn't say "not responding"
+        Jangl.update();
 
         this.triangle.getTransform().rotate((float) Clock.getTimeDelta());
         this.rect.getTransform().setPos(Mouse.getMousePos().x, Mouse.getMousePos().y);
@@ -69,8 +69,8 @@ public class ShapeDemo implements AutoCloseable {
     }
 
     public static void main(String[] args) {
-        // Initialize JANGL with a screen width of 1600 pixels and a screen height of 900 pixels
-        JANGL.init(1600, 900);
+        // Initialize Jangl with a screen width of 1600 pixels and a screen height of 900 pixels
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         ShapeDemo shapeDemo = new ShapeDemo();

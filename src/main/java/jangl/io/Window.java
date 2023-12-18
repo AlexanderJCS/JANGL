@@ -68,11 +68,11 @@ public class Window {
 
         glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-        // JANGL supports OpenGL v4.1
+        // Jangl supports OpenGL v4.1
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-        window = glfwCreateWindow(screenWidth, screenHeight, "JANGL", 0, 0);
+        window = glfwCreateWindow(screenWidth, screenHeight, "Jangl", 0, 0);
         glfwShowWindow(window);
 
         glfwSetWindowPos(
@@ -107,7 +107,7 @@ public class Window {
         GLFWVidMode mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         if (mode == null) {
-            throw new IllegalStateException("Could not get monitor height. Is JANGL initialized?");
+            throw new IllegalStateException("Could not get monitor height. Is Jangl initialized?");
         }
 
         return mode.height();
@@ -120,7 +120,7 @@ public class Window {
         GLFWVidMode mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         if (mode == null) {
-            throw new IllegalStateException("Could not get monitor width. Is JANGL initialized?");
+            throw new IllegalStateException("Could not get monitor width. Is Jangl initialized?");
         }
 
         return mode.width();

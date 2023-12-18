@@ -14,7 +14,7 @@ It is also recommended to see the [quickstart guide](/README.md#quickstart-guide
 Before we start, we need to create a base program that will contain our shapes. This code is largely explained within the [quickstart guide](/README.md#quickstart-guide), and therefore will not be explained in great detail.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.io.Window;
 
 public class ShapeGuide {
@@ -60,7 +60,7 @@ Now, let's add a `Rect` member variable to the program. In addition, we will run
 The rectangle will have a top left coordinate of (0.25, 0.75), a width of 0.6, and a height of 0.3.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -120,7 +120,7 @@ Since circles are just approximations of an infinite-sided circle in computer gr
 Going back to the code, let's create a new `Circle` member variable, initialize it in the constructor, and draw it within the `draw` method. For this example, the center of the circle will be at (1.2f, 0.5) and the circle will have a radius of 0.15. It will also have 48 sides, which should be more than enough for any individual side to not be noticeable.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
@@ -177,7 +177,7 @@ Points 1, 2, and 3 can go in any order: the triangle will still draw the same.
 Incorporating this into the code, we can make a right triangle by setting the bottom left vertex to (0.1, 0.1), the rightmost vertex to (0.1, 0.4), and the topmost vertex to (0.4, 0.1).
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
@@ -236,7 +236,7 @@ Now, the triangle is being drawn to the screen. Thank you for following this gui
 When you are done with the shape, it is important to `.close()` it to prevent a memory leak.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;

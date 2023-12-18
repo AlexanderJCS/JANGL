@@ -1,6 +1,6 @@
 package demos.icondemo;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.graphics.font.Font;
 import jangl.graphics.font.Justify;
 import jangl.graphics.font.Text;
@@ -39,7 +39,7 @@ public class IconDemo implements AutoCloseable {
 
             this.text.draw();
 
-            JANGL.update();
+            Jangl.update();
         }
     }
 
@@ -49,7 +49,7 @@ public class IconDemo implements AutoCloseable {
     }
 
     public static void main(String[] args) {
-        JANGL.init(0.75f, 16f/9);
+        Jangl.init(0.75f, 16f/9);
         Window.setVsync(true);
 
         IconDemo iconDemo = new IconDemo();

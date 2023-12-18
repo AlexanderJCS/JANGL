@@ -75,7 +75,7 @@ public class Quickstart {
 Then, create a constructor which initializes JANGL. The two arguments that are passed into `init()` are the width and height of the screen, in pixels. Set these values to whatever value feels right for your monitor resolution.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 
 public class Quickstart {
     public static void main(String[] args) {
@@ -92,7 +92,7 @@ Now, you can add a `run()` method to the program. This will be the main loop of 
 You can also create a new `Quickstart` object and call `Quickstart.run()` within the main method.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 
 public class Quickstart {
     public Quickstart() {
@@ -124,7 +124,7 @@ The bottom left of the window has the coordinates (0, 0) and the top left of you
 With that knowledge, you can make your first rectangle.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
@@ -153,7 +153,7 @@ public class Quickstart {
 One important thing to note is that all shape classes (including `Rect`s) as well as several other classes in JANGL implement AutoCloseable. It is important to close these classes when you're done to avoid a memory leak. To prevent this, we can implement `AutoCloseable` ourselves and close everything when the program stops running.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.shapes.Rect;
 
@@ -198,7 +198,7 @@ Finally, you can draw your rectangle using `rect.draw()`.
 When those three methods are combined, you get the following code:
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -238,7 +238,7 @@ public class Quickstart implements AutoCloseable {
 However, if you run the code in its current state, you might notice that a window opens then closes. This is because the program is not drawing inside a loop, so it draws once then reaches the end of the program. To fix this, you can add a while loop: `while (Window.shouldRun())`. This condition evaluates to true when the "X" on the top right of the window is not pressed.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -285,7 +285,7 @@ If you notice that your computer fans start spinning faster when running this pr
 The smart tick method throws an interrupted exception if the program is interrupted while it is `Thread.sleep`ing, so it is important to handle that as well.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;
@@ -337,7 +337,7 @@ public class Quickstart implements AutoCloseable {
 Another way to limit FPS is to make the window run at VSync, or the maximum framerate your monitor can display. To do this, get rid of the `Clock.smartTick()` and run `Window.setVsync(true)` after JANGL initializes.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Rect;

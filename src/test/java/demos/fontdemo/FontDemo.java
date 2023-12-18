@@ -1,6 +1,6 @@
 package demos.fontdemo;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Justify;
@@ -57,14 +57,14 @@ public class FontDemo {
             this.hue += Clock.getTimeDeltaf() * 0.2f;
             this.leftJustify.getFont().setFontColor(ColorFactory.fromNormHSVA(this.hue, 1, 1, 1));
 
-            JANGL.update();
+            Jangl.update();
         }
 
         Window.close();
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new FontDemo().run();

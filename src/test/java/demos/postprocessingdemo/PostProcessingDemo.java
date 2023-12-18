@@ -8,7 +8,7 @@
 
 package demos.postprocessingdemo;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.postprocessing.PipelineItem;
 import jangl.graphics.postprocessing.PostProcessing;
@@ -59,7 +59,7 @@ public class PostProcessingDemo implements AutoCloseable {
         while (Window.shouldRun()) {
             this.draw();
 
-            JANGL.update();
+            Jangl.update();
         }
     }
 
@@ -77,7 +77,7 @@ public class PostProcessingDemo implements AutoCloseable {
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         PostProcessingDemo postProcessingDemo = new PostProcessingDemo();

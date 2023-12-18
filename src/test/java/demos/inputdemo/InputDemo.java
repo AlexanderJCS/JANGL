@@ -1,6 +1,6 @@
 package demos.inputdemo;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
@@ -79,7 +79,7 @@ public class InputDemo implements AutoCloseable {
 
     public void run() {
         while (Window.shouldRun()) {
-            JANGL.update();
+            Jangl.update();
             this.draw();
             this.update();
         }
@@ -88,7 +88,7 @@ public class InputDemo implements AutoCloseable {
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         try (InputDemo inputDemo = new InputDemo()) {

@@ -1,6 +1,6 @@
 package demos.texturedemo;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
@@ -40,7 +40,7 @@ public class TextureDemo implements AutoCloseable {
         while (Window.shouldRun()) {
             this.draw();
 
-            JANGL.update();
+            Jangl.update();
         }
     }
 
@@ -53,7 +53,7 @@ public class TextureDemo implements AutoCloseable {
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
 
         TextureDemo textureDemo = new TextureDemo();
         textureDemo.run();

@@ -1,6 +1,6 @@
 package demos.sounddemo;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
@@ -65,14 +65,14 @@ public class SoundDemo {
             this.draw();
             this.update();
 
-            JANGL.update();
+            Jangl.update();
         }
 
         this.sound.close();
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         SoundDemo sd = new SoundDemo();

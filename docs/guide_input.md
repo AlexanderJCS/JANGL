@@ -22,7 +22,7 @@ Events differ from checking if a key or mouse button is held down because **an e
 
 You can check if a key is down using the `Keyboard.getKeyDown()` method:
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.io.keyboard.Keyboard;
 import org.lwjgl.glfw.GLFW;
 
@@ -45,7 +45,7 @@ You can get and parse all the keyboard events by doing the following.
 ```java
 import java.util.List;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.io.keyboard.Keyboard;
 import jangl.io.keyboard.KeyEvent;
 import org.lwjgl.glfw.GLFW;
@@ -79,7 +79,7 @@ for (KeyEvent event : keyEvents) {
 
 You can check if either of the mouse buttons are down by doing:
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.io.mouse.Mouse;
 import org.lwjgl.glfw.GLFW;
 
@@ -94,7 +94,7 @@ boolean isMiddleClicking = Mouse.isMouseDown(GLFW.GLFW_MOUSE_BUTTON_MIDDLE);  //
 You can get the mouse position using the following code. It is important to note that the mouse position does not move with the camera. In other words, if the camera is moved, scaled, or rotated, the mouse position will not reflect those changes.
 
 ```java
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.io.mouse.Mouse;
 import jangl.coords.WorldCoords;
 
@@ -109,7 +109,7 @@ Mouse events can be used to check if a mouse button is clicked or released. You 
 ```java
 import java.util.List;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.io.mouse.Mouse;
 import jangl.io.mouse.MouseEvent;
 import org.lwjgl.glfw.GLFW;
@@ -149,7 +149,7 @@ Accessing scroll events (events that occur when the scroll wheel is used) is sim
 ```java
 import java.util.List;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.io.mouse.Scroll;
 import jangl.io.mouse.ScrollEvent;
 

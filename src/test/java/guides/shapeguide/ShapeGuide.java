@@ -1,6 +1,6 @@
 package guides.shapeguide;
 
-import jangl.JANGL;
+import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.io.Window;
 import jangl.shapes.Circle;
@@ -35,7 +35,7 @@ public class ShapeGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
+            Jangl.update();
         }
 
         this.rect.close();
@@ -45,7 +45,7 @@ public class ShapeGuide {
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ShapeGuide().run();
