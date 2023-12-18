@@ -4,6 +4,7 @@ import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
+import jangl.graphics.textures.enums.WrapMode;
 import jangl.io.Window;
 import jangl.shapes.Circle;
 import jangl.shapes.Rect;
@@ -24,7 +25,10 @@ public class TextureDemo implements AutoCloseable {
         this.rect.setTexRepeatY(2);
 
         this.texture = new Texture(
-                new TextureBuilder().setImagePath("src/test/resources/demo/textureDemo/image.png")
+                new TextureBuilder()
+                        .setImagePath("src/test/resources/demo/textureDemo/image.png")
+                        .setPixelatedScaling()
+                        .setWrapMode(WrapMode.REPEAT)
         );
     }
 
