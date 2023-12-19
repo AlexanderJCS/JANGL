@@ -8,6 +8,8 @@ public class TextBuilder {
     private Font font;
     private float yHeight;
     private Justify justification;
+    private float wrapWidth;
+    private float yCutoff;
 
     public TextBuilder(Font font, String text) {
         this.text = text;
@@ -15,6 +17,45 @@ public class TextBuilder {
         this.font = font;
         this.yHeight = 0.05f;
         this.justification = Justify.LEFT;
+
+        this.wrapWidth = -1;
+        this.yCutoff = -1;
+    }
+
+    /**
+     * Sets the width of the text before a linebreak occurs. -1 by default. Set the value to -1 to not have automatic
+     * line breaking.
+     * <br>
+     * If the wrap width is lower than the width of a single character, the character will be added anyway and a newline
+     * will be added.
+     *
+     * @param wrapWidth The width of the text.
+     * @return this
+     */
+    public TextBuilder setWrapWidth(float wrapWidth) {
+        this.wrapWidth = wrapWidth;
+        return this;
+    }
+
+    public float getWrapWidth() {
+        return this.wrapWidth;
+    }
+
+    /**
+     * Sets the height of the text before it is cut off. -1 by default. Set the value to -1 to not have a cutoff
+     * <br>
+     * An error will be thrown when creating the text if yCutoff is less than the text height.
+     *
+     * @param yCutoff The height of the text.
+     * @return this
+     */
+    public TextBuilder setYCutoff(float yCutoff) {
+        this.yCutoff = yCutoff;
+        return this;
+    }
+
+    public float getYCutoff() {
+        return this.yCutoff;
     }
 
     /**

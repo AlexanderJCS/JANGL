@@ -10,21 +10,91 @@ import jangl.shapes.Transform;
 import java.util.Objects;
 
 public class Text implements AutoCloseable {
+    private static final float NEWLINE_SPACING = 1.2f;
     private Batch batch;
     private String text;
     private WorldCoords coords;
     private Font font;
     private float yHeight;
     private Justify justification;
+    private float yCutoff;
+    private float wrapWidth;
 
-    public Text(TextBuilder builder) throws NullPointerException {
+    public Text(TextBuilder builder) throws IllegalArgumentException {
+        if (builder.getYCutoff() != -1 && builder.getYCutoff() < builder.getYHeight()) {
+            throw new IllegalArgumentException("The yCutoff must be greater than the yHeight!");
+        }
+
+        this.wrapWidth = builder.getWrapWidth();
+        this.yCutoff = builder.getYCutoff();
+
+
+
         this.coords = builder.getCoords();
         this.yHeight = builder.getYHeight();
         this.font = builder.getFont();
-        this.text = this.pruneText(builder.getText());
+        this.text = this.processText(builder.getText());
         this.justification = builder.getJustification();
 
         this.batch = this.getBatch();
+    }
+
+    private String processText(String text) {
+        return this.addLineBreaks(this.pruneText(text));
+    }
+
+    private String addLineBreaks(String text) {
+        StringBuilder builder = new StringBuilder();
+
+        int heightPixels = this.font.tallestLetter.height();
+        float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
+
+        // desired height = current height * scale. Solving for scale: scale = desired height / current height
+        float scaleFactor = this.yHeight / heightWorldCoords;
+
+        WorldCoords cursor = new WorldCoords(0, 0);
+        for (int i = 0; i < text.length(); i++) {
+            // Stop if the cursor is above the cutoff
+            if (this.yCutoff != -1 && cursor.y > this.yCutoff) {
+                break;
+            }
+
+            char ch = text.charAt(i);
+
+            // Check if a newline is manually given
+            if (ch == '\n') {
+                cursor.x = 0;
+                cursor.y += this.yHeight * NEWLINE_SPACING;
+                builder.append(ch);
+                continue;
+            }
+
+            // Advance the cursor and check if a newline is needed
+            CharInfo info = this.font.getInfo(ch);
+            cursor.x += PixelCoords.distToWorldCoords(info.xAdvance()) * scaleFactor;
+
+            if (this.wrapWidth != -1 && cursor.x > this.wrapWidth) {
+                // If this is the first character in the line, just add it and move on
+                // This prevents an infinite loop
+                if (Float.compare(cursor.x, info.xAdvance() * scaleFactor) == 0) {
+                    builder.append(ch);
+                    i++;  // counteract the i-- below
+                }
+
+                builder.append('\n');
+
+                cursor.x = 0;
+                cursor.y += this.yHeight * NEWLINE_SPACING;
+
+                i--;  // go back 1 character so this current character can be processed again
+                continue;
+            }
+
+            // Append the character if nothing else goes wrong
+            builder.append(ch);
+        }
+
+        return builder.toString();
     }
 
     public String getText() {
@@ -32,14 +102,14 @@ public class Text implements AutoCloseable {
     }
 
     public void setText(String newText) {
-        String pruned = this.pruneText(newText);
+        String processed = this.processText(newText);
 
         // Don't regenerate if the text is the same
-        if (pruned.equals(this.text)) {
+        if (processed.equals(this.text)) {
             return;
         }
 
-        this.text = pruned;
+        this.text = processed;
         this.regenerate();
     }
 
@@ -186,7 +256,7 @@ public class Text implements AutoCloseable {
 
             // Reset cursor position
             cursor.x = this.coords.toPixelCoords().x;
-            cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * 1.2f;
+            cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * NEWLINE_SPACING;
         }
 
         return new Batch(builder);
