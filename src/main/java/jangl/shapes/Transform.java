@@ -33,6 +33,28 @@ public class Transform {
     }
 
     /**
+     * Performs calculations given the unscaled width of the object to set the width of the object to the given value.
+     *
+     * @param desiredWidth The desired width of the object in WorldCoords
+     * @param unscaledWidth The unscaled width of the object in WorldCoords
+     */
+    public void setWidth(float desiredWidth, float unscaledWidth) {
+        float xScale = desiredWidth / unscaledWidth;
+        this.setScale(xScale);
+    }
+
+    /**
+     * Performs calculations given the unscaled height of the object to set the height of the object to the given value.
+     *
+     * @param desiredHeight The desired height of the object in WorldCoords
+     * @param unscaledHeight The unscaled height of the object in WorldCoords
+     */
+    public void setHeight(float desiredHeight, float unscaledHeight) {
+        float yScale = desiredHeight / unscaledHeight;
+        this.setScale(yScale);
+    }
+
+    /**
      * Sets the Y scale of the object to the given value.
      * @param scaleY The Y scale factor.
      */
