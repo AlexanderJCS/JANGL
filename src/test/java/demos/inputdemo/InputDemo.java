@@ -22,8 +22,15 @@ public class InputDemo implements AutoCloseable {
         this.font = new Font("src/test/resources/demo/font/arial.fnt",
                 "src/test/resources/demo/font/arial.png");
 
-        this.text = new TextBuilder(this.font, "").setCoords(new WorldCoords(0.2f, 0.5f)).setYHeight(0.05f).toText();
-        this.prompt = new TextBuilder(this.font, "Left click and type something").setCoords(new WorldCoords(0.2f, 0.7f)).toText();
+        this.text = new TextBuilder(this.font, "")
+                .setCoords(new WorldCoords(0.2f, 0.5f))
+                .setWrapWidth(WorldCoords.getTopRight().x - 0.4f)
+                .setYCutoff(0.4f)
+                .toText();
+
+        this.prompt = new TextBuilder(this.font, "Left click and type something")
+                .setCoords(new WorldCoords(0.2f, 0.7f))
+                .toText();
 
         Window.setClearColor(ColorFactory.fromNorm(0.7f, 0, 0, 1));
     }
@@ -61,7 +68,7 @@ public class InputDemo implements AutoCloseable {
                 continue;
             }
 
-            String textString = this.text.getText();
+            String textString = this.text.getText().replace("\n", "");
 
             // Remove the last letter if backspace is pressed
             if (event.key == GLFW.GLFW_KEY_BACKSPACE && !textString.isEmpty()) {
