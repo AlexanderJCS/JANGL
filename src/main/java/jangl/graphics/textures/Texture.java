@@ -28,6 +28,14 @@ public class Texture implements AutoCloseable, Bindable {
     private boolean useDefaultShader = true;
     private final AtomicBoolean closed;
 
+    /**
+     * Creates a texture from the given image path. A shortcut for creating a TextureBuilder
+     * @param texturePath The path to the image
+     */
+    public Texture(String texturePath) {
+        this(new TextureBuilder().setImagePath(texturePath));
+    }
+
     public Texture(TextureBuilder builder) throws IllegalStateException {
         if (builder.getImageData() == null) {
             throw new IllegalStateException("The TextureBuilder does not have any image data");
