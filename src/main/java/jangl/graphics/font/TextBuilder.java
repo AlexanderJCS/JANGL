@@ -42,7 +42,7 @@ public class TextBuilder {
     }
 
     /**
-     * Sets the height of the text before it is cut off. -1 by default. Set the value to -1 to not have a cutoff
+     * Sets maximum height of the text before it is cut off. -1 by default. Set the value to -1 to not have a cutoff
      * <br>
      * An error will be thrown when creating the text if yCutoff is less than the text height.
      *

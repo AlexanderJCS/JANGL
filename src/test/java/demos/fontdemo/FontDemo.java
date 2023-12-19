@@ -14,6 +14,7 @@ public class FontDemo {
     private final Text rightJustify;
     private final Text leftJustify;
     private final Text centerJustify;
+    private final Text wrapAndCutoff;
     private float hue;
 
     public FontDemo() {
@@ -24,19 +25,23 @@ public class FontDemo {
 
         this.leftJustify = new TextBuilder(arial, "abcdefghijklmnopqrstuvwxyz\n0123456789\t<- tab")
                 .setCoords(new WorldCoords(0.3f, 0.7f))
-                .setYHeight(0.05f)
+                .setYHeight(0.05f)  // 0.05f is the default value, so this isn't technically needed. it's only here to showcase
                 .toText();
 
         this.rightJustify = new TextBuilder(arial, "Right Justification!")
                 .setCoords(new WorldCoords(WorldCoords.getTopRight().x - 0.3f, 0.5f))
-                .setYHeight(0.05f)
                 .setJustification(Justify.RIGHT)
                 .toText();
 
         this.centerJustify = new TextBuilder(arial, "Center Justification!")
                 .setCoords(new WorldCoords(WorldCoords.getMiddle().x, 0.3f))
-                .setYHeight(0.05f)
                 .setJustification(Justify.CENTER)
+                .toText();
+
+        this.wrapAndCutoff = new TextBuilder(arial, "This text is wrapped and cut off once it exceeds the width and the height values assigned to it")
+                .setCoords(new WorldCoords(0.3f, 0.2f))
+                .setWrapWidth(WorldCoords.getTopRight().x - 0.7f)
+                .setYCutoff(0.1f)
                 .toText();
 
         this.hue = 0;
@@ -48,6 +53,7 @@ public class FontDemo {
         this.leftJustify.draw();
         this.rightJustify.draw();
         this.centerJustify.draw();
+        this.wrapAndCutoff.draw();
     }
 
     public void run() {
