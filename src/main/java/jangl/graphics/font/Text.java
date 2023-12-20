@@ -291,6 +291,24 @@ public class Text implements AutoCloseable {
         this.regenerate();
     }
 
+    public float getYCutoff() {
+        return yCutoff;
+    }
+
+    public void setYCutoff(float yCutoff) {
+        this.yCutoff = yCutoff;
+        this.regenerate();
+    }
+
+    public float getWrapWidth() {
+        return wrapWidth;
+    }
+
+    public void setWrapWidth(float wrapWidth) {
+        this.wrapWidth = wrapWidth;
+        this.regenerate();
+    }
+
     /**
      * @return The font object being used.
      */
