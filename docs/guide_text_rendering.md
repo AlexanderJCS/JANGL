@@ -1,6 +1,6 @@
 # Text Rendering
 
-Creating and displaying text to the screen is easy.
+This guide will show how to render text to the screen using JANGL. This guide assumes you have already read the [quickstart guide](/README.md#quickstart-guide).
 
 ## Hiero
 The first step is to [download the Hiero software](https://libgdx.com/wiki/tools/hiero). This application will be used to create font files. If you do not want to use Hiero, you can also download the Arial font files [here](/src/test/resources/demo/font).
@@ -23,13 +23,14 @@ Moving to Java, the next step is to create a class that initializes JANGL as wel
 
 import jangl.Jangl;
 
-public class FontGuide {
-    public FontGuide() {
+public class TextGuide {
+    public TextGuide() {
 
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Window.setVsync(true);
     }
 }
 ```
@@ -40,8 +41,8 @@ Then, create a `Font` variable inside the constructor. The `Font` constructor ta
 import jangl.Jangl;
 import jangl.graphics.font.Font;
 
-public class FontGuide {
-    public FontGuide() {
+public class TextGuide {
+    public TextGuide() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
@@ -49,77 +50,68 @@ public class FontGuide {
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
     }
 }
 ```
 
-Now, you can create a `Text` class that takes in the following constructor arguments:
-- The top left position of the text
+Now, you can create a `TextBuilder` class that takes in the following constructor arguments:
 - The `Font` class
-- The y height of the text, in `WorldCoords`
-- The text you want to display (string)
+- The string of text to display
+- The x and y coordinates of the top left corner of the text
 
-For this example, the text will be a member variable of `FontGuide` so it can be accessed through a `run` method that will be created later.
+Below, we create a new Text class in the constructor by calling the `textBuilder.toText()` method.
 
 ```java
 import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
+import jangl.graphics.font.TextBuilder;
+import jangl.io.Window;
 
-public class FontGuide {
+public class TextGuide {
     private final Text text;
 
-    public FontGuide() {
+    public TextGuide() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
 
-        this.text = new Text(
-                new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
-                myFont,  // the font object
-                0.1f,  // the y height, in world coords, of the text
-                "Hello World!"  // the text to display
-        );
+        this.text = new TextBuilder(myFont, "Hello World", new WorldCoords(0.1f, 0.9f)).toText();
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
     }
 }
 ```
 
-Now, this text needs to be drawn to the screen. To do so, a new method called `run` is created. Inside the method, the text is drawn at 60 FPS. If you are unclear about anything else in the run method, the [quickstart guide](/README.md#quickstart-guide) explains that more clearly.
+Now we create a `run` method to draw the text to the screen, using the `text.draw()` method. We also create a new `TextGuide` object in the `main` method and call the `run` method.
+
+Now, we have text rendering to the screen!
 
 ```java
 import jangl.Jangl;
-import jangl.JaNGL;
 import jangl.coords.WorldCoords;
 import jangl.graphics.font.Text;
 import jangl.graphics.font.Font;
+import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
-import jangl.time.Clock;
-import jangl.time.GameClock;
 
-public class FontGuide {
+public class TextGuide {
     private final Text text;
 
-    public FontGuide() {
+    public TextGuide() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
 
-        this.text = new Text(
-                new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
-                myFont,  // the font object
-                0.1f,  // the y height, in world coords, of the text
-                "Hello World!"  // the text to display
-        );
+        this.text = new TextBuilder(myFont, "Hello World", new WorldCoords(0.1f, 0.9f)).toText();
     }
 
     public void run() {
@@ -127,44 +119,54 @@ public class FontGuide {
             Window.clear();
             this.text.draw();
 
-            JANGL.update();
+            Jangl.update();
         }
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
-        Window.close();
+
+        TextGuide textGuide = new TextGuide();
+        textGuide.run();
     }
 }
 ```
 
-Finally, we need to add a few finishing touches:
-- Create a new FontGuide class and call the run method
-- Close the font and text after the `run()` method
+We can also customize the text. Here, we change the text in the following ways:
+- We make the text red by calling `text.setColor(Color.RED)`
+- We make the text center-justified by calling `builder.setJustification(Justify.CENTER)` (now the text is centered around the x coordinate we passed into the `TextBuilder` constructor)
+- We make the text 0.1 world coords tall by calling `builder.setYHeight(0.1f)`
+- We make the text wrap at 0.4 world coords wide by calling `builder.setWrapWidth(0.4f)`
+- We make the text cut off at 0.2 world coords tall by calling `builder.setYCutoff(0.2f)`
 
 ```java
 import jangl.Jangl;
+import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
-import jangl.graphics.font.Font;
+import jangl.graphics.font.Justify;
 import jangl.graphics.font.Text;
+import jangl.graphics.font.Font;
+import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
 
-public class FontGuide {
+public class TextGuide {
     private final Text text;
 
-    public FontGuide() {
+    public TextGuide() {
         Font myFont = new Font(
                 "path/to/fnt/file/fontName.fnt",
                 "path/to/png/file/fontName.png"
         );
 
-        this.text = new Text(
-                new WorldCoords(0.1f, 0.9f),  // the top left coordinate of the text
-                myFont,  // the font object
-                0.1f,  // the y height, in world coords, of the text
-                "Hello World!"  // the text to display
-        );
+        myFont.setFontColor(ColorFactory.RED);  // sets the color of the font to red
+
+        this.text = new TextBuilder(myFont, "Hello World", WorldCoords.getMiddle())
+                .setJustification(Justify.CENTER)  // sets the justification of the text
+                .setYHeight(0.1f)  // sets the height of the text in world coords, essentially the font size
+                .setWrapWidth(0.4f)  // sets the width at which the text will wrap (this text cannot be more than 0.4 world coords wide)
+                .setYCutoff(0.2f)  // sets the height at which the text will be cut off (this text cannot be more than 0.2 world coords tall)
+                .toText();  // builds the text object
     }
 
     public void run() {
@@ -172,27 +174,18 @@ public class FontGuide {
             Window.clear();
             this.text.draw();
 
-            JANGL.update();
+            Jangl.update();
         }
-        
-        // It is important to close the Font object in addition to the text object
-        // to avoid a memory leak. To do so, we can call the close() method.
-        // It is important to note that text.close() does not close the font.
-        this.text.getFont().close();
-        this.text.close();
     }
 
     public static void main(String[] args) {
-        JANGL.init(1600, 900);  // screen width in pixels, screen height in pixels
+        Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
-        
-        new FontGuide().run();  // run a new FontGuide
 
-        Window.close();
+        TextGuide textGuide = new TextGuide();
+        textGuide.run();
     }
 }
 ```
 
-And that's it! Text is now rendering to the screen.
-
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/59203b17-3219-4e25-915e-9285f4410bda)
+That's it! We covered all the capabilities of JANGL text.

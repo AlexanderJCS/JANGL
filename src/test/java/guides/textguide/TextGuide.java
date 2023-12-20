@@ -1,9 +1,11 @@
 package guides.textguide;
 
 import jangl.Jangl;
+import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
-import jangl.graphics.font.Font;
+import jangl.graphics.font.Justify;
 import jangl.graphics.font.Text;
+import jangl.graphics.font.Font;
 import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
 
@@ -12,14 +14,18 @@ public class TextGuide {
 
     public TextGuide() {
         Font myFont = new Font(
-                "src/test/resources/guide/fontGuide/arial.fnt",
-                "src/test/resources/guide/fontGuide/arial.png"
-                );
+                "path/to/fnt/file/fontName.fnt",
+                "path/to/png/file/fontName.png"
+        );
 
-        this.text = new TextBuilder(myFont, "Hello World!")
-                .setCoords(new WorldCoords(0.1f, 0.9f))
-                .setYHeight(0.1f)
-                .toText();
+        myFont.setFontColor(ColorFactory.RED);  // sets the color of the font to red
+
+        this.text = new TextBuilder(myFont, "Hello World", WorldCoords.getMiddle())
+                .setJustification(Justify.CENTER)  // sets the justification of the text
+                .setYHeight(0.1f)  // sets the height of the text in world coords, essentially the font size
+                .setWrapWidth(0.4f)  // sets the width at which the text will wrap (this text cannot be more than 0.4 world coords wide)
+                .setYCutoff(0.2f)  // sets the height at which the text will be cut off (this text cannot be more than 0.2 world coords tall)
+                .toText();  // builds the text object
     }
 
     public void run() {
@@ -29,20 +35,13 @@ public class TextGuide {
 
             Jangl.update();
         }
-
-        // It is important to close the Font object in addition to the text object
-        // to avoid a memory leak. To do so, we can call the close() method.
-        // It is important to note that text.close() does not close the font.
-        this.text.getFont().close();
-        this.text.close();
     }
 
     public static void main(String[] args) {
         Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
 
-        new TextGuide().run();  // run a new TextGuide
-
-        Window.close();
+        TextGuide textGuide = new TextGuide();
+        textGuide.run();
     }
 }
