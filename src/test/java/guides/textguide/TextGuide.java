@@ -14,8 +14,8 @@ public class TextGuide {
 
     public TextGuide() {
         Font myFont = new Font(
-                "path/to/fnt/file/fontName.fnt",
-                "path/to/png/file/fontName.png"
+                "src/test/resources/guide/textGuide/arial.fnt",
+                "src/test/resources/guide/textGuide/arial.png"
         );
 
         myFont.setFontColor(ColorFactory.RED);  // sets the color of the font to red
