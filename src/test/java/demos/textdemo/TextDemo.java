@@ -1,4 +1,4 @@
-package demos.fontdemo;
+package demos.textdemo;
 
 import jangl.Jangl;
 import jangl.color.ColorFactory;
@@ -10,14 +10,14 @@ import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
 import jangl.time.Clock;
 
-public class FontDemo {
+public class TextDemo {
     private final Text rightJustify;
     private final Text leftJustify;
     private final Text centerJustify;
     private final Text wrapAndCutoff;
     private float hue;
 
-    public FontDemo() {
+    public TextDemo() {
         Font arial = new Font(
                 "src/test/resources/demo/font/arial.fnt",
                 "src/test/resources/demo/font/arial.png"
@@ -73,6 +73,6 @@ public class FontDemo {
         Jangl.init(1600, 900);
         Window.setVsync(true);
 
-        new FontDemo().run();
+        new TextDemo().run();
     }
 }
