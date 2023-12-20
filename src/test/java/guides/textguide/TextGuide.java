@@ -43,5 +43,7 @@ public class TextGuide {
 
         TextGuide textGuide = new TextGuide();
         textGuide.run();
+
+        Window.close();
     }
 }

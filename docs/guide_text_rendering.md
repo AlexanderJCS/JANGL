@@ -31,6 +31,8 @@ public class TextGuide {
     public static void main(String[] args) {
         Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
+        
+        Window.close();
     }
 }
 ```
@@ -52,6 +54,8 @@ public class TextGuide {
     public static void main(String[] args) {
         Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
+
+        Window.close();
     }
 }
 ```
@@ -86,6 +90,8 @@ public class TextGuide {
     public static void main(String[] args) {
         Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
+
+        Window.close();
     }
 }
 ```
@@ -129,6 +135,8 @@ public class TextGuide {
 
         TextGuide textGuide = new TextGuide();
         textGuide.run();
+
+        Window.close();
     }
 }
 ```
@@ -184,6 +192,8 @@ public class TextGuide {
 
         TextGuide textGuide = new TextGuide();
         textGuide.run();
+
+        Window.close();
     }
 }
 ```
