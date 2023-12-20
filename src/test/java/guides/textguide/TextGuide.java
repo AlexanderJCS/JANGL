@@ -1,4 +1,4 @@
-package guides.fontguide;
+package guides.textguide;
 
 import jangl.Jangl;
 import jangl.coords.WorldCoords;
@@ -7,10 +7,10 @@ import jangl.graphics.font.Text;
 import jangl.graphics.font.TextBuilder;
 import jangl.io.Window;
 
-public class FontGuide {
+public class TextGuide {
     private final Text text;
 
-    public FontGuide() {
+    public TextGuide() {
         Font myFont = new Font(
                 "src/test/resources/guide/fontGuide/arial.fnt",
                 "src/test/resources/guide/fontGuide/arial.png"
@@ -41,7 +41,7 @@ public class FontGuide {
         Jangl.init(1600, 900);  // screen width in pixels, screen height in pixels
         Window.setVsync(true);
 
-        new FontGuide().run();  // run a new FontGuide
+        new TextGuide().run();  // run a new TextGuide
 
         Window.close();
     }
