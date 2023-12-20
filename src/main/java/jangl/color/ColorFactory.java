@@ -5,6 +5,16 @@ public class ColorFactory {
 
     }
 
+    public static final Color WHITE = fromNorm(1, 1, 1, 1);
+    public static final Color BLACK = fromNorm(0, 0, 0, 1);
+    public static final Color RED = fromNorm(1, 0, 0, 1);
+    public static final Color GREEN = fromNorm(0, 1, 0, 1);
+    public static final Color BLUE = fromNorm(0, 0, 1, 1);
+    public static final Color YELLOW = fromNorm(1, 1, 0, 1);
+    public static final Color CYAN = fromNorm(0, 1, 1, 1);
+    public static final Color MAGENTA = fromNorm(1, 0, 1, 1);
+    public static final Color TRANSPARENT = fromNorm(0, 0, 0, 0);
+
     /**
      * Takes in a set of RGBA values between 0 and 255, inclusive and creates a Jangl color.
      *
