@@ -239,7 +239,7 @@ public class Text implements AutoCloseable {
     /**
      * @throws NullPointerException If this.justification is null
      */
-    public Batch getBatch() throws NullPointerException {
+    private Batch getBatch() throws NullPointerException {
         int heightPixels = this.font.tallestLetter.height();
         float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
 
