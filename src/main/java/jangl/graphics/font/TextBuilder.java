@@ -12,8 +12,12 @@ public class TextBuilder {
     private float yCutoff;
 
     public TextBuilder(Font font, String text) {
+        this(font, text, WorldCoords.getMiddle());
+    }
+
+    public TextBuilder(Font font, String text, WorldCoords location) {
         this.text = text;
-        this.coords = WorldCoords.getMiddle();
+        this.coords = location;
         this.font = font;
         this.yHeight = 0.05f;
         this.justification = Justify.LEFT;
