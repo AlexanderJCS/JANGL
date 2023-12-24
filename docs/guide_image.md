@@ -8,7 +8,7 @@ The first step is to prepare an image to use for this guide. Common file formats
 
 If you do not want to create an image, you can use the one below:
 
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/c3ea4ebc-8fb9-4974-b033-de762ea1b337)
+![image](https://github.com/AlexanderJCS/Jangl/assets/98898166/c3ea4ebc-8fb9-4974-b033-de762ea1b337)
 
 ## Creating a base program
 
@@ -32,13 +32,13 @@ public class ImageGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
+            Jangl.update();
         }
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ImageGuide().run();
@@ -50,12 +50,15 @@ public class ImageGuide {
 
 ## Creating an image
 
-The `Image` record provides a wrapper for the combination of a `Texture` and `Rect` class. The `Texture` contains image information, while the `Rect` is what the image is displayed on. 
+The `Image` record provides a wrapper for the combination of a shape and up two classes that implement the Bindable interface. The bindables modify how the shape is displayed, by using shaders, displaying an image, etc.
 
-Below is the constructor for the `Image` record:
+Below are the constructors for the Image class:
 ```java
-public Image(Rect rect, Image image)
+public Image(Shape shape, Bindable bindable1)
+public Image(Shape shape, Bindable bindable1, Bindable bindable2)
 ```
+
+In this guide, we will only be using the first constructor.
 
 ### Creating a rectangle
 
@@ -63,13 +66,13 @@ The first item the `Image` record needs is a rectangle for the image to be displ
 
 If you do not understand the code below, it is recommended to read the [quickstart guide](/README.md#quickstart-guide) and the [rectangles section of the shape guide](guide_shapes.md#rectangles)
 
+Below we define our rectangle. This code creates a new rectangle whose top left coordinate is at (0.5, 0.5) and has a width of (0.3, 0.3). Since its width and height are the same, it is a perfect square.
+
 ```java
 new Rect(
         new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
 );
 ```
-
-This code creates a new rectangle whose top left coordinate is at (0.5, 0.5) and has a width of (0.3, 0.3). Since its width and height are the same, it is a perfect square.
 
 ### Creating a texture
 
@@ -83,18 +86,31 @@ To assign image data to a `TextureBuilder`, you can do:
 new TextureBuilder().setImagePath("path/to/your/image/image.png");
 ```
 
-You can also fill the texture with a solid color by doing:
+Alternatively, you can use a shortcut for this by writing:
+```java
+new TextureBuilder("/path/to/your/image/image.png");
+```
+
+You can also fill the texture with a solid color by writing:
 ```java
 new TextureBuilder().fill(color, width, height);
 ```
 
 Where `color` is a `jangl.color.Color` object, `width` is the width of the image in pixels, and `height` is the height of the image in pixels.
 
-Another important method in the `TextureBuilder` class is the `setObeyCamera(bool)` method. When the argument is true, the object will move according to the camera. By default, this is off.
+Another important method in the `TextureBuilder` class is the `setObeyCamera(bool)` method. When the argument is true, the object will move according to the camera. By default, the object obeys the camera. Sometimes it is useful for the object to not obey the camera when you want to display a UI element that should always remain on screen.
 
-Putting this together, we can create our texture by doing:
+Sometimes, with small textures (such as pixel art), the image can appear blurry. This is because the image has linear filter mode enabled. To disable linear filtering, you can write:
 ```java
-new Texture(new TextureBuilder().setImagePath("/path/to/your/image/image.png").setObeyCamera(true));
+new TextureBuilder("path/to/your/image/image.png")
+        .setPixelatedScaling(false)
+```
+
+Putting this together, we can create our texture by writing:
+```java
+new TextureBuilder("path/to/your/image/image.png")
+        .setObeyCamera(false)
+        .toTexture();
 ```
 
 ### Creating an image using the Rect and Texture
@@ -107,7 +123,9 @@ new Image(
     ),
         
     new Texture(
-        new TextureBuilder().setImagePath("src/guideCode/guideResources/imageGuide/image.png")
+        new TextureBuilder("path/to/your/image/image.png")
+        .setObeyCamera(false)
+        .toTexture()
     )
 );
 ```
@@ -129,13 +147,13 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image(
                 new Rect(
-                        new WorldCoords(0, 0),
-                        PixelCoords.distXtoNDC(300),
-                        PixelCoords.distToWorldCoords(300)
+                        new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
                 ),
 
                 new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
+                        new TextureBuilder("path/to/your/image/image.png")
+                                .setObeyCamera(false)
+                                .toTexture()
                 )
         );
     }
@@ -149,20 +167,13 @@ public class ImageGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
-
-            // Run the window at 60 fps
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            Jangl.update();
         }
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ImageGuide().run();
@@ -182,7 +193,6 @@ import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
 import jangl.io.Window;
 import jangl.shapes.Rect;
-import jangl.time.Clock;
 
 public class ImageGuide {
     private final Image image;
@@ -190,13 +200,13 @@ public class ImageGuide {
     public ImageGuide() {
         this.image = new Image(
                 new Rect(
-                        new WorldCoords(0, 0),
-                        PixelCoords.distXtoNDC(300),
-                        PixelCoords.distToWorldCoords(300)
+                        new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
                 ),
 
                 new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
+                        new TextureBuilder("path/to/your/image/image.png")
+                                .setObeyCamera(false)
+                                .toTexture()
                 )
         );
     }
@@ -213,20 +223,13 @@ public class ImageGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
-
-            // Run the window at 60 fps
-            try {
-                Clock.smartTick(60);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            Jangl.update();
         }
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ImageGuide().run();
@@ -238,95 +241,38 @@ public class ImageGuide {
 
 Congratulations! Now, we have an image rendered to our screen.
 
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/daeea9fd-9247-4de4-91b7-67297de0840a)
-
-### Closing the image
-
-Finally, we need to close the image properly in order to avoid a memory leak. To do so, we need to close the `Rect` and `Texture` classes within.
-
-This can be done by doing:
-```java
-image.rect().close();
-image.texture().close();
-```
-
-We can incorporate these two lines at the end of the `run` method:
-
-```java
-import jangl.Jangl;
-import jangl.coords.WorldCoords;
-import jangl.graphics.textures.Image;
-import jangl.graphics.textures.Texture;
-import jangl.graphics.textures.TextureBuilder;
-import jangl.io.Window;
-import jangl.shapes.Rect;
-
-public class ImageGuide {
-    private final Image image;
-
-    public ImageGuide() {
-        this.image = new Image(
-                new Rect(
-                        new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
-                ),
-
-                new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
-                )
-        );
-    }
-
-    public void draw() {
-        Window.clear();
-
-        // Draw the image
-        this.image.draw();
-    }
-
-    public void run() {
-        while (Window.shouldRun()) {
-            this.draw();
-
-            // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
-        }
-
-        this.image.rect().close();
-        this.image.texture().close();
-    }
-
-    public static void main(String[] args) {
-        // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
-        Window.setVsync(true);
-
-        new ImageGuide().run();
-
-        Window.close();
-    }
-}
-```
-
-Now we have an image being displayed on the screen.
-
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/0187e763-56df-4d8b-abf5-a474084ed8cd)
+![image](https://github.com/AlexanderJCS/Jangl/assets/98898166/daeea9fd-9247-4de4-91b7-67297de0840a)
 
 ## Repeating the Texture
 
-If you want to repeat the image on the rectangle, you can use the `rect.setTexRepeatX()` and `rect.setTexRepeatY()` methods.
+If you want to repeat the image on the rectangle, we first need to modify the wrap mode on the texture. We can achieve this by writing:
+```java
+import jangl.graphics.textures.TextureBuilder;
+import jangl.graphics.textures.WrapMode;
+
+new TextureBuilder("path/to/your/image/image.png")
+        .setWrapMode(WrapMode.REPEAT)
+        .toTexture()
+```
+
+We then need to modify the repeat values on the shape.
+```java
+shape.setTexRepeatX(2);
+shape.setTexRepeatY(2);
+```
 
 ```
 NOTICE: setTexRepeatX() and setTexRepeatY() do not work for the TileSheetRect class.
 ```
 
-We can set the repeat values so in the constructor.
+Incorporating this into the code, we get:
 
 ```java
 import jangl.Jangl;
 import jangl.coords.WorldCoords;
 import jangl.graphics.textures.Image;
-import jangl.graphics.textures.Texture;
 import jangl.graphics.textures.TextureBuilder;
+import jangl.graphics.textures.enums.WrapMode;
 import jangl.io.Window;
 import jangl.shapes.Rect;
 
@@ -339,13 +285,14 @@ public class ImageGuide {
                         new WorldCoords(0.5f, 0.5f), 0.3f, 0.3f
                 ),
 
-                new Texture(
-                        new TextureBuilder().setImagePath("/path/to/your/image/image.png")
-                )
+                new TextureBuilder("/path/to/your/image/image.png")
+                        .setImagePath("/path/to/your/image/image.png")
+                        .setWrapMode(WrapMode.REPEAT)
+                        .toTexture()
         );
-        
-        this.image.rect().setTexRepeatX(2);
-        this.image.rect().setTexRepeatY(2);
+
+        this.image.shape().setTexRepeatX(2);
+        this.image.shape().setTexRepeatY(2);
     }
 
     public void draw() {
@@ -360,16 +307,13 @@ public class ImageGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
+            Jangl.update();
         }
-
-        this.image.rect().close();
-        this.image.texture().close();
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ImageGuide().run();
@@ -379,5 +323,5 @@ public class ImageGuide {
 }
 ```
 
-That's it. Thank you for following this guide.
+Thank you for following this guide.
 
