@@ -274,4 +274,8 @@ public class TextureBuilder {
 
         return imageData;
     }
+
+    public Texture toTexture() {
+        return new Texture(this);
+    }
 }
