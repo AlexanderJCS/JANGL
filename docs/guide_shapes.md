@@ -1,6 +1,6 @@
 # Shapes
 
-There are a few types of shapes you can make using JANGL:
+There are a few types of shapes you can make using Jangl:
 - Rectangles
 - Circles
 - Triangles
@@ -14,8 +14,8 @@ It is also recommended to see the [quickstart guide](/README.md#quickstart-guide
 Before we start, we need to create a base program that will contain our shapes. This code is largely explained within the [quickstart guide](/README.md#quickstart-guide), and therefore will not be explained in great detail.
 
 ```java
-import jangl.Jangl;
-import jangl.io.Window;
+import Jangl.Jangl;
+import Jangl.io.Window;
 
 public class ShapeGuide {
     public ShapeGuide() {
@@ -31,13 +31,13 @@ public class ShapeGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
+            Jangl.update();
         }
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
         
         new ShapeGuide().run();
@@ -60,10 +60,10 @@ Now, let's add a `Rect` member variable to the program. In addition, we will run
 The rectangle will have a top left coordinate of (0.25, 0.75), a width of 0.6, and a height of 0.3.
 
 ```java
-import jangl.Jangl;
-import jangl.coords.WorldCoords;
-import jangl.io.Window;
-import jangl.shapes.Rect;
+import Jangl.Jangl;
+import Jangl.coords.WorldCoords;
+import Jangl.io.Window;
+import Jangl.shapes.Rect;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -83,13 +83,13 @@ public class ShapeGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
+            Jangl.update();
         }
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ShapeGuide().run();
@@ -100,9 +100,7 @@ public class ShapeGuide {
 
 As you can see, a rectangle is now being drawn to the screen.
 
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/ac367f38-0adc-4cfd-914b-a91d88846772)
-
-At the end of this tutorial, you will learn how to give all shapes, including this shape, color. If you want to give this rectangle a texture, you can also read the [image guide](guide_image.md).
+![image](https://github.com/AlexanderJCS/Jangl/assets/98898166/ac367f38-0adc-4cfd-914b-a91d88846772)
 
 ## Circles
 
@@ -120,11 +118,11 @@ Since circles are just approximations of an infinite-sided circle in computer gr
 Going back to the code, let's create a new `Circle` member variable, initialize it in the constructor, and draw it within the `draw` method. For this example, the center of the circle will be at (1.2f, 0.5) and the circle will have a radius of 0.15. It will also have 48 sides, which should be more than enough for any individual side to not be noticeable.
 
 ```java
-import jangl.Jangl;
-import jangl.coords.WorldCoords;
-import jangl.io.Window;
-import jangl.shapes.Circle;
-import jangl.shapes.Rect;
+import Jangl.Jangl;
+import Jangl.coords.WorldCoords;
+import Jangl.io.Window;
+import Jangl.shapes.Circle;
+import Jangl.shapes.Rect;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -147,13 +145,13 @@ public class ShapeGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
+            Jangl.update();
         }
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ShapeGuide().run();
@@ -164,10 +162,10 @@ public class ShapeGuide {
 
 You can now see the rectangle and circle are both being drawn to the screen.
 
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/af46df2c-f2fb-4672-aae4-15bd2b0a1d34)
+![image](https://github.com/AlexanderJCS/Jangl/assets/98898166/af46df2c-f2fb-4672-aae4-15bd2b0a1d34)
 
 ## Triangles
-The last shape that JANGL supports is a triangle. Out of all the shapes, the triangle constructor is the simplest and goes as follows:
+The last shape that Jangl supports is a triangle. Out of all the shapes, the triangle constructor is the simplest and goes as follows:
 ```java
 public Triangle(WorldCoords point1, WorldCoords point2, WorldCoords point3)
 ```
@@ -177,12 +175,12 @@ Points 1, 2, and 3 can go in any order: the triangle will still draw the same.
 Incorporating this into the code, we can make a right triangle by setting the bottom left vertex to (0.1, 0.1), the rightmost vertex to (0.1, 0.4), and the topmost vertex to (0.4, 0.1).
 
 ```java
-import jangl.Jangl;
-import jangl.coords.WorldCoords;
-import jangl.io.Window;
-import jangl.shapes.Circle;
-import jangl.shapes.Rect;
-import jangl.shapes.Triangle;
+import Jangl.Jangl;
+import Jangl.coords.WorldCoords;
+import Jangl.io.Window;
+import Jangl.shapes.Circle;
+import Jangl.shapes.Rect;
+import Jangl.shapes.Triangle;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -212,13 +210,13 @@ public class ShapeGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
+            Jangl.update();
         }
     }
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ShapeGuide().run();
@@ -229,19 +227,19 @@ public class ShapeGuide {
 
 Now, the triangle is being drawn to the screen. Thank you for following this guide.
 
-![image](https://github.com/AlexanderJCS/JANGL/assets/98898166/764a4dc1-0d60-469c-a6ea-9013fcfd21d3)
+![image](https://github.com/AlexanderJCS/Jangl/assets/98898166/764a4dc1-0d60-469c-a6ea-9013fcfd21d3)
 
 ## Freeing Memory
 
-When you are done with the shape, it is important to `.close()` it to prevent a memory leak.
+Memory of shape objects are automatically freed when the garbage collector runs. However, automatically freeing memory may be slow if you are creating and deleting shapes rapidly. Therefore, it is recommended to manually free memory by calling the `Shape.close()` method. This method will free the memory of the shape and will no longer be drawn to the screen.
 
 ```java
-import jangl.Jangl;
-import jangl.coords.WorldCoords;
-import jangl.io.Window;
-import jangl.shapes.Circle;
-import jangl.shapes.Rect;
-import jangl.shapes.Triangle;
+import Jangl.Jangl;
+import Jangl.coords.WorldCoords;
+import Jangl.io.Window;
+import Jangl.shapes.Circle;
+import Jangl.shapes.Rect;
+import Jangl.shapes.Triangle;
 
 public class ShapeGuide {
     private final Rect rect;
@@ -271,7 +269,7 @@ public class ShapeGuide {
             this.draw();
 
             // This is method is required to be called so the window doesn't say "not responding"
-            JANGL.update();
+            Jangl.update();
         }
 
         this.rect.close();
@@ -281,7 +279,7 @@ public class ShapeGuide {
 
     public static void main(String[] args) {
         // Initialize the window with the width of 1600 pixels and the height of 900 pixels
-        JANGL.init(1600, 900);
+        Jangl.init(1600, 900);
         Window.setVsync(true);
 
         new ShapeGuide().run();
@@ -292,7 +290,7 @@ public class ShapeGuide {
 
 ## Moving Shapes
 
-Remember that you can always move and rotate shapes by calling methods within the Shape transform like so:
+Remember that you can always move and rotate shapes by calling methods within the Shape transform. You can access the Shape transform by doing the following:
 ```java
 myShape.getTransform()
 ```
