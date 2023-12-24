@@ -40,6 +40,16 @@ public class TextureBuilder {
         this.setWrapMode(WrapMode.MIRRORED_REPEAT);
     }
 
+    /**
+     * Creates a texture builder with a filepath to a png.
+     * @param filepath The filepath to the png.
+     */
+    public TextureBuilder(String filepath) {
+        this();
+
+        this.setImagePath(filepath);
+    }
+
     public FilterMode getFilterMode() {
         return this.filterMode;
     }
