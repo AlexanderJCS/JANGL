@@ -14,8 +14,6 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.ByteBuffer;
 
-import static org.lwjgl.opengl.GL41.*;
-
 public class TextureBuilder {
     private FilterMode filterMode;
     private int x;
