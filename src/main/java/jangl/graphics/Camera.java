@@ -3,6 +3,7 @@ package jangl.graphics;
 import jangl.coords.WorldCoords;
 import jangl.graphics.shaders.UBO;
 import jangl.io.Window;
+import jangl.util.ArrayUtils;
 import org.joml.*;
 
 import static org.lwjgl.opengl.GL41.*;
@@ -30,23 +31,16 @@ public class Camera {
         Matrix4f projectionMatrix = new Matrix4f().ortho2D(0, (float) Window.getScreenWidth() / Window.getScreenHeight(), 0, 1);
 
         float[] combinedMatrix = new float[32];
-        System.arraycopy(matrixToArray(cameraMatrix), 0, combinedMatrix, 0, 16);
-        System.arraycopy(matrixToArray(projectionMatrix), 0, combinedMatrix, 16, 16);
+        System.arraycopy(ArrayUtils.matrixToArray(cameraMatrix), 0, combinedMatrix, 0, 16);
+        System.arraycopy(ArrayUtils.matrixToArray(projectionMatrix), 0, combinedMatrix, 16, 16);
         ubo = new UBO(combinedMatrix, BINDING_POINT);
 
         initialized = true;
     }
 
-    private static float[] matrixToArray(Matrix4f matrix) {
-        float[] array = new float[16];
-        matrix.get(array);
-
-        return array;
-    }
-
     private static void resetCameraMatrixUBO() {
         ubo.bind();
-        glBufferSubData(GL_UNIFORM_BUFFER, 0, matrixToArray(cameraMatrix));
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, ArrayUtils.matrixToArray(cameraMatrix));
         ubo.bind();
     }
 

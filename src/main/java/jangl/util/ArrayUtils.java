@@ -1,5 +1,6 @@
 package jangl.util;
 
+import org.joml.Matrix4f;
 import org.joml.Vector2f;
 
 public class ArrayUtils {
@@ -130,5 +131,17 @@ public class ArrayUtils {
         }
 
         return bytes;
+    }
+
+    /**
+     * Converts a 4x4 float matrix to a float array.
+     * @param matrix The matrix to convert
+     * @return The float array
+     */
+    public static float[] matrixToArray(Matrix4f matrix) {
+        float[] array = new float[16];
+        matrix.get(array);
+
+        return array;
     }
 }
