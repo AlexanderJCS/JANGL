@@ -126,8 +126,7 @@ public class Transform {
      * @param radians The amount of radians to be rotated.
      */
     public void setRotation(float radians) {
-        float delta = radians - this.rotation;
-        this.rotate(delta);
+        this.rotation = radians;
     }
 
     /**
