@@ -40,7 +40,7 @@ public class Transform {
      */
     public void setWidth(float desiredWidth, float unscaledWidth) {
         float xScale = desiredWidth / unscaledWidth;
-        this.setScale(xScale);
+        this.setScaleX(xScale);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Transform {
      */
     public void setHeight(float desiredHeight, float unscaledHeight) {
         float yScale = desiredHeight / unscaledHeight;
-        this.setScale(yScale);
+        this.setScaleY(yScale);
     }
 
     /**
