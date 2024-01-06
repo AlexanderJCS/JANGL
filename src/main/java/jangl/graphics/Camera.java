@@ -44,6 +44,23 @@ public class Camera {
         initialized = true;
     }
 
+    public boolean getInit() {
+        return initialized;
+    }
+
+    /**
+     * Updates the projection matrix if the screen size has changed, as to not distort the image.
+     */
+    public static void update() {
+        if (WorldCoords.getTopRight().x == projMatrixRight) {
+            return;
+        }
+
+        Matrix4f projectionMatrix = genProjMatrix();
+        resetProjMatrixUBO(projectionMatrix);
+        projMatrixRight = WorldCoords.getTopRight().x;
+    }
+
     private static void resetCameraMatrixUBO() {
         ubo.bind();
         glBufferSubData(GL_UNIFORM_BUFFER, 0, ArrayUtils.matrixToArray(cameraMatrix));
@@ -54,7 +71,7 @@ public class Camera {
         return new Matrix4f().ortho2D(0, (float) Window.getScreenWidth() / Window.getScreenHeight(), 0, 1);
     }
 
-    private static void resetProjectionMatrixUBO(Matrix4f projectionMatrix) {
+    private static void resetProjMatrixUBO(Matrix4f projectionMatrix) {
         ubo.bind();
         glBufferSubData(GL_UNIFORM_BUFFER, 16 * Float.BYTES, ArrayUtils.matrixToArray(projectionMatrix));
         ubo.unbind();
@@ -146,22 +163,5 @@ public class Camera {
      */
     public static float getZoom() {
         return zoom;
-    }
-
-    public boolean getInit() {
-        return initialized;
-    }
-
-    /**
-     * Updates the projection matrix if the screen size has changed, as to not distort the image.
-     */
-    public static void update() {
-        if (WorldCoords.getTopRight().x == projMatrixRight) {
-            return;
-        }
-
-        Matrix4f projectionMatrix = genProjMatrix();
-        resetProjectionMatrixUBO(projectionMatrix);
-        projMatrixRight = WorldCoords.getTopRight().x;
     }
 }
