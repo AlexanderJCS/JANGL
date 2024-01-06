@@ -3,6 +3,7 @@ package jangl.io;
 import jangl.color.Color;
 import jangl.graphics.textures.TextureBuilder;
 import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.GLFWWindowSizeCallbackI;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -62,8 +63,6 @@ public class Window {
         glfwIsInitialized = true;
         initialized = true;
 
-        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
         // Jangl supports OpenGL v4.1
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
@@ -87,7 +86,10 @@ public class Window {
         Window.screenWidth = width[0];
         Window.screenHeight = height[0];
 
+        Window.setResizable(false);
         Window.setVsync(false);
+
+        glfwSetWindowSizeCallback(window, new WindowResizeCallback());
     }
 
     /**
@@ -114,6 +116,10 @@ public class Window {
         }
 
         return mode.width();
+    }
+
+    public static void setResizable(boolean resizable) {
+        glfwSetWindowAttrib(window, GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE);
     }
 
     public static int getScreenWidth() {
@@ -194,5 +200,14 @@ public class Window {
         currentCursor = glfwCreateCursor(builder.toGLFWImage(), 0, 0);
 
         glfwSetCursor(Window.getWindow(), currentCursor);
+    }
+
+    private static class WindowResizeCallback implements GLFWWindowSizeCallbackI {
+        @Override
+        public void invoke(long window, int width, int height) {
+            Window.screenWidth = width;
+            Window.screenHeight = height;
+            glViewport(0, 0, width, height);
+        }
     }
 }

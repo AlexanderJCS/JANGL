@@ -68,5 +68,6 @@ public class Jangl {
 
         ResourceManager.freeResources();
         Clock.update();
+        Camera.update();
     }
 }

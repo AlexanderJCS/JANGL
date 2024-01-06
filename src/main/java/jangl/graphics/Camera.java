@@ -12,6 +12,11 @@ public class Camera {
     public static final String UBO_CODE = "layout(std140) uniform Matrices {mat4 cameraMatrix;mat4 projectionMatrix;};";
     public static final int BINDING_POINT = UBO.getMaxBindingPoint();
     private static Matrix4f cameraMatrix;
+
+    /**
+     * The rightmost coordinate of the camera view. Used to check if the projection matrix needs to be updated.
+     */
+    private static float projMatrixRight;
     private static UBO ubo;
     private static float zoom = 1;
 
@@ -28,7 +33,8 @@ public class Camera {
 
         // Create the uniform buffer object
         cameraMatrix = new Matrix4f().identity();
-        Matrix4f projectionMatrix = new Matrix4f().ortho2D(0, (float) Window.getScreenWidth() / Window.getScreenHeight(), 0, 1);
+        Matrix4f projectionMatrix = genProjMatrix();
+        projMatrixRight = WorldCoords.getTopRight().x;
 
         float[] combinedMatrix = new float[32];
         System.arraycopy(ArrayUtils.matrixToArray(cameraMatrix), 0, combinedMatrix, 0, 16);
@@ -41,7 +47,17 @@ public class Camera {
     private static void resetCameraMatrixUBO() {
         ubo.bind();
         glBufferSubData(GL_UNIFORM_BUFFER, 0, ArrayUtils.matrixToArray(cameraMatrix));
+        ubo.unbind();
+    }
+
+    private static Matrix4f genProjMatrix() {
+        return new Matrix4f().ortho2D(0, (float) Window.getScreenWidth() / Window.getScreenHeight(), 0, 1);
+    }
+
+    private static void resetProjectionMatrixUBO(Matrix4f projectionMatrix) {
         ubo.bind();
+        glBufferSubData(GL_UNIFORM_BUFFER, 16 * Float.BYTES, ArrayUtils.matrixToArray(projectionMatrix));
+        ubo.unbind();
     }
 
     public static UBO getUbo() {
@@ -134,5 +150,18 @@ public class Camera {
 
     public boolean getInit() {
         return initialized;
+    }
+
+    /**
+     * Updates the projection matrix if the screen size has changed, as to not distort the image.
+     */
+    public static void update() {
+        if (WorldCoords.getTopRight().x == projMatrixRight) {
+            return;
+        }
+
+        Matrix4f projectionMatrix = genProjMatrix();
+        resetProjectionMatrixUBO(projectionMatrix);
+        projMatrixRight = WorldCoords.getTopRight().x;
     }
 }
