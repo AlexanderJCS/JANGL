@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "io.github.alexanderjcs"
-version = "6.1.0"
+version = "6.1.1"
 
 repositories {
     mavenCentral()
