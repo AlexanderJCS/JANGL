@@ -239,7 +239,9 @@ public abstract class Shape implements AutoCloseable {
     protected boolean shouldDraw() {
         // Adjust for the edge case if the shape doesn't obey the camera
         WorldCoords center;
-        if (ShaderProgram.getBoundProgram().getVertexShader().isObeyingCamera()) {
+
+        boolean obeysCamera = ShaderProgram.getBoundProgram().getVertexShader().isObeyingCamera();
+        if (obeysCamera) {
             center = Camera.getCenter();
         } else {
             center = WorldCoords.getMiddle();
@@ -258,7 +260,9 @@ public abstract class Shape implements AutoCloseable {
         float windowRadius = (float) Math.sqrt(Math.pow(middle.x, 2) + Math.pow(middle.y, 2));
 
         // Adjust for camera zoom
-        windowRadius /= Camera.getZoom();
+        if (obeysCamera) {
+            windowRadius /= Camera.getZoom();
+        }
 
         return collides(center, windowRadius, this.getTransform().getCenter(), radius);
     }
