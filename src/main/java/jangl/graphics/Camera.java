@@ -11,14 +11,15 @@ import static org.lwjgl.opengl.GL41.*;
 public class Camera {
     public static final String UBO_CODE = "layout(std140) uniform Matrices {mat4 cameraMatrix;mat4 projectionMatrix;};";
     public static final int BINDING_POINT = UBO.getMaxBindingPoint();
-    private static Matrix4f cameraMatrix;
+    private static WorldCoords cameraPos;
+    private static float rotation;
+    private static float zoom;
 
     /**
      * The rightmost coordinate of the camera view. Used to check if the projection matrix needs to be updated.
      */
     private static float projMatrixRight;
     private static UBO ubo;
-    private static float zoom = 1;
 
     private static boolean initialized = false;
 
@@ -31,11 +32,19 @@ public class Camera {
             return;
         }
 
-        // Create the uniform buffer object
-        cameraMatrix = new Matrix4f().identity();
-        Matrix4f projectionMatrix = genProjMatrix();
+        // Define camera-related values
+        cameraPos = new WorldCoords(0, 0);
+        rotation = 0;
+        zoom = 1;
+
+        // Define some projection matrix thingies
         projMatrixRight = WorldCoords.getTopRight().x;
 
+        // Create the matrices
+        Matrix4f cameraMatrix = genCameraMatrix();
+        Matrix4f projectionMatrix = genProjMatrix();
+
+        // Create the UBO
         float[] combinedMatrix = new float[32];
         System.arraycopy(ArrayUtils.matrixToArray(cameraMatrix), 0, combinedMatrix, 0, 16);
         System.arraycopy(ArrayUtils.matrixToArray(projectionMatrix), 0, combinedMatrix, 16, 16);
@@ -49,7 +58,7 @@ public class Camera {
     }
 
     /**
-     * Updates the projection matrix if the screen size has changed, as to not distort the image.
+     * Updates the projection matrix if the screen size has changed, to not distort the image.
      */
     public static void update() {
         if (WorldCoords.getTopRight().x == projMatrixRight) {
@@ -61,16 +70,47 @@ public class Camera {
         projMatrixRight = WorldCoords.getTopRight().x;
     }
 
-    private static void resetCameraMatrixUBO() {
+    /**
+     * Generates the camera matrix based on the cameraPos, rotation, and zoom static variables.
+     * @return The camera matrix.
+     */
+    private static Matrix4f genCameraMatrix() {
+        return new Matrix4f().identity()
+                .translate(new Vector3f(cameraPos.toVector2f(), 0).mul(-1).mul(zoom, zoom, 1))
+                // Translate to the center of the screen, zoom, then translate back, so the zoom is centered on the screen
+                .translate(new Vector3f(WorldCoords.getMiddle().toVector2f(), 0))
+                .scale(zoom, zoom, 1)
+                .translate(new Vector3f(WorldCoords.getMiddle().toVector2f(), 0).mul(-1))
+                .rotateAround(new Quaternionf().rotateZ(rotation), Camera.getCenter().x, Camera.getCenter().y, 0);
+    }
+
+    /**
+     * Resets the camera matrix data in the UBO.
+     * @param cameraMatrix The new camera matrix.
+     */
+    private static void resetCameraMatrixUBO(Matrix4f cameraMatrix) {
         ubo.bind();
         glBufferSubData(GL_UNIFORM_BUFFER, 0, ArrayUtils.matrixToArray(cameraMatrix));
         ubo.unbind();
     }
 
+    /**
+     * Generates the projection matrix based on the screen aspect ratio.
+     * @return The projection matrix.
+     */
     private static Matrix4f genProjMatrix() {
-        return new Matrix4f().ortho2D(0, (float) Window.getScreenWidth() / Window.getScreenHeight(), 0, 1);
+        return new Matrix4f().ortho2D(
+                // Left and right
+                0, (float) Window.getScreenWidth() / Window.getScreenHeight(),
+                // Bottom and top
+                0, 1
+        );
     }
 
+    /**
+     * Resets the projection matrix data in the UBO.
+     * @param projectionMatrix The new projection matrix.
+     */
     private static void resetProjMatrixUBO(Matrix4f projectionMatrix) {
         ubo.bind();
         glBufferSubData(GL_UNIFORM_BUFFER, 16 * Float.BYTES, ArrayUtils.matrixToArray(projectionMatrix));
@@ -87,50 +127,53 @@ public class Camera {
      * @param bottomLeft The bottom left coordinate of the camera view.
      */
     public static void setCameraPos(WorldCoords bottomLeft) {
-        cameraMatrix.setTranslation(new Vector3f(bottomLeft.toVector2f(), 0).mul(-1));
-        resetCameraMatrixUBO();
+        cameraPos = new WorldCoords(bottomLeft);
+
+        resetCameraMatrixUBO(genCameraMatrix());
     }
 
     /**
      * @return The bottom left coordinate of the camera view if the camera were not rotated.
      */
     public static WorldCoords getCameraPos() {
-        Vector3f transform = new Vector3f();
-        cameraMatrix.getTranslation(transform);
+        return new WorldCoords(cameraPos.x, cameraPos.y);
+    }
 
-        return new WorldCoords(-1 * transform.x, -1 * transform.y);
+    /**
+     * Sets the center coordinate of the camera view. Set to WorldCoords.getMiddle() by default.
+     * @param center The center coordinate of the camera's view.
+     */
+    public static void setCenter(WorldCoords center) {
+        WorldCoords screenCenter = WorldCoords.getMiddle();
+        setCameraPos(new WorldCoords(center.x - screenCenter.x, center.y - screenCenter.y));
+
+        resetCameraMatrixUBO(genCameraMatrix());
     }
 
     /**
      * @return The center coordinate of the camera view
      */
     public static WorldCoords getCenter() {
-        WorldCoords screenMiddle = WorldCoords.getMiddle();
-        WorldCoords cameraPos = getCameraPos();
-
-        return new WorldCoords(cameraPos.x + screenMiddle.x, cameraPos.y + screenMiddle.y);
+        return new WorldCoords(
+                getCameraPos().x + WorldCoords.getMiddle().x,
+                getCameraPos().y + WorldCoords.getMiddle().y
+        );
     }
 
-    public static void setCenter(WorldCoords center) {
-        WorldCoords screenCenter = WorldCoords.getMiddle();
-        setCameraPos(new WorldCoords(center.x - screenCenter.x, center.y - screenCenter.y));
-    }
-
+    /**
+     * @return The rotation angle in radians
+     */
     public static float getRotation() {
-        // Extract the rotation from the camera matrix
-        AxisAngle4f rotationVec = new AxisAngle4f();
-        cameraMatrix.getRotation(rotationVec);
-
-        return rotationVec.angle;
+        return rotation;
     }
 
     /**
      * Set the rotation to a certain amount.
-     * @param radians The amount, in radians, to set the rotation to.
+     * @param radians The angle, in radians, to set the rotation to.
      */
     public static void setRotation(float radians) {
-        float delta = radians - getRotation();
-        rotate(delta);
+        rotation = radians;
+        resetCameraMatrixUBO(genCameraMatrix());
     }
 
     /**
@@ -138,9 +181,8 @@ public class Camera {
      * @param radians The delta to rotate counterclockwise by.
      */
     public static void rotate(float radians) {
-        cameraMatrix.rotateAround(new Quaternionf().rotateZ(radians), Camera.getCenter().x, Camera.getCenter().y, 0);
-
-        resetCameraMatrixUBO();
+        rotation += radians;
+        resetCameraMatrixUBO(genCameraMatrix());
     }
 
     /**
@@ -148,13 +190,8 @@ public class Camera {
      * @param newZoom The new zoom.
      */
     public static void setZoom(float newZoom) {
-        float delta = newZoom / getZoom();
         zoom = newZoom;
-
-        WorldCoords center = getCenter();
-
-        cameraMatrix.scaleAroundLocal(delta, center.x, center.y, 0);
-        resetCameraMatrixUBO();
+        resetCameraMatrixUBO(genCameraMatrix());
     }
 
     /**
