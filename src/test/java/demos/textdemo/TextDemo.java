@@ -25,7 +25,7 @@ public class TextDemo {
 
         this.leftJustify = new TextBuilder(arial, "abcdefghijklmnopqrstuvwxyz\n0123456789\t<- tab")
                 .setCoords(new WorldCoords(0.3f, 0.7f))
-                .setYHeight(0.05f)  // 0.05f is the default value, so this isn't technically needed. it's only here to showcase
+                .setHeight(0.05f)  // 0.05f is the default value, so this isn't technically needed. it's only here to showcase
                 .toText();
 
         this.rightJustify = new TextBuilder(arial, "Right Justification!")

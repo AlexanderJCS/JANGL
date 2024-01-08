@@ -26,7 +26,7 @@ public class SoundDemo {
 
         this.instructions = new TextBuilder(font, "Controls:\nSpace: Play\nP: Pause\nS: Stop\nR: Rewind\nW: Pitch and speed up\nQ: Pitch and speed down")
                 .setCoords(new WorldCoords(0.1f, 0.9f))
-                .setYHeight(0.07f)
+                .setHeight(0.07f)
                 .toText();
     }
 

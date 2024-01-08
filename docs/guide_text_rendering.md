@@ -144,7 +144,7 @@ public class TextGuide {
 We can also customize the text. Here, we change the text in the following ways:
 - We make the text red by calling `text.setColor(Color.RED)`
 - We make the text center-justified by calling `builder.setJustification(Justify.CENTER)` (now the text is centered around the x coordinate we passed into the `TextBuilder` constructor)
-- We make the text 0.1 world coords tall by calling `builder.setYHeight(0.1f)`
+- We make the text 0.1 world coords tall by calling `builder.setHeight(0.1f)`
 - We make the text wrap at 0.4 world coords wide by calling `builder.setWrapWidth(0.4f)`
 - We make the text cut off at 0.2 world coords tall by calling `builder.setYCutoff(0.2f)`
 
@@ -171,7 +171,7 @@ public class TextGuide {
 
         this.text = new TextBuilder(myFont, "Hello World", WorldCoords.getMiddle())
                 .setJustification(Justify.CENTER)  // sets the justification of the text
-                .setYHeight(0.1f)  // sets the height of the text in world coords, essentially the font size
+                .setHeight(0.1f)  // sets the height of the text in world coords, essentially the font size
                 .setWrapWidth(0.4f)  // sets the width at which the text will wrap (this text cannot be more than 0.4 world coords wide)
                 .setYCutoff(0.2f)  // sets the height at which the text will be cut off (this text cannot be more than 0.2 world coords tall)
                 .toText();  // builds the text object

@@ -15,14 +15,14 @@ public class Text implements AutoCloseable {
     private String text;
     private WorldCoords coords;
     private Font font;
-    private float yHeight;
+    private float height;
     private Justify justification;
     private float yCutoff;
     private float wrapWidth;
 
     public Text(TextBuilder builder) throws IllegalArgumentException {
-        if (builder.getYCutoff() != -1 && builder.getYCutoff() < builder.getYHeight()) {
-            throw new IllegalArgumentException("The yCutoff must be greater than the yHeight!");
+        if (builder.getYCutoff() != -1 && builder.getYCutoff() < builder.getHeight()) {
+            throw new IllegalArgumentException("The yCutoff must be greater than the height!");
         }
 
         this.wrapWidth = builder.getWrapWidth();
@@ -31,7 +31,7 @@ public class Text implements AutoCloseable {
 
 
         this.coords = builder.getCoords();
-        this.yHeight = builder.getYHeight();
+        this.height = builder.getHeight();
         this.font = builder.getFont();
         this.text = this.processText(builder.getText());
         this.justification = builder.getJustification();
@@ -50,7 +50,7 @@ public class Text implements AutoCloseable {
         float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
 
         // desired height = current height * scale. Solving for scale: scale = desired height / current height
-        float scaleFactor = this.yHeight / heightWorldCoords;
+        float scaleFactor = this.height / heightWorldCoords;
 
         WorldCoords cursor = new WorldCoords(0, 0);
         for (int i = 0; i < text.length(); i++) {
@@ -64,7 +64,7 @@ public class Text implements AutoCloseable {
             // Check if a newline is manually given
             if (ch == '\n') {
                 cursor.x = 0;
-                cursor.y += this.yHeight * NEWLINE_SPACING;
+                cursor.y += this.height * NEWLINE_SPACING;
                 builder.append(ch);
                 continue;
             }
@@ -84,7 +84,7 @@ public class Text implements AutoCloseable {
                 builder.append('\n');
 
                 cursor.x = 0;
-                cursor.y += this.yHeight * NEWLINE_SPACING;
+                cursor.y += this.height * NEWLINE_SPACING;
 
                 i--;  // go back 1 character so this current character can be processed again
                 continue;
@@ -244,7 +244,7 @@ public class Text implements AutoCloseable {
         float heightWorldCoords = PixelCoords.distToWorldCoords(heightPixels);
 
         // desired height = current height * scale. Solving for scale: scale = desired height / current height
-        float scaleFactor = this.yHeight / heightWorldCoords;
+        float scaleFactor = this.height / heightWorldCoords;
 
         // The cursor is where the next char should be drawn
         PixelCoords cursor = this.coords.toPixelCoords();
@@ -256,7 +256,7 @@ public class Text implements AutoCloseable {
 
             // Reset cursor position
             cursor.x = this.coords.toPixelCoords().x;
-            cursor.y -= WorldCoords.distToPixelCoords(this.yHeight) * NEWLINE_SPACING;
+            cursor.y -= WorldCoords.distToPixelCoords(this.height) * NEWLINE_SPACING;
         }
 
         return new Batch(builder);
@@ -328,15 +328,39 @@ public class Text implements AutoCloseable {
     }
 
     /**
-     * @return The y height, in world coords, of the tallest letter in the font.
-     * Other letters are proportional.
+     * @deprecated Use {@link #getHeight()} instead.
+     * @return The y height, in world coords, of the tallest letter in the font. Other letters are proportional.
      */
+    @Deprecated
     public float getYHeight() {
-        return yHeight;
+        return height;
     }
 
+    /**
+     * @return The height of a line of text
+     */
+    public float getHeight() {
+        return this.height;
+    }
+
+    /**
+     * Sets the height of a line of text, in WorldCoords. 0.05 by default.
+     *
+     * @deprecated Use {@link #setHeight(float)} instead.
+     * @param newYHeight The new height of a line of text, in WorldCoords.
+     */
     public void setYHeight(float newYHeight) {
-        this.yHeight = newYHeight;
+        this.height = newYHeight;
+        this.regenerate();
+    }
+
+    /**
+     * Sets the height of a line of text, in WorldCoords. 0.05 by default.
+     *
+     * @param height The height of the text line
+     */
+    public void setHeight(float height) {
+        this.height = height;
         this.regenerate();
     }
 

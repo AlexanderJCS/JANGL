@@ -6,7 +6,7 @@ public class TextBuilder {
     private String text;
     private WorldCoords coords;
     private Font font;
-    private float yHeight;
+    private float height;
     private Justify justification;
     private float wrapWidth;
     private float yCutoff;
@@ -19,7 +19,7 @@ public class TextBuilder {
         this.text = text;
         this.coords = location;
         this.font = font;
-        this.yHeight = 0.05f;
+        this.height = 0.05f;
         this.justification = Justify.LEFT;
 
         this.wrapWidth = -1;
@@ -106,16 +106,41 @@ public class TextBuilder {
 
     /**
      * Sets the Y height of each line of text, in WorldCoords. 0.05 by default.
+     *
+     * @deprecated Use {@link #setHeight(float)} instead.
      * @param yHeight The Y height of each line of text, in WorldCoords.
      * @return this
      */
+    @Deprecated
     public TextBuilder setYHeight(float yHeight) {
-        this.yHeight = yHeight;
+        this.height = yHeight;
         return this;
     }
 
+    /**
+     * Sets the height of a single line of text, in WorldCoords. 0.05 by default.
+     *
+     * @param height The height of the text line
+     * @return this
+     */
+    public TextBuilder setHeight(float height) {
+        this.height = height;
+        return this;
+    }
+
+    /**
+     * @deprecated Use {@link #getHeight()} instead.
+     */
+    @Deprecated
     public float getYHeight() {
-        return this.yHeight;
+        return this.height;
+    }
+
+    /**
+     * @return The height of a line of text
+     */
+    public float getHeight() {
+        return this.height;
     }
 
     /**

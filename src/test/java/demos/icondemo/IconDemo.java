@@ -25,7 +25,6 @@ public class IconDemo implements AutoCloseable {
         );
 
         this.text = new TextBuilder(arial,"Notice how the cursor and the window icon changed.\nThe window icon does not change on macOS.")
-                .setYHeight(0.05f)
                 .setJustification(Justify.CENTER)
                 .toText();
 
