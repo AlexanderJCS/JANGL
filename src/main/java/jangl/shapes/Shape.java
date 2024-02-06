@@ -204,7 +204,8 @@ public abstract class Shape implements AutoCloseable {
 
     /**
      * Checks collision between a circle and a point. Note that if the circle is transformed into an ellipse, this
-     * method will not work. Instead, cast the ellipse to a shape and use the Shape.collides(Shape, WorldCoords).
+     * method will not work: it will assume the radius of the circle is the x-axis's radius.
+     * Instead, cast the ellipse to a shape and use the Shape.collides(Shape, WorldCoords).
      *
      * @param circle The circle.
      * @param point The point to check collision with.
@@ -213,10 +214,10 @@ public abstract class Shape implements AutoCloseable {
     public static boolean collides(Circle circle, WorldCoords point) {
         WorldCoords circleCenter = circle.getTransform().getCenter();
 
-        double radiusPixelsSquared = Math.pow(WorldCoords.distToPixelCoords(circle.getRadius()), 2);
+        double radiusSquared = Math.pow(circle.getRadius() * circle.getTransform().getScaleX(), 2);
         double distSquared = Math.pow(circleCenter.x - point.x, 2) + Math.pow(circleCenter.y - point.y, 2);
 
-        return distSquared <= radiusPixelsSquared;
+        return distSquared <= radiusSquared;
     }
 
     /**
