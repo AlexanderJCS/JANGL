@@ -349,6 +349,7 @@ public class Text implements AutoCloseable {
      * @deprecated Use {@link #setHeight(float)} instead.
      * @param newYHeight The new height of a line of text, in WorldCoords.
      */
+    @Deprecated
     public void setYHeight(float newYHeight) {
         this.height = newYHeight;
         this.regenerate();
