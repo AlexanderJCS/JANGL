@@ -58,6 +58,21 @@ public class Camera {
     }
 
     /**
+     * Adjusts the given world coordinates to be adjusted for the camera. E.g., if the camera's top right is at (2, 2),
+     * but WorldCoords.getTopRight() is at (1, 1), then the given world coordinates will be adjusted to be at (2, 2).
+     *
+     * @param worldCoords The world coordinates to adjust. This method does not mutate this variable.
+     * @return The adjusted world coordinates.
+     */
+    public static WorldCoords adjustForCamera(WorldCoords worldCoords) {
+        Vector4f worldCoordsVec = new Vector4f(worldCoords.x, worldCoords.y, 0, 1);
+        Matrix4f cameraMatrix = genCameraMatrix();
+        worldCoordsVec.mul(cameraMatrix);
+
+        return new WorldCoords(worldCoordsVec.x, worldCoordsVec.y);
+    }
+
+    /**
      * Updates the projection matrix if the screen size has changed, to not distort the image.
      */
     public static void update() {
