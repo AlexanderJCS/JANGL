@@ -2,6 +2,7 @@ package jangl.io.mouse;
 
 import jangl.coords.PixelCoords;
 import jangl.coords.WorldCoords;
+import jangl.graphics.Camera;
 import jangl.io.EventsConfig;
 import jangl.io.Window;
 import org.lwjgl.BufferUtils;
@@ -48,6 +49,15 @@ public class Mouse {
         double y = MOUSE_POS_BUFFER_Y.get(0);
 
         return new PixelCoords((float) x, (float) (Window.getScreenHeight() - y)).toWorldCoords();
+    }
+
+    /**
+     * Adjusts the mouse position for the camera.
+     * @return The mouse position in the units of WorldCoords, adjusted for the camera.
+     */
+    public static WorldCoords getMousePosAdjusted() {
+        WorldCoords mousePos = getMousePos();
+        return Camera.adjustForCamera(mousePos);
     }
 
     /**
