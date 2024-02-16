@@ -3,7 +3,6 @@ package demos.shapedemo;
 import jangl.Jangl;
 import jangl.color.ColorFactory;
 import jangl.coords.WorldCoords;
-import jangl.graphics.Camera;
 import jangl.io.Window;
 import jangl.io.mouse.Mouse;
 import jangl.shapes.Circle;
