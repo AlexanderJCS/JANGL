@@ -67,9 +67,12 @@ public class Camera {
     public static WorldCoords adjustForCamera(WorldCoords worldCoords) {
         Vector4f worldCoordsVec = new Vector4f(worldCoords.x, worldCoords.y, 0, 1);
         Matrix4f cameraMatrix = genCameraMatrix();
-        worldCoordsVec.mul(cameraMatrix);
+        worldCoordsVec.mulTranspose(cameraMatrix.invert());
 
-        return new WorldCoords(worldCoordsVec.x, worldCoordsVec.y);
+        WorldCoords pos = new WorldCoords(worldCoordsVec.x, worldCoordsVec.y);
+        pos.sub(WorldCoords.getTopRight().x * (1 - zoom) / zoom / 2, WorldCoords.getTopRight().y * (1 - zoom) / zoom / 2);
+
+        return pos;
     }
 
     /**
