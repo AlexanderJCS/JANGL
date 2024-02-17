@@ -20,6 +20,7 @@ public class Camera {
      */
     private static float projMatrixRight;
     private static UBO ubo;
+    private static WorldCoords zoomOffset;
 
     private static boolean initialized = false;
 
@@ -67,10 +68,11 @@ public class Camera {
     public static WorldCoords adjustForCamera(WorldCoords worldCoords) {
         Vector4f worldCoordsVec = new Vector4f(worldCoords.x, worldCoords.y, 0, 1);
         Matrix4f cameraMatrix = genCameraMatrix();
-        worldCoordsVec.mulTranspose(cameraMatrix.invert());
+        worldCoordsVec.mul(cameraMatrix.invert());
 
         WorldCoords pos = new WorldCoords(worldCoordsVec.x, worldCoordsVec.y);
-        pos.sub(WorldCoords.getTopRight().x * (1 - zoom) / zoom / 2, WorldCoords.getTopRight().y * (1 - zoom) / zoom / 2);
+//        WorldCoords zoomOffsetNonNull = getZoomOffsetNonNull();
+//        pos.sub(zoomOffsetNonNull.x * (1 - zoom) / zoom, zoomOffsetNonNull.y * (1 - zoom) / zoom);
 
         return pos;
     }
@@ -89,16 +91,59 @@ public class Camera {
     }
 
     /**
+     * When zooming in when the offset is set to 0, 0, the zoom will be centered on the bottom left. By default, the
+     * zoom offset is set to WorldCoords.getMiddle(), so the zoom will be centered in the middle of the screen.
+     * <br>
+     * Alternatively, you can set the zoom offset here to a different value, useful if you want to zoom in on a specific
+     * location. If you want to reset the zoom offset to the middle of the screen, pass null to this method or call
+     * setZoomOffsetDefault(). The advantage of setting it to null instead of WorldCoords.getMiddle() is that it will
+     * be recalculated if the screen size changes.
+     *
+     * @param offset The offset to set the zoom to. Null to set it back to default.
+     */
+    public static void setZoomOffset(WorldCoords offset) {
+        zoomOffset = offset;
+    }
+
+    /**
+     * Resets the zoom offset to the default: WorldCoords.getMiddle().
+     */
+    public static void setZoomOffsetDefault() {
+        setZoomOffset(null);
+    }
+
+    /**
+     * @return The current zoom offset, or null if the zoom offset is set to the default of WorldCoords.getMiddle().
+     */
+    public static WorldCoords getZoomOffset() {
+        if (zoomOffset == null) {
+            return null;
+        }
+
+        return new WorldCoords(zoomOffset);
+    }
+
+    /**
+     * @return The current zoom offset, or WorldCoords.getMiddle() if the zoom offset is set to the default.
+     */
+    public static WorldCoords getZoomOffsetNonNull() {
+        return zoomOffset == null ? WorldCoords.getMiddle() : new WorldCoords(zoomOffset);
+    }
+
+    /**
      * Generates the camera matrix based on the cameraPos, rotation, and zoom static variables.
      * @return The camera matrix.
      */
     private static Matrix4f genCameraMatrix() {
+        // A local variable of zoom offset that avoids the value being null
+        WorldCoords zoomOffsetNonNull = getZoomOffsetNonNull();
+
         return new Matrix4f().identity()
                 .translate(new Vector3f(cameraPos.toVector2f(), 0).mul(-1).mul(zoom, zoom, 1))
                 // Translate to the center of the screen, zoom, then translate back, so the zoom is centered on the screen
-                .translate(new Vector3f(WorldCoords.getMiddle().toVector2f(), 0))
+                .translate(new Vector3f(zoomOffsetNonNull.toVector2f(), 0))
                 .scale(zoom, zoom, 1)
-                .translate(new Vector3f(WorldCoords.getMiddle().toVector2f(), 0).mul(-1))
+                .translate(new Vector3f(zoomOffsetNonNull.toVector2f(), 0).mul(-1))
                 .rotateAround(new Quaternionf().rotateZ(rotation), Camera.getCenter().x, Camera.getCenter().y, 0);
     }
 
@@ -173,8 +218,8 @@ public class Camera {
      */
     public static WorldCoords getCenter() {
         return new WorldCoords(
-                getCameraPos().x + WorldCoords.getMiddle().x,
-                getCameraPos().y + WorldCoords.getMiddle().y
+                getCameraPos().x + WorldCoords.getMiddle().x / zoom,
+                getCameraPos().y + WorldCoords.getMiddle().y / zoom
         );
     }
 

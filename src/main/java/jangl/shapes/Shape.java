@@ -8,6 +8,7 @@ import jangl.graphics.models.TexturedModel;
 import jangl.graphics.shaders.ShaderProgram;
 import jangl.graphics.shaders.VertexShader;
 import jangl.graphics.shaders.premade.DefaultVertShader;
+import jangl.io.mouse.Mouse;
 import jangl.util.ArrayUtils;
 import jangl.util.Range;
 import org.joml.Matrix4f;
@@ -256,15 +257,16 @@ public abstract class Shape implements AutoCloseable {
 
         float radius = farthestCoordinate.distance(this.getTransform().getCenter().toVector2f());
 
-        WorldCoords middle = WorldCoords.getMiddle();
 
-        float windowRadius = (float) Math.sqrt(Math.pow(middle.x, 2) + Math.pow(middle.y, 2));
+        WorldCoords cameraTopRight = WorldCoords.getTopRight();
+        WorldCoords cameraBottomLeft = new WorldCoords(0,0);
 
-        // Adjust for camera zoom
         if (obeysCamera) {
-            windowRadius /= Camera.getZoom();
+             cameraTopRight = Camera.adjustForCamera(cameraTopRight);
+             cameraBottomLeft = Camera.adjustForCamera(cameraBottomLeft);
         }
 
+        float windowRadius = cameraTopRight.toVector2f().distance(cameraBottomLeft.toVector2f()) / 2;
         return collides(center, windowRadius, this.getTransform().getCenter(), radius);
     }
 
