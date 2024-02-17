@@ -266,7 +266,7 @@ public abstract class Shape implements AutoCloseable {
              cameraBottomLeft = Camera.adjustForCamera(cameraBottomLeft);
         }
 
-        float windowRadius = cameraTopRight.toVector2f().distance(cameraBottomLeft.toVector2f()) / 2;
+        float windowRadius = cameraTopRight.toVector2f().distance(cameraBottomLeft.toVector2f());
         return collides(center, windowRadius, this.getTransform().getCenter(), radius);
     }
 
