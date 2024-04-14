@@ -1,4 +1,9 @@
 # JANGL
+
+<p align="center">
+  <img src="https://github.com/AlexanderJCS/JANGL/assets/98898166/57ecae08-730f-451f-827c-3ac612452dc0" alt="Jangl Logo" width="300">
+</p>
+
 JANGL is an acronym for "JAva Graphics Library" (the N doesn't mean anything).
 
 This library is built on top of LWJGL, an OpenGL wrapper. JANGL abstracts a lot of the work required when creating an OpenGL project from scratch, but it still allows the user of the library (you) to have control over the program. This project does not have any affiliation with LWJGL.
