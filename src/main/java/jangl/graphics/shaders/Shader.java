@@ -1,5 +1,6 @@
 package jangl.graphics.shaders;
 
+import io.github.pixee.security.BoundedLineReader;
 import jangl.graphics.shaders.exceptions.ShaderPrecompileException;
 
 import java.io.*;
@@ -37,7 +38,7 @@ public class Shader {
         StringBuilder result = new StringBuilder();
 
         try {
-            for (String line; (line = reader.readLine()) != null;) {
+            for (String line; (line = BoundedLineReader.readLine(reader, 5_000_000)) != null;) {
                 if (result.length() > 0) {
                     result.append(newLine);
                 }
@@ -57,7 +58,7 @@ public class Shader {
             BufferedReader reader = new BufferedReader(new FileReader(filepath));
 
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
                 shaderSource.append(line).append("\n");
             }
 
